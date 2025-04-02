@@ -1,0 +1,6 @@
+---
+layout: home
+author_profile: true
+---
+
+![바쁜 현대인 by GPT](/assets/images/index.png)
