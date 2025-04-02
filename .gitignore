@@ -2,14 +2,34 @@
 _site/
 .jekyll-cache/
 .jekyll-metadata
-
-# Sass
 .sass-cache/
+_asset_bundler_cache
 
 # Dependencies
 vendor/
 .bundle/
 node_modules/
+**/vendor/bundle
+
+# Ruby
+*.gem
+*.gemspec
+
+# Node
+npm-debug.log*
+package-lock.json
+codekit-config.json
 
 # Logs and system files
 *.log
+.DS_Store
+
+# IDE/Editor settings
+*.idea/
+*.sublime-project
+*.sublime-workspace
+.vscode/
+
+# Vim swap files
+*~
+*.sw[p_]
