@@ -2,47 +2,37 @@ name: Build and Deploy Jekyll site to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
-
+    branches:
+      - main 
+      
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v3
+    - name: Checkout source
+      uses: actions/checkout@v3
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.2.2
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2.2
 
-      - name: Install dependencies
-        run: |
-          gem install bundler
-          bundle install
+    - name: Install dependencies
+      run: |
+        gem install bundler
+        bundle install
+    - name: Build site with Jekyll
+      run: bundle exec jekyll build
 
-      - name: Build site with Jekyll
-        run: bundle exec jekyll build
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ./_site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site
+        publish_branch: gh-pages  
+        user_name: 'github-actions[bot]' 
+        user_email: 'github-actions[bot]@users.noreply.github.com' 
