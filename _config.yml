@@ -18,3 +18,12 @@ plugins:
   - jekyll-include-cache
 
 markdown: kramdown
+
+defaults: 
+  - scope:
+      path: "" 
+      type: posts 
+    values:
+      layout: single
+      comments: false
+      toc: true 
