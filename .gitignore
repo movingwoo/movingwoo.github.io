@@ -6,7 +6,7 @@ _site/
 _asset_bundler_cache
 
 # Dependencies
-vendor/
+/vendor/
 .bundle/
 node_modules/
 **/vendor/bundle
