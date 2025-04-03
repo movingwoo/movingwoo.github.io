@@ -1,0 +1,276 @@
+{% assign categories = site.categories | sort %}
+{% assign tags = site.tags | sort %}
+
+<aside class="sidebar__left sticky">
+  <nav class="toc">
+    <header>
+      <h4 class="nav__title">
+        <i class="fas fa-sitemap"></i> 카테고리
+      </h4>
+    </header>
+
+    <ul class="toc__menu">
+      {% assign category_tree = "" | split: "" %}
+      {% for category in site.categories %}
+        {% assign category_name = category[0] %}
+        {% assign category_parts = category_name | split: "/" %}
+        {% assign current_level = "" %}
+        
+        {% for part in category_parts %}
+          {% assign current_level = current_level | append: part %}
+          {% assign current_level = current_level | append: "/" %}
+          
+          {% unless category_tree contains current_level %}
+            {% assign category_tree = category_tree | push: current_level %}
+          {% endunless %}
+        {% endfor %}
+      {% endfor %}
+      
+      {% assign sorted_tree = category_tree | sort %}
+      {% for category_path in sorted_tree %}
+        {% assign category_parts = category_path | split: "/" %}
+        {% assign depth = category_parts | size | minus: 1 %}
+        
+        <li class="toc__item depth-{{ depth }}" data-path="{{ category_path }}">
+          <div class="toc__menu-title">
+            <span class="folder-toggle">
+              <i class="fas fa-folder-open"></i>
+            </span>
+            <span class="folder-name">{{ category_parts | last }}</span>
+            {% assign posts_in_category = "" | split: "" %}
+            {% assign total_posts = 0 %}
+            
+            {% for post in site.posts %}
+              {% for post_category in post.categories %}
+                {% if post_category == category_path %}
+                  {% assign posts_in_category = posts_in_category | push: post %}
+                  {% assign total_posts = total_posts | plus: 1 %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+
+            {% if posts_in_category.size > 0 %}
+            <span class="post-count">{{ posts_in_category.size }}</span>
+            {% endif %}
+            
+          </div>
+          
+          {% if posts_in_category.size > 0 %}
+            <ul class="toc__menu posts-list">
+              {% for post in posts_in_category | sort: 'date' | reverse | limit: 3 %}
+                <li>
+                  <a href="{{ post.url | relative_url }}" class="toc__link">
+                    <i class="fas fa-file-alt"></i> {{ post.title }}
+                  </a>
+                </li>
+              {% endfor %}
+              {% if posts_in_category.size > 3 %}
+                <li>
+                  <a href="#" class="toc__link more-posts">
+                    <i class="fas fa-ellipsis-h"></i> 더보기
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          {% endif %}
+          
+          <ul class="toc__menu submenu">
+            {% for other_category in sorted_tree %}
+              {% if other_category contains category_path and other_category != category_path %}
+                {% assign other_parts = other_category | split: "/" %}
+                {% assign other_depth = other_parts | size | minus: 1 %}
+                {% if other_depth == depth | plus: 1 %}
+                  <li class="toc__item depth-{{ other_depth }}" data-path="{{ other_category }}">
+                    <div class="toc__menu-title">
+                      <span class="folder-toggle">
+                        <i class="fas fa-folder-open"></i>
+                      </span>
+                      <span class="folder-name">{{ other_parts | last }}</span>
+                      {% assign other_posts = "" | split: "" %}
+                      {% for post in site.posts %}
+                        {% for post_category in post.categories %}
+                          {% if post_category == other_category %}
+                            {% assign other_posts = other_posts | push: post %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+
+                      {% if other_posts.size > 0 %}
+                        <span class="post-count">{{ other_posts.size }}</span>
+                      {% endif %}
+                    </div>
+                    
+                    {% if other_posts.size > 0 %}
+                      <ul class="toc__menu posts-list">
+                        {% for post in other_posts | sort: 'date' | reverse | limit: 3 %}
+                          <li>
+                            <a href="{{ post.url | relative_url }}" class="toc__link">
+                              <i class="fas fa-file-alt"></i> {{ post.title }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                        {% if other_posts.size > 3 %}
+                          <li>
+                            <a href="#" class="toc__link more-posts">
+                              <i class="fas fa-ellipsis-h"></i> 더보기
+                            </a>
+                          </li>
+                        {% endif %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</aside>
+
+<style>
+.sidebar__left {
+  width: 300px;
+  flex-shrink: 0;
+  margin-right: 2rem;
+  display: block !important;
+  margin-top: 2rem;
+}
+
+.sidebar__left.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.toc {
+  padding: 0.5rem;
+  background: #121212;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  font-size: 0.8em;
+  border: 1px solid transparent;
+  border-bottom: 1px solid #dc143c;
+}
+
+.toc__menu {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.toc__item {
+  margin-left: 0;
+}
+
+.toc__item.depth-1 { margin-left: 20px; }
+.toc__item.depth-2 { margin-left: 40px; }
+.toc__item.depth-3 { margin-left: 60px; }
+.toc__item.depth-4 { margin-left: 80px; }
+.toc__item.depth-5 { margin-left: 100px; }
+
+.toc__menu-title {
+  font-weight: bold;
+  color: #aec2d3;
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
+.folder-toggle {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.folder-name {
+  flex-grow: 1;
+}
+
+.post-count {
+  background-color: #dc143c;
+  color: white;
+  border-radius: 50%;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.6em;
+  margin-left: 0.5rem;
+  min-width: 1.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.posts-list {
+  margin-left: 1.5rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.submenu {
+  margin-left: 1.5rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc__item.collapsed .submenu .toc__item {
+  display: none;
+}
+
+.toc__item.collapsed > .toc__menu-title .folder-toggle i {
+  transform: rotate(0deg);
+}
+
+.toc__item:not(.collapsed) > .toc__menu-title .folder-toggle i {
+  transform: rotate(90deg);
+}
+
+.more-posts {
+  color: #3498db;
+  font-style: italic;
+}
+
+.toc__link {
+  color: #3498db;
+  text-decoration: none;
+  display: block;
+  padding: 0.2rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.8em;
+}
+
+.toc__link:hover {
+  color: #2980b9;
+  text-decoration: none;
+}
+
+.toc i {
+  margin-right: 0.3rem;
+  width: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 64em) {
+  .sidebar__left {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .sidebar__left.sticky {
+    position: relative;
+    max-height: none;
+    top: 0;
+  }
+}
+</style>
+
+<script src="{{ '/assets/js/toc.js' | relative_url }}"></script> 

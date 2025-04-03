@@ -33,3 +33,6 @@ codekit-config.json
 # Vim swap files
 *~
 *.sw[p_]
+
+# Cursor
+.cursorignore

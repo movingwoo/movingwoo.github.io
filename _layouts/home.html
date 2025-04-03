@@ -1,22 +1,66 @@
 ---
-layout: archive
+layout: default
 ---
 
-<h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
+<div class="home-layout">
+  <div class="home-sidebar">
+    {% include toc-hierarchy.html %}
+  </div>
 
-{% if paginator %}
-  {% assign posts = paginator.posts %}
-{% else %}
-  {% assign posts = site.posts %}
-{% endif %}
+  <div class="home-content">
+    <h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
 
-{% assign entries_layout = page.entries_layout | default: 'list' %}
-<div class="entries-{{ entries_layout }}">
-  {% for post in posts %}
-    {% include archive-single.html type=entries_layout %}
-  {% endfor %}
+    {% if paginator %}
+      {% assign posts = paginator.posts %}
+    {% else %}
+      {% assign posts = site.posts %}
+    {% endif %}
+
+    {% assign entries_layout = page.entries_layout | default: 'list' %}
+    <div class="entries-{{ entries_layout }}">
+      {% for post in posts %}
+        {% include archive-single.html type=entries_layout %}
+      {% endfor %}
+    </div>
+
+    {{ content }}
+
+    {% include paginator.html %}
+  </div>
 </div>
 
-{{ content }}
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px; /* 더 넓은 최대 너비 */
+  margin: 0 auto;
+  padding: 0 0.5rem; /* 좌우 여백 줄임 */
+}
 
-{% include paginator.html %}
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 2rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%; /* 너비를 100%로 설정하여 남은 공간을 모두 차지하도록 함 */
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+}
+</style>

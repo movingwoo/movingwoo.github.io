@@ -25,5 +25,5 @@ defaults:
       type: posts 
     values:
       layout: single
-      comments: false
+      comments: true
       toc: true 
