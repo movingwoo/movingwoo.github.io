@@ -163,10 +163,9 @@
             
             
             
-
             
-            <span class="post-count">1</span>
             
+              <span class="post-count">1</span>
             
           </div>
           
@@ -215,10 +214,9 @@
             
             
             
-
             
-            <span class="post-count">1</span>
             
+              <span class="post-count">1</span>
             
           </div>
           
@@ -263,7 +261,6 @@
             
             
             
-
             
             
           </div>
@@ -306,7 +303,6 @@
             
             
             
-
             
             
           </div>
@@ -345,10 +341,9 @@
             
             
             
-
             
-            <span class="post-count">4</span>
             
+              <span class="post-count">4</span>
             
           </div>
           
@@ -402,150 +397,7 @@
   </nav>
 </aside>
 
-<style>
-.sidebar__left {
-  width: 300px;
-  flex-shrink: 0;
-  margin-right: 2rem;
-  display: block !important;
-  margin-top: 2rem;
-}
-
-.sidebar__left.sticky {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 2rem;
-  max-height: calc(100vh - 4rem);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.toc {
-  padding: 0.5rem;
-  background: #121212;
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  font-size: 0.8em;
-  border: 1px solid transparent;
-  border-bottom: 1px solid #dc143c;
-}
-
-.toc__menu {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-}
-
-.toc__item {
-  margin-left: 0;
-}
-
-.toc__item.depth-1 { margin-left: 20px; }
-.toc__item.depth-2 { margin-left: 40px; }
-.toc__item.depth-3 { margin-left: 60px; }
-.toc__item.depth-4 { margin-left: 80px; }
-.toc__item.depth-5 { margin-left: 100px; }
-
-.toc__menu-title {
-  font-weight: bold;
-  color: #aec2d3;
-  display: flex;
-  align-items: center;
-  margin: 0.5rem 0;
-  font-size: 1.3em;
-  cursor: pointer;
-}
-
-.folder-toggle {
-  margin-right: 0.5rem;
-  cursor: pointer;
-}
-
-.folder-name {
-  flex-grow: 1;
-}
-
-.post-count {
-  background-color: #dc143c;
-  color: white;
-  border-radius: 50%;
-  padding: 0.1rem 0.3rem;
-  font-size: 0.6em;
-  margin-left: 0.5rem;
-  min-width: 1.2em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.posts-list {
-  margin-left: 1.5rem;
-  list-style: none;
-  padding-left: 0;
-}
-
-.submenu {
-  margin-left: 1.5rem;
-  list-style: none;
-  padding-left: 0;
-}
-
-.toc__item.collapsed .submenu .toc__item {
-  display: none;
-}
-
-.toc__item.collapsed > .toc__menu-title .folder-toggle i {
-  transform: rotate(0deg);
-}
-
-.toc__item:not(.collapsed) > .toc__menu-title .folder-toggle i {
-  transform: rotate(90deg);
-}
-
-.more-posts {
-  color: #3498db;
-  font-style: italic;
-}
-
-.toc__link {
-  color: #3498db;
-  text-decoration: none;
-  display: block;
-  padding: 0.2rem 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 1.8em;
-}
-
-.toc__link:hover {
-  color: #2980b9;
-  text-decoration: none;
-}
-
-.toc i {
-  margin-right: 0.3rem;
-  width: 1rem;
-  text-align: center;
-}
-
-@media (max-width: 64em) {
-  .sidebar__left {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-  }
-  
-  .sidebar__left.sticky {
-    position: relative;
-    max-height: none;
-    top: 0;
-  }
-}
-</style>
-
+<link rel="stylesheet" href="/assets/css/main.scss">
 <script src="/assets/js/toc.js"></script> 
   </div>
 
