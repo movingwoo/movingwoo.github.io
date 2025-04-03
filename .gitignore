@@ -29,10 +29,9 @@ codekit-config.json
 *.sublime-project
 *.sublime-workspace
 .vscode/
+.cursorignore
 
 # Vim swap files
 *~
 *.sw[p_]
 
-# Cursor
-.cursorignore

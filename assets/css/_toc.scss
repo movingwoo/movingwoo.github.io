@@ -1,0 +1,160 @@
+// Variables
+$sidebar-width: 300px;
+$sidebar-margin: 2rem;
+$primary-color: #dc143c;
+$text-color: #aec2d3;
+$link-color: #3498db;
+$link-hover-color: #2980b9;
+$background-color: #121212;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Sidebar
+.sidebar__left {
+  width: $sidebar-width;
+  flex-shrink: 0;
+  margin-right: $sidebar-margin;
+  display: block !important;
+  margin-top: $sidebar-margin;
+
+  &.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: $sidebar-margin;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+// TOC
+.toc {
+  padding: 0.5rem;
+  background: $background-color;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  font-size: 0.8em;
+  border: 1px solid transparent;
+  border-bottom: 1px solid $primary-color;
+
+  i {
+    margin-right: 0.3rem;
+    width: 1rem;
+    text-align: center;
+  }
+}
+
+// Menu
+.toc__menu {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.toc__item {
+  margin-left: 0;
+
+  @for $i from 1 through 5 {
+    &.depth-#{$i} {
+      margin-left: $i * 20px;
+    }
+  }
+
+  &.collapsed {
+    .submenu .toc__item {
+      display: none;
+    }
+
+    > .toc__menu-title .folder-toggle i {
+      transform: rotate(0deg);
+    }
+  }
+
+  &:not(.collapsed) > .toc__menu-title .folder-toggle i {
+    transform: rotate(90deg);
+  }
+}
+
+// Menu Title
+.toc__menu-title {
+  font-weight: bold;
+  color: $text-color;
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  font-size: 1.3em;
+  cursor: pointer;
+
+  .folder-toggle {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+
+  .folder-name {
+    flex-grow: 1;
+  }
+}
+
+// Post Count
+.post-count {
+  background-color: $primary-color;
+  color: white;
+  border-radius: 50%;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.6em;
+  margin-left: 0.5rem;
+  min-width: 1.2em;
+  @include flex-center;
+  text-align: center;
+}
+
+// Lists
+.posts-list,
+.submenu {
+  margin-left: 1.5rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+// Links
+.toc__link {
+  color: $link-color;
+  text-decoration: none;
+  display: block;
+  padding: 0.2rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.8em;
+
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: none;
+  }
+
+  &.more-posts {
+    color: $link-color;
+    font-style: italic;
+  }
+}
+
+// Media Queries
+@media (max-width: 64em) {
+  .sidebar__left {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+
+    &.sticky {
+      position: relative;
+      max-height: none;
+      top: 0;
+    }
+  }
+} 

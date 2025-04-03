@@ -8,3 +8,6 @@ $minimal_mistakes_skin: "redblack";
 
 @import "minimal-mistakes/skins/redblack"; // skin
 @import "minimal-mistakes"; // main partials
+
+// Custom TOC styles
+@import "toc";
