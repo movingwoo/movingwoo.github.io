@@ -2495,7 +2495,7 @@ th {
   color: rgb(230.2, 230.2, 230.2);
   font-weight: bold;
   line-height: 1.5;
-  border-bottom: 1px solid rgb(179.4, 19.4, 51.4);
+  border-bottom: 1px solid transparent;
 }
 .toc__menu a:hover {
   color: #e0e0e0;
@@ -3603,14 +3603,14 @@ body {
 @media (min-width: 64em) {
   .page {
     float: right;
-    width: calc(100% - 200px);
-    padding-right: 200px;
+    width: 100%;
+    padding-right: 0;
   }
 }
 @media (min-width: 80em) {
   .page {
-    width: calc(100% - 300px);
-    padding-right: 300px;
+    width: 100%;
+    padding-right: 0;
   }
 }
 .page .page__inner-wrap {
