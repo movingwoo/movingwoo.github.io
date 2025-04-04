@@ -12,6 +12,16 @@ url                      : "https://movingwoo.github.io"
 repository               : movingwoo/movingwoo.github.io
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 
+# Assets Settings
+baseurl: ""  # the subpath of your site, e.g. /blog
+assets:
+  source: assets
+  destination: assets
+
+sass:
+  sass_dir: _sass
+  style: compressed
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
