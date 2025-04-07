@@ -74,7 +74,6 @@
       if (itemPath.startsWith(path) && itemPath !== path) {
         const isSubCollapsed = item.classList.contains('collapsed');
         const postsList = item.querySelector('.posts-list');
-        const isPostsVisible = postsList && postsList.style.display !== 'none';
         
         if (show) {
           item.classList.add('anim-pre-show');
@@ -83,6 +82,8 @@
             requestAnimationFrame(() => {
               item.classList.remove('anim-pre-show');
               item.classList.add('anim-show');
+              
+              // 하위 폴더가 닫혀있는 경우
               if (isSubCollapsed) {
                 item.classList.add('collapsed');
                 const subIcon = item.querySelector('.folder-toggle i');
@@ -91,10 +92,25 @@
                   subIcon.classList.add('fa-folder');
                 }
                 if (postsList) {
-                  postsList.style.display = isPostsVisible ? 'block' : 'none';
-                  postsList.style.opacity = isPostsVisible ? '1' : '0';
-                  postsList.style.transform = isPostsVisible ? 'translateY(0)' : 'translateY(-10px)';
+                  postsList.style.display = 'none';
+                  postsList.style.opacity = '0';
+                  postsList.style.transform = 'translateY(-10px)';
                 }
+                
+                // 하위 폴더들의 하위 항목들도 숨김
+                const subItems = document.querySelectorAll('.toc__item');
+                subItems.forEach(subItem => {
+                  const subItemPath = subItem.getAttribute('data-path');
+                  if (subItemPath.startsWith(itemPath) && subItemPath !== itemPath) {
+                    subItem.style.display = 'none';
+                    const subItemPostsList = subItem.querySelector('.posts-list');
+                    if (subItemPostsList) {
+                      subItemPostsList.style.display = 'none';
+                      subItemPostsList.style.opacity = '0';
+                      subItemPostsList.style.transform = 'translateY(-10px)';
+                    }
+                  }
+                });
               }
             });
           });
@@ -139,21 +155,17 @@
     const allItems = document.querySelectorAll('.toc__item');
     let totalPosts = 0;
 
-    // 직접 포스트 수
-    const postsList = tocItem.querySelector('.posts-list');
-    if (postsList) {
-      totalPosts += postsList.querySelectorAll('li:not(.more-posts)').length;
-    }
+    // 현재 카테고리의 실제 포스트 수
+    const currentTotalPosts = parseInt(tocItem.getAttribute('data-total-posts') || '0');
+    totalPosts += currentTotalPosts;
 
     if (isCollapsed) {
-      // 하위까지 합산
+      // 하위 카테고리의 실제 포스트 수 합산
       allItems.forEach(item => {
         const itemPath = item.getAttribute('data-path');
         if (itemPath && itemPath.startsWith(path) && itemPath !== path) {
-          const subPostsList = item.querySelector('.posts-list');
-          if (subPostsList) {
-            totalPosts += subPostsList.querySelectorAll('li:not(.more-posts)').length;
-          }
+          const subTotalPosts = parseInt(item.getAttribute('data-total-posts') || '0');
+          totalPosts += subTotalPosts;
         }
       });
     }
