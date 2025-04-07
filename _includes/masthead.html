@@ -17,6 +17,9 @@
               <a href="{{ link.url | relative_url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>{{ link.title }}</a>
             </li>
           {%- endfor -%}
+          <li class="masthead__menu-item">
+            <a href="{{ '/board?path=' | relative_url }}" class="explorer-link">explorer</a>
+          </li>
         </ul>
         {% if site.search == true %}
         <button class="search__toggle" type="button">
@@ -33,3 +36,13 @@
     </div>
   </div>
 </div>
+
+<!-- {% if site.title == "blank" %}
+  <p class="title__logo"><a href="{{ '/' | absolute_url }}">{{ site.title }}</a></p>
+{% else %}
+  <h1 class="title__logo"><a href="{{ '/' | absolute_url }}">{{ site.title }}</a></h1>
+{% endif %} -->
+
+{% if site.subtitle %}
+  <p class="subtitle">{{ site.subtitle }}</p>
+{% endif %}

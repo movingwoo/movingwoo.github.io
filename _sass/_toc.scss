@@ -38,19 +38,22 @@ $animation-distance: -10px;
 
 // Sidebar
 .sidebar__left {
-  width: $sidebar-width;
-  flex-shrink: 0;
-  margin-right: $sidebar-margin;
-  display: block !important;
-  margin-top: $sidebar-margin;
+  width: 300px;
+  padding-right: 0rem;
+  float: left;
+  transition: transform 0.3s ease;
+
+  @media (max-width: 64em) {
+    width: 100%;
+    float: none;
+    padding-right: 0;
+  }
 
   &.sticky {
-    position: -webkit-sticky;
+    @include clearfix();
     position: sticky;
-    top: $sidebar-margin;
-    max-height: calc(100vh - 4rem);
-    overflow-y: auto;
-    overflow-x: hidden;
+    top: 2rem;
+    z-index: 10;
   }
 }
 
@@ -175,12 +178,12 @@ $animation-distance: -10px;
   color: $text-color;
   display: flex;
   align-items: center;
-  margin: 0.5rem 0;
-  font-size: 1.3em;
+  margin: 0.2rem 0;
+  font-size: 1.2em;
   cursor: pointer;
 
   .folder-toggle {
-    margin-right: 0.5rem;
+    margin-right: 0.3rem;
     cursor: pointer;
 
     i {
@@ -219,7 +222,7 @@ $animation-distance: -10px;
 // Lists
 .posts-list,
 .submenu {
-  margin-left: 1.5rem;
+  margin-left: 1rem;
   list-style: none;
   padding-left: 0;
 }
@@ -233,7 +236,7 @@ $animation-distance: -10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 1.8em;
+  font-size: 1.6em;
 
   &:hover {
     color: $link-hover-color;

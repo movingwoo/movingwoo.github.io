@@ -19,11 +19,11 @@
 
 {% assign sorted_tree = category_tree | sort %}
 
-<aside class="sidebar__left sticky">
+<aside class="sidebar__left">
   <nav class="toc">
     <header>
       <h4 class="nav__title">
-        <i class="fas fa-sitemap"></i> 카테고리
+        <i class="fas fa-sitemap"></i> Archive
       </h4>
     </header>
 
@@ -32,20 +32,22 @@
         {% assign category_parts = category_path | split: "/" %}
         {% assign depth = category_parts | size | minus: 1 %}
         
-        <li class="toc__item depth-{{ depth }}" data-path="{{ category_path }}">
+        {% assign posts_in_category = site.posts | where_exp: "post", "post.categories[0] == category_path" %}
+        {% assign total_posts = posts_in_category.size %}
+        
+        <li class="toc__item depth-{{ depth }}" data-path="{{ category_path }}" data-total-posts="{{ total_posts }}">
           <div class="toc__menu-title">
             <span class="folder-toggle">
               <i class="fas fa-folder-open"></i>
             </span>
             <span class="folder-name">{{ category_parts | last }}</span>
             
-            {% assign posts_in_category = site.posts | where_exp: "post", "post.categories contains category_path" %}
-            {% if posts_in_category.size > 0 %}
-              <span class="post-count">{{ posts_in_category.size }}</span>
+            {% if total_posts > 0 %}
+              <span class="post-count">{{ total_posts }}</span>
             {% endif %}
           </div>
           
-          {% if posts_in_category.size > 0 %}
+          {% if total_posts > 0 %}
             <ul class="toc__menu posts-list">
               {% for post in posts_in_category | sort: 'date' | reverse | limit: 3 %}
                 <li>
@@ -54,9 +56,9 @@
                   </a>
                 </li>
               {% endfor %}
-              {% if posts_in_category.size > 3 %}
+              {% if total_posts > 3 %}
                 <li>
-                  <a href="#" class="toc__link more-posts">
+                  <a href="/board?path={{ category_path }}" class="toc__link more-posts">
                     <i class="fas fa-ellipsis-h"></i> 더보기
                   </a>
                 </li>
@@ -70,20 +72,22 @@
                 {% assign other_parts = other_category | split: "/" %}
                 {% assign other_depth = other_parts | size | minus: 1 %}
                 {% if other_depth == depth | plus: 1 %}
-                  <li class="toc__item depth-{{ other_depth }}" data-path="{{ other_category }}">
+                  {% assign other_posts = site.posts | where_exp: "post", "post.categories[0] == other_category" %}
+                  {% assign other_total_posts = other_posts.size %}
+                  
+                  <li class="toc__item depth-{{ other_depth }}" data-path="{{ other_category }}" data-total-posts="{{ other_total_posts }}">
                     <div class="toc__menu-title">
                       <span class="folder-toggle">
                         <i class="fas fa-folder-open"></i>
                       </span>
                       <span class="folder-name">{{ other_parts | last }}</span>
                       
-                      {% assign other_posts = site.posts | where_exp: "post", "post.categories contains other_category" %}
-                      {% if other_posts.size > 0 %}
-                        <span class="post-count">{{ other_posts.size }}</span>
+                      {% if other_total_posts > 0 %}
+                        <span class="post-count">{{ other_total_posts }}</span>
                       {% endif %}
                     </div>
                     
-                    {% if other_posts.size > 0 %}
+                    {% if other_total_posts > 0 %}
                       <ul class="toc__menu posts-list">
                         {% for post in other_posts | sort: 'date' | reverse | limit: 3 %}
                           <li>
@@ -92,9 +96,9 @@
                             </a>
                           </li>
                         {% endfor %}
-                        {% if other_posts.size > 3 %}
+                        {% if other_total_posts > 3 %}
                           <li>
-                            <a href="#" class="toc__link more-posts">
+                            <a href="/board?path={{ other_category }}" class="toc__link more-posts">
                               <i class="fas fa-ellipsis-h"></i> 더보기
                             </a>
                           </li>

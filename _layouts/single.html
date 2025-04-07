@@ -94,15 +94,15 @@ layout: default
 .home-sidebar {
   flex-shrink: 0;
   width: 300px;
-  margin-right: 2rem;
+  margin-right: 1rem;
   position: relative;
   display: block !important;
 }
 
 .home-content {
-  flex: 1;
+  flex-grow: 1;
   min-width: 0;
-  padding: 0 1rem;
+  width: 100%; /* 너비를 100%로 설정하여 남은 공간을 모두 차지하도록 함 */
 }
 
 @media (max-width: 64em) {
