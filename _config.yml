@@ -32,11 +32,18 @@ markdown: kramdown
 include:
   - _pages
 
-defaults: 
+# Board 페이지 설정
+defaults:
   - scope:
-      path: "" 
-      type: posts 
+      path: ""
     values:
-      layout: single
+      layout: "single" 
       comments: true
-      toc: true 
+  - scope:
+      path: "404.html"
+    values:
+      permalink: /404.html
+  - scope:
+      path: "board.html"
+    values:
+      permalink: /board 

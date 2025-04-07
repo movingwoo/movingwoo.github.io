@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('Breadcrumb script loaded');
     const breadcrumb = document.querySelector('.breadcrumb');
-    console.log('Breadcrumb element:', breadcrumb);
     if (!breadcrumb) return;
 
     // 1. Board 페이지 방식 (URL 파라미터)
@@ -10,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 2. 포스트 페이지 방식 (URL 경로)
     const currentPath = window.location.pathname;
-    const pathSegments = currentPath.split('/').filter(Boolean);
+    const pathSegments = currentPath.split('/').filter(segment => segment && segment !== 'board');
     
     // Archive 링크는 항상 추가
     const archiveLink = document.createElement('a');
