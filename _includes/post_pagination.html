@@ -1,14 +1,28 @@
 {% if page.previous or page.next %}
-  <nav class="pagination">
-    {% if page.previous %}
-      <a href="{{ page.previous.url | relative_url }}" class="pagination--pager" title="{{ page.previous.title | markdownify | strip_html }}">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
-    {% else %}
-      <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
-    {% endif %}
-    {% if page.next %}
-      <a href="{{ page.next.url | relative_url }}" class="pagination--pager" title="{{ page.next.title | markdownify | strip_html }}">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
-    {% else %}
-      <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
-    {% endif %}
-  </nav>
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "{{ page.title | escape }}",
+        url: "{{ page.url | escape }}",
+        date: "{{ page.date | date: '%Y-%m-%d' }}",
+        categories: {{ page.categories | jsonify }}
+      },
+      allPosts: [
+        {% for post in site.posts %}
+        {
+          title: "{{ post.title | escape }}",
+          url: "{{ post.url | relative_url | escape }}",
+          date: "{{ post.date | date: '%Y-%m-%d' }}",
+          categories: {{ post.categories | jsonify }}
+        }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js"></script>
+</nav>
 {% endif %}

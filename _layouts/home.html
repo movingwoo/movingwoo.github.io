@@ -10,22 +10,17 @@ layout: default
   <div class="home-content">
     <h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
 
-    {% if paginator %}
-      {% assign posts = paginator.posts %}
-    {% else %}
-      {% assign posts = site.posts %}
-    {% endif %}
-
+    {% assign all_posts = site.posts | sort: 'date' | reverse %}
+    {% assign post = all_posts | first %}
     {% assign entries_layout = page.entries_layout | default: 'list' %}
     <div class="entries-{{ entries_layout }}">
-      {% for post in posts %}
+      {% if post %}
         {% include archive-single.html type=entries_layout %}
-      {% endfor %}
+      {% endif %}
     </div>
 
     {{ content }}
 
-    {% include paginator.html %}
   </div>
 </div>
 
