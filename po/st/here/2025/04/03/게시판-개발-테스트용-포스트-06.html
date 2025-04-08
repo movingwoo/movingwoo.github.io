@@ -660,16 +660,221 @@
         
 
         
-  <nav class="pagination">
-    
-      <a href="/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-05.html" class="pagination--pager" title="글05
-">Previous</a>
-    
-    
-      <a href="/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-07.html" class="pagination--pager" title="글07
-">Next</a>
-    
-  </nav>
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "글06",
+        url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-06.html",
+        date: "2025-04-03",
+        categories: ["po/st/here/"]
+      },
+      allPosts: [
+        
+        {
+          title: "리얼허만득사가",
+          url: "/po/st/2025/04/06/%ED%98%BC%EB%8F%88%EC%9D%98%EC%A0%95%EB%A0%B9%EC%82%AC%ED%97%88%EB%A7%8C%EB%93%9D.html",
+          date: "2025-04-06",
+          categories: ["po/st/"]
+        },
+        
+        {
+          title: "글21",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-21.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글20",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-20.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글19",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-19.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글18",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-18.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글17",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-17.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글16",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-16.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글15",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-15.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글14",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-14.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글13",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-13.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글12",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-12.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글11",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-11.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글10",
+          url: "/po/st/here/2025/04/04/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-10.html",
+          date: "2025-04-04",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글09",
+          url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-09.html",
+          date: "2025-04-03",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글08",
+          url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-08.html",
+          date: "2025-04-03",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글07",
+          url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-07.html",
+          date: "2025-04-03",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글06",
+          url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-06.html",
+          date: "2025-04-03",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글05",
+          url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-05.html",
+          date: "2025-04-03",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글04",
+          url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-04.html",
+          date: "2025-04-03",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글03",
+          url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-03.html",
+          date: "2025-04-03",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글02",
+          url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-02.html",
+          date: "2025-04-03",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "글01",
+          url: "/po/st/here/2025/04/03/%EA%B2%8C%EC%8B%9C%ED%8C%90-%EA%B0%9C%EB%B0%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%ED%8F%AC%EC%8A%A4%ED%8A%B8-01.html",
+          date: "2025-04-03",
+          categories: ["po/st/here/"]
+        },
+        
+        {
+          title: "끼에에에에에엑",
+          url: "/root/depth/folder/2025/04/02/kieeeeee.html",
+          date: "2025-04-02",
+          categories: ["root/depth/folder/"]
+        },
+        
+        {
+          title: "갸아아아아아악",
+          url: "/root/depth/folder/2025/04/02/gyaaaaa.html",
+          date: "2025-04-02",
+          categories: ["root/depth/folder/"]
+        },
+        
+        {
+          title: "구와아아아아아악",
+          url: "/root/depth/folder/2025/04/02/gwaaaaaa.html",
+          date: "2025-04-02",
+          categories: ["root/depth/folder/"]
+        },
+        
+        {
+          title: "원모아",
+          url: "/root/depth/folder/2025/04/02/more.html",
+          date: "2025-04-02",
+          categories: ["root/depth/folder/"]
+        },
+        
+        {
+          title: "중간경로",
+          url: "/cat/2025/04/01/Test2.html",
+          date: "2025-04-01",
+          categories: ["cat/"]
+        },
+        
+        {
+          title: "ttiittllee",
+          url: "/cat/dog/2025/04/01/Test.html",
+          date: "2025-04-01",
+          categories: ["cat/dog/"]
+        }
+        
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js"></script>
+</nav>
 
       </div>
 
