@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const element = document.createElement(type === 'link' ? 'a' : 'span');
     element.className = 'post-navigation__item' + (type === 'current' ? ' post-navigation__current' : type === 'disabled' ? ' post-navigation__disabled' : '');
     
-    if (type === 'link') {
+    // post 객체와 url이 존재할 때만 href 설정
+    if (type === 'link' && post && post.url) {
       element.href = post.url;
     }
 
@@ -13,27 +14,46 @@ document.addEventListener('DOMContentLoaded', function() {
     iconElement.className = `fas fa-${icon}`;
     element.appendChild(iconElement);
 
+    // disabled 타입이거나 post 객체,제목이 없는 경우 '-' 표시
     if (type === 'disabled') {
-      element.appendChild(document.createTextNode(''));
-    } else {
+      element.appendChild(document.createTextNode('-'));
+    } else if (post && post.title) {
       element.appendChild(document.createTextNode(post.title));
+    } else {
+      element.appendChild(document.createTextNode('-'));
     }
 
     return element;
   }
 
   function findAdjacentPosts() {
-    const currentCategory = currentPost.categories[0];
-    const currentIndex = allPosts.findIndex(post => post.url === currentPost.url);
+    // 필수 데이터가 없는 경우 빈 배열 반환
+    if (!currentPost || !allPosts || !Array.isArray(allPosts)) {
+      return { next: [], previous: [] };
+    }
+
+    // 카테고리가 없는 경우 null 처리
+    const currentCategory = currentPost.categories && currentPost.categories.length > 0 
+      ? currentPost.categories[0] 
+      : null;
+    const currentIndex = allPosts.findIndex(post => post && post.url === currentPost.url);
     
+    //현재 포스트를 찾지 못한 경우 빈 배열 반환
+    if (currentIndex === -1) {
+      return { next: [], previous: [] };
+    }
+
     let nextPosts = [];
     let prevPosts = [];
     
     let nextIndex = currentIndex - 1;
     let nextCount = 0;
     while (nextIndex >= 0 && nextCount < 2) {
-      if (allPosts[nextIndex].categories[0] === currentCategory) {
-        nextPosts.push(allPosts[nextIndex]);
+      const post = allPosts[nextIndex];
+
+      // 포스트와 카테고리가 존재하는지 확인
+      if (post && post.categories && post.categories[0] === currentCategory) {
+        nextPosts.push(post);
         nextCount++;
       }
       nextIndex--;
@@ -42,8 +62,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let prevIndex = currentIndex + 1;
     let prevCount = 0;
     while (prevIndex < allPosts.length && prevCount < 2) {
-      if (allPosts[prevIndex].categories[0] === currentCategory) {
-        prevPosts.push(allPosts[prevIndex]);
+      const post = allPosts[prevIndex];
+
+      // 포스트와 카테고리가 존재하는지 확인
+      if (post && post.categories && post.categories[0] === currentCategory) {
+        prevPosts.push(post);
         prevCount++;
       }
       prevIndex++;
