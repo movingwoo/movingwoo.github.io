@@ -8,13 +8,15 @@
   margin-left: 0;
   margin-right: 0;
   width: 100%;
-  margin-top: 3em;
+  margin-top: 1em;
   color: $muted-text-color;
   -webkit-animation: $intro-transition;
   animation: $intro-transition;
   -webkit-animation-delay: 0.45s;
   animation-delay: 0.45s;
   background-color: $footer-background-color;
+  text-align: center;
+  padding: 0.5em 0;
 
   footer {
     @include clearfix;
@@ -30,11 +32,12 @@
   }
 
   a {
-    color: inherit;
+    color: $link-color;
     text-decoration: none;
 
     &:hover {
-      text-decoration: underline;
+      color: $link-color-hover;
+      text-decoration: none;
     }
   }
 
@@ -48,7 +51,8 @@
 
 .page__footer-copyright {
   font-family: $global-font-family;
-  font-size: $type-size-7;
+  font-size: 0.6em;
+  color: $text-color;
 }
 
 .page__footer-follow {
