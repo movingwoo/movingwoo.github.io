@@ -61,7 +61,8 @@ $(document).ready(function() {
     durationMax: 500
   });
 
-  // Gumshoe scroll spy init
+  // Gumshoe scroll spy init - 비활성화
+  /*
   if($("nav.toc").length > 0) {
     var spy = new Gumshoe("nav.toc a", {
       // Active classes
@@ -80,6 +81,7 @@ $(document).ready(function() {
       events: true // if true, emit custom events
     });
   }
+  */
 
   // add lightbox class to all image links
   $(
