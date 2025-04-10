@@ -2,6 +2,44 @@
    jQuery plugin settings and other scripts
    ========================================================================== */
 
+// content 속성 접근 방어 코드
+(function() {
+  const originalContentDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'content');
+  
+  Object.defineProperty(HTMLElement.prototype, 'content', {
+    get: function() {
+      try {
+        // 기존 content 속성이 있으면 사용
+        if (originalContentDescriptor && originalContentDescriptor.get) {
+          return originalContentDescriptor.get.call(this);
+        }
+        // data-content 속성이 있으면 사용
+        if (this.hasAttribute('data-content')) {
+          return this.getAttribute('data-content');
+        }
+        // 기본값 반환
+        return null;
+      } catch (e) {
+        return null;
+      }
+    },
+    set: function(value) {
+      try {
+        // 기존 content 속성이 있으면 사용
+        if (originalContentDescriptor && originalContentDescriptor.set) {
+          originalContentDescriptor.set.call(this, value);
+        } else {
+          // data-content 속성으로 저장
+          this.setAttribute('data-content', value);
+        }
+      } catch (e) {
+        // 오류 무시
+      }
+    },
+    configurable: true
+  });
+})();
+
 $(document).ready(function() {
   // FitVids init
   $("#main").fitVids();

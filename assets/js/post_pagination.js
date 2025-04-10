@@ -2,8 +2,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const { currentPost, allPosts } = window.postData;
 
   function createPostElement(post, type, icon) {
+    // disabled 타입일 때는 완전히 다른 방식으로 처리
+    if (type === 'disabled') {
+      const element = document.createElement('span');
+      element.className = 'post-navigation__item post-navigation__disabled';
+      const iconElement = document.createElement('i');
+      iconElement.className = `fas fa-${icon}`;
+      element.appendChild(iconElement);
+      return element;
+    }
+
     const element = document.createElement(type === 'link' ? 'a' : 'span');
-    element.className = 'post-navigation__item' + (type === 'current' ? ' post-navigation__current' : type === 'disabled' ? ' post-navigation__disabled' : '');
+    element.className = 'post-navigation__item' + (type === 'current' ? ' post-navigation__current' : '');
     
     // post 객체와 url이 존재할 때만 href 설정
     if (type === 'link' && post && post.url) {
@@ -14,13 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
     iconElement.className = `fas fa-${icon}`;
     element.appendChild(iconElement);
 
-    // disabled 타입이거나 post 객체,제목이 없는 경우 '-' 표시
-    if (type === 'disabled') {
-      element.appendChild(document.createTextNode(''));
-    } else if (post && post.title) {
+    if (post && post.title) {
       element.appendChild(document.createTextNode(post.title));
-    } else {
-      element.appendChild(document.createTextNode(''));
     }
 
     return element;
@@ -83,21 +88,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById('postNavigation');
     container.innerHTML = ''; // 기존 내용 제거
 
-    // 빈 객체 대신 명시적인 속성을 가진 객체 사용
-    const emptyPost = {
-      title: '',
-      url: '#',
-      categories: []
-    };
-
     if (adjacentPosts.next.length === 0 && adjacentPosts.previous.length === 0) {
       // 포스트가 하나만 있는 경우
-      container.appendChild(createPostElement(emptyPost, 'disabled', 'minus'));
+      container.appendChild(createPostElement(null, 'disabled', 'minus'));
       container.appendChild(createPostElement(currentPost, 'current', 'play'));
-      container.appendChild(createPostElement(emptyPost, 'disabled', 'minus'));
+      container.appendChild(createPostElement(null, 'disabled', 'minus'));
     } else if (adjacentPosts.next.length === 0) {
       // 최신 포스트인 경우
-      container.appendChild(createPostElement(emptyPost, 'disabled', 'minus'));
+      container.appendChild(createPostElement(null, 'disabled', 'minus'));
       container.appendChild(createPostElement(currentPost, 'current', 'play'));
       adjacentPosts.previous.forEach((post, index) => {
         container.appendChild(createPostElement(post, 'link', index === 0 ? 'angle-down' : 'angle-double-down'));
@@ -108,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         container.appendChild(createPostElement(post, 'link', index === array.length - 1 ? 'angle-up' : 'angle-double-up'));
       });
       container.appendChild(createPostElement(currentPost, 'current', 'play'));
-      container.appendChild(createPostElement(emptyPost, 'disabled', 'minus'));
+      container.appendChild(createPostElement(null, 'disabled', 'minus'));
     } else {
       // 중간 포스트인 경우
       adjacentPosts.next.reverse().forEach((post, index, array) => {
