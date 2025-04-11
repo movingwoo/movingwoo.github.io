@@ -2,6 +2,22 @@
    jQuery plugin settings and other scripts
    ========================================================================== */
 
+// TODO: 디버깅 후 제거 예정
+// content 관련 오류 추적을 위한 디버깅 코드
+window.onerror = function(msg, url, lineNo, columnNo, error) {
+    if (msg.includes('content')) {
+        // 오류 발생 시점의 스택 트레이스 저장
+        localStorage.setItem('contentError', JSON.stringify({
+            url: url,
+            line: lineNo,
+            column: columnNo,
+            stack: error ? error.stack : ''
+        }));
+    }
+    return false; // 오류 표시 방지
+};
+
+// TODO: 디버깅 후 제거 예정
 // content 속성 접근 방어 코드
 (function() {
   const originalContentDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'content');
@@ -41,6 +57,17 @@
 })();
 
 $(document).ready(function() {
+    // TODO: 디버깅 후 제거 예정
+    // DOM 요소에 기본 content 속성 설정
+    $('*').each(function() {
+        if (!this.content) {
+            Object.defineProperty(this, 'content', {
+                value: null,
+                writable: true
+            });
+        }
+    });
+
   // FitVids init
   $("#main").fitVids();
 
