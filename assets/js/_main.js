@@ -5,12 +5,11 @@
 // content 속성 관련 콘솔 오류의 원인이 Github pages와 로컬 환경 차이로 보임...
 // 그래서 로컬에서는 정상이었나 보다...
 // 기능에 문제 없으므로 콘솔 출력만 막음
-window.onerror = function(msg, url, lineNo, columnNo, error) {
-  if (msg && msg.toString().includes("Cannot read properties of undefined (reading 'content')")) {
-    return true; // 콘솔 출력 방지
+window.addEventListener("error", function(event) {
+  if (event.message && event.message.includes("reading 'content'")) {
+    event.preventDefault();  // 콘솔 출력 자체를 막음
   }
-  return false; // 나머지 오류는 기본 처리
-};
+}, true);
 
 // content 속성 접근 방어 코드
 (function() {
