@@ -2,6 +2,8 @@
 
 > Powered by [Jekyll](https://jekyllrb.com/), enhanced with [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), and assisted by [Cursor AI](https://www.cursor.so/).
 >  
+> Theme customized from [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) by Michael Rose (MIT License).
+>   
 > Visit: [https://movingwoo.github.io](https://movingwoo.github.io)
 
 ## Tech Stack
