@@ -358,6 +358,11 @@
 		 */
 		publicAPIs.detect = function () {
 
+			// contents가 비어있는 경우 예외 방지
+			if (!contents || contents.length === 0) {
+				return;
+			}
+
 			// Get the active content
 			var active = getActive(contents, settings);
 
