@@ -110,7 +110,7 @@ $(document).ready(function() {
     durationMax: 500
   });
 
-  // Gumshoe scroll spy init - 비활성화
+  //  scroll spy init - 비활성화
   /*
   if($("nav.toc").length > 0) {
     var spy = new Gumshoe("nav.toc a", {
