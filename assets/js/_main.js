@@ -6,7 +6,8 @@
 (function() {
   const originalContentDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'content');
   
-  Object.defineProperty(HTMLElement.prototype, 'content', {
+  // content 속성 훼손이 의심되어 전체 주석처리
+  /*Object.defineProperty(HTMLElement.prototype, 'content', {
     get: function() {
       try {
         // 기존 content 속성이 있으면 사용
@@ -37,20 +38,20 @@
       }
     },
     configurable: true
-  });
+  });*/
 })();
 
 $(document).ready(function() {
     // TODO: 디버깅 후 제거 예정
     // DOM 요소에 기본 content 속성 설정
-    $('*').each(function() {
+    /*$('*').each(function() {
         if (!this.content) {
             Object.defineProperty(this, 'content', {
                 value: null,
                 writable: true
             });
         }
-    });
+    });*/
 
   // FitVids init
   $("#main").fitVids();
