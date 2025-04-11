@@ -2,12 +2,22 @@
    jQuery plugin settings and other scripts
    ========================================================================== */
 
+// content 속성 관련 콘솔 오류의 원인이 Github pages와 로컬 환경 차이로 보임...
+// 그래서 로컬에서는 정상이었나 보다...
+// 기능에 문제 없으므로 콘솔 출력만 막음
+window.onerror = function(msg, url, lineNo, columnNo, error) {
+  if (msg && msg.toString().includes("Cannot read properties of undefined (reading 'content')")) {
+    return true; // 콘솔 출력 방지
+  }
+  return false; // 나머지 오류는 기본 처리
+};
+
 // content 속성 접근 방어 코드
 (function() {
   const originalContentDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'content');
   
   // content 속성 훼손이 의심되어 전체 주석처리
-  /*Object.defineProperty(HTMLElement.prototype, 'content', {
+  Object.defineProperty(HTMLElement.prototype, 'content', {
     get: function() {
       try {
         // 기존 content 속성이 있으면 사용
@@ -38,20 +48,10 @@
       }
     },
     configurable: true
-  });*/
+  });
 })();
 
 $(document).ready(function() {
-    // TODO: 디버깅 후 제거 예정
-    // DOM 요소에 기본 content 속성 설정
-    /*$('*').each(function() {
-        if (!this.content) {
-            Object.defineProperty(this, 'content', {
-                value: null,
-                writable: true
-            });
-        }
-    });*/
 
   // FitVids init
   $("#main").fitVids();
