@@ -2,32 +2,13 @@
 $sidebar-width: 300px;
 $sidebar-margin: 2rem;
 $primary-color: #dc143c;
-$text-color: #aec2d3;
+$text-color: #e0e0e0;
+$folder-color: #aec2d3;
 $link-color: #3498db;
 $link-hover-color: #2980b9;
 $background-color: #121212;
 $transition-duration: 0.3s;
-$animation-delay: 0.3s;
-$animation-distance: -10px;
-
-// Animation Mixins
-@mixin fade-slide-animation($duration: $transition-duration) {
-  transition: opacity $duration ease, transform $duration ease;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@mixin fade-slide-hide {
-  opacity: 0;
-  transform: translateY($animation-distance);
-  pointer-events: none;
-}
-
-@mixin fade-slide-show {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
+$max-toc-height: calc(100vh - 4rem);
 
 // Mixins
 @mixin flex-center {
@@ -38,22 +19,25 @@ $animation-distance: -10px;
 
 // Sidebar
 .sidebar__left {
-  width: 300px;
-  padding-right: 0rem;
+  position: relative;
+  width: $sidebar-width;
+  padding-right: 0;
   float: left;
-  transition: transform 0.3s ease;
+  transition: all $transition-duration ease;
+  height: 100%;
 
   @media (max-width: 64em) {
     width: 100%;
     float: none;
     padding-right: 0;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 
-  &.sticky {
-    @include clearfix();
+  .toc-wrapper {
     position: sticky;
     top: 2rem;
-    z-index: 10;
+    transition: all $transition-duration ease;
   }
 }
 
@@ -62,19 +46,82 @@ $animation-distance: -10px;
   padding: 0.5rem;
   background: $background-color;
   border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
   font-size: 0.8em;
   border: 1px solid transparent;
   border-bottom: 1px solid $primary-color;
-  -webkit-animation: slide-in 0.3s both;
-  animation: slide-in 0.3s both;
-  -webkit-animation-delay: 0.15s;
+  overflow-x: hidden;
+  max-height: $max-toc-height;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color transparent;
+  margin-top: 2rem;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slide-in 0.3s ease forwards;
   animation-delay: 0.15s;
 
-  i {
-    margin-right: 0.3rem;
-    width: 1rem;
-    text-align: center;
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 3px;
+  }
+}
+
+// Navigation Title
+.nav__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0.5rem;
+  color: $text-color;
+  font-size: 0.9em;
+
+  .title-text {
+    display: flex;
+    align-items: center;
+    
+    i {
+      margin-right: 0.5rem;
+      width: 1rem;
+      text-align: center;
+    }
+  }
+
+  .search-link {
+    color: $text-color;
+    padding-right: 0;
+    
+    i {
+      font-size: 1.2em;
+      transition: transform $transition-duration ease;
+    }
+    
+    &:hover {
+      color: $text-color;
+      
+      i {
+        transform: scale(1.2);
+      }
+    }
   }
 }
 
@@ -83,10 +130,13 @@ $animation-distance: -10px;
   list-style: none;
   padding-left: 0;
   margin: 0;
+  overflow-x: hidden;
 }
 
+// Menu Item
 .toc__item {
   margin-left: 0;
+  transition: all $transition-duration ease;
 
   @for $i from 1 through 5 {
     &.depth-#{$i} {
@@ -94,82 +144,37 @@ $animation-distance: -10px;
     }
   }
 
-  &.collapsed {
-    .submenu .toc__item {
-      display: none;
-    }
-
-    > .toc__menu-title .folder-toggle i,
-    .submenu .toc__item > .toc__menu-title .folder-toggle i {
-      transform: rotate(0deg);
-    }
-
-    .posts-list {
-      display: none;
-    }
+  &.anim-hide,
+  &.collapsed > .submenu,
+  &.collapsed > .posts-list {
+    height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    overflow: hidden;
+    transform: translateY(-10px) !important;
   }
 
   &:not(.collapsed) {
-    .submenu .toc__item {
-      display: block;
+    > .submenu,
+    > .posts-list {
+      height: auto;
+      max-height: none;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      margin: 0.2rem 0;
+      transform: translateY(0);
     }
 
-    > .toc__menu-title .folder-toggle i,
-    .submenu .toc__item > .toc__menu-title .folder-toggle i {
+    .folder-toggle i {
       transform: rotate(90deg);
     }
-
-    .posts-list {
-      display: block;
-    }
   }
-
-  .submenu .toc__item {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all $transition-duration ease-in-out;
-  }
-
-  &:not(.collapsed) .submenu .toc__item {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .posts-list {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all $transition-duration ease-in-out;
-  }
-
-  &:not(.collapsed) .posts-list {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .submenu .toc__item .posts-list {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all $transition-duration ease-in-out;
-  }
-
-  &:not(.collapsed) .submenu .toc__item .posts-list {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @include fade-slide-animation;
-}
-
-.toc__item.anim-hide {
-  @include fade-slide-hide;
-}
-
-.toc__item.anim-pre-show {
-  @include fade-slide-hide;
-}
-
-.toc__item.anim-show {
-  @include fade-slide-show;
 }
 
 // Menu Title
@@ -181,10 +186,12 @@ $animation-distance: -10px;
   margin: 0.2rem 0;
   font-size: 1.2em;
   cursor: pointer;
+  transition: all $transition-duration ease;
 
   .folder-toggle {
     margin-right: 0.3rem;
     cursor: pointer;
+    color: $folder-color;
 
     i {
       transition: transform $transition-duration ease-in-out;
@@ -193,13 +200,14 @@ $animation-distance: -10px;
 
   .folder-name {
     flex-grow: 1;
+    color: $folder-color;
   }
 }
 
 // Post Count
 .post-count {
   background-color: $primary-color;
-  color: white;
+  color: $text-color;
   border-radius: 50%;
   padding: 0.1rem 0.3rem;
   font-size: 0.6em;
@@ -207,16 +215,7 @@ $animation-distance: -10px;
   min-width: 1.2em;
   @include flex-center;
   text-align: center;
-
-  @include fade-slide-animation;
-}
-
-.post-count.anim-show {
-  @include fade-slide-show;
-}
-
-.post-count.anim-hide {
-  @include fade-slide-hide;
+  transition: opacity $transition-duration ease;
 }
 
 // Lists
@@ -225,6 +224,8 @@ $animation-distance: -10px;
   margin-left: 1rem;
   list-style: none;
   padding-left: 0;
+  transition: all $transition-duration ease;
+  transform-origin: top;
 }
 
 // Links
@@ -237,6 +238,7 @@ $animation-distance: -10px;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.6em;
+  transition: color $transition-duration ease;
 
   &:hover {
     color: $link-hover-color;
@@ -246,21 +248,5 @@ $animation-distance: -10px;
   &.more-posts {
     color: $link-color;
     font-style: italic;
-  }
-}
-
-// Media Queries
-@media (max-width: 64em) {
-  .sidebar__left {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-
-    &.sticky {
-      position: relative;
-      max-height: none;
-      top: 0;
-    }
   }
 }
