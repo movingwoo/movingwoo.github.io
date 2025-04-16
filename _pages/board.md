@@ -26,7 +26,15 @@ classes: wide
     </div>
   </div>
   <div class="board-controls">
-    <ul class="pagination"></ul>
+    <div class="board-controls-inner">
+      <div class="search-container">
+        <input type="text" id="board-search-input" placeholder="제목 검색" class="search-input">
+        <button class="search-button" type="button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <ul class="pagination"></ul>
+    </div>
   </div>
 </div>
 

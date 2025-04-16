@@ -8,8 +8,9 @@
     font-size: 0.9em;
     font-weight: bold;
     transition: all 0.2s ease;
-    padding-bottom: 0.3em;
+    padding-bottom: 1em;
     border-bottom: 1px solid transparent;
+    bottom: 0.2em;
 
     &:hover {
       color: $link-color-hover !important;
@@ -51,13 +52,17 @@
         flex: 1;
         display: flex;
         align-items: center;
-        gap: 0.5em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         i {
           color: #768390;
           width: 16px;
           text-align: center;
           font-size: 1.1em;
+          flex-shrink: 0;
+          padding-right: 1.5em;
 
           &.fa-folder {
             color: #54aeff;
@@ -71,6 +76,16 @@
         &:hover {
           color: $link-color-hover;
           text-decoration: underline;
+        }
+
+        mark {
+          background-color: #ffd700;
+          color: inherit;
+          padding: 0;
+          border-radius: 2px;
+          display: inline;
+          line-height: inherit;
+          margin: 0;
         }
       }
 
@@ -102,11 +117,70 @@
 
 .board-controls {
   margin: 1em 0;
-  text-align: center;
+
+  .board-controls-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .search-input {
+    width: 200px;
+    height: 2rem;
+    padding: 0 2.5rem 0 0.75rem;
+    border: 1px solid $primary-color;
+    border-radius: 4px;
+    background-color: $form-background-color;
+    color: $text-color;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    }
+
+    &::placeholder {
+      color: mix($text-color, $background-color, 50%);
+    }
+  }
+
+  .search-button {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: $primary-color;
+    cursor: pointer;
+    padding: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    padding-bottom: 0.3em;
+
+    &:hover {
+      color: mix(#fff, $primary-color, 25%);
+    }
+
+    i {
+      font-size: 1rem;
+    }
+  }
 
   .pagination {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 0.5em;
     list-style: none;
     padding: 0;

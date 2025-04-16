@@ -21,6 +21,12 @@
             <a href="{{ '/board?path=' | relative_url }}" class="explorer-link">explorer</a>
           </li>
         </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
         {% if site.search == true %}
         <button class="search__toggle" type="button">
           <span class="visually-hidden">{{ site.data.ui-text[site.locale].search_label | default: "Toggle search" }}</span>
@@ -46,3 +52,5 @@
 {% if site.subtitle %}
   <p class="subtitle">{{ site.subtitle }}</p>
 {% endif %}
+
+<script src="{{ '/assets/js/search.js' | relative_url }}"></script>
