@@ -1,0 +1,20 @@
+{% if page.categories %}
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    {% assign categories = page.categories | first | split: '/' %}
+    {% assign current_path = '' %}
+    {% for category in categories %}
+      <span class="separator">/</span>
+      {% assign current_path = current_path | append: category %}
+      <a href="/board?path={{ current_path }}" class="category-link">
+        {{ category }}
+      </a>
+      {% assign current_path = current_path | append: '/' %}
+    {% endfor %}
+  </div>
+  <a href="/board?path={{ page.categories | first }}" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+{% endif %} 

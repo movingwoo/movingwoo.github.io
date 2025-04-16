@@ -57,8 +57,13 @@
           color: #768390;
           width: 16px;
           text-align: center;
+          font-size: 1.1em;
 
           &.fa-folder {
+            color: #54aeff;
+          }
+
+          &.fa-file-alt {
             color: #54aeff;
           }
         }

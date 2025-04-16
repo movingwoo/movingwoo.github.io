@@ -12,7 +12,9 @@ classes: wide
     {% for post in site.posts %}
       <div class="board-item" data-categories="{{ post.categories | join: '/' }}" style="display: none;">
         <div class="board-content">
-          <a href="{{ post.url | relative_url }}" class="board-title">{{ post.title }}</a>
+          <a href="{{ post.url | relative_url }}" class="board-title">
+            <i class="fas fa-file-alt"></i> {{ post.title }}
+          </a>
           <span class="board-date">{{ post.date | date: "%Y-%m-%d" }}</span>
         </div>
       </div>

@@ -29,6 +29,7 @@ layout: default
       <div class="page__inner-wrap">
         {% unless page.header.overlay_color or page.header.overlay_image %}
           <header>
+            {% include post-category.html %}
             {% if page.title %}<h1 id="page-title" class="page__title" itemprop="headline">{{ page.title | markdownify | remove: "<p>" | remove: "</p>" }}</h1>{% endif %}
             {% include page__meta.html %}
           </header>
@@ -86,9 +87,9 @@ layout: default
 <style>
 .home-layout {
   display: flex;
-  max-width: 1500px; /* 더 넓은 최대 너비 */
+  max-width: 1500px;
   margin: 0 auto;
-  padding: 0 0.5rem; /* 좌우 여백 줄임 */
+  padding: 0;
 }
 
 .home-sidebar {
@@ -102,7 +103,7 @@ layout: default
 .home-content {
   flex-grow: 1;
   min-width: 0;
-  width: 100%; /* 너비를 100%로 설정하여 남은 공간을 모두 차지하도록 함 */
+  width: 100%;
 }
 
 @media (max-width: 64em) {
