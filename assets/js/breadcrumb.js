@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 1. Board 페이지 방식 (URL 파라미터)
     const urlParams = new URLSearchParams(window.location.search);
     const paramPath = urlParams.get('path');
+    const search = urlParams.get('search');
 
     // 2. 포스트 페이지 방식 (URL 경로)
     const currentPath = window.location.pathname;
@@ -25,7 +26,15 @@ document.addEventListener('DOMContentLoaded', function () {
         breadcrumb.appendChild(sep);
     };
 
-    if (paramPath) {
+    if (search) {
+        // 검색 결과 표시
+        addSeparator();
+        const searchLink = document.createElement('a');
+        searchLink.href = '#';
+        searchLink.className = 'current-path current';
+        searchLink.textContent = `Search Results > "${search}"`;
+        breadcrumb.appendChild(searchLink);
+    } else if (paramPath) {
         // Board 페이지 breadcrumb 처리
         if (paramPath !== 'archive') {
             addSeparator();
