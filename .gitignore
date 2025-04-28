@@ -36,5 +36,6 @@ codekit-config.json
 *.sw[p_]
 
 # Else
+_posts/test
 To-Do-List.txt
 
