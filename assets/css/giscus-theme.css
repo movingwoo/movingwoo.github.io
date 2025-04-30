@@ -1,9 +1,10 @@
-
 :root {
     --giscus-background-color: #333333;
     --giscus-font-color: #E0E0E0;
+  
     --giscus-link-color: #E0A0A0;
     --giscus-link-hover-color: #FFB6B6;
+  
     --giscus-border-color: #CD5C5C;
   
     --giscus-header-bg: #2a2a2a;
@@ -20,5 +21,9 @@
     --giscus-button-font-color: #ffffff;
     --giscus-button-hover-bg: #FFB6B6;
     --giscus-button-hover-font-color: #ffffff;
+  
+    --giscus-input-bg: #2a2a2a;
+    --giscus-input-border-color: #CD5C5C;
+    --giscus-input-font-color: #E0E0E0;
 }
   
