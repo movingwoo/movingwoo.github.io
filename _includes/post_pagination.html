@@ -12,13 +12,17 @@
         categories: {{ page.categories | jsonify }}
       },
       allPosts: [
+        {% assign now = 'now' | date: '%Y-%m-%d' %}
         {% for post in site.posts %}
-        {
-          title: "{{ post.title | escape }}",
-          url: "{{ post.url | relative_url | escape }}",
-          date: "{{ post.date | date: '%Y-%m-%d' }}",
-          categories: {{ post.categories | jsonify }}
-        }{% unless forloop.last %},{% endunless %}
+          {% assign post_date = post.date | date: '%Y-%m-%d' %}
+          {% if post_date <= now %}
+          {
+            title: "{{ post.title | escape }}",
+            url: "{{ post.url | relative_url | escape }}",
+            date: "{{ post.date | date: '%Y-%m-%d' }}",
+            categories: {{ post.categories | jsonify }}
+          }{% unless forloop.last %},{% endunless %}
+          {% endif %}
         {% endfor %}
       ]
     };
