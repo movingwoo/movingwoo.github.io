@@ -47,7 +47,3 @@ defaults:
       path: "board.html"
     values:
       permalink: /board
-
-# 커스텀 설정값
-toc:
-  default_path: "one-pan/" 
