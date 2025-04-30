@@ -37,10 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
       return { next: [], previous: [] };
     }
 
-    // 카테고리가 없는 경우 null 처리
+    // 현재 포스트의 카테고리 추출
     const currentCategory = currentPost.categories && currentPost.categories.length > 0 
       ? currentPost.categories[0] 
       : null;
+
     const currentIndex = allPosts.findIndex(post => post && post.url === currentPost.url);
     
     //현재 포스트를 찾지 못한 경우 빈 배열 반환
@@ -51,12 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let nextPosts = [];
     let prevPosts = [];
     
+    // 이전 포스트 찾기 (같은 카테고리만)
     let nextIndex = currentIndex - 1;
     let nextCount = 0;
     while (nextIndex >= 0 && nextCount < 2) {
       const post = allPosts[nextIndex];
-
-      // 포스트와 카테고리가 존재하는지 확인
       if (post && post.categories && post.categories[0] === currentCategory) {
         nextPosts.push(post);
         nextCount++;
@@ -64,12 +64,11 @@ document.addEventListener('DOMContentLoaded', function() {
       nextIndex--;
     }
 
+    // 다음 포스트 찾기 (같은 카테고리만)
     let prevIndex = currentIndex + 1;
     let prevCount = 0;
     while (prevIndex < allPosts.length && prevCount < 2) {
       const post = allPosts[prevIndex];
-
-      // 포스트와 카테고리가 존재하는지 확인
       if (post && post.categories && post.categories[0] === currentCategory) {
         prevPosts.push(post);
         prevCount++;
@@ -86,7 +85,14 @@ document.addEventListener('DOMContentLoaded', function() {
   function generateNavigation() {
     const adjacentPosts = findAdjacentPosts();
     const container = document.getElementById('postNavigation');
-    container.innerHTML = ''; // 기존 내용 제거
+    
+    if (!container) {
+      return;
+    }
+    
+    while (container.firstChild) {
+      container.removeChild(container.firstChild); // 기존 내용 제거
+    } 
 
     if (adjacentPosts.next.length === 0 && adjacentPosts.previous.length === 0) {
       // 포스트가 하나만 있는 경우

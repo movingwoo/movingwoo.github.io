@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+	
+	<script defer>
+		// 전역 변수 선언
+		let mainArea, btnArea, leftDown, rightDown, clickDelay, col, row, mines, remain, startTime;
+		
+		// 페이지 열었을 시 기초 세팅
+		window.onload = init;
+		
+		/**
+		초기화 함수
+		*/
+		function init() {
+		
+			// 전역 변수 초기화
+			mainArea = document.querySelector('#main_area'); // 메인 에리어
+			btnArea = document.querySelector('#btn_area'); // 버튼 에리어
+			leftDown = false; // 좌클릭 감지
+			rightDown = false; // 우클릭 감지
+			clickDelay = null; // 클릭 딜레이
+			
+			// 우클릭 시 컨텍스트 메뉴 막아두기
+			document.addEventListener('contextmenu', (event) => {
+				event.preventDefault();
+			});
+			
+			// 버튼들에 이벤트 부여
+			document.querySelectorAll('.btn').forEach(button => {
+				button.addEventListener('click', () => {
+					setBoard(button.getAttribute('data-param')); // 버튼 매개변수 전달
+				});
+			});
+		}
+		
+		/**
+		게임 보드 세팅
+		*/
+		function setBoard(param){
+			
+			// 새로고침 버튼 생성
+            const reloadButton = document.createElement('button');
+			
+            reloadButton.textContent = '새로고침';
+            reloadButton.addEventListener('click', () => {
+                location.reload(); 
+            });
+
+            // 난이도 버튼 제거하고 새로고침 버튼 추가
+			while (btnArea.firstChild) btnArea.removeChild(btnArea.firstChild); 
+            btnArea.appendChild(reloadButton);
+			
+			switch (param) {
+				case 'newbie': // 초급
+					col = 9;
+					row = 9;
+					mines = 10;
+					break;
+				case 'normal': // 중급
+					col = 16;
+					row = 16;
+					mines = 40;
+        			break;
+    			case 'gosu': // 고급
+        			col = 30;
+			        row = 16;
+					mines = 99;
+        			break;
+    			default: 
+        			alert('뭐임?');
+        			return;
+			}
+			
+			// 남은 지뢰 표시판 생성
+            const remainDiv = document.createElement('div');
+			remainDiv.id = 'remain';
+			remainDiv.dataset.value = mines;
+            remainDiv.textContent = mines;
+            btnArea.appendChild(remainDiv);
+			
+			// 스타일 설정
+			mainArea.style.width = '800px';
+			mainArea.style.display = 'grid';
+			mainArea.style.gridTemplateColumns = `repeat(${col}, 1fr)`;
+			mainArea.style.gridTemplateRows = `repeat(${row}, 1fr)`;
+			mainArea.style.gap = '1px'; 
+			
+			// fragment 생성
+			const divFragment = document.createDocumentFragment();
+			
+			for (let i = 0; i < col * row; i++) {
+				const newDiv = document.createElement('div');
+				const currentRow = Math.floor(i / col) + 1;
+				const currentCol = (i % col) + 1;
+				
+				// col과 row로 고유 id 설정
+				newDiv.id = `${currentRow} ${currentCol}`;
+				
+				// 스타일 설정
+				newDiv.style.aspectRatio = '1 / 1';
+				newDiv.style.border = '1px solid black';
+				newDiv.style.padding = '1px';
+				newDiv.style.display = 'flex';
+				newDiv.style.alignItems = 'center';
+				newDiv.style.justifyContent = 'center';
+				newDiv.style.background = 'gray'
+
+				// fragment에 추가
+				divFragment.appendChild(newDiv);
+			}
+			
+			// DOM에 추가
+			mainArea.appendChild(divFragment);
+			
+			// 지뢰 세팅
+			const divs = document.querySelectorAll('#main_area div');
+			const mineSet = new Set(); // 중복 방지용 set
+			
+			while (mineSet.size < mines) {
+				// 무작위 인덱스 값 생성
+				const randomIdx = Math.floor(Math.random() * col * row);
+				
+				if (!mineSet.has(randomIdx)) {
+					// set에 집어넣으며 지뢰 세팅
+					mineSet.add(randomIdx);
+					divs[randomIdx].dataset.value = 9;
+				}
+			}
+			
+			// 지뢰 제외 숫자 세팅
+			divs.forEach(div => {
+				if (div.dataset.value == 9) return;
+
+        		// 유효한 인접 div 가져오기
+        		const validNeighbors = findNeighbors(div.id);
+
+        		// 유효 범위 내 지뢰 개수 카운팅
+        		let mineCount = 0;
+        		validNeighbors.forEach(([r, c]) => {
+            		const neighborDiv = document.getElementById(`${r} ${c}`);
+            		if (neighborDiv && neighborDiv.dataset.value == 9) {
+                		mineCount++;
+            		}
+        		});
+
+				div.dataset.value = mineCount;
+			});
+			
+			// 마우스 이벤트 추가
+			document.addEventListener('mousedown', MouseDownHandler);
+			document.addEventListener('mouseup', MouseUpHandler);
+		}
+		
+		/**
+		마우스 업 이벤트
+		*/
+		function MouseUpHandler(event) {
+		
+			// 동시 클릭 시 반짝 해제
+			if (leftDown && rightDown) {
+				const neighbors = findNeighbors(event.target.id);
+
+				neighbors.forEach(([r, c]) => {
+    			    const div = document.getElementById(`${r} ${c}`);
+        			if (div.style.background == 'blue') div.style.background = 'gray';
+    			});
+			}
+		
+			if (event.button === 0) leftDown = false;
+			else if (event.button === 2) rightDown = false;
+		}
+		
+		/**
+		마우스 다운 이벤트
+		*/
+		function MouseDownHandler(event) {
+		
+			if (!startTime) startTime = new Date(); // 첫 클릭 시간 체크
+		
+			// 클릭한 타겟의 id와 value 획득
+			const targetId = event.target.id;
+			const targetValue = event.target.dataset.value;
+			if (!targetId || !targetValue) return;
+		
+			// 0은 좌클릭, 2는 우클릭
+			if (event.button === 0) leftDown = true;
+			else if (event.button === 2) rightDown = true;
+		
+			if (clickDelay) clearTimeout(clickDelay); // 이전 timeout이 있으면 취소
+		
+			clickDelay = setTimeout(() => {
+				// 변수 불값으로 판단
+				if (leftDown && rightDown) check(event.target);
+				else if (leftDown) open(event.target);
+				else if (rightDown) flag(event.target);
+				
+				// 초기화
+				clickDelay = null;
+			}, 50); // 딜레이 50ms
+		}
+		
+		/**
+		인접 div 탐색
+		*/
+		function findNeighbors(divId) {
+		
+			// id를 파싱해 현재 좌표 확인
+       		const[currentRow, currentCol] = divId.split(' ').map(Number);
+
+	        // 인접한 전체 좌표 확인
+	        const neighbors = [
+	            [currentRow - 1, currentCol - 1], [currentRow - 1, currentCol], [currentRow - 1, currentCol + 1],
+       		    [currentRow    , currentCol - 1],                               [currentRow    , currentCol + 1],
+           		[currentRow + 1, currentCol - 1], [currentRow + 1, currentCol], [currentRow + 1, currentCol + 1]
+       		];
+
+       		// 행열 범위를 벗어나면 제외하고 return
+       		return neighbors.filter(([r, c]) => r >= 1 && r <= row && c >= 1 && c <= col);
+		}
+		
+		/**
+		동시클릭 시 check
+		*/
+		function check(targetDiv) {
+		
+			const neighbors = findNeighbors(targetDiv.id);
+			
+			// 플래그 수
+			let flagCount = 0;
+			
+			neighbors.forEach(([r, c]) => {
+				if (document.getElementById(`${r} ${c}`).style.background == 'black') flagCount++;
+			});
+			
+			// 플래그와 지뢰수가 같으면 open, 아니면 주변 칸 반짝
+			neighbors.forEach(([r, c]) => {
+				const div = document.getElementById(`${r} ${c}`);
+				if (div.style.background == 'gray') {
+					if (flagCount == targetDiv.dataset.value) open(div);
+					else div.style.background = 'blue'
+				}
+			});
+		}
+		
+		/**
+		좌클릭 시 open
+		*/
+		function open(targetDiv) {
+		
+			if (targetDiv.dataset.value == 9) {
+				youLose();
+				return;
+			}
+			
+			targetDiv.style.background = 'white';
+			
+			// 0인 경우엔 주변 div를 자동으로 열어줌
+			if (targetDiv.dataset.value == 0) {
+				findNeighbors(targetDiv.id).forEach(([r, c]) => {
+					const div = document.getElementById(`${r} ${c}`);
+					
+					// 재귀 중 꼬이지 않게 열리지 않은 div만 열기
+					if (div.style.background == 'gray') open(div);
+				});
+			} else {
+				targetDiv.textContent = targetDiv.dataset.value;
+			}
+			
+			checkWin();
+		}
+		
+		/**
+		우클릭 시 flag
+		*/
+		function flag(targetDiv) {
+		
+			const remainDiv = document.querySelector('#remain');
+		
+			// 닫혀있는 div에 플래그를 추가하며, 플래그가 추가된 칸일 경우 플래그 해제
+			if (targetDiv.style.background == 'gray') {
+				targetDiv.style.background ='black';
+				remainDiv.dataset.value = remainDiv.dataset.value - 1;
+			} else if (targetDiv.style.background == 'black') {
+				targetDiv.style.background ='gray';
+				remainDiv.dataset.value = remainDiv.dataset.value - 1 + 2;
+			}
+			
+			remainDiv.textContent = remainDiv.dataset.value; // 남은 지뢰 수 갱신
+		}
+		
+		/**
+		패배 처리
+		*/
+		function youLose() {
+		
+			// 패배자에 대한 조롱
+			alert('You Lose!!');
+			
+			// 모든 보드 열기
+			document.querySelectorAll('#main_area div').forEach(div => {
+				if (div.dataset.value == 9) {
+					div.style.background = 'red';
+				} else {
+					div.style.background = 'white';
+					div.textContent = div.dataset.value;
+				}
+			});
+			
+			// 마우스 이벤트 제거
+			document.removeEventListener('mousedown', MouseDownHandler);
+			document.removeEventListener('mouseup', MouseUpHandler);
+		}
+		
+		/**
+		승리 처리
+		*/
+		function youWin() {
+		
+			const endTime = new Date(); // 종료시간
+			const elapsedTime = Math.floor((endTime - startTime) / 1000); // 경과 시간 초 단위
+			
+			// 승자에 대한 찬사
+			alert(`You Win!!\n${Math.floor(elapsedTime / 60)}분 ${elapsedTime % 60}초`);
+			
+			// 마우스 이벤트 제거
+			document.removeEventListener('mousedown', MouseDownHandler);
+			document.removeEventListener('mouseup', MouseUpHandler);
+		}
+		
+		/**
+		승리 반별
+		*/
+		function checkWin() {
+			// 닫혀있는 div 개수 세기
+			let closeCount = 0;
+			
+			document.querySelectorAll('#main_area div').forEach(div => {
+				if (div.style.background != 'white') closeCount++;
+			});
+			
+			// 총 지뢰 수와 닫혀있는 div 수가 같으면 승리
+			if (closeCount === mines) {
+				youWin();
+				return;
+			}
+		}
+		
+    </script>
+</head>
+<body>
+	<div id="btn_area">
+		<button class="btn" data-param="newbie">초급</button>
+		<button class="btn" data-param="normal">중급</button>
+		<button class="btn" data-param="gosu">고급</button>
+	</div>
+	<div id="main_area"></div>
+</body>
+</html>
