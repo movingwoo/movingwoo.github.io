@@ -1,27 +1,24 @@
+
 :root {
-    --color-bg-primary: #333333;
-    --color-bg-secondary: #2a2a2a;
-    --color-bg-tertiary: #222222;
-    --color-text-primary: #E0E0E0;
-    --color-text-secondary: #bbbbbb;
+    --giscus-background-color: #333333;
+    --giscus-font-color: #E0E0E0;
+    --giscus-link-color: #E0A0A0;
+    --giscus-link-hover-color: #FFB6B6;
+    --giscus-border-color: #CD5C5C;
   
-    --color-accent: #CD5C5C;
-    --color-accent-hover: #FFB6B6;
-    --color-link: #E0A0A0;
-    --color-link-hover: #FFB6B6;
-    --color-link-visited: #C08080;
+    --giscus-header-bg: #2a2a2a;
+    --giscus-header-font-color: #E0E0E0;
   
-    --color-border: #CD5C5C;
-    --color-code-bg: #2a2a2a;
-    --color-code-bg-secondary: #222222;
-    --color-form-bg: #2a2a2a;
-    --color-footer-bg: #2a2a2a;
+    --giscus-comment-bg: #2a2a2a;
+    --giscus-comment-font-color: #E0E0E0;
+    --giscus-comment-border-color: #CD5C5C;
   
-    --color-button-text: #ffffff;
-    --color-button-bg: #CD5C5C;
-    --color-button-hover-bg: #FFB6B6;
+    --giscus-reply-bg: #222222;
+    --giscus-reply-font-color: #E0E0E0;
   
-    --color-header-link: #E0E0E0;
-    --color-header-link-hover: #FFFFFF;
-    --color-navicon-hover: #444444;
+    --giscus-button-bg: #CD5C5C;
+    --giscus-button-font-color: #ffffff;
+    --giscus-button-hover-bg: #FFB6B6;
+    --giscus-button-hover-font-color: #ffffff;
 }
+  
