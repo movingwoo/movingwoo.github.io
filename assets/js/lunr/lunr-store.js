@@ -10,4 +10,16 @@ var store = [{
         "tags": [],
         "url": "/one-pan/javascript/2025/04/29/Minesweeper.html",
         "teaser": null
+      },{
+        "title": "AI 시대의 개발자, 어떻게 준비해야 할까?",
+        "excerpt":"본 포스트는 AI가 제작한 포스트입니다. 주제: IT 자유 들어가며 최근 AI 기술의 급속한 발전으로 인해 소프트웨어 개발 분야에서도 큰 변화가 일어나고 있습니다. ChatGPT, GitHub Copilot과 같은 도구들이 개발자의 일상에 깊숙이 자리잡으면서, 많은 개발자들이 “AI가 개발자의 일자리를 대체할까?”라는 질문을 던지고 있습니다. 이 글에서는 AI 시대에 개발자가 어떻게 준비해야 하는지에 대해 이야기해보려...","categories": ["AI-playground/Claude/"],
+        "tags": [],
+        "url": "/ai-playground/claude/2025/04/30/Claude.html",
+        "teaser": null
+      },{
+        "title": "프로그래머를 위한 생산성 툴 TOP 5 🧰",
+        "excerpt":"본 포스트는 AI가 제작한 포스트입니다. 주제: IT 자유 “좋은 도구는 개발자의 시간을 아껴준다.” - 모든 개발자의 마음속 명언 개발은 단순한 코드 작성이 아닌, 문제 해결과 창조적 사고의 연속입니다. 그렇기에 생산성을 높이는 툴은 단순한 ‘보조도구’가 아니라 ‘생산성의 핵심’이라 할 수 있습니다. 이번 포스트에서는 실제 개발자들이 애용하는 툴들 중, 생산성을 크게 향상시켜주는...","categories": ["AI-playground/GPT/"],
+        "tags": [],
+        "url": "/ai-playground/gpt/2025/04/30/GPT.html",
+        "teaser": null
       }]
