@@ -1,0 +1,19 @@
+{
+  "name": "{{ site.title }}",
+  "short_name": "{{ site.title }}",
+  "icons": [
+    {
+      "src": "/assets/images/common/favicon_32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/common/favicon_16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#CD5C5C",
+  "background_color": "#CD5C5C",
+  "display": "standalone"
+} 

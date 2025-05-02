@@ -2,6 +2,12 @@
 
 {% include seo.html %}
 
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/images/common/favicon_32x32.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/images/common/favicon_16x16.png' | relative_url }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/images/common/favicon_180x180.png' | relative_url }}">
+<link rel="manifest" href="{{ '/assets/site.webmanifest' | relative_url }}">
+
 {% unless site.atom_feed.hide %}
   <link href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
 {% endunless %}
