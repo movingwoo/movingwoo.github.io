@@ -56,7 +56,9 @@ layout: default
         {% include comments.html %}
       {% endif %}
       
-      {% include giscus.html %}
+      {% if page.collection == 'posts' %}
+        {% include giscus.html %}
+      {% endif %}
     </article>
 
     {% comment %}<!-- only show related on a post page when `related: true` -->{% endcomment %}
