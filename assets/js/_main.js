@@ -179,7 +179,16 @@ $(document).ready(function() {
       var anchor = document.createElement("a");
       anchor.className = 'header-link';
       anchor.href = '#' + id;
-      anchor.innerHTML = '<span class=\"sr-only\">Permalink</span><i class=\"fas fa-link\"></i>';
+      
+      const srOnly = document.createElement('span');
+      srOnly.className = 'sr-only';
+      srOnly.textContent = 'Permalink';
+      
+      const icon = document.createElement('i');
+      icon.className = 'fas fa-link';
+      
+      anchor.appendChild(srOnly);
+      anchor.appendChild(icon);
       anchor.title = "Permalink";
       $(this).append(anchor);
     }

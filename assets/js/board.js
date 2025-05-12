@@ -180,7 +180,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 페이징 UI 생성
   const pagination = document.querySelector('.pagination');
-  pagination.innerHTML = '';
+  while (pagination.firstChild) {
+    pagination.removeChild(pagination.firstChild);
+  }
 
   // 이전 페이지 버튼
   if (currentPage > 1) {
