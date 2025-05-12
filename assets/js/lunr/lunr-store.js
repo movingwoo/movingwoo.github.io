@@ -34,4 +34,10 @@ var store = [{
         "tags": [],
         "url": "/ai-playground/gpt/2025/05/01/GPT.html",
         "teaser": null
+      },{
+        "title": "숫자야구",
+        "excerpt":"탄생 비화 숫자야구 져서 꼴받아서 처음에는 전체 숫자 풀에서 틀린 후보를 삭제해가는 식으로 했는데 Knuth 전략을 이용하면 6턴 내 클리어가 보장된다고 하여 공부할 겸 만들어 봄 구현 포인트 1. 피드백 클래스 생성 Knuth 전략의 핵심은 최악의 경우를 최소화하는 것이다. 각 추측마다 가능한 모든 피드백 그룹을 만들고, 가장 큰 그룹의 크기를...","categories": ["one-pan/Java/"],
+        "tags": [],
+        "url": "/one-pan/java/2025/05/11/Bulls-and-Cows.html",
+        "teaser": null
       }]
