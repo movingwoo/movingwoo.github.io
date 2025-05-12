@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const urlParams = new URLSearchParams(window.location.search);
-  const path = urlParams.get('path') || '';
+  const path = urlParams.get('path') ? (urlParams.get('path').endsWith('/') ? urlParams.get('path') : urlParams.get('path') + '/') : '';
   const search = urlParams.get('search') || '';
   const currentPage = parseInt(urlParams.get('page')) || 1;
   const postsPerPage = 15;
