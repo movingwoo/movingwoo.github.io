@@ -40,4 +40,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/java/2025/05/11/Bulls-and-Cows.html",
         "teaser": null
+      },{
+        "title": "파일 복사기",
+        "excerpt":"탄생 비화 리눅스 파일 100개를 일일이 복사하려는 안타까운 광경을 보고 대충 투닥투닥 만들어줌… 구현 포인트 1. 입력받기 파일과 복사할 숫자를 입력받고 없으면 예외처리해준다. read -p \"파일명 입력 (확장자 포함) : \" FILENAME if [ ! -e \"$FILENAME\" ]; then echo \"파일이 없음...\" exit 1 fi read -p \"복사할 개수 (숫자)...","categories": ["one-pan/ShellScript/"],
+        "tags": [],
+        "url": "/one-pan/shellscript/2025/05/12/File-Copier.html",
+        "teaser": null
       }]
