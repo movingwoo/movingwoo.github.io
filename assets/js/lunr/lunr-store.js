@@ -1,5 +1,5 @@
 var store = [{
-        "title": "간단한 서버 관리 콘솔",
+        "title": "서버 관리 콘솔",
         "excerpt":"탄생 비화 WSL 환경에서 tomcat과 jdk를 버전별로 올려 테스트 중 문제 발생 윈도우 IP로 접속 시 WSL과 바로 연결이 안됨 ㄴ 포트 매핑이 필요하다. 모든 톰캣의 포트를 일일이 매핑시키기 귀찮음 ㄴ nginx를 올려 443번만 뚫고 각 톰캣 http 포트로 매핑 설정 일일히 하기 귀찮아서 톰캣 8080 포트 통일 일일이 경로...","categories": ["one-pan/ShellScript/"],
         "tags": [],
         "url": "/one-pan/shellscript/2025/04/28/Server-Manage-Console.html",
