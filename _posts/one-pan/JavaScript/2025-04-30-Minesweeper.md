@@ -324,10 +324,6 @@ function youLose() {
 > #### 완성  
 ---  
   
-<a href="{{ '/play/Minesweeper.html' | relative_url }}" target="_blank" rel="noopener noreferrer">
-  직접 해보기
-</a>
-  
 ![img01](/assets/images/posts/one-pan/JavaScript/2025-04-30-Minesweeper/img01.jpg)  
   
 이지선다 지옥...  
@@ -350,6 +346,10 @@ AI도 잘 되어있는 세상인데...
   
 > #### 코드 확인   
 ---  
-
+  
+<a href="{{ '/play/Minesweeper.html' | relative_url }}" target="_blank" rel="noopener noreferrer">
+  직접 해보기
+</a>
+  
 [Link to GitHub](https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-04-30-Minesweeper.html)
 
