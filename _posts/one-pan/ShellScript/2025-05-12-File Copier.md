@@ -1,7 +1,7 @@
 ---
 title: "파일 복사기"
-date: "2025-05-12 19:00:00 +0900"
-last_modified_at: "2025-05-12 19:00:00 +0900"
+date: "2025-05-12 16:00:00 +0900"
+last_modified_at: "2025-05-12 16:00:00 +0900"
 categories: 
   - one-pan/ShellScript/
 author: movingwoo

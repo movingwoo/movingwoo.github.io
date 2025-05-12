@@ -1,10 +1,10 @@
-# movingwoo.github.io
+# movingwoo.com
 
 > Powered by [Jekyll](https://jekyllrb.com/), enhanced with [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), supported by [Giscus](https://giscus.app/), and assisted by [Cursor AI](https://www.cursor.so/).
 >  
 > Theme customized from [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) by Michael Rose (MIT License).
 >   
-> Visit: [https://movingwoo.github.io](https://movingwoo.github.io)
+> Visit: [https://movingwoo.com](https://movingwoo.com)
 
 ## Tech Stack
 - [Jekyll](https://jekyllrb.com/)
