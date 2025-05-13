@@ -10,7 +10,7 @@ lang                     : "ko-KR"
 name                     : 뭐라도 하겠지
 url                      : "https://movingwoo.com"
 repository               : movingwoo/movingwoo.github.io
-logo                     : "/assets/images/common/favicon_180X180.png"
+logo                     : "/assets/images/common/favicon_180x180.png"
 
 # Robots.txt 설정
 sitemap:
