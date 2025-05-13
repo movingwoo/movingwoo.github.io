@@ -46,4 +46,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/shellscript/2025/05/12/File-Copier.html",
         "teaser": null
+      },{
+        "title": "클리커",
+        "excerpt":"탄생 비화 화면을 인식하고 다양한 입력을 받고 싶은데 어떡하지? GUI 뚝딱 만들어내는게 파이썬이 간단해보여서 기초 문법을 공부할 겸 만들어봄 구현 포인트 1. 메인 # 프로그램의 시작점 # C나 java의 main()과 같음 if __name__ == \"__main__\": # 파이썬은 들여쓰기가 아주 중요함 # 스페이스 4칸이 국룰이라고 함 # 탭 누르면 4칸 들여쓰기가...","categories": ["one-pan/Python/"],
+        "tags": [],
+        "url": "/one-pan/python/2025/05/13/Clicker.html",
+        "teaser": null
       }]
