@@ -8,3 +8,4 @@ group :jekyll_plugins do
   gem "jekyll-seo-tag"
   gem "jekyll-include-cache"
 end
+gem "jekyll-sitemap", "~> 1.4"

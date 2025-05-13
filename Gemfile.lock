@@ -181,6 +181,7 @@ DEPENDENCIES
   jekyll-feed
   jekyll-include-cache
   jekyll-seo-tag
+  jekyll-sitemap (~> 1.4)
   minimal-mistakes-jekyll (~> 4.24.0)
 
 BUNDLED WITH

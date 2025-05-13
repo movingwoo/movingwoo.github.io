@@ -12,6 +12,11 @@ url                      : "https://movingwoo.com"
 repository               : movingwoo/movingwoo.github.io
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 
+# Robots.txt 설정
+sitemap:
+  sitemap_url: https://movingwoo.com/sitemap.xml
+  robots_url: https://movingwoo.com/robots.txt
+
 # Assets Settings
 baseurl: ""  # the subpath of your site, e.g. /blog
 assets:
@@ -26,6 +31,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-include-cache
+  - jekyll-sitemap
 
 markdown: kramdown
 
