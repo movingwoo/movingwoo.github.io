@@ -10,7 +10,7 @@ lang                     : "ko-KR"
 name                     : 뭐라도 하겠지
 url                      : "https://movingwoo.com"
 repository               : movingwoo/movingwoo.github.io
-logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
+logo                     : "/assets/images/common/favicon_180X180.png"
 
 # Robots.txt 설정
 sitemap:
