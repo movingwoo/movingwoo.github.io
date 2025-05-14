@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>Flappy Bird</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            border: 2px solid #000;
+            background-color: #cceeff;
+        }
+        button {
+            position: absolute;
+            font-size: 24px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #startBtn {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #retryBtn {
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="640" height="480"></canvas>
+    <button id="startBtn">START</button>
+    <button id="retryBtn" style="display: none;">RETRY</button>
+    <script>
+        const canvas = document.querySelector('#gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 새
+        const bird = {
+            // 중력과 점프력을 추후 조정
+            x: 150,
+            y: 200,
+            radius: 20,
+            velocity: 0,
+            gravity: 0.7,
+            jump: -10
+        };
+
+        // 장애물은 계속 추가, 제거되기 때문에 새처럼 고정객체로 설정하면 안되고 배열로 설정
+        // 장애물 너비와 속도 등 추후 조정
+        const pipeWidth = 20;
+        const pipeGap = 150; // 위 아래 간격
+        const pipeInterval = 60; // 다음 장애물 간격
+        let pipeSpeed = 5;
+        let frameCount = 0;
+        let pipes = [];
+        let animationFrameId;
+        let score = 0;
+        let isPlaying = false;
+
+        // 마우스 클릭
+        canvas.addEventListener('click', () => {
+            // 속도에 점프력을 더해 점프
+            bird.velocity = bird.jump;
+        });
+
+        // 스페이스바 입력
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault(); // 스크롤 방지
+                bird.velocity = bird.jump;
+            }
+        });
+
+        // start 버튼 이벤트
+        document.querySelector('#startBtn').addEventListener('click', () => {
+            isPlaying = true;
+            resetGame(); // 게임 초기화
+            run(); // 게임 시작
+            document.querySelector('#startBtn').style.display = 'none';
+        });
+
+        // retry 버튼 이벤트
+        document.querySelector('#retryBtn').addEventListener('click', () => {
+            isPlaying = true;
+            resetGame(); // 게임 초기화
+            run(); // 게임 시작
+            document.querySelector('#retryBtn').style.display = 'none';
+        });
+
+        // 게임 루프
+        function run() {
+            // 물리 계산
+            // 속도는 중력만큼 추가, 속도만큼 y축 조절
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            // 화면 지우기
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 새 그리기
+            ctx.beginPath();
+            ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffcc00';
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.stroke();
+
+            // 천장 바닥 제한
+            if (bird.y + bird.radius > canvas.height) {
+                bird.y = canvas.height - bird.radius;
+                bird.velocity = 0;
+            }
+            if (bird.y - bird.radius < 0) {
+                bird.y = bird.radius;
+                bird.velocity = 0;
+            }
+
+            // 천장 바닥 충돌 체크
+            if (bird.y + bird.radius >= canvas.height || bird.y - bird.radius <= 0) {
+                gameOver();
+                return;
+            }
+
+            // 장애물 충돌 체크
+            for (let pipe of pipes) {
+                // 장애물 x축 범위 내 새와 가장 가까운 x 좌표
+                const closestX = clamp(bird.x, pipe.x, pipe.x + pipeWidth);
+
+                // 위 장애물과 새의 y좌표 비교
+                const topY = clamp(bird.y, 0, pipe.topHeight);
+
+                // 충돌하는지 확인
+                if (circleCollides(bird.x, bird.y, bird.radius, closestX, topY)) {
+                    gameOver();
+                    return;
+                }
+
+                // 아래 장애물과 새의 y좌표 비교
+                const bottomY = clamp(bird.y, pipe.bottomY, canvas.height);
+
+                // 충돌하는지 확인
+                if (circleCollides(bird.x, bird.y, bird.radius, closestX, bottomY)) {
+                    gameOver();
+                    return;
+                }
+            }
+
+            // 점수 계산
+            for (let pipe of pipes) {
+                // 점수가 매겨지지 않고 새보다 왼쪽에 있는 장애물에 대하여 점수 추가
+                if (!pipe.scored && pipe.x + pipeWidth < bird.x) {
+                    score++;
+                    pipe.scored = true;
+                }
+            }
+
+            // 장애물 속도 증가 (5점 당 증가하며 초기 속도 5 반영)
+            pipeSpeed = Math.floor(score / 5) + 5;
+
+            // 장애물 처리 로직
+            updatePipes();
+
+            if (frameCount % pipeInterval === 0) {
+                addPipe();
+            }
+
+            drawPipes();
+
+            drawScore();
+
+            frameCount++;
+
+            animationFrameId = requestAnimationFrame(run);
+        }
+
+        // 장애물 추가
+        function addPipe() {
+            // 장애물의 최소 높이를 지정 후 나머지 계산
+            const minPipeHeight = 50;
+            const maxPipeHeight = canvas.height - pipeGap - minPipeHeight;
+            const topPipeHeight = Math.floor(Math.random() * (maxPipeHeight - minPipeHeight + 1)) + minPipeHeight;
+
+            pipes.push({
+                x: canvas.width,
+                topHeight: topPipeHeight,
+                bottomY: topPipeHeight + pipeGap, 
+                scored: false // 점수 판정
+            });
+        }
+
+        // 장애물 그리기
+        function drawPipes() {
+            ctx.fillStyle = '#228B22';
+
+            for (let pipe of pipes) {
+                // 위쪽 장애물
+                ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight);
+
+                // 아래쪽 장애물
+                ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth, canvas.height - pipe.bottomY);
+            }
+        }
+
+        // 장애물 갱신
+        function updatePipes() {
+            for (let pipe of pipes) {
+                // 장애물 속도에 따라 x축 조절
+                pipe.x -= pipeSpeed;
+            }
+
+            // 화면 밖으로 나간 장애물 제거
+            pipes = pipes.filter(pipe => pipe.x + pipeWidth > 0);
+        }
+
+        // 점수 그리기
+        function drawScore() {
+            ctx.fillStyle = 'black';
+            ctx.font = '32px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText(`Score: ${score}`, 20, 40);
+        }
+
+        // 새와 파이프 사이 가장 가까운 점
+        // 값을 최소값 최대값 사이로 제한
+        function clamp(value, min, max) {
+            return Math.max(min, Math.min(max, value));
+        }
+
+        // 점이 원 안에 들어있는지 확인
+        // 거리공식 활용 (루트 연산은 성능 떨어져서 굳이 쓸 필요 없음)
+        function circleCollides(cx, cy, cr, px, py) {
+            const dx = cx - px;
+            const dy = cy - py;
+            return dx * dx + dy * dy <= cr * cr;
+        }
+
+        // 게임오버
+        function gameOver() {
+            cancelAnimationFrame(animationFrameId);
+            ctx.fillStyle = 'red';
+            ctx.font = '48px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
+
+            // 게임 오버 시 점수 보여주기
+            ctx.fillStyle = 'black';
+            ctx.font = '28px Arial';
+            ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 50);
+
+            isPlaying = false;
+            document.querySelector('#retryBtn').style.display = 'block'; // retry 버튼 노출
+        }
+
+        // 게임 초기화
+        function resetGame() {
+            bird.y = canvas.height / 2;
+            bird.velocity = 0;
+            pipes = [];
+            score = 0;
+            frameCount = 0;
+            pipeSpeed = 5; 
+        }
+
+    </script>
+</body>
+</html>

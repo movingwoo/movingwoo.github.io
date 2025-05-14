@@ -44,7 +44,7 @@ defaults:
       path: ""
     values:
       layout: "single" 
-      comments: true
+      comments: false
   - scope:
       path: "404.html"
     values:
