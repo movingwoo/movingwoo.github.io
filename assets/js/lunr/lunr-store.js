@@ -58,4 +58,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/javascript/2025/05/13/Flappy-Bird.html",
         "teaser": null
+      },{
+        "title": "파이썬으로 CLI TODO 리스트 만들어보기",
+        "excerpt":"본 포스트는 AI가 제작한 포스트입니다. 명령: (지금까지 작성한 포스트를 학습 시킨 후) 유사한 양식과 주제로 포스트를 한 번 써봐. 파이썬으로 CLI TODO 리스트 만들어보기 요즘도 종이에 할 일 적고 잊는 사람? 나는 그랬다. 매일 “뭐 하지?” 하면서 검색창에 TODO 쳐보다가, 아니 그냥 내가 하나 만들자 싶어서 만든, CLI 기반 TODO...","categories": ["AI-playground/GPT/"],
+        "tags": [],
+        "url": "/ai-playground/gpt/2025/05/14/GPT.html",
+        "teaser": null
       }]
