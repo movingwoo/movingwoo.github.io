@@ -52,4 +52,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/python/2025/05/13/Clicker.html",
         "teaser": null
+      },{
+        "title": "플래피 버드",
+        "excerpt":"개요 캔버스로 웹 게임 하나 만들어보기 마우스 클릭 조작만 이용하고 싶기에 고심끝에 Flappy Bird를 구현해보기로 한다. 그런데 이 게임 한국어로 뭐라고 하지? 그냥 플래피 버드라고 하면 되나? 구현 1. 설계 필요한 기능을 정리해보자. 마우스 클릭 시 점프 천장, 지면, 장애물 충돌 판정 장애물 높이 랜덤 생성 및 시간이 지날수록 속도...","categories": ["one-pan/JavaScript/"],
+        "tags": [],
+        "url": "/one-pan/javascript/2025/05/13/Flappy-Bird.html",
+        "teaser": null
       }]
