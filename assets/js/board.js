@@ -7,6 +7,60 @@ document.addEventListener('DOMContentLoaded', function () {
   
   // 게시글 필터링 및 페이징
   const boardItems = document.querySelectorAll('.board-item:not(.no-data)');
+  
+  // 실제 존재하는 path 목록 생성
+  const validPaths = new Set();
+  boardItems.forEach(item => {
+    const categories = item.getAttribute('data-categories');
+    if (categories) {
+      validPaths.add(categories);
+    }
+  });
+
+  // path가 있고 검색 중이 아닐 때만 path 유효성 검증
+  if (path && !search) {
+    const normalizedPath = path.replace(/\/$/, '');
+    let isValidPath = false;
+    
+    // 정확한 path 매칭 또는 상위 path 매칭 확인
+    validPaths.forEach(validPath => {
+      if (validPath === normalizedPath || validPath.startsWith(normalizedPath + '/')) {
+        isValidPath = true;
+      }
+    });
+
+    if (!isValidPath) {
+      // board DOM 모두 제거
+      const boardList = document.querySelector('.board-list');
+      while (boardList.firstChild) {
+        boardList.removeChild(boardList.firstChild);
+      }
+      
+      // 메시지 표시
+      const noDataDiv = document.createElement('div');
+      noDataDiv.className = 'board-item no-data';
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'board-content';
+      
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'board-title';
+      titleSpan.textContent = 'Path not found';
+      
+      contentDiv.appendChild(titleSpan);
+      noDataDiv.appendChild(contentDiv);
+      boardList.appendChild(noDataDiv);
+      
+      // 페이징 제거
+      const pagination = document.querySelector('.pagination');
+      while (pagination.firstChild) {
+        pagination.removeChild(pagination.firstChild);
+      }
+      
+      return;
+    }
+  }
+
   const filteredItems = Array.from(boardItems).filter(item => {
     const categories = item.getAttribute('data-categories');
     const title = item.querySelector('.board-title').textContent.toLowerCase();
