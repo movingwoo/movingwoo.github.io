@@ -64,4 +64,10 @@ var store = [{
         "tags": [],
         "url": "/ai-playground/gpt/2025/05/14/GPT.html",
         "teaser": null
+      },{
+        "title": "랜덤 출력기",
+        "excerpt":"개요 백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데 랜덤 뽑아내는 기능이 필요해서 자급자족함 구현 1. 설계 백준에 문제가 몇개나 되지? 현시점 전체 문제는 3만개 이상으로 나온다. 웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지? 최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다. 언어는 72종...","categories": ["one-pan/JavaScript/"],
+        "tags": [],
+        "url": "/one-pan/javascript/2025/05/14/Random-Printer.html",
+        "teaser": null
       }]

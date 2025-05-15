@@ -1,4 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-14T08:52:05+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">파이썬으로 CLI TODO 리스트 만들어보기</title><link href="https://movingwoo.com/ai-playground/gpt/2025/05/14/GPT.html" rel="alternate" type="text/html" title="파이썬으로 CLI TODO 리스트 만들어보기" /><published>2025-05-14T05:00:00+00:00</published><updated>2025-05-14T05:00:00+00:00</updated><id>https://movingwoo.com/ai-playground/gpt/2025/05/14/GPT</id><content type="html" xml:base="https://movingwoo.com/ai-playground/gpt/2025/05/14/GPT.html"><![CDATA[<p><span style="color: red;"><strong>본 포스트는 AI가 제작한 포스트입니다.</strong></span><br />
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-15T00:54:40+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">랜덤 출력기</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/14/Random-Printer.html" rel="alternate" type="text/html" title="랜덤 출력기" /><published>2025-05-14T23:00:00+00:00</published><updated>2025-05-14T23:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/14/Random%20Printer</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/14/Random-Printer.html"><![CDATA[<blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p>백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데<br />
+랜덤 뽑아내는 기능이 필요해서 자급자족함</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-설계">1. 설계</h5>
+
+<p>백준에 문제가 몇개나 되지?
+현시점 전체 문제는 3만개 이상으로 나온다.<br />
+웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지?<br />
+최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다.</p>
+
+<p>언어는 72종 지원한다는데 내가 할 수 있는 언어만 나와야한다.<br />
+대충 java, c++, python 3종으로만 하자.</p>
+
+<h5 id="2-html-세팅">2. HTML 세팅</h5>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"ko"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;title&gt;</span>랜덤 출력기<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;h1&gt;</span>랜덤 출력기<span class="nt">&lt;/h1&gt;</span>
+
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"maxNumber"</span><span class="nt">&gt;</span>최대 숫자 입력 (최소는 1000 고정): <span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"number"</span> <span class="na">id=</span><span class="s">"maxNumber"</span> <span class="na">min=</span><span class="s">"1000"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"generateRandomNumbers()"</span><span class="nt">&gt;</span>생성하기<span class="nt">&lt;/button&gt;</span>
+
+  <span class="nt">&lt;h3&gt;</span>결과<span class="nt">&lt;/h3&gt;</span>
+  <span class="nt">&lt;p&gt;</span>문제 번호: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"randomNumber"</span><span class="nt">&gt;&lt;/span&gt;&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>언어: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"randomLanguage"</span><span class="nt">&gt;&lt;/span&gt;&lt;/p&gt;</span>
+
+  <span class="nt">&lt;script&gt;</span>
+    <span class="c1">// 스크립트</span>
+    <span class="c1">// 언어는 1부터 3까지 랜덤 뽑고 각 숫자에 할당</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<h5 id="3-스크립트-작성">3. 스크립트 작성</h5>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">generateRandomNumbers</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">min</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">max</span> <span class="o">=</span> <span class="nf">parseInt</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#maxNumber</span><span class="dl">'</span><span class="p">).</span><span class="nx">value</span><span class="p">);</span>
+
+  <span class="c1">// 최대 숫자 예외처리</span>
+  <span class="k">if </span><span class="p">(</span><span class="nf">isNaN</span><span class="p">(</span><span class="nx">max</span><span class="p">)</span> <span class="o">||</span> <span class="nx">max</span> <span class="o">&lt;</span> <span class="nx">min</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nf">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">최소 1000 이상 숫자 입력</span><span class="dl">"</span><span class="p">);</span>
+      <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 랜덤 숫자 추출</span>
+  <span class="kd">const</span> <span class="nx">randomNum</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nx">min</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">randomLang</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="c1">// 결과란에 배치</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#randomNumber</span><span class="dl">'</span><span class="p">).</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">randomNum</span><span class="p">;</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#randomLanguage</span><span class="dl">'</span><span class="p">).</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">randomLang</span> <span class="o">===</span> <span class="mi">1</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">java</span><span class="dl">'</span> <span class="p">:</span> <span class="nx">randomLang</span> <span class="o">===</span> <span class="mi">2</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">c++</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">python</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="완성">완성</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/one-pan/JavaScript/2025-05-15-Random Printer/img01.jpg" alt="img01" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>딱히?</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="/play/Random%20Printer.html" target="_blank" rel="noopener noreferrer">
+  직접 해보기
+</a></p>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-15-Random%20Printer.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데 랜덤 뽑아내는 기능이 필요해서 자급자족함 구현 1. 설계 백준에 문제가 몇개나 되지? 현시점 전체 문제는 3만개 이상으로 나온다. 웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지? 최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다. 언어는 72종 지원한다는데 내가 할 수 있는 언어만 나와야한다. 대충 java, c++, python 3종으로만 하자. 2. HTML 세팅 &lt;!DOCTYPE html&gt; &lt;html lang="ko"&gt; &lt;head&gt; &lt;meta charset="UTF-8"&gt; &lt;title&gt;랜덤 출력기&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;h1&gt;랜덤 출력기&lt;/h1&gt; &lt;label for="maxNumber"&gt;최대 숫자 입력 (최소는 1000 고정): &lt;/label&gt; &lt;input type="number" id="maxNumber" min="1000"&gt; &lt;button onclick="generateRandomNumbers()"&gt;생성하기&lt;/button&gt; &lt;h3&gt;결과&lt;/h3&gt; &lt;p&gt;문제 번호: &lt;span id="randomNumber"&gt;&lt;/span&gt;&lt;/p&gt; &lt;p&gt;언어: &lt;span id="randomLanguage"&gt;&lt;/span&gt;&lt;/p&gt; &lt;script&gt; // 스크립트 // 언어는 1부터 3까지 랜덤 뽑고 각 숫자에 할당 &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; 3. 스크립트 작성 function generateRandomNumbers() { const min = 1000; const max = parseInt(document.querySelector('#maxNumber').value); // 최대 숫자 예외처리 if (isNaN(max) || max &lt; min) { alert("최소 1000 이상 숫자 입력"); return; } // 랜덤 숫자 추출 const randomNum = Math.floor(Math.random() * (max - min + 1)) + min; const randomLang = Math.floor(Math.random() * 3) + 1; // 결과란에 배치 document.querySelector('#randomNumber').textContent = randomNum; document.querySelector('#randomLanguage').textContent = randomLang === 1 ? 'java' : randomLang === 2 ? 'c++' : 'python'; } 완성 반성 딱히? 코드 확인 직접 해보기 Link to GitHub]]></summary></entry><entry><title type="html">파이썬으로 CLI TODO 리스트 만들어보기</title><link href="https://movingwoo.com/ai-playground/gpt/2025/05/14/GPT.html" rel="alternate" type="text/html" title="파이썬으로 CLI TODO 리스트 만들어보기" /><published>2025-05-14T05:00:00+00:00</published><updated>2025-05-14T05:00:00+00:00</updated><id>https://movingwoo.com/ai-playground/gpt/2025/05/14/GPT</id><content type="html" xml:base="https://movingwoo.com/ai-playground/gpt/2025/05/14/GPT.html"><![CDATA[<p><span style="color: red;"><strong>본 포스트는 AI가 제작한 포스트입니다.</strong></span><br />
 <span style="color: orange;">명령: (지금까지 작성한 포스트를 학습 시킨 후) 유사한 양식과 주제로 포스트를 한 번 써봐.</span></p>
 
 <hr />
@@ -1186,371 +1281,4 @@ AI 답다고 생각한 부분은 연휴가 끝나면 공포와 절망밖에 없�
 
 <p>항상 느끼는 거지만 GPT는 이모지가 과하다.<br />
 딴 건 이의없는데 왜 DB는 tableplus지? 한 번도 써본 적 없다.<br />
-댓글 기능이라…</p>]]></content><author><name>GPT4o</name></author><category term="AI-playground/GPT/" /><summary type="html"><![CDATA[본 포스트는 AI가 제작한 포스트입니다. 주제: IT 자유 “좋은 도구는 개발자의 시간을 아껴준다.” - 모든 개발자의 마음속 명언 개발은 단순한 코드 작성이 아닌, 문제 해결과 창조적 사고의 연속입니다. 그렇기에 생산성을 높이는 툴은 단순한 ‘보조도구’가 아니라 ‘생산성의 핵심’이라 할 수 있습니다. 이번 포스트에서는 실제 개발자들이 애용하는 툴들 중, 생산성을 크게 향상시켜주는 다섯 가지를 소개합니다. 1. Visual Studio Code (VS Code) 🌐 https://code.visualstudio.com/ ✨ 확장성이 뛰어난 오픈소스 에디터 📦 추천 확장 기능: Prettier (코드 포매터) GitLens (Git 기록 시각화) REST Client (API 테스트용) “에디터는 손끝의 무기. 자신에게 맞는 무기를 세팅하라.” 2. Raycast 🌐 https://www.raycast.com/ ⌨️ Mac용 명령형 런처 (스팟라이트 업그레이드 버전) 🧩 다양한 플러그인 &amp; 스크립트 가능 💡 개발자 사용 예시: # 로컬 서버 종료 $ raycast kill-server 3. Notion 🌐 https://www.notion.so/ 📝 올인원 워크스페이스 📌 프로젝트 관리, 문서화, 위키, 회의록 등에 최적화 개발 문서는 결국 팀의 자산입니다. Notion으로 팀 지식을 구조화하세요. 4. Postman 🌐 https://www.postman.com/ 🔍 REST API 테스트 및 문서화 도구 🧪 Collection 단위 테스트 가능 ✅ API 응답 시간, 상태 코드 체크 자동화 5. TablePlus 🌐 https://tableplus.com/ 🧩 직관적인 DB 클라이언트 (MySQL, PostgreSQL 등 지원) 💨 빠른 쿼리, 편리한 UI, 로컬/원격 연결 모두 지원 마치며 🧘 생산성을 높인다는 건 “더 빨리 코딩한다”는 뜻이 아닙니다. 더 빠르게 이해하고, 더 정확히 실행하며, 더 적게 실수하는 것입니다. 위 도구들이 여러분의 개발 여정을 한층 더 가볍고 효율적으로 만들어주길 바랍니다. 📌 당신의 생산성 꿀팁은 무엇인가요? 댓글로 공유해주세요! 내 생각 항상 느끼는 거지만 GPT는 이모지가 과하다. 딴 건 이의없는데 왜 DB는 tableplus지? 한 번도 써본 적 없다. 댓글 기능이라…]]></summary></entry><entry><title type="html">지뢰찾기</title><link href="https://movingwoo.com/one-pan/javascript/2025/04/29/Minesweeper.html" rel="alternate" type="text/html" title="지뢰찾기" /><published>2025-04-29T22:00:00+00:00</published><updated>2025-04-29T22:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/04/29/Minesweeper</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/04/29/Minesweeper.html"><![CDATA[<blockquote>
-  <h4 id="탄생-비화">탄생 비화</h4>
-  <hr />
-</blockquote>
-
-<p><span style="color: orange;"><strong>바닐라 JS 재활훈련삼아 투닥투닥 두들겨 봄</strong></span><br />
-재활훈련을 마치면 canvas를 이용해 뭐라도 만들어 볼 요량</p>
-
-<blockquote>
-  <h4 id="구현-포인트">구현 포인트</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-지뢰판-뿌리기">1. 지뢰판 뿌리기</h5>
-
-<p>처음에는 그리드로 대충 만들어 뿌렸는데<br />
-뿌려놓고 css가 변경될 경우 리드로우가 일어난다고 한다.<br />
-그래서 DOM을 직접 컨트롤하는건 권장하지 않는다고<br />
-지뢰찾기 몇 칸 넣는데 영향은 없겠지만 연습삼아 fragment를 사용해본다.</p>
-
-<p>그리고 옛날사람처럼 굴지말고 템플릿 리터럴을 활용하면 더 깔끔해진다.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 스타일 설정</span>
-<span class="nx">mainArea</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">800px</span><span class="dl">'</span><span class="p">;</span>
-<span class="nx">mainArea</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">grid</span><span class="dl">'</span><span class="p">;</span>
-<span class="c1">// 템플릿 리터럴을 사용하지 않으면 보기 지저분하게 + 해가며 써야함</span>
-<span class="c1">// mainArea.style.gridTemplateColumns = 'repeat(' + col + ', 1fr)';</span>
-<span class="c1">// mainArea.style.gridTemplateColumns = 'repeat(' + row + ', 1fr)';</span>
-<span class="nx">mainArea</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">gridTemplateColumns</span> <span class="o">=</span> <span class="s2">`repeat(</span><span class="p">${</span><span class="nx">col</span><span class="p">}</span><span class="s2">, 1fr)`</span><span class="p">;</span>
-<span class="nx">mainArea</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">gridTemplateRows</span> <span class="o">=</span> <span class="s2">`repeat(</span><span class="p">${</span><span class="nx">row</span><span class="p">}</span><span class="s2">, 1fr)`</span><span class="p">;</span>
-<span class="nx">mainArea</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">gap</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">1px</span><span class="dl">'</span><span class="p">;</span> 
-			
-<span class="c1">// fragment 생성</span>
-<span class="kd">const</span> <span class="nx">divFragment</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">createDocumentFragment</span><span class="p">();</span>
-
-<span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">col</span> <span class="o">*</span> <span class="nx">row</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">newDiv</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">div</span><span class="dl">'</span><span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">currentRow</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nx">i</span> <span class="o">/</span> <span class="nx">col</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">currentCol</span> <span class="o">=</span> <span class="p">(</span><span class="nx">i</span> <span class="o">%</span> <span class="nx">col</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-  
-  <span class="c1">// 각 div에는 col과 row로 이루어진 고유 값을 id로 설정한다.</span>
-  <span class="c1">// col과 row로 고유 id 설정</span>
-  <span class="nx">newDiv</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">currentRow</span><span class="p">}</span><span class="s2"> </span><span class="p">${</span><span class="nx">currentCol</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
-  
-  <span class="c1">// 스타일 설정</span>
-  <span class="nx">newDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">aspectRatio</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">1 / 1</span><span class="dl">'</span><span class="p">;</span>
-  <span class="nx">newDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">1px solid black</span><span class="dl">'</span><span class="p">;</span>
-  <span class="nx">newDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">padding</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">1px</span><span class="dl">'</span><span class="p">;</span>
-  <span class="nx">newDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">flex</span><span class="dl">'</span><span class="p">;</span>
-  <span class="nx">newDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">alignItems</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">;</span>
-  <span class="nx">newDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">justifyContent</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">;</span>
-  <span class="nx">newDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span>
-
-  <span class="c1">// fragment에 추가</span>
-  <span class="nx">divFragment</span><span class="p">.</span><span class="nf">appendChild</span><span class="p">(</span><span class="nx">newDiv</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// DOM에 추가</span>
-<span class="nx">mainArea</span><span class="p">.</span><span class="nf">appendChild</span><span class="p">(</span><span class="nx">divFragment</span><span class="p">);</span>
-</code></pre></div></div>
-
-<h5 id="2-클릭-감지">2. 클릭 감지</h5>
-
-<p>좌클릭 우클릭은 간단하지만 지뢰찾기는 동시클릭 시 주변에 지뢰가 있을 가능성이 있는 타일을 표시해준다.<br />
-따라서 동시클릭을 인식하도록 해야한다.<br />
-마우스 좌우를 한 치 오차없이 누르는 건 불가능하기 때문에, 유예시간을 짧게 두고 양쪽이 모두 클릭되어있으면 동시 클릭으로 취급해야한다.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
-마우스 다운 이벤트
-*/</span>
-<span class="kd">function</span> <span class="nf">MouseDownHandler</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">startTime</span><span class="p">)</span> <span class="nx">startTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Date</span><span class="p">();</span> <span class="c1">// 첫 클릭 시간 체크</span>
-
-  <span class="c1">// 클릭한 타겟의 id와 value 획득</span>
-  <span class="kd">const</span> <span class="nx">targetId</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">targetValue</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-  <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">targetId</span> <span class="o">||</span> <span class="o">!</span><span class="nx">targetValue</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-
-  <span class="c1">// 0은 좌클릭, 2는 우클릭</span>
-  <span class="k">if </span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">button</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="nx">leftDown</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-  <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">button</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="nx">rightDown</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-
-  <span class="k">if </span><span class="p">(</span><span class="nx">clickDelay</span><span class="p">)</span> <span class="nf">clearTimeout</span><span class="p">(</span><span class="nx">clickDelay</span><span class="p">);</span> <span class="c1">// 이전 timeout이 있으면 취소</span>
-
-  <span class="nx">clickDelay</span> <span class="o">=</span> <span class="nf">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="c1">// 변수 불값으로 판단</span>
-    <span class="k">if </span><span class="p">(</span><span class="nx">leftDown</span> <span class="o">&amp;&amp;</span> <span class="nx">rightDown</span><span class="p">)</span> <span class="nf">check</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
-    <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">leftDown</span><span class="p">)</span> <span class="nf">open</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
-    <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">rightDown</span><span class="p">)</span> <span class="nf">flag</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
-    
-    <span class="c1">// 초기화</span>
-    <span class="nx">clickDelay</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-  <span class="p">},</span> <span class="mi">50</span><span class="p">);</span> <span class="c1">// 딜레이 50ms</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="3-지뢰-설정">3. 지뢰 설정</h5>
-
-<p>고유의 id를 가지고 있는 판을 만들었으니 지뢰를 배치해야 한다.<br />
-지뢰 주변에는 숫자가 표기되어야 하는데, 구조 상 숫자는 0에서 8까지만 쓸 수 있다.<br />
-따라서 지뢰를 9로 배치하고 나머지 칸엔 주변 지뢰상황을 파악해 숫자를 매긴다.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// set을 이용해 무작위 칸에 value 9를 세팅한다.</span>
-<span class="kd">const</span> <span class="nx">divs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">querySelectorAll</span><span class="p">(</span><span class="dl">'</span><span class="s1">#main_area div</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">const</span> <span class="nx">mineSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">();</span> <span class="c1">// 중복 방지용 set</span>
-
-<span class="k">while </span><span class="p">(</span><span class="nx">mineSet</span><span class="p">.</span><span class="nx">size</span> <span class="o">&lt;</span> <span class="nx">mines</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// 무작위 인덱스 값 생성</span>
-  <span class="kd">const</span> <span class="nx">randomIdx</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">col</span> <span class="o">*</span> <span class="nx">row</span><span class="p">);</span>
-  
-  <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">mineSet</span><span class="p">.</span><span class="nf">has</span><span class="p">(</span><span class="nx">randomIdx</span><span class="p">))</span> <span class="p">{</span>
-    <span class="c1">// set에 집어넣으며 지뢰 세팅</span>
-    <span class="nx">mineSet</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nx">randomIdx</span><span class="p">);</span>
-    <span class="nx">divs</span><span class="p">[</span><span class="nx">randomIdx</span><span class="p">].</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 전체 div를 탐색하며 9가 아닌 경우 주변 칸이 9인 개수를 세팅한다.</span>
-<span class="nx">divs</span><span class="p">.</span><span class="nf">forEach</span><span class="p">(</span><span class="nx">div</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">if </span><span class="p">(</span><span class="nx">div</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">==</span> <span class="mi">9</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-
-  <span class="c1">// 유효한 인접 div 가져오기</span>
-  <span class="kd">const</span> <span class="nx">validNeighbors</span> <span class="o">=</span> <span class="nf">findNeighbors</span><span class="p">(</span><span class="nx">div</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
-
-  <span class="c1">// 유효 범위 내 지뢰 개수 카운팅</span>
-  <span class="kd">let</span> <span class="nx">mineCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="nx">validNeighbors</span><span class="p">.</span><span class="nf">forEach</span><span class="p">(([</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="kd">const</span> <span class="nx">neighborDiv</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">r</span><span class="p">}</span><span class="s2"> </span><span class="p">${</span><span class="nx">c</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
-      <span class="k">if </span><span class="p">(</span><span class="nx">neighborDiv</span> <span class="o">&amp;&amp;</span> <span class="nx">neighborDiv</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">==</span> <span class="mi">9</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">mineCount</span><span class="o">++</span><span class="p">;</span>
-      <span class="p">}</span>
-  <span class="p">});</span>
-
-  <span class="nx">div</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">mineCount</span><span class="p">;</span>
-<span class="p">});</span>
-</code></pre></div></div>
-
-<p>지뢰 제외 숫자를 세팅하기위해 특정 div의 주변 div를 탐색하는 함수를 별도로 만들어준다.<br />
-좌클릭으로 칸을 열때, 자동으로 열릴때, 동시클릭 시 등 쓰일 곳이 많은 공통함수이다.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
-인접 div 탐색
-*/</span>
-<span class="kd">function</span> <span class="nf">findNeighbors</span><span class="p">(</span><span class="nx">divId</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="c1">// id를 파싱해 현재 좌표 확인</span>
-  <span class="kd">const</span><span class="p">[</span><span class="nx">currentRow</span><span class="p">,</span> <span class="nx">currentCol</span><span class="p">]</span> <span class="o">=</span> <span class="nx">divId</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="dl">'</span><span class="s1"> </span><span class="dl">'</span><span class="p">).</span><span class="nf">map</span><span class="p">(</span><span class="nb">Number</span><span class="p">);</span>
-
-  <span class="c1">// 인접한 전체 좌표 확인</span>
-  <span class="kd">const</span> <span class="nx">neighbors</span> <span class="o">=</span> <span class="p">[</span>
-      <span class="p">[</span><span class="nx">currentRow</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">currentCol</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="nx">currentRow</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">currentCol</span><span class="p">],</span> <span class="p">[</span><span class="nx">currentRow</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">currentCol</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
-      <span class="p">[</span><span class="nx">currentRow</span>    <span class="p">,</span> <span class="nx">currentCol</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>         <span class="cm">/* 현재 칸 */</span>          <span class="p">[</span><span class="nx">currentRow</span>    <span class="p">,</span> <span class="nx">currentCol</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
-      <span class="p">[</span><span class="nx">currentRow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">currentCol</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="nx">currentRow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">currentCol</span><span class="p">],</span> <span class="p">[</span><span class="nx">currentRow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">currentCol</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-  <span class="p">];</span>
-
-  <span class="c1">// 행열 범위를 벗어나면 제외하고 return</span>
-  <span class="k">return</span> <span class="nx">neighbors</span><span class="p">.</span><span class="nf">filter</span><span class="p">(([</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="nx">r</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">r</span> <span class="o">&lt;=</span> <span class="nx">row</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span> <span class="o">&lt;=</span> <span class="nx">col</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="4-지뢰찾기-기능-부여">4. 지뢰찾기 기능 부여</h5>
-
-<p>좌클릭, 우클릭, 동시클릭 이벤트에 실제 게임 로직을 부여한다.</p>
-<ul>
-  <li>좌클릭
-    <ul>
-      <li>지뢰(9)인 경우 게임 오버</li>
-      <li>지뢰가 아닌 경우
-        <ul>
-          <li>0인 경우 인접칸을 자동으로 열기</li>
-          <li>0이 아닌 경우 해당 칸만 열기</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>우클릭
-    <ul>
-      <li>지뢰표시(flag)</li>
-      <li>표시된 칸에 다시 우클릭 시 표시 제거</li>
-    </ul>
-  </li>
-  <li>동시클릭
-    <ul>
-      <li>인접 칸 하이라이팅</li>
-      <li>만약 인접 칸 모든 곳에 지뢰가 없는 것이 확실한 경우 자동으로 열기</li>
-    </ul>
-  </li>
-</ul>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 닫힌칸은 회색, 열린칸은 흰색, 플래그는 검정색, 하이라이팅은 파란색, 게임오버 시 지뢰 위치는 빨간색</span>
-
-<span class="cm">/**
-좌클릭 시 open
-*/</span>
-<span class="kd">function</span> <span class="nf">open</span><span class="p">(</span><span class="nx">targetDiv</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="c1">// 지뢰칸은 즉시 패배처리</span>
-  <span class="k">if </span><span class="p">(</span><span class="nx">targetDiv</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">==</span> <span class="mi">9</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">youLose</span><span class="p">();</span>
-    <span class="k">return</span><span class="p">;</span>
-  <span class="p">}</span>
-  
-  <span class="nx">targetDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">;</span>
-  
-  <span class="c1">// 0인 경우엔 주변 div를 자동으로 열어줌</span>
-  <span class="k">if </span><span class="p">(</span><span class="nx">targetDiv</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">findNeighbors</span><span class="p">(</span><span class="nx">targetDiv</span><span class="p">.</span><span class="nx">id</span><span class="p">).</span><span class="nf">forEach</span><span class="p">(([</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="kd">const</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">r</span><span class="p">}</span><span class="s2"> </span><span class="p">${</span><span class="nx">c</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
-      
-      <span class="c1">// 재귀 중 꼬이지 않게 열리지 않은 div만 열기</span>
-      <span class="k">if </span><span class="p">(</span><span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span><span class="p">)</span> <span class="nf">open</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span>
-    <span class="p">});</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">targetDiv</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">targetDiv</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-  <span class="p">}</span>
-  
-<span class="p">}</span>
-
-<span class="cm">/**
-우클릭 시 flag
-*/</span>
-<span class="kd">function</span> <span class="nf">flag</span><span class="p">(</span><span class="nx">targetDiv</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="kd">const</span> <span class="nx">remainDiv</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#remain</span><span class="dl">'</span><span class="p">);</span>
-
-  <span class="c1">// 닫혀있는 div에 플래그를 추가하며, 플래그가 추가된 칸일 경우 플래그 해제</span>
-  <span class="k">if </span><span class="p">(</span><span class="nx">targetDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">targetDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">=</span><span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">;</span>
-    <span class="nx">remainDiv</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">remainDiv</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">targetDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">targetDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">=</span><span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span><span class="p">;</span>
-    <span class="nx">remainDiv</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">remainDiv</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
-  <span class="p">}</span>
-  
-<span class="p">}</span>
-
-<span class="cm">/**
-동시클릭 시 check
-*/</span>
-<span class="kd">function</span> <span class="nf">check</span><span class="p">(</span><span class="nx">targetDiv</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="kd">const</span> <span class="nx">neighbors</span> <span class="o">=</span> <span class="nf">findNeighbors</span><span class="p">(</span><span class="nx">targetDiv</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
-  
-  <span class="c1">// 플래그 수</span>
-  <span class="kd">let</span> <span class="nx">flagCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  
-  <span class="nx">neighbors</span><span class="p">.</span><span class="nf">forEach</span><span class="p">(([</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="k">if </span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">r</span><span class="p">}</span><span class="s2"> </span><span class="p">${</span><span class="nx">c</span><span class="p">}</span><span class="s2">`</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">)</span> <span class="nx">flagCount</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">});</span>
-  
-  <span class="c1">// 플래그와 지뢰수가 같으면 open, 아니면 주변 칸 반짝</span>
-  <span class="c1">// 플래그 잘못 표시하여 자동오픈으로 지뢰 터지는것도 가능함</span>
-  <span class="nx">neighbors</span><span class="p">.</span><span class="nf">forEach</span><span class="p">(([</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">r</span><span class="p">}</span><span class="s2"> </span><span class="p">${</span><span class="nx">c</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
-    <span class="k">if </span><span class="p">(</span><span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if </span><span class="p">(</span><span class="nx">flagCount</span> <span class="o">==</span> <span class="nx">targetDiv</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="nf">open</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span>
-      <span class="k">else</span> <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span>
-    <span class="p">}</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="5-승리-및-패배-판정">5. 승리 및 패배 판정</h5>
-
-<p>승리 판정은 매 좌클릭 후 체크한다.<br />
-플래그 체크 안하고 클리어할 수 있으므로 판정은 닫혀있는 div 개수가 총 지뢰수와 같으면 승리한 것으로 한다.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
-승리 반별
-*/</span>
-<span class="kd">function</span> <span class="nf">checkWin</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// 닫혀있는 div 개수 세기</span>
-  <span class="kd">let</span> <span class="nx">closeCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  
-  <span class="nb">document</span><span class="p">.</span><span class="nf">querySelectorAll</span><span class="p">(</span><span class="dl">'</span><span class="s1">#main_area div</span><span class="dl">'</span><span class="p">).</span><span class="nf">forEach</span><span class="p">(</span><span class="nx">div</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="k">if </span><span class="p">(</span><span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">!=</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">)</span> <span class="nx">closeCount</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">});</span>
-  
-  <span class="c1">// 총 지뢰 수와 닫혀있는 div 수가 같으면 승리</span>
-  <span class="k">if </span><span class="p">(</span><span class="nx">closeCount</span> <span class="o">===</span> <span class="nx">mines</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">youWin</span><span class="p">();</span>
-    <span class="k">return</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="cm">/**
-승리 처리
-*/</span>
-<span class="kd">function</span> <span class="nf">youWin</span><span class="p">()</span> <span class="p">{</span>
-
-  <span class="kd">const</span> <span class="nx">endTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Date</span><span class="p">();</span> <span class="c1">// 종료시간</span>
-  <span class="kd">const</span> <span class="nx">elapsedTime</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">((</span><span class="nx">endTime</span> <span class="o">-</span> <span class="nx">startTime</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">);</span> <span class="c1">// 경과 시간 초 단위</span>
-  
-  <span class="c1">// 승자에 대한 찬사</span>
-  <span class="nf">alert</span><span class="p">(</span><span class="s2">`You Win!!\n</span><span class="p">${</span><span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nx">elapsedTime</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)}</span><span class="s2">분 </span><span class="p">${</span><span class="nx">elapsedTime</span> <span class="o">%</span> <span class="mi">60</span><span class="p">}</span><span class="s2">초`</span><span class="p">);</span>
-  
-  <span class="c1">// 마우스 이벤트 제거</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nf">removeEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">mousedown</span><span class="dl">'</span><span class="p">,</span> <span class="nx">MouseDownHandler</span><span class="p">);</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nf">removeEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">mouseup</span><span class="dl">'</span><span class="p">,</span> <span class="nx">MouseUpHandler</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="cm">/**
-패배 처리
-*/</span>
-<span class="kd">function</span> <span class="nf">youLose</span><span class="p">()</span> <span class="p">{</span>
-
-  <span class="c1">// 패배자에 대한 조롱</span>
-  <span class="nf">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">You Lose!!</span><span class="dl">'</span><span class="p">);</span>
-  
-  <span class="c1">// 모든 보드 열기</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nf">querySelectorAll</span><span class="p">(</span><span class="dl">'</span><span class="s1">#main_area div</span><span class="dl">'</span><span class="p">).</span><span class="nf">forEach</span><span class="p">(</span><span class="nx">div</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="k">if </span><span class="p">(</span><span class="nx">div</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span> <span class="o">==</span> <span class="mi">9</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// 지뢰 위치는 빨간색으로 표시</span>
-      <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">background</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">;</span>
-      <span class="nx">div</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">div</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">});</span>
-  
-  <span class="c1">// 마우스 이벤트 제거</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nf">removeEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">mousedown</span><span class="dl">'</span><span class="p">,</span> <span class="nx">MouseDownHandler</span><span class="p">);</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nf">removeEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">mouseup</span><span class="dl">'</span><span class="p">,</span> <span class="nx">MouseUpHandler</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="완성">완성</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/one-pan/JavaScript/2025-04-30-Minesweeper/img01.jpg" alt="img01" /></p>
-
-<p>이지선다 지옥…</p>
-
-<p><img src="/assets/images/posts/one-pan/JavaScript/2025-04-30-Minesweeper/img02.jpg" alt="img02" /></p>
-
-<p><span style="color: red;"><strong>크아아아아아아아악</strong></span></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<ol>
-  <li>
-    <p><strong>DOM 직접 컨트롤 피하기</strong><br />
-이유는 상술</p>
-  </li>
-  <li>
-    <p>디자인 및 접근성<br />
-뭔가 더 예쁘고 접근성 좋게 처리할 수 있었을 거란 아쉬움이 남는다<br />
-div 사이 빈 줄도 없앨 수 있었을텐데…<br />
-AI도 잘 되어있는 세상인데…</p>
-  </li>
-</ol>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="/play/Minesweeper.html" target="_blank" rel="noopener noreferrer">
-  직접 해보기
-</a></p>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-04-30-Minesweeper.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[탄생 비화 바닐라 JS 재활훈련삼아 투닥투닥 두들겨 봄 재활훈련을 마치면 canvas를 이용해 뭐라도 만들어 볼 요량 구현 포인트 1. 지뢰판 뿌리기 처음에는 그리드로 대충 만들어 뿌렸는데 뿌려놓고 css가 변경될 경우 리드로우가 일어난다고 한다. 그래서 DOM을 직접 컨트롤하는건 권장하지 않는다고 지뢰찾기 몇 칸 넣는데 영향은 없겠지만 연습삼아 fragment를 사용해본다. 그리고 옛날사람처럼 굴지말고 템플릿 리터럴을 활용하면 더 깔끔해진다. // 스타일 설정 mainArea.style.width = '800px'; mainArea.style.display = 'grid'; // 템플릿 리터럴을 사용하지 않으면 보기 지저분하게 + 해가며 써야함 // mainArea.style.gridTemplateColumns = 'repeat(' + col + ', 1fr)'; // mainArea.style.gridTemplateColumns = 'repeat(' + row + ', 1fr)'; mainArea.style.gridTemplateColumns = `repeat(${col}, 1fr)`; mainArea.style.gridTemplateRows = `repeat(${row}, 1fr)`; mainArea.style.gap = '1px'; // fragment 생성 const divFragment = document.createDocumentFragment(); for (let i = 0; i &lt; col * row; i++) { const newDiv = document.createElement('div'); const currentRow = Math.floor(i / col) + 1; const currentCol = (i % col) + 1; // 각 div에는 col과 row로 이루어진 고유 값을 id로 설정한다. // col과 row로 고유 id 설정 newDiv.id = `${currentRow} ${currentCol}`; // 스타일 설정 newDiv.style.aspectRatio = '1 / 1'; newDiv.style.border = '1px solid black'; newDiv.style.padding = '1px'; newDiv.style.display = 'flex'; newDiv.style.alignItems = 'center'; newDiv.style.justifyContent = 'center'; newDiv.style.background = 'gray' // fragment에 추가 divFragment.appendChild(newDiv); } // DOM에 추가 mainArea.appendChild(divFragment); 2. 클릭 감지 좌클릭 우클릭은 간단하지만 지뢰찾기는 동시클릭 시 주변에 지뢰가 있을 가능성이 있는 타일을 표시해준다. 따라서 동시클릭을 인식하도록 해야한다. 마우스 좌우를 한 치 오차없이 누르는 건 불가능하기 때문에, 유예시간을 짧게 두고 양쪽이 모두 클릭되어있으면 동시 클릭으로 취급해야한다. /** 마우스 다운 이벤트 */ function MouseDownHandler(event) { if (!startTime) startTime = new Date(); // 첫 클릭 시간 체크 // 클릭한 타겟의 id와 value 획득 const targetId = event.target.id; const targetValue = event.target.dataset.value; if (!targetId || !targetValue) return; // 0은 좌클릭, 2는 우클릭 if (event.button === 0) leftDown = true; else if (event.button === 2) rightDown = true; if (clickDelay) clearTimeout(clickDelay); // 이전 timeout이 있으면 취소 clickDelay = setTimeout(() =&gt; { // 변수 불값으로 판단 if (leftDown &amp;&amp; rightDown) check(event.target); else if (leftDown) open(event.target); else if (rightDown) flag(event.target); // 초기화 clickDelay = null; }, 50); // 딜레이 50ms } 3. 지뢰 설정 고유의 id를 가지고 있는 판을 만들었으니 지뢰를 배치해야 한다. 지뢰 주변에는 숫자가 표기되어야 하는데, 구조 상 숫자는 0에서 8까지만 쓸 수 있다. 따라서 지뢰를 9로 배치하고 나머지 칸엔 주변 지뢰상황을 파악해 숫자를 매긴다. // set을 이용해 무작위 칸에 value 9를 세팅한다. const divs = document.querySelectorAll('#main_area div'); const mineSet = new Set(); // 중복 방지용 set while (mineSet.size &lt; mines) { // 무작위 인덱스 값 생성 const randomIdx = Math.floor(Math.random() * col * row); if (!mineSet.has(randomIdx)) { // set에 집어넣으며 지뢰 세팅 mineSet.add(randomIdx); divs[randomIdx].dataset.value = 9; } } // 전체 div를 탐색하며 9가 아닌 경우 주변 칸이 9인 개수를 세팅한다. divs.forEach(div =&gt; { if (div.dataset.value == 9) return; // 유효한 인접 div 가져오기 const validNeighbors = findNeighbors(div.id); // 유효 범위 내 지뢰 개수 카운팅 let mineCount = 0; validNeighbors.forEach(([r, c]) =&gt; { const neighborDiv = document.getElementById(`${r} ${c}`); if (neighborDiv &amp;&amp; neighborDiv.dataset.value == 9) { mineCount++; } }); div.dataset.value = mineCount; }); 지뢰 제외 숫자를 세팅하기위해 특정 div의 주변 div를 탐색하는 함수를 별도로 만들어준다. 좌클릭으로 칸을 열때, 자동으로 열릴때, 동시클릭 시 등 쓰일 곳이 많은 공통함수이다. /** 인접 div 탐색 */ function findNeighbors(divId) { // id를 파싱해 현재 좌표 확인 const[currentRow, currentCol] = divId.split(' ').map(Number); // 인접한 전체 좌표 확인 const neighbors = [ [currentRow - 1, currentCol - 1], [currentRow - 1, currentCol], [currentRow - 1, currentCol + 1], [currentRow , currentCol - 1], /* 현재 칸 */ [currentRow , currentCol + 1], [currentRow + 1, currentCol - 1], [currentRow + 1, currentCol], [currentRow + 1, currentCol + 1] ]; // 행열 범위를 벗어나면 제외하고 return return neighbors.filter(([r, c]) =&gt; r &gt;= 1 &amp;&amp; r &lt;= row &amp;&amp; c &gt;= 1 &amp;&amp; c &lt;= col); } 4. 지뢰찾기 기능 부여 좌클릭, 우클릭, 동시클릭 이벤트에 실제 게임 로직을 부여한다. 좌클릭 지뢰(9)인 경우 게임 오버 지뢰가 아닌 경우 0인 경우 인접칸을 자동으로 열기 0이 아닌 경우 해당 칸만 열기 우클릭 지뢰표시(flag) 표시된 칸에 다시 우클릭 시 표시 제거 동시클릭 인접 칸 하이라이팅 만약 인접 칸 모든 곳에 지뢰가 없는 것이 확실한 경우 자동으로 열기 // 닫힌칸은 회색, 열린칸은 흰색, 플래그는 검정색, 하이라이팅은 파란색, 게임오버 시 지뢰 위치는 빨간색 /** 좌클릭 시 open */ function open(targetDiv) { // 지뢰칸은 즉시 패배처리 if (targetDiv.dataset.value == 9) { youLose(); return; } targetDiv.style.background = 'white'; // 0인 경우엔 주변 div를 자동으로 열어줌 if (targetDiv.dataset.value == 0) { findNeighbors(targetDiv.id).forEach(([r, c]) =&gt; { const div = document.getElementById(`${r} ${c}`); // 재귀 중 꼬이지 않게 열리지 않은 div만 열기 if (div.style.background == 'gray') open(div); }); } else { targetDiv.textContent = targetDiv.dataset.value; } } /** 우클릭 시 flag */ function flag(targetDiv) { const remainDiv = document.querySelector('#remain'); // 닫혀있는 div에 플래그를 추가하며, 플래그가 추가된 칸일 경우 플래그 해제 if (targetDiv.style.background == 'gray') { targetDiv.style.background ='black'; remainDiv.dataset.value = remainDiv.dataset.value - 1; } else if (targetDiv.style.background == 'black') { targetDiv.style.background ='gray'; remainDiv.dataset.value = remainDiv.dataset.value - 1 + 2; } } /** 동시클릭 시 check */ function check(targetDiv) { const neighbors = findNeighbors(targetDiv.id); // 플래그 수 let flagCount = 0; neighbors.forEach(([r, c]) =&gt; { if (document.getElementById(`${r} ${c}`).style.background == 'black') flagCount++; }); // 플래그와 지뢰수가 같으면 open, 아니면 주변 칸 반짝 // 플래그 잘못 표시하여 자동오픈으로 지뢰 터지는것도 가능함 neighbors.forEach(([r, c]) =&gt; { const div = document.getElementById(`${r} ${c}`); if (div.style.background == 'gray') { if (flagCount == targetDiv.dataset.value) open(div); else div.style.background = 'blue' } }); } 5. 승리 및 패배 판정 승리 판정은 매 좌클릭 후 체크한다. 플래그 체크 안하고 클리어할 수 있으므로 판정은 닫혀있는 div 개수가 총 지뢰수와 같으면 승리한 것으로 한다. /** 승리 반별 */ function checkWin() { // 닫혀있는 div 개수 세기 let closeCount = 0; document.querySelectorAll('#main_area div').forEach(div =&gt; { if (div.style.background != 'white') closeCount++; }); // 총 지뢰 수와 닫혀있는 div 수가 같으면 승리 if (closeCount === mines) { youWin(); return; } } /** 승리 처리 */ function youWin() { const endTime = new Date(); // 종료시간 const elapsedTime = Math.floor((endTime - startTime) / 1000); // 경과 시간 초 단위 // 승자에 대한 찬사 alert(`You Win!!\n${Math.floor(elapsedTime / 60)}분 ${elapsedTime % 60}초`); // 마우스 이벤트 제거 document.removeEventListener('mousedown', MouseDownHandler); document.removeEventListener('mouseup', MouseUpHandler); } /** 패배 처리 */ function youLose() { // 패배자에 대한 조롱 alert('You Lose!!'); // 모든 보드 열기 document.querySelectorAll('#main_area div').forEach(div =&gt; { if (div.dataset.value == 9) { // 지뢰 위치는 빨간색으로 표시 div.style.background = 'red'; } else { div.style.background = 'white'; div.textContent = div.dataset.value; } }); // 마우스 이벤트 제거 document.removeEventListener('mousedown', MouseDownHandler); document.removeEventListener('mouseup', MouseUpHandler); } 완성 이지선다 지옥… 크아아아아아아아악 반성 DOM 직접 컨트롤 피하기 이유는 상술 디자인 및 접근성 뭔가 더 예쁘고 접근성 좋게 처리할 수 있었을 거란 아쉬움이 남는다 div 사이 빈 줄도 없앨 수 있었을텐데… AI도 잘 되어있는 세상인데… 코드 확인 직접 해보기 Link to GitHub]]></summary></entry></feed>
+댓글 기능이라…</p>]]></content><author><name>GPT4o</name></author><category term="AI-playground/GPT/" /><summary type="html"><![CDATA[본 포스트는 AI가 제작한 포스트입니다. 주제: IT 자유 “좋은 도구는 개발자의 시간을 아껴준다.” - 모든 개발자의 마음속 명언 개발은 단순한 코드 작성이 아닌, 문제 해결과 창조적 사고의 연속입니다. 그렇기에 생산성을 높이는 툴은 단순한 ‘보조도구’가 아니라 ‘생산성의 핵심’이라 할 수 있습니다. 이번 포스트에서는 실제 개발자들이 애용하는 툴들 중, 생산성을 크게 향상시켜주는 다섯 가지를 소개합니다. 1. Visual Studio Code (VS Code) 🌐 https://code.visualstudio.com/ ✨ 확장성이 뛰어난 오픈소스 에디터 📦 추천 확장 기능: Prettier (코드 포매터) GitLens (Git 기록 시각화) REST Client (API 테스트용) “에디터는 손끝의 무기. 자신에게 맞는 무기를 세팅하라.” 2. Raycast 🌐 https://www.raycast.com/ ⌨️ Mac용 명령형 런처 (스팟라이트 업그레이드 버전) 🧩 다양한 플러그인 &amp; 스크립트 가능 💡 개발자 사용 예시: # 로컬 서버 종료 $ raycast kill-server 3. Notion 🌐 https://www.notion.so/ 📝 올인원 워크스페이스 📌 프로젝트 관리, 문서화, 위키, 회의록 등에 최적화 개발 문서는 결국 팀의 자산입니다. Notion으로 팀 지식을 구조화하세요. 4. Postman 🌐 https://www.postman.com/ 🔍 REST API 테스트 및 문서화 도구 🧪 Collection 단위 테스트 가능 ✅ API 응답 시간, 상태 코드 체크 자동화 5. TablePlus 🌐 https://tableplus.com/ 🧩 직관적인 DB 클라이언트 (MySQL, PostgreSQL 등 지원) 💨 빠른 쿼리, 편리한 UI, 로컬/원격 연결 모두 지원 마치며 🧘 생산성을 높인다는 건 “더 빨리 코딩한다”는 뜻이 아닙니다. 더 빠르게 이해하고, 더 정확히 실행하며, 더 적게 실수하는 것입니다. 위 도구들이 여러분의 개발 여정을 한층 더 가볍고 효율적으로 만들어주길 바랍니다. 📌 당신의 생산성 꿀팁은 무엇인가요? 댓글로 공유해주세요! 내 생각 항상 느끼는 거지만 GPT는 이모지가 과하다. 딴 건 이의없는데 왜 DB는 tableplus지? 한 번도 써본 적 없다. 댓글 기능이라…]]></summary></entry></feed>
