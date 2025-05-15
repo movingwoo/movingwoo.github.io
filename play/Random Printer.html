@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>랜덤 출력기</title>
+</head>
+<body>
+  <h1>랜덤 출력기</h1>
+
+  <label for="maxNumber">최대 숫자 입력 (최소는 1000 고정): </label>
+  <input type="number" id="maxNumber" min="1000">
+  <button onclick="generateRandomNumbers()">생성하기</button>
+
+  <h3>결과</h3>
+  <p>문제 번호: <span id="randomNumber"></span></p>
+  <p>언어: <span id="randomLanguage"></span></p>
+
+  <script>
+    // 언어는 1부터 3까지 랜덤 뽑고 각 숫자에 할당
+    function generateRandomNumbers() {
+        const min = 1000;
+        const max = parseInt(document.querySelector('#maxNumber').value);
+
+        // 최대 숫자 예외처리
+        if (isNaN(max) || max < min) {
+            alert("최소 1000 이상 숫자 입력");
+            return;
+        }
+
+        // 랜덤 숫자 추출
+        const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+        const randomLang = Math.floor(Math.random() * 3) + 1;
+
+        // 결과란에 배치
+        document.querySelector('#randomNumber').textContent = randomNum;
+        document.querySelector('#randomLanguage').textContent = randomLang === 1 ? 'java' : randomLang === 2 ? 'c++' : 'python';
+    }
+  </script>
+</body>
+</html>
