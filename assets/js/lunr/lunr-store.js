@@ -71,7 +71,7 @@ var store = [{
         "url": "/one-pan/javascript/2025/05/14/Random-Printer.html",
         "teaser": null
       },{
-        "title": "18382번 2048 Python",
+        "title": "18382번 2048",
         "excerpt":"문제 18382번 2048 - 백준 설계 앗 영어문제 2048 게임의 최종 점수를 출력하는 문제이다. 입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다. 4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다. 구현 1. 입력 받기 score = int(input()) # 무빙 moving_input = input() moving = [moving_input[i:i+4]...","categories": ["random-solve/Python/"],
         "tags": [],
         "url": "/random-solve/python/2025/05/15/18382.html",
