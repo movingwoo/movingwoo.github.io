@@ -55,7 +55,7 @@
             
             {% if total_posts > 0 %}
               <ul class="toc__menu posts-list">
-                {% for post in posts_in_category | sort: 'date' | reverse | limit: 5 %}
+                {% for post in posts_in_category | sort: 'date' | reverse | limit: 3 %}
                   <li>
                     <a href="{{ post.url | relative_url }}" class="toc__link">
                       <i class="fas fa-file-alt"></i> {{ post.title }}
