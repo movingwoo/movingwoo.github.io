@@ -110,6 +110,36 @@
 
     
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.querySelector('.head-content-btn');
+  const dropdownContent = document.querySelector('.game-dropdown-content');
+  let isOpen = false;
+
+  // 드롭다운 버튼 클릭 이벤트
+  dropdownBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    if (isOpen) {
+      const rect = dropdownBtn.getBoundingClientRect();
+      dropdownContent.style.top = rect.bottom + 'px';
+      dropdownContent.style.left = rect.left + 'px';
+      dropdownContent.classList.add('show');
+    } else {
+      dropdownContent.classList.remove('show');
+    }
+  });
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    if (isOpen && !dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+      isOpen = false;
+      dropdownContent.classList.remove('show');
+    }
+  });
+});
+</script>
+
 <div class="masthead">
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
@@ -122,7 +152,21 @@
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-            <a href="/board?path=" class="explorer-link">explorer</a>
+            <div class="game-dropdown">
+              <button class="head-content-btn">
+                play <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="game-dropdown-content">
+                <a href="/play/Flappy%20Bird.html" target="_blank">Flappy Bird</a>
+                <a href="/play/Minesweeper.html" target="_blank">Minesweeper</a>
+                <a href="/play/Random%20Printer.html" target="_blank">Random Printer</a>
+              </div>
+            </div>
+          </li>
+          <li class="masthead__menu-item">
+            <button class="head-content-btn" onclick="window.location.href='/board?path='">
+              explorer
+            </button>
           </li>
         </ul>
         <div class="search-container">
