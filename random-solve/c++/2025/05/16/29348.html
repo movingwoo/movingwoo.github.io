@@ -1,0 +1,1559 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>29348번 Скользкий путь - 뭐라도 하겠지</title>
+<meta name="description" content="문제        29348번 Скользкий путь - 백준     설계      앗 러시아어 문제 번역기의 힘을 빌리자…  루크 스카이워커가 어쩌고 하는데 집어치우고 문제의 요지를 파악해야한다. 정사각형으로 이루어진 맵에서 최단 경로를 찾아야하는 문제이다.  이동 조건은 아래와 같다.    지형은 건물, 눈, 얼음 3가지로 이루어져 있으며 칸마다 높이가 존재함   일반 이동 조건은 아래와 같음            건물과 건물은 자유롭게 이동 가능       건물과 눈은 자유롭게 이동 가능       눈과 눈은 고도가 같거나 낮아야 이동 가능       눈과 얼음은 고도가 같거나 낮아야 이동 가능       얼음과 얼음 고도가 같거나 낮아야 이동 가능           특수 이동조건으로 미끄러짐이 존재함            얼음에서 고도가 낮은 얼음으로 가면 미끄러지기 시작       다음 칸이 눈이거나 고도가 높은 얼음, 맵 끝이라면 멈춤       만약 건물을 만나면 충돌해서 실패하는 경로           출발점에서 도착점까지 최단 경로(칸 수)를 찾아야하며 경로가 존재하지 않으면 Impossible을 출력해야한다.  문제가 좀 머리아픈데… 잘못 걸린 것 같다.  단순히 생각하면 BFS 전략을 통해 최단거리를 찾으면 될 것 같긴 한데 미끄러지는 특수 이동이 문제다. 이거 미끄러지는게 미끄러지는 동안 1칸으로 취급되는건지, 미끄러지는 동안 그 칸을 모두 세어야하는건지…  이 망할 문제 푼 사람도 없어서 모르겠다. 만약 미끄러지는 구간 전체가 1칸으로 취급하는 것 보다 미끄러지는 모든 칸을 세는게 더 코드 짜기 쉬울 것 같아서 그렇게 짜보자. 틀리면 수정해야지.  BFS로 짜보자.     구현      1. 입력 받기  입력 받아서 큐는 초기화 진행한다.  int ar, ac, br, bc; // 시작점과 도착점 좌표 cin &gt;&gt; n &gt;&gt; m; cin &gt;&gt; ar &gt;&gt; ac &gt;&gt; br &gt;&gt; bc; ar--; ac--; br--; bc--;  // 맵에 지형 정보 입력 map.resize(n);  for (int i = 0 ; i &lt; n ; i++) {     cin &gt;&gt; map[i]; }  // 높이 정보 입력 height.assign(n, vector&lt;int&gt;(m)); for (int i = 0 ; i &lt; n ; i++) {     for (int j = 0 ; j &lt; m ; j++) {         cin &gt;&gt; height[i][j];     } }  // 방문 거리 정보 초기화 (-1은 미방문, 방문 시 거리 저장) visited.assign(n, vector&lt;int&gt;(m, -1));   que.push({ar, ac}); // 시작점 삽입 visited[ar][ac] = 0; // 시작점 거리: 0   2. BFS 루프  미끄러지는 특수이동 때문에 경로를 전체 탐색해야한다. 도착점 도달 결과가 없으면 Impossible, 있다면 저장된 거리 수를 출력한다.  while (!que.empty()) {     int x, y;     x = get&lt;0&gt;(que.front());     y = get&lt;1&gt;(que.front());      que.pop(); // 현재 위치      int d = visited[x][y]; // 현재까지 거리      for (int dir = 0; dir &lt; 4; ++dir) {          // 탐색 로직     } }  // 도착점까지 도달했는지 확인 if (visited[br][bc] &lt; 0){     cout &lt;&lt; &quot;Impossible&quot;; } else{     cout &lt;&lt; visited[br][bc]; }   3. 이동 조건 분기  루프 내부에 이동조건 분기를 만들어야한다.     건물            건물 &lt;-&gt; 건물: 자유롭게 이동       건물 -&gt; 눈: 이동 가능       건물 &lt;- 눈: 이동 가능           눈            눈 -&gt; 눈: 높이가 작거나 같을 경우만 가능       눈 -&gt; 얼음: 높이가 작거나 같을 경우만 가능       눈 &lt;- 얼음: 높이가 작거나 같을 경우만 가능           얼음            얼음 -&gt; 눈: 높이가 작거나 같을 경우만 가능       얼음 -&gt; 얼음 (동일한 높이): 이동 가능       얼음 -&gt; 얼음 (낮은 높이): 미끄러짐 시작                    정지 조건                            눈 만남               더 높은 얼음 만남               지도 경계                                               얼음 -&gt; 건물: 충돌로 무조건 실패 (Impossible)           헷갈려서 계속 틀린 상황    눈에서 얼음갈때 높이 조건이 =&lt; 인지 &lt; 인지 체크   눈과 눈 이동도 높이 체크 필요   얼음에서 이동할때 높이 제대로 체크   얼음에서 얼음 갈때 높이 같으면 미끄러지는거 아님   미끄러질때 개박살 조건인 건물 반드시 체크   건물에서 얼음으로 가는 경우는 조건에 주어져 있지 않음   어떤 상황에서든 지도 경계 고려   얼음에서 미끄러지는 건 제외하고 나머지를 구현한다.  int nx = x + dx[dir], ny = y + dy[dir]; // 다음 위치  // 맵 범위 벗어나면 continue if (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) continue;  char now = map[x][y], next = map[nx][ny]; int nowHeight = height[x][y], nextHeight = height[nx][ny];  if (now == &#39;B&#39; &amp;&amp; (next == &#39;B&#39; || next == &#39;S&#39;)) {     // 건물에서 건물 또는 눈으로 이동     update(nx, ny, 1, d); } else if (now == &#39;S&#39;) {     // 눈에서 이동     if (next == &#39;B&#39; || ((next == &#39;S&#39; || next == &#39;I&#39;) &amp;&amp; nextHeight &lt;= nowHeight))         // 건물이거나 높이 확인         update(nx, ny, 1, d); } else if (now == &#39;I&#39;) {         // 얼음에서 이동 (건물은 박살나니까 고려 안함)     if (next == &#39;S&#39; &amp;&amp; nextHeight &lt;= nowHeight){         // 눈으로 이동         update(nx, ny, 1, d);     } else if (next == &#39;I&#39;) {         // 얼음이면         if (nextHeight == nowHeight){             // 높이 같으면 이동             update(nx, ny, 1, d);         } else if (nextHeight &lt; nowHeight) {             // 미끄러지는 로직         }     } }   4. 미끄러짐  미끄러질 경우 이동 방향으로 멈출때까지 전진한다. 멈추는 조건까지 전진하며 거리를 채우고 건물에 박는 경로는 폐기한다. 미끄러지는 동안은 while문으로 끝날 때까지 반복한다.  예제를 테스트 해보면 미끄러질 경우 지나간 칸 만큼 거리로 쳐주기 때문에 칸 수를 정확하게 체크해야한다. 건물에 부딪히면 박살나기 때문에 경로 폐기를 위한 불 값을 마련해준다.  정지 조건에 맞춰 정지했을 경우에 도착지점과 미끄러진 거리를 업데이트한다. 미끄러지는 도중은 정상적인 착지가 아니라 의미 없으므로 visited 갱신을 하지 않는다.  // 미끄러지기 시작 int slide = 1; // 이동 거리 bool isBuilding = false; // 건물 충돌 박살 여부 int ox = x, oy = y;  // 계속 미끄러지기 while (true) {     if (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) {         // 맵 벗어나면 멈춤         break;      }     if (map[nx][ny] == &#39;B&#39;) {          // 건물 부딪히면 상태 업데이트하고 break         isBuilding = true;          break;      }      if (map[nx][ny] != &#39;I&#39; || height[nx][ny] &gt; height[ox][oy]){         // 얼음이 아니고 높이가 높으면 정지         break;      }       ox = nx;      oy = ny;      nx += dx[dir];      ny += dy[dir];      slide++; }  // 멈췄으면 실제 멈춘 위치로 보정 nx -= dx[dir];  ny -= dy[dir];  slide--;  // 맵 범위, 건물 체크 if ((nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) || (map[nx][ny] == &#39;B&#39;)) {     continue; }  // 정상적으로 멈추면 업데이트 if (!isBuilding &amp;&amp; map[nx][ny] != &#39;B&#39;) {     update(nx, ny, slide, d); }      채점        거지같은 문제 내가 해냈어 해냈다구     반성      계속 틀려서 BFS가 아니라 다익스트라에 가까워졌다. 미끄러지는 부분 고려하는게 너무 어려웠다.  아무래도 컨텐츠 잘못 만든 것 같다. 너무 지독한 문제에 걸려 오래 고생했다. 좀 쉬어야겠다.     코드 확인      Link to GitHub">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="뭐라도 하겠지">
+<meta property="og:title" content="29348번 Скользкий путь">
+<meta property="og:url" content="https://movingwoo.com/random-solve/c++/2025/05/16/29348.html">
+
+
+  <meta property="og:description" content="문제        29348번 Скользкий путь - 백준     설계      앗 러시아어 문제 번역기의 힘을 빌리자…  루크 스카이워커가 어쩌고 하는데 집어치우고 문제의 요지를 파악해야한다. 정사각형으로 이루어진 맵에서 최단 경로를 찾아야하는 문제이다.  이동 조건은 아래와 같다.    지형은 건물, 눈, 얼음 3가지로 이루어져 있으며 칸마다 높이가 존재함   일반 이동 조건은 아래와 같음            건물과 건물은 자유롭게 이동 가능       건물과 눈은 자유롭게 이동 가능       눈과 눈은 고도가 같거나 낮아야 이동 가능       눈과 얼음은 고도가 같거나 낮아야 이동 가능       얼음과 얼음 고도가 같거나 낮아야 이동 가능           특수 이동조건으로 미끄러짐이 존재함            얼음에서 고도가 낮은 얼음으로 가면 미끄러지기 시작       다음 칸이 눈이거나 고도가 높은 얼음, 맵 끝이라면 멈춤       만약 건물을 만나면 충돌해서 실패하는 경로           출발점에서 도착점까지 최단 경로(칸 수)를 찾아야하며 경로가 존재하지 않으면 Impossible을 출력해야한다.  문제가 좀 머리아픈데… 잘못 걸린 것 같다.  단순히 생각하면 BFS 전략을 통해 최단거리를 찾으면 될 것 같긴 한데 미끄러지는 특수 이동이 문제다. 이거 미끄러지는게 미끄러지는 동안 1칸으로 취급되는건지, 미끄러지는 동안 그 칸을 모두 세어야하는건지…  이 망할 문제 푼 사람도 없어서 모르겠다. 만약 미끄러지는 구간 전체가 1칸으로 취급하는 것 보다 미끄러지는 모든 칸을 세는게 더 코드 짜기 쉬울 것 같아서 그렇게 짜보자. 틀리면 수정해야지.  BFS로 짜보자.     구현      1. 입력 받기  입력 받아서 큐는 초기화 진행한다.  int ar, ac, br, bc; // 시작점과 도착점 좌표 cin &gt;&gt; n &gt;&gt; m; cin &gt;&gt; ar &gt;&gt; ac &gt;&gt; br &gt;&gt; bc; ar--; ac--; br--; bc--;  // 맵에 지형 정보 입력 map.resize(n);  for (int i = 0 ; i &lt; n ; i++) {     cin &gt;&gt; map[i]; }  // 높이 정보 입력 height.assign(n, vector&lt;int&gt;(m)); for (int i = 0 ; i &lt; n ; i++) {     for (int j = 0 ; j &lt; m ; j++) {         cin &gt;&gt; height[i][j];     } }  // 방문 거리 정보 초기화 (-1은 미방문, 방문 시 거리 저장) visited.assign(n, vector&lt;int&gt;(m, -1));   que.push({ar, ac}); // 시작점 삽입 visited[ar][ac] = 0; // 시작점 거리: 0   2. BFS 루프  미끄러지는 특수이동 때문에 경로를 전체 탐색해야한다. 도착점 도달 결과가 없으면 Impossible, 있다면 저장된 거리 수를 출력한다.  while (!que.empty()) {     int x, y;     x = get&lt;0&gt;(que.front());     y = get&lt;1&gt;(que.front());      que.pop(); // 현재 위치      int d = visited[x][y]; // 현재까지 거리      for (int dir = 0; dir &lt; 4; ++dir) {          // 탐색 로직     } }  // 도착점까지 도달했는지 확인 if (visited[br][bc] &lt; 0){     cout &lt;&lt; &quot;Impossible&quot;; } else{     cout &lt;&lt; visited[br][bc]; }   3. 이동 조건 분기  루프 내부에 이동조건 분기를 만들어야한다.     건물            건물 &lt;-&gt; 건물: 자유롭게 이동       건물 -&gt; 눈: 이동 가능       건물 &lt;- 눈: 이동 가능           눈            눈 -&gt; 눈: 높이가 작거나 같을 경우만 가능       눈 -&gt; 얼음: 높이가 작거나 같을 경우만 가능       눈 &lt;- 얼음: 높이가 작거나 같을 경우만 가능           얼음            얼음 -&gt; 눈: 높이가 작거나 같을 경우만 가능       얼음 -&gt; 얼음 (동일한 높이): 이동 가능       얼음 -&gt; 얼음 (낮은 높이): 미끄러짐 시작                    정지 조건                            눈 만남               더 높은 얼음 만남               지도 경계                                               얼음 -&gt; 건물: 충돌로 무조건 실패 (Impossible)           헷갈려서 계속 틀린 상황    눈에서 얼음갈때 높이 조건이 =&lt; 인지 &lt; 인지 체크   눈과 눈 이동도 높이 체크 필요   얼음에서 이동할때 높이 제대로 체크   얼음에서 얼음 갈때 높이 같으면 미끄러지는거 아님   미끄러질때 개박살 조건인 건물 반드시 체크   건물에서 얼음으로 가는 경우는 조건에 주어져 있지 않음   어떤 상황에서든 지도 경계 고려   얼음에서 미끄러지는 건 제외하고 나머지를 구현한다.  int nx = x + dx[dir], ny = y + dy[dir]; // 다음 위치  // 맵 범위 벗어나면 continue if (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) continue;  char now = map[x][y], next = map[nx][ny]; int nowHeight = height[x][y], nextHeight = height[nx][ny];  if (now == &#39;B&#39; &amp;&amp; (next == &#39;B&#39; || next == &#39;S&#39;)) {     // 건물에서 건물 또는 눈으로 이동     update(nx, ny, 1, d); } else if (now == &#39;S&#39;) {     // 눈에서 이동     if (next == &#39;B&#39; || ((next == &#39;S&#39; || next == &#39;I&#39;) &amp;&amp; nextHeight &lt;= nowHeight))         // 건물이거나 높이 확인         update(nx, ny, 1, d); } else if (now == &#39;I&#39;) {         // 얼음에서 이동 (건물은 박살나니까 고려 안함)     if (next == &#39;S&#39; &amp;&amp; nextHeight &lt;= nowHeight){         // 눈으로 이동         update(nx, ny, 1, d);     } else if (next == &#39;I&#39;) {         // 얼음이면         if (nextHeight == nowHeight){             // 높이 같으면 이동             update(nx, ny, 1, d);         } else if (nextHeight &lt; nowHeight) {             // 미끄러지는 로직         }     } }   4. 미끄러짐  미끄러질 경우 이동 방향으로 멈출때까지 전진한다. 멈추는 조건까지 전진하며 거리를 채우고 건물에 박는 경로는 폐기한다. 미끄러지는 동안은 while문으로 끝날 때까지 반복한다.  예제를 테스트 해보면 미끄러질 경우 지나간 칸 만큼 거리로 쳐주기 때문에 칸 수를 정확하게 체크해야한다. 건물에 부딪히면 박살나기 때문에 경로 폐기를 위한 불 값을 마련해준다.  정지 조건에 맞춰 정지했을 경우에 도착지점과 미끄러진 거리를 업데이트한다. 미끄러지는 도중은 정상적인 착지가 아니라 의미 없으므로 visited 갱신을 하지 않는다.  // 미끄러지기 시작 int slide = 1; // 이동 거리 bool isBuilding = false; // 건물 충돌 박살 여부 int ox = x, oy = y;  // 계속 미끄러지기 while (true) {     if (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) {         // 맵 벗어나면 멈춤         break;      }     if (map[nx][ny] == &#39;B&#39;) {          // 건물 부딪히면 상태 업데이트하고 break         isBuilding = true;          break;      }      if (map[nx][ny] != &#39;I&#39; || height[nx][ny] &gt; height[ox][oy]){         // 얼음이 아니고 높이가 높으면 정지         break;      }       ox = nx;      oy = ny;      nx += dx[dir];      ny += dy[dir];      slide++; }  // 멈췄으면 실제 멈춘 위치로 보정 nx -= dx[dir];  ny -= dy[dir];  slide--;  // 맵 범위, 건물 체크 if ((nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) || (map[nx][ny] == &#39;B&#39;)) {     continue; }  // 정상적으로 멈추면 업데이트 if (!isBuilding &amp;&amp; map[nx][ny] != &#39;B&#39;) {     update(nx, ny, slide, d); }      채점        거지같은 문제 내가 해냈어 해냈다구     반성      계속 틀려서 BFS가 아니라 다익스트라에 가까워졌다. 미끄러지는 부분 고려하는게 너무 어려웠다.  아무래도 컨텐츠 잘못 만든 것 같다. 너무 지독한 문제에 걸려 오래 고생했다. 좀 쉬어야겠다.     코드 확인      Link to GitHub">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-05-16T06:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-05-16T06:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://movingwoo.com/random-solve/c++/2025/05/16/29348.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "뭐라도 하겠지",
+      "url": "https://movingwoo.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/common/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/common/favicon_16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/common/favicon_180x180.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="뭐라도 하겠지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/common/favicon_180x180.png" alt="뭐라도 하겠지"></a>
+        
+        <a class="site-title" href="/">
+          뭐라도 하겠지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <a href="/board?path=" class="explorer-link">explorer</a>
+          </li>
+        </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <h1 class="title__logo"><a href="https://movingwoo.com/">뭐라도 하겠지</a></h1>
+ -->
+
+
+
+<script src="/assets/js/search.js"></script>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div class="home-layout">
+  <div class="home-sidebar">
+    
+
+
+
+
+
+
+
+<aside class="sidebar__left">
+  <div class="toc-wrapper">
+    <nav class="toc">
+      <header>
+        <h4 class="nav__title">
+          <span class="title-text">
+            <i class="fas fa-sitemap"></i> Archive
+          </span>
+          <a href="/board?path=" class="search-link" title="탐색">
+            <i class="fas fa-list-ul"></i>
+          </a>
+        </h4>
+      </header>
+
+      <ul class="toc__menu">
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="AI-playground/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">AI-playground</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="AI-playground/Claude/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Claude</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/ai-playground/claude/2025/05/01/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/ai-playground/claude/2025/04/30/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="AI-playground/GPT/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">GPT</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/ai-playground/gpt/2025/05/14/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/ai-playground/gpt/2025/05/01/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/ai-playground/gpt/2025/04/30/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="one-pan/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">one-pan</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/Java/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/java/2025/05/11/Bulls-and-Cows.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 숫자야구
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/JavaScript/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">JavaScript</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/javascript/2025/05/14/Random-Printer.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 랜덤 출력기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/one-pan/javascript/2025/05/13/Flappy-Bird.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 플래피 버드
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/one-pan/javascript/2025/04/29/Minesweeper.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 지뢰찾기
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/Python/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/python/2025/05/13/Clicker.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 클리커
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/ShellScript/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">ShellScript</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/shellscript/2025/05/12/File-Copier.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파일 복사기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/one-pan/shellscript/2025/04/28/Server-Manage-Console.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 서버 관리 콘솔
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="random-solve/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">random-solve</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="random-solve/C++/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">C++</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/random-solve/c++/2025/05/16/29348.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 29348번 Скользкий путь
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="random-solve/Python/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/random-solve/python/2025/05/15/18382.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 18382번 2048
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/toc.js"></script> 
+  </div>
+
+  <div class="home-content">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="headline" content="29348번 Скользкий путь">
+      <meta itemprop="description" content="  문제  29348번 Скользкий путь - 백준  설계  앗 러시아어 문제번역기의 힘을 빌리자…루크 스카이워커가 어쩌고 하는데 집어치우고 문제의 요지를 파악해야한다.정사각형으로 이루어진 맵에서 최단 경로를 찾아야하는 문제이다.이동 조건은 아래와 같다.  지형은 건물, 눈, 얼음 3가지로 이루어져 있으며 칸마다 높이가 존재함  일반 이동 조건은 아래와 같음          건물과 건물은 자유롭게 이동 가능      건물과 눈은 자유롭게 이동 가능      눈과 눈은 고도가 같거나 낮아야 이동 가능      눈과 얼음은 고도가 같거나 낮아야 이동 가능      얼음과 얼음 고도가 같거나 낮아야 이동 가능        특수 이동조건으로 미끄러짐이 존재함          얼음에서 고도가 낮은 얼음으로 가면 미끄러지기 시작      다음 칸이 눈이거나 고도가 높은 얼음, 맵 끝이라면 멈춤      만약 건물을 만나면 충돌해서 실패하는 경로      출발점에서 도착점까지 최단 경로(칸 수)를 찾아야하며 경로가 존재하지 않으면 Impossible을 출력해야한다.문제가 좀 머리아픈데…잘못 걸린 것 같다.단순히 생각하면 BFS 전략을 통해 최단거리를 찾으면 될 것 같긴 한데미끄러지는 특수 이동이 문제다.이거 미끄러지는게 미끄러지는 동안 1칸으로 취급되는건지, 미끄러지는 동안 그 칸을 모두 세어야하는건지…이 망할 문제 푼 사람도 없어서 모르겠다.만약 미끄러지는 구간 전체가 1칸으로 취급하는 것 보다 미끄러지는 모든 칸을 세는게 더 코드 짜기 쉬울 것 같아서 그렇게 짜보자.틀리면 수정해야지.BFS로 짜보자.  구현  1. 입력 받기입력 받아서 큐는 초기화 진행한다.int ar, ac, br, bc; // 시작점과 도착점 좌표cin &gt;&gt; n &gt;&gt; m;cin &gt;&gt; ar &gt;&gt; ac &gt;&gt; br &gt;&gt; bc;ar--; ac--; br--; bc--;// 맵에 지형 정보 입력map.resize(n); for (int i = 0 ; i &lt; n ; i++) {    cin &gt;&gt; map[i];}// 높이 정보 입력height.assign(n, vector&lt;int&gt;(m));for (int i = 0 ; i &lt; n ; i++) {    for (int j = 0 ; j &lt; m ; j++) {        cin &gt;&gt; height[i][j];    }}// 방문 거리 정보 초기화 (-1은 미방문, 방문 시 거리 저장)visited.assign(n, vector&lt;int&gt;(m, -1)); que.push({ar, ac}); // 시작점 삽입visited[ar][ac] = 0; // 시작점 거리: 02. BFS 루프미끄러지는 특수이동 때문에 경로를 전체 탐색해야한다.도착점 도달 결과가 없으면 Impossible, 있다면 저장된 거리 수를 출력한다.while (!que.empty()) {    int x, y;    x = get&lt;0&gt;(que.front());    y = get&lt;1&gt;(que.front());    que.pop(); // 현재 위치    int d = visited[x][y]; // 현재까지 거리    for (int dir = 0; dir &lt; 4; ++dir) {         // 탐색 로직    }}// 도착점까지 도달했는지 확인if (visited[br][bc] &lt; 0){    cout &lt;&lt; &quot;Impossible&quot;;} else{    cout &lt;&lt; visited[br][bc];}3. 이동 조건 분기루프 내부에 이동조건 분기를 만들어야한다.  건물          건물 &lt;-&gt; 건물: 자유롭게 이동      건물 -&gt; 눈: 이동 가능      건물 &lt;- 눈: 이동 가능        눈          눈 -&gt; 눈: 높이가 작거나 같을 경우만 가능      눈 -&gt; 얼음: 높이가 작거나 같을 경우만 가능      눈 &lt;- 얼음: 높이가 작거나 같을 경우만 가능        얼음          얼음 -&gt; 눈: 높이가 작거나 같을 경우만 가능      얼음 -&gt; 얼음 (동일한 높이): 이동 가능      얼음 -&gt; 얼음 (낮은 높이): 미끄러짐 시작                  정지 조건                          눈 만남              더 높은 얼음 만남              지도 경계                                          얼음 -&gt; 건물: 충돌로 무조건 실패 (Impossible)      헷갈려서 계속 틀린 상황  눈에서 얼음갈때 높이 조건이 =&lt; 인지 &lt; 인지 체크  눈과 눈 이동도 높이 체크 필요  얼음에서 이동할때 높이 제대로 체크  얼음에서 얼음 갈때 높이 같으면 미끄러지는거 아님  미끄러질때 개박살 조건인 건물 반드시 체크  건물에서 얼음으로 가는 경우는 조건에 주어져 있지 않음  어떤 상황에서든 지도 경계 고려얼음에서 미끄러지는 건 제외하고 나머지를 구현한다.int nx = x + dx[dir], ny = y + dy[dir]; // 다음 위치// 맵 범위 벗어나면 continueif (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) continue;char now = map[x][y], next = map[nx][ny];int nowHeight = height[x][y], nextHeight = height[nx][ny];if (now == &#39;B&#39; &amp;&amp; (next == &#39;B&#39; || next == &#39;S&#39;)) {    // 건물에서 건물 또는 눈으로 이동    update(nx, ny, 1, d);} else if (now == &#39;S&#39;) {    // 눈에서 이동    if (next == &#39;B&#39; || ((next == &#39;S&#39; || next == &#39;I&#39;) &amp;&amp; nextHeight &lt;= nowHeight))        // 건물이거나 높이 확인        update(nx, ny, 1, d);} else if (now == &#39;I&#39;) {        // 얼음에서 이동 (건물은 박살나니까 고려 안함)    if (next == &#39;S&#39; &amp;&amp; nextHeight &lt;= nowHeight){        // 눈으로 이동        update(nx, ny, 1, d);    } else if (next == &#39;I&#39;) {        // 얼음이면        if (nextHeight == nowHeight){            // 높이 같으면 이동            update(nx, ny, 1, d);        } else if (nextHeight &lt; nowHeight) {            // 미끄러지는 로직        }    }}4. 미끄러짐미끄러질 경우 이동 방향으로 멈출때까지 전진한다.멈추는 조건까지 전진하며 거리를 채우고 건물에 박는 경로는 폐기한다.미끄러지는 동안은 while문으로 끝날 때까지 반복한다.예제를 테스트 해보면 미끄러질 경우 지나간 칸 만큼 거리로 쳐주기 때문에 칸 수를 정확하게 체크해야한다.건물에 부딪히면 박살나기 때문에 경로 폐기를 위한 불 값을 마련해준다.정지 조건에 맞춰 정지했을 경우에 도착지점과 미끄러진 거리를 업데이트한다.미끄러지는 도중은 정상적인 착지가 아니라 의미 없으므로 visited 갱신을 하지 않는다.// 미끄러지기 시작int slide = 1; // 이동 거리bool isBuilding = false; // 건물 충돌 박살 여부int ox = x, oy = y;// 계속 미끄러지기while (true) {    if (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) {        // 맵 벗어나면 멈춤        break;     }    if (map[nx][ny] == &#39;B&#39;) {         // 건물 부딪히면 상태 업데이트하고 break        isBuilding = true;         break;     }     if (map[nx][ny] != &#39;I&#39; || height[nx][ny] &gt; height[ox][oy]){        // 얼음이 아니고 높이가 높으면 정지        break;     }     ox = nx;     oy = ny;     nx += dx[dir];     ny += dy[dir];    slide++;}// 멈췄으면 실제 멈춘 위치로 보정nx -= dx[dir]; ny -= dy[dir]; slide--;// 맵 범위, 건물 체크if ((nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) || (map[nx][ny] == &#39;B&#39;)) {    continue;}// 정상적으로 멈추면 업데이트if (!isBuilding &amp;&amp; map[nx][ny] != &#39;B&#39;) {    update(nx, ny, slide, d);}  채점  거지같은 문제 내가 해냈어 해냈다구  반성  계속 틀려서 BFS가 아니라 다익스트라에 가까워졌다.미끄러지는 부분 고려하는게 너무 어려웠다.아무래도 컨텐츠 잘못 만든 것 같다.너무 지독한 문제에 걸려 오래 고생했다.좀 쉬어야겠다.  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-05-16T06:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-05-16T06:00:00+00:00">
+
+      <div class="page__inner-wrap">
+        
+          <header>
+            
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=random-solve" class="category-link">
+        random-solve
+      </a>
+      
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=random-solve/C++" class="category-link">
+        C++
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=random-solve/C++/" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">29348번 Скользкий путь
+</h1>
+            
+
+
+          </header>
+        
+
+        <section class="page__content" itemprop="text">
+          <blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-16-29348/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/29348">29348번 Скользкий путь - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>앗 러시아어 문제<br />
+번역기의 힘을 빌리자…</p>
+
+<p>루크 스카이워커가 어쩌고 하는데 집어치우고 문제의 요지를 파악해야한다.<br />
+정사각형으로 이루어진 맵에서 최단 경로를 찾아야하는 문제이다.</p>
+
+<p>이동 조건은 아래와 같다.</p>
+<ul>
+  <li>지형은 건물, 눈, 얼음 3가지로 이루어져 있으며 칸마다 높이가 존재함</li>
+  <li>일반 이동 조건은 아래와 같음
+    <ul>
+      <li>건물과 건물은 자유롭게 이동 가능</li>
+      <li>건물과 눈은 자유롭게 이동 가능</li>
+      <li>눈과 눈은 고도가 같거나 낮아야 이동 가능</li>
+      <li>눈과 얼음은 고도가 같거나 낮아야 이동 가능</li>
+      <li>얼음과 얼음 고도가 같거나 낮아야 이동 가능</li>
+    </ul>
+  </li>
+  <li>특수 이동조건으로 미끄러짐이 존재함
+    <ul>
+      <li>얼음에서 고도가 낮은 얼음으로 가면 미끄러지기 시작</li>
+      <li>다음 칸이 눈이거나 고도가 높은 얼음, 맵 끝이라면 멈춤</li>
+      <li>만약 건물을 만나면 충돌해서 실패하는 경로</li>
+    </ul>
+  </li>
+</ul>
+
+<p>출발점에서 도착점까지 최단 경로(칸 수)를 찾아야하며 경로가 존재하지 않으면 Impossible을 출력해야한다.</p>
+
+<p>문제가 좀 머리아픈데…<br />
+잘못 걸린 것 같다.</p>
+
+<p>단순히 생각하면 BFS 전략을 통해 최단거리를 찾으면 될 것 같긴 한데<br />
+미끄러지는 특수 이동이 문제다.<br />
+이거 미끄러지는게 미끄러지는 동안 1칸으로 취급되는건지, 미끄러지는 동안 그 칸을 모두 세어야하는건지…</p>
+
+<p>이 망할 문제 푼 사람도 없어서 모르겠다.<br />
+만약 미끄러지는 구간 전체가 1칸으로 취급하는 것 보다 미끄러지는 모든 칸을 세는게 더 코드 짜기 쉬울 것 같아서 그렇게 짜보자.<br />
+틀리면 수정해야지.</p>
+
+<p>BFS로 짜보자.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-입력-받기">1. 입력 받기</h5>
+
+<p>입력 받아서 큐는 초기화 진행한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">ar</span><span class="p">,</span> <span class="n">ac</span><span class="p">,</span> <span class="n">br</span><span class="p">,</span> <span class="n">bc</span><span class="p">;</span> <span class="c1">// 시작점과 도착점 좌표</span>
+<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">m</span><span class="p">;</span>
+<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">ar</span> <span class="o">&gt;&gt;</span> <span class="n">ac</span> <span class="o">&gt;&gt;</span> <span class="n">br</span> <span class="o">&gt;&gt;</span> <span class="n">bc</span><span class="p">;</span>
+<span class="n">ar</span><span class="o">--</span><span class="p">;</span> <span class="n">ac</span><span class="o">--</span><span class="p">;</span> <span class="n">br</span><span class="o">--</span><span class="p">;</span> <span class="n">bc</span><span class="o">--</span><span class="p">;</span>
+
+<span class="c1">// 맵에 지형 정보 입력</span>
+<span class="n">map</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> 
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">map</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="c1">// 높이 정보 입력</span>
+<span class="n">height</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">));</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">height</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 방문 거리 정보 초기화 (-1은 미방문, 방문 시 거리 저장)</span>
+<span class="n">visited</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span> 
+
+<span class="n">que</span><span class="p">.</span><span class="n">push</span><span class="p">({</span><span class="n">ar</span><span class="p">,</span> <span class="n">ac</span><span class="p">});</span> <span class="c1">// 시작점 삽입</span>
+<span class="n">visited</span><span class="p">[</span><span class="n">ar</span><span class="p">][</span><span class="n">ac</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 시작점 거리: 0</span>
+</code></pre></div></div>
+
+<h5 id="2-bfs-루프">2. BFS 루프</h5>
+
+<p>미끄러지는 특수이동 때문에 경로를 전체 탐색해야한다.<br />
+도착점 도달 결과가 없으면 Impossible, 있다면 저장된 거리 수를 출력한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">que</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">que</span><span class="p">.</span><span class="n">front</span><span class="p">());</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">que</span><span class="p">.</span><span class="n">front</span><span class="p">());</span>
+
+    <span class="n">que</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span> <span class="c1">// 현재 위치</span>
+
+    <span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="n">visited</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">];</span> <span class="c1">// 현재까지 거리</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">dir</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">dir</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">dir</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="c1">// 탐색 로직</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 도착점까지 도달했는지 확인</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">br</span><span class="p">][</span><span class="n">bc</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">){</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Impossible"</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span><span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">visited</span><span class="p">[</span><span class="n">br</span><span class="p">][</span><span class="n">bc</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="3-이동-조건-분기">3. 이동 조건 분기</h5>
+
+<p>루프 내부에 이동조건 분기를 만들어야한다.</p>
+
+<ul>
+  <li>건물
+    <ul>
+      <li>건물 &lt;-&gt; 건물: 자유롭게 이동</li>
+      <li>건물 -&gt; 눈: 이동 가능</li>
+      <li>건물 &lt;- 눈: 이동 가능</li>
+    </ul>
+  </li>
+  <li>눈
+    <ul>
+      <li>눈 -&gt; 눈: 높이가 작거나 같을 경우만 가능</li>
+      <li>눈 -&gt; 얼음: 높이가 작거나 같을 경우만 가능</li>
+      <li>눈 &lt;- 얼음: 높이가 작거나 같을 경우만 가능</li>
+    </ul>
+  </li>
+  <li>얼음
+    <ul>
+      <li>얼음 -&gt; 눈: 높이가 작거나 같을 경우만 가능</li>
+      <li>얼음 -&gt; 얼음 (동일한 높이): 이동 가능</li>
+      <li>얼음 -&gt; 얼음 (낮은 높이): 미끄러짐 시작
+        <ul>
+          <li>정지 조건
+            <ul>
+              <li>눈 만남</li>
+              <li>더 높은 얼음 만남</li>
+              <li>지도 경계</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>얼음 -&gt; 건물: 충돌로 무조건 실패 (Impossible)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>헷갈려서 계속 틀린 상황</p>
+<ul>
+  <li>눈에서 얼음갈때 높이 조건이 =&lt; 인지 &lt; 인지 체크</li>
+  <li>눈과 눈 이동도 높이 체크 필요</li>
+  <li>얼음에서 이동할때 높이 제대로 체크</li>
+  <li>얼음에서 얼음 갈때 높이 같으면 미끄러지는거 아님</li>
+  <li>미끄러질때 개박살 조건인 건물 반드시 체크</li>
+  <li>건물에서 얼음으로 가는 경우는 조건에 주어져 있지 않음</li>
+  <li>어떤 상황에서든 지도 경계 고려</li>
+</ul>
+
+<p>얼음에서 미끄러지는 건 제외하고 나머지를 구현한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">[</span><span class="n">dir</span><span class="p">],</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">[</span><span class="n">dir</span><span class="p">];</span> <span class="c1">// 다음 위치</span>
+
+<span class="c1">// 맵 범위 벗어나면 continue</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">nx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">ny</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nx</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">ny</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="n">now</span> <span class="o">=</span> <span class="n">map</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">],</span> <span class="n">next</span> <span class="o">=</span> <span class="n">map</span><span class="p">[</span><span class="n">nx</span><span class="p">][</span><span class="n">ny</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">nowHeight</span> <span class="o">=</span> <span class="n">height</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">],</span> <span class="n">nextHeight</span> <span class="o">=</span> <span class="n">height</span><span class="p">[</span><span class="n">nx</span><span class="p">][</span><span class="n">ny</span><span class="p">];</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">==</span> <span class="sc">'B'</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">next</span> <span class="o">==</span> <span class="sc">'B'</span> <span class="o">||</span> <span class="n">next</span> <span class="o">==</span> <span class="sc">'S'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// 건물에서 건물 또는 눈으로 이동</span>
+    <span class="n">update</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">==</span> <span class="sc">'S'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 눈에서 이동</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">next</span> <span class="o">==</span> <span class="sc">'B'</span> <span class="o">||</span> <span class="p">((</span><span class="n">next</span> <span class="o">==</span> <span class="sc">'S'</span> <span class="o">||</span> <span class="n">next</span> <span class="o">==</span> <span class="sc">'I'</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">nextHeight</span> <span class="o">&lt;=</span> <span class="n">nowHeight</span><span class="p">))</span>
+        <span class="c1">// 건물이거나 높이 확인</span>
+        <span class="n">update</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">==</span> <span class="sc">'I'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 얼음에서 이동 (건물은 박살나니까 고려 안함)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">next</span> <span class="o">==</span> <span class="sc">'S'</span> <span class="o">&amp;&amp;</span> <span class="n">nextHeight</span> <span class="o">&lt;=</span> <span class="n">nowHeight</span><span class="p">){</span>
+        <span class="c1">// 눈으로 이동</span>
+        <span class="n">update</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">next</span> <span class="o">==</span> <span class="sc">'I'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 얼음이면</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nextHeight</span> <span class="o">==</span> <span class="n">nowHeight</span><span class="p">){</span>
+            <span class="c1">// 높이 같으면 이동</span>
+            <span class="n">update</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">nextHeight</span> <span class="o">&lt;</span> <span class="n">nowHeight</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 미끄러지는 로직</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="4-미끄러짐">4. 미끄러짐</h5>
+
+<p>미끄러질 경우 이동 방향으로 멈출때까지 전진한다.<br />
+멈추는 조건까지 전진하며 거리를 채우고 건물에 박는 경로는 폐기한다.<br />
+미끄러지는 동안은 while문으로 끝날 때까지 반복한다.</p>
+
+<p>예제를 테스트 해보면 미끄러질 경우 지나간 칸 만큼 거리로 쳐주기 때문에 칸 수를 정확하게 체크해야한다.<br />
+건물에 부딪히면 박살나기 때문에 경로 폐기를 위한 불 값을 마련해준다.</p>
+
+<p>정지 조건에 맞춰 정지했을 경우에 도착지점과 미끄러진 거리를 업데이트한다.<br />
+미끄러지는 도중은 정상적인 착지가 아니라 의미 없으므로 visited 갱신을 하지 않는다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 미끄러지기 시작</span>
+<span class="kt">int</span> <span class="n">slide</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 이동 거리</span>
+<span class="kt">bool</span> <span class="n">isBuilding</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// 건물 충돌 박살 여부</span>
+<span class="kt">int</span> <span class="n">ox</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">oy</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+
+<span class="c1">// 계속 미끄러지기</span>
+<span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">ny</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nx</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">ny</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 맵 벗어나면 멈춤</span>
+        <span class="k">break</span><span class="p">;</span> 
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="n">nx</span><span class="p">][</span><span class="n">ny</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'B'</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="c1">// 건물 부딪히면 상태 업데이트하고 break</span>
+        <span class="n">isBuilding</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> 
+        <span class="k">break</span><span class="p">;</span> 
+    <span class="p">}</span> 
+    <span class="k">if</span> <span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="n">nx</span><span class="p">][</span><span class="n">ny</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'I'</span> <span class="o">||</span> <span class="n">height</span><span class="p">[</span><span class="n">nx</span><span class="p">][</span><span class="n">ny</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">height</span><span class="p">[</span><span class="n">ox</span><span class="p">][</span><span class="n">oy</span><span class="p">]){</span>
+        <span class="c1">// 얼음이 아니고 높이가 높으면 정지</span>
+        <span class="k">break</span><span class="p">;</span> 
+    <span class="p">}</span> 
+
+    <span class="n">ox</span> <span class="o">=</span> <span class="n">nx</span><span class="p">;</span> 
+    <span class="n">oy</span> <span class="o">=</span> <span class="n">ny</span><span class="p">;</span> 
+    <span class="n">nx</span> <span class="o">+=</span> <span class="n">dx</span><span class="p">[</span><span class="n">dir</span><span class="p">];</span> 
+    <span class="n">ny</span> <span class="o">+=</span> <span class="n">dy</span><span class="p">[</span><span class="n">dir</span><span class="p">];</span>
+
+    <span class="n">slide</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 멈췄으면 실제 멈춘 위치로 보정</span>
+<span class="n">nx</span> <span class="o">-=</span> <span class="n">dx</span><span class="p">[</span><span class="n">dir</span><span class="p">];</span> 
+<span class="n">ny</span> <span class="o">-=</span> <span class="n">dy</span><span class="p">[</span><span class="n">dir</span><span class="p">];</span> 
+<span class="n">slide</span><span class="o">--</span><span class="p">;</span>
+
+<span class="c1">// 맵 범위, 건물 체크</span>
+<span class="k">if</span> <span class="p">((</span><span class="n">nx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">ny</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nx</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">ny</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="n">nx</span><span class="p">][</span><span class="n">ny</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'B'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">continue</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 정상적으로 멈추면 업데이트</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isBuilding</span> <span class="o">&amp;&amp;</span> <span class="n">map</span><span class="p">[</span><span class="n">nx</span><span class="p">][</span><span class="n">ny</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'B'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">update</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">slide</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-16-29348/img02.jpg" alt="img02" /></p>
+
+<p><span style="color: red;"><strong>거지같은 문제 내가 해냈어 해냈다구</strong></span></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>계속 틀려서 BFS가 아니라 다익스트라에 가까워졌다.<br />
+미끄러지는 부분 고려하는게 너무 어려웠다.</p>
+
+<p>아무래도 컨텐츠 잘못 만든 것 같다.<br />
+너무 지독한 문제에 걸려 오래 고생했다.<br />
+좀 쉬어야겠다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-16-29348.cpp">Link to GitHub</a></p>
+
+
+          
+        </section>
+
+        <footer class="page__meta">
+          
+          
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-16">May 16, 2025</time></p>
+
+
+        </footer>
+
+        
+
+        
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "29348번 Скользкий путь",
+        url: "/random-solve/c++/2025/05/16/29348.html",
+        date: "2025-05-16",
+        categories: ["random-solve/C++/"]
+      },
+      allPosts: [
+        
+        
+          
+          
+          {
+            title: "29348번 Скользкий путь",
+            url: "/random-solve/c++/2025/05/16/29348.html",
+            date: "2025-05-16",
+            categories: ["random-solve/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18382번 2048",
+            url: "/random-solve/python/2025/05/15/18382.html",
+            date: "2025-05-15",
+            categories: ["random-solve/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "랜덤 출력기",
+            url: "/one-pan/javascript/2025/05/14/Random-Printer.html",
+            date: "2025-05-14",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파이썬으로 CLI TODO 리스트 만들어보기",
+            url: "/ai-playground/gpt/2025/05/14/GPT.html",
+            date: "2025-05-14",
+            categories: ["AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "플래피 버드",
+            url: "/one-pan/javascript/2025/05/13/Flappy-Bird.html",
+            date: "2025-05-13",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "클리커",
+            url: "/one-pan/python/2025/05/13/Clicker.html",
+            date: "2025-05-13",
+            categories: ["one-pan/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파일 복사기",
+            url: "/one-pan/shellscript/2025/05/12/File-Copier.html",
+            date: "2025-05-12",
+            categories: ["one-pan/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "숫자야구",
+            url: "/one-pan/java/2025/05/11/Bulls-and-Cows.html",
+            date: "2025-05-11",
+            categories: ["one-pan/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴",
+            url: "/ai-playground/gpt/2025/05/01/GPT.html",
+            date: "2025-05-01",
+            categories: ["AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴, 어떻게 보내면 좋을까?",
+            url: "/ai-playground/claude/2025/05/01/Claude.html",
+            date: "2025-05-01",
+            categories: ["AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "프로그래머를 위한 생산성 툴 TOP 5 🧰",
+            url: "/ai-playground/gpt/2025/04/30/GPT.html",
+            date: "2025-04-30",
+            categories: ["AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "AI 시대의 개발자, 어떻게 준비해야 할까?",
+            url: "/ai-playground/claude/2025/04/30/Claude.html",
+            date: "2025-04-30",
+            categories: ["AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "지뢰찾기",
+            url: "/one-pan/javascript/2025/04/29/Minesweeper.html",
+            date: "2025-04-29",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "서버 관리 콘솔",
+            url: "/one-pan/shellscript/2025/04/28/Server-Manage-Console.html",
+            date: "2025-04-28",
+            categories: ["one-pan/ShellScript/"]
+          }
+          
+        
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
+      </div>
+
+      
+      
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+    </article>
+
+    
+    
+  </div>
+</div>
+
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 1rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .home-content {
+    padding: 0;
+  }
+}
+</style>
+
+    </div>
+
+    
+    
+    <div class="page__footer">
+  <div class="page__footer-copyright">
+    Visit: <a href="https://github.com/movingwoo/movingwoo.github.io">https://github.com/movingwoo/movingwoo.github.io</a>
+    <br>
+    <span class="theme-credit">Theme customized from Minimal Mistakes by Michael Rose (MIT License).</span>
+  </div>
+</div>
+
+    <div class="scroll-button">
+  <div class="scroll-button__container">
+    <button class="scroll-button__area scroll-button__area--top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="위로">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="scroll-button__area scroll-button__area--bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="아래로">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.scroll-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.scroll-button__container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(220, 20, 60, 0.6);
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-button__area {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button__area--top {
+  top: 0;
+}
+
+.scroll-button__area--bottom {
+  bottom: 0;
+}
+
+.scroll-button__area:focus {
+  outline: none;
+}
+
+.scroll-button__area:hover {
+  color: rgba(220, 20, 60, 1);
+}
+
+.scroll-button__area:hover i {
+  transform: scale(1.2);
+}
+
+.scroll-button__area i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll-button {
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .scroll-button__container {
+    width: 50px;
+    height: 50px;
+  }
+}
+</style> 
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+});
+</script>
+
+
+  </body>
+</html>
