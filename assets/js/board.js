@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
     contentDiv.className = 'board-content';
     
     const parentLink = document.createElement('a');
-    parentLink.href = `?path=${parentPath ? parentPath + '/' : ''}`;
+    parentLink.href = `?path=${parentPath ? encodeURIComponent(parentPath + '/') : ''}`;
     parentLink.className = 'board-title';
     
     const upIcon = document.createElement('i');
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
       contentDiv.className = 'board-content';
       
       const folderLink = document.createElement('a');
-      folderLink.href = `?path=${folderPath}/`;
+      folderLink.href = `?path=${encodeURIComponent(folderPath)}/`;
       folderLink.className = 'board-title';
       
       const folderIcon = document.createElement('i');
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const prevLi = document.createElement('li');
     prevLi.className = 'page-item';
     const prevLink = document.createElement('a');
-    prevLink.href = `?path=${path}&search=${search}&page=${currentPage - 1}`;
+    prevLink.href = `?path=${encodeURIComponent(path)}&search=${encodeURIComponent(search)}&page=${currentPage - 1}`;
     prevLink.textContent = '이전';
     prevLi.appendChild(prevLink);
     pagination.appendChild(prevLi);
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const li = document.createElement('li');
     li.className = 'page-item';
     const link = document.createElement('a');
-    link.href = `?path=${path}&search=${search}&page=${i}`;
+    link.href = `?path=${encodeURIComponent(path)}&search=${encodeURIComponent(search)}&page=${i}`;
     link.textContent = i;
     if (i === currentPage) {
       link.classList.add('active');
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const nextLi = document.createElement('li');
     nextLi.className = 'page-item';
     const nextLink = document.createElement('a');
-    nextLink.href = `?path=${path}&search=${search}&page=${currentPage + 1}`;
+    nextLink.href = `?path=${encodeURIComponent(path)}&search=${encodeURIComponent(search)}&page=${currentPage + 1}`;
     nextLink.textContent = '다음';
     nextLi.appendChild(nextLink);
     pagination.appendChild(nextLi);

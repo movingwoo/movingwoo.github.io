@@ -215,7 +215,7 @@
         } else {
           // depth-1 이상의 폴더는 해당 경로로 이동
           e.preventDefault();
-          window.location.href = `/board?path=${path}`;
+          window.location.href = `/board?path=${encodeURIComponent(path)}`;
         }
       });
     });

@@ -64,7 +64,7 @@
                 {% endfor %}
                 {% if total_posts > 5 %}
                   <li>
-                    <a href="/board?path={{ category_path }}" class="toc__link more-posts">
+                    <a href="/board?path={{ category_path | url_encode }}" class="toc__link more-posts">
                       <i class="fas fa-ellipsis-h"></i> 더보기
                     </a>
                   </li>
@@ -104,7 +104,7 @@
                           {% endfor %}
                           {% if other_total_posts > 3 %}
                             <li>
-                              <a href="/board?path={{ other_category }}" class="toc__link more-posts">
+                              <a href="/board?path={{ other_category | url_encode }}" class="toc__link more-posts">
                                 <i class="fas fa-ellipsis-h"></i> 더보기
                               </a>
                             </li>
