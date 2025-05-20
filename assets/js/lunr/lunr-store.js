@@ -82,4 +82,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/c++/2025/05/16/29348.html",
         "teaser": null
+      },{
+        "title": "15936번 Hypercube",
+        "excerpt":"문제 15936번 Hypercube - 백준 설계 앗 영어문제 아니 진짜 뭔 이딴문제만 걸리냐? 시간제한이 0.2초인데 이거 자바로 되나 싶었는데 푼 사람 목록보니 파이썬도 있다. 알고리즘 잘 짜면 자바도 되겠지 뭐… 입력으로 N, M, K를 준다. N: N차원 하이퍼 큐브 M: 노드 번호 K: 경로 길이 하이퍼 큐브가 머에여??? 초입방체 -...","categories": ["random-solve/Java/"],
+        "tags": [],
+        "url": "/random-solve/java/2025/05/20/15936.html",
+        "teaser": null
       }]
