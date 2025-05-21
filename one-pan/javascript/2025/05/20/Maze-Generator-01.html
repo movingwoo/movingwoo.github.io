@@ -1,0 +1,1772 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>미로 생성기 01 - 뭐라도 하겠지</title>
+<meta name="description" content="개요      이전에 DFS 공부한걸 찾아서 미로 만드는데 써봄. 캔버스로 미로를 자동으로 그리고 추가로 미로를 만들 수 있는 다른 알고리즘도 써보기로 함.     구현      1. 설계  미로 생성할 수 있는 대표 알고리즘 7종에 대하여 찾아보았다.                 알고리즘       스타일       특징       용도                       DFS       꼬불꼬불한 한 줄기 통로, 가지치기 많음       재귀 기반, 한 방향으로 깊게 파고들며 되돌아오며 생성       일반적인 퍼즐형 미로                 Prim’s       불규칙한 가지 형태, 길이 자연스럽게 분산       Queue 또는 set을 이용, 인접 벽 중 하나씩 랜덤 제거       일반적인 퍼즐형 미로                 Kruskal’s       큰 방, 높은 통로 복잡도       Union find 기반, 모든 칸을 연결하되 사이클 제거       랜덤하고 복잡한 퍼즐 미로                 Binary Tree       매우 단순하며 위 또는 오른쪽만 뚫음       단순하기에 성능이 좋지만 구조가 예측 가능       빠른 생성, 규칙적 패턴                 Sidewinder       줄 단위, 수평 위주 통로       행 단위로 생성, 각 줄마다 위로 하나 연결하며 수평으로 길어짐       빠른 렌더링, 제한된 방향성                 Recursive Division       벽 많은 구조, 사각형 영역       전체를 벽으로 채우고 구멍을 뚫어 나눔, 방처럼 보이는 구조       방 구성, 던전 형태                 Eller’s       일정한 패턴, 세로로 잘 연결됨       행 단위로 생성하며 집합 유지, 메모리 효율적       모바일, 웹에서 실시간 생성           목표는 7종 알고리즘을 전부 시뮬레이션해보는 것인데 우선은 DFS만 시뮬레이션 해본다. 한 html 파일에 몰아넣으면 보기 힘들어지므로, html 파일에는 뼈대와 공통함수만 몰아두고 DFS는 js로 별도 생성한다. 이후 알고리즘 추가 시 js만 추가해서 바로 사용할 수 있도록 한다.  2. 뼈대 작성  Generate 버튼 클릭 시 미로를 생성하는 과정을 애니메이션으로 보여준다. 그리고 입구부터 출구까지의 경로를 빨간색으로 표시한다. 그러기 위한 공통변수와 함수를 이곳에 작성.  &lt;!DOCTYPE html&gt; &lt;html lang=&quot;ko&quot;&gt; &lt;head&gt;   &lt;meta charset=&quot;UTF-8&quot;&gt;   &lt;title&gt;Maze Generator&lt;/title&gt;   &lt;style&gt;     body {       font-family: sans-serif;       display: flex;       flex-direction: column;       align-items: center;       background: #f2f2f2;       margin: 0;       padding: 20px;     }     button {       padding: 8px 16px;       margin-bottom: 10px;     }     #canvas {       border: 2px solid #333;     }   &lt;/style&gt; &lt;/head&gt; &lt;body&gt;    &lt;!-- DFS 기반 미로 버튼 --&gt;   &lt;button onclick=&quot;startDFS()&quot;&gt;DFS Generate&lt;/button&gt;   &lt;!-- 이후 버튼 추가 --&gt;    &lt;!-- 미로 캔버스 --&gt;   &lt;canvas id=&quot;canvas&quot; width=&quot;1020&quot; height=&quot;620&quot;&gt;&lt;/canvas&gt;    &lt;script&gt;     // 공통 변수와 함수     const canvas = document.querySelector(&#39;#canvas&#39;);     const ctx = canvas.getContext(&#39;2d&#39;);     const size = 20;     const cols = canvas.width / size;     const rows = canvas.height / size;      // 미로 상태     let maze = [];     let visited = new Set(); // 방문한 셀 저장용     let entrance = [0, 0]; // 입구     let exit = [cols - 2, rows - 2]; // 출구(정의만 해두고 실제 출구는 나중에)      // 시간 지연 함수 (애니메이션용)     function sleep(ms) {       return new Promise(resolve =&gt; setTimeout(resolve, ms));     }      // 셀 색칠     function drawCell(x, y, color) {       ctx.fillStyle = color;       ctx.fillRect(x * size, y * size, size, size);     }      // 미로 초기화     function initMaze() {       maze = Array.from({ length: rows }, () =&gt; Array(cols).fill(1)); // 전부 벽       visited.clear();       ctx.clearRect(0, 0, canvas.width, canvas.height);        // 캔버스 전체를 벽으로 색칠       for (let y = 0; y &lt; rows; y++) {         for (let x = 0; x &lt; cols; x++) {           drawCell(x, y, &#39;black&#39;);         }       }     }      initMaze();   &lt;/script&gt;    &lt;!-- DFS 미로 스크립트 --&gt;   &lt;script src=&quot;./js/DFS.js&quot;&gt;&lt;/script&gt;  &lt;/body&gt; &lt;/html&gt;   3. DFS 스크립트 작성  DFS 미로 생성하고 길 찾는 부분은 BFS로 구현.  // 배열 섞기 function shuffle(arr) {   for (let i = arr.length - 1; i &gt; 0; i--) {     const j = Math.floor(Math.random() * (i + 1));     [arr[i], arr[j]] = [arr[j], arr[i]];   }   return arr; }    // 미로 생성(DFS) async function generateDFS(x = entrance[0], y = entrance[1]) {   const key = `${x},${y}`;   visited.add(key);   maze[y][x] = 0;   drawCell(x, y, &#39;white&#39;); // 흰색 길    // 이동 방향 무작위   const dirs = shuffle([[0, -2], [2, 0], [0, 2], [-2, 0]]);    // forEach 사용시 동기화 문제있어서 for of 사용   for (let [dx, dy] of dirs) {     const nx = x + dx;     const ny = y + dy;     const betweenX = x + dx / 2;     const betweenY = y + dy / 2;     const neighborKey = `${nx},${ny}`;      // 방문하지 않은 셀을 통로로 만들기     if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; !visited.has(neighborKey)) {       maze[ny][nx] = 0; // 다음 셀도 통로       maze[betweenY][betweenX] = 0; // 중간 벽 없애기       drawCell(betweenX, betweenY, &#39;white&#39;);        await sleep(5);       await generateDFS(nx, ny);     }   } }    // 가장 멀리 떨어진 셀을 출구로 지정(BFS) function findFurthestCell(sx, sy) {   const que = [[sx, sy, 0]];   const visited = new Set();   let maxDist = -1;   let furthest = [sx, sy];    while (que.length) {     const [x, y, dist] = que.shift();     const key = `${x},${y}`;      if (visited.has(key)) {       continue;     }      visited.add(key);      if (dist &gt; maxDist) {       maxDist = dist;       furthest = [x, y];     }      for (let [dx, dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {       const nx = x + dx, ny = y + dy;       if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 0) {         que.push([nx, ny, dist + 1]);       }     }   }    return furthest; }      // 탈출 경로 찾기(BFS) function findPathBFS(sx, sy, ex, ey) {   const que = [[sx, sy]];   const visited = new Set();   const parent = {};    while (que.length) {     const [x, y] = que.shift();      if (x === ex &amp;&amp; y === ey) {       break;     }     const key = `${x},${y}`;      visited.add(key);      for (let [dx, dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {       const nx = x + dx, ny = y + dy;       const nextKey = `${nx},${ny}`;        // 벽이 아니고 방문하지 않은 길       if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 0 &amp;&amp; !visited.has(nextKey)) {         que.push([nx, ny]);         visited.add(nextKey);         parent[nextKey] = key;       }     }   }    // 출구에서 역으로 경로 추적   const path = [];   let curr = `${ex},${ey}`;    while (curr !== `${sx},${sy}`) {     const [x, y] = curr.split(&#39;,&#39;).map(Number);     path.push([x, y]);     curr = parent[curr];   }    path.push([sx, sy]);    return path.reverse(); }    // 미로 탈출 경로 그리기 async function drawPathAnimated(path) {   for (let [x, y] of path) {     if ((x === entrance[0] &amp;&amp; y === entrance[1]) || (x === exit[0] &amp;&amp; y === exit[1])) {       continue;     }      // 빨강으로 색칠     drawCell(x, y, &#39;red&#39;);     await sleep(10);   } }    // 전체 실행  async function startDFS() {   initMaze();    await generateDFS();    // 입구 표시   drawCell(entrance[0], entrance[1], &#39;lime&#39;);   const [ex, ey] = findFurthestCell(entrance[0], entrance[1])   exit = [ex, ey];   // 출구 표시   drawCell(exit[0], exit[1], &#39;blue&#39;)      const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]);   await drawPathAnimated(path); }      완성           반성      async와 await에 대해 새롭게 배웠다. Promise 체인보다 코드가 엄청나게 깔끔해진다. 좋아좋아 오늘도 하나 배웠어 일일신우일신     코드 확인         직접 해보기   HTML Link to GitHub  JavaScript Link to GitHub">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="뭐라도 하겠지">
+<meta property="og:title" content="미로 생성기 01">
+<meta property="og:url" content="https://movingwoo.com/one-pan/javascript/2025/05/20/Maze-Generator-01.html">
+
+
+  <meta property="og:description" content="개요      이전에 DFS 공부한걸 찾아서 미로 만드는데 써봄. 캔버스로 미로를 자동으로 그리고 추가로 미로를 만들 수 있는 다른 알고리즘도 써보기로 함.     구현      1. 설계  미로 생성할 수 있는 대표 알고리즘 7종에 대하여 찾아보았다.                 알고리즘       스타일       특징       용도                       DFS       꼬불꼬불한 한 줄기 통로, 가지치기 많음       재귀 기반, 한 방향으로 깊게 파고들며 되돌아오며 생성       일반적인 퍼즐형 미로                 Prim’s       불규칙한 가지 형태, 길이 자연스럽게 분산       Queue 또는 set을 이용, 인접 벽 중 하나씩 랜덤 제거       일반적인 퍼즐형 미로                 Kruskal’s       큰 방, 높은 통로 복잡도       Union find 기반, 모든 칸을 연결하되 사이클 제거       랜덤하고 복잡한 퍼즐 미로                 Binary Tree       매우 단순하며 위 또는 오른쪽만 뚫음       단순하기에 성능이 좋지만 구조가 예측 가능       빠른 생성, 규칙적 패턴                 Sidewinder       줄 단위, 수평 위주 통로       행 단위로 생성, 각 줄마다 위로 하나 연결하며 수평으로 길어짐       빠른 렌더링, 제한된 방향성                 Recursive Division       벽 많은 구조, 사각형 영역       전체를 벽으로 채우고 구멍을 뚫어 나눔, 방처럼 보이는 구조       방 구성, 던전 형태                 Eller’s       일정한 패턴, 세로로 잘 연결됨       행 단위로 생성하며 집합 유지, 메모리 효율적       모바일, 웹에서 실시간 생성           목표는 7종 알고리즘을 전부 시뮬레이션해보는 것인데 우선은 DFS만 시뮬레이션 해본다. 한 html 파일에 몰아넣으면 보기 힘들어지므로, html 파일에는 뼈대와 공통함수만 몰아두고 DFS는 js로 별도 생성한다. 이후 알고리즘 추가 시 js만 추가해서 바로 사용할 수 있도록 한다.  2. 뼈대 작성  Generate 버튼 클릭 시 미로를 생성하는 과정을 애니메이션으로 보여준다. 그리고 입구부터 출구까지의 경로를 빨간색으로 표시한다. 그러기 위한 공통변수와 함수를 이곳에 작성.  &lt;!DOCTYPE html&gt; &lt;html lang=&quot;ko&quot;&gt; &lt;head&gt;   &lt;meta charset=&quot;UTF-8&quot;&gt;   &lt;title&gt;Maze Generator&lt;/title&gt;   &lt;style&gt;     body {       font-family: sans-serif;       display: flex;       flex-direction: column;       align-items: center;       background: #f2f2f2;       margin: 0;       padding: 20px;     }     button {       padding: 8px 16px;       margin-bottom: 10px;     }     #canvas {       border: 2px solid #333;     }   &lt;/style&gt; &lt;/head&gt; &lt;body&gt;    &lt;!-- DFS 기반 미로 버튼 --&gt;   &lt;button onclick=&quot;startDFS()&quot;&gt;DFS Generate&lt;/button&gt;   &lt;!-- 이후 버튼 추가 --&gt;    &lt;!-- 미로 캔버스 --&gt;   &lt;canvas id=&quot;canvas&quot; width=&quot;1020&quot; height=&quot;620&quot;&gt;&lt;/canvas&gt;    &lt;script&gt;     // 공통 변수와 함수     const canvas = document.querySelector(&#39;#canvas&#39;);     const ctx = canvas.getContext(&#39;2d&#39;);     const size = 20;     const cols = canvas.width / size;     const rows = canvas.height / size;      // 미로 상태     let maze = [];     let visited = new Set(); // 방문한 셀 저장용     let entrance = [0, 0]; // 입구     let exit = [cols - 2, rows - 2]; // 출구(정의만 해두고 실제 출구는 나중에)      // 시간 지연 함수 (애니메이션용)     function sleep(ms) {       return new Promise(resolve =&gt; setTimeout(resolve, ms));     }      // 셀 색칠     function drawCell(x, y, color) {       ctx.fillStyle = color;       ctx.fillRect(x * size, y * size, size, size);     }      // 미로 초기화     function initMaze() {       maze = Array.from({ length: rows }, () =&gt; Array(cols).fill(1)); // 전부 벽       visited.clear();       ctx.clearRect(0, 0, canvas.width, canvas.height);        // 캔버스 전체를 벽으로 색칠       for (let y = 0; y &lt; rows; y++) {         for (let x = 0; x &lt; cols; x++) {           drawCell(x, y, &#39;black&#39;);         }       }     }      initMaze();   &lt;/script&gt;    &lt;!-- DFS 미로 스크립트 --&gt;   &lt;script src=&quot;./js/DFS.js&quot;&gt;&lt;/script&gt;  &lt;/body&gt; &lt;/html&gt;   3. DFS 스크립트 작성  DFS 미로 생성하고 길 찾는 부분은 BFS로 구현.  // 배열 섞기 function shuffle(arr) {   for (let i = arr.length - 1; i &gt; 0; i--) {     const j = Math.floor(Math.random() * (i + 1));     [arr[i], arr[j]] = [arr[j], arr[i]];   }   return arr; }    // 미로 생성(DFS) async function generateDFS(x = entrance[0], y = entrance[1]) {   const key = `${x},${y}`;   visited.add(key);   maze[y][x] = 0;   drawCell(x, y, &#39;white&#39;); // 흰색 길    // 이동 방향 무작위   const dirs = shuffle([[0, -2], [2, 0], [0, 2], [-2, 0]]);    // forEach 사용시 동기화 문제있어서 for of 사용   for (let [dx, dy] of dirs) {     const nx = x + dx;     const ny = y + dy;     const betweenX = x + dx / 2;     const betweenY = y + dy / 2;     const neighborKey = `${nx},${ny}`;      // 방문하지 않은 셀을 통로로 만들기     if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; !visited.has(neighborKey)) {       maze[ny][nx] = 0; // 다음 셀도 통로       maze[betweenY][betweenX] = 0; // 중간 벽 없애기       drawCell(betweenX, betweenY, &#39;white&#39;);        await sleep(5);       await generateDFS(nx, ny);     }   } }    // 가장 멀리 떨어진 셀을 출구로 지정(BFS) function findFurthestCell(sx, sy) {   const que = [[sx, sy, 0]];   const visited = new Set();   let maxDist = -1;   let furthest = [sx, sy];    while (que.length) {     const [x, y, dist] = que.shift();     const key = `${x},${y}`;      if (visited.has(key)) {       continue;     }      visited.add(key);      if (dist &gt; maxDist) {       maxDist = dist;       furthest = [x, y];     }      for (let [dx, dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {       const nx = x + dx, ny = y + dy;       if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 0) {         que.push([nx, ny, dist + 1]);       }     }   }    return furthest; }      // 탈출 경로 찾기(BFS) function findPathBFS(sx, sy, ex, ey) {   const que = [[sx, sy]];   const visited = new Set();   const parent = {};    while (que.length) {     const [x, y] = que.shift();      if (x === ex &amp;&amp; y === ey) {       break;     }     const key = `${x},${y}`;      visited.add(key);      for (let [dx, dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {       const nx = x + dx, ny = y + dy;       const nextKey = `${nx},${ny}`;        // 벽이 아니고 방문하지 않은 길       if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 0 &amp;&amp; !visited.has(nextKey)) {         que.push([nx, ny]);         visited.add(nextKey);         parent[nextKey] = key;       }     }   }    // 출구에서 역으로 경로 추적   const path = [];   let curr = `${ex},${ey}`;    while (curr !== `${sx},${sy}`) {     const [x, y] = curr.split(&#39;,&#39;).map(Number);     path.push([x, y]);     curr = parent[curr];   }    path.push([sx, sy]);    return path.reverse(); }    // 미로 탈출 경로 그리기 async function drawPathAnimated(path) {   for (let [x, y] of path) {     if ((x === entrance[0] &amp;&amp; y === entrance[1]) || (x === exit[0] &amp;&amp; y === exit[1])) {       continue;     }      // 빨강으로 색칠     drawCell(x, y, &#39;red&#39;);     await sleep(10);   } }    // 전체 실행  async function startDFS() {   initMaze();    await generateDFS();    // 입구 표시   drawCell(entrance[0], entrance[1], &#39;lime&#39;);   const [ex, ey] = findFurthestCell(entrance[0], entrance[1])   exit = [ex, ey];   // 출구 표시   drawCell(exit[0], exit[1], &#39;blue&#39;)      const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]);   await drawPathAnimated(path); }      완성           반성      async와 await에 대해 새롭게 배웠다. Promise 체인보다 코드가 엄청나게 깔끔해진다. 좋아좋아 오늘도 하나 배웠어 일일신우일신     코드 확인         직접 해보기   HTML Link to GitHub  JavaScript Link to GitHub">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-05-20T23:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-05-20T23:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://movingwoo.com/one-pan/javascript/2025/05/20/Maze-Generator-01.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "뭐라도 하겠지",
+      "url": "https://movingwoo.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/common/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/common/favicon_16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/common/favicon_180x180.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="뭐라도 하겠지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.querySelector('.head-content-btn');
+  const dropdownContent = document.querySelector('.game-dropdown-content');
+  let isOpen = false;
+
+  // 드롭다운 버튼 클릭 이벤트
+  dropdownBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    if (isOpen) {
+      const rect = dropdownBtn.getBoundingClientRect();
+      dropdownContent.style.top = rect.bottom + 'px';
+      dropdownContent.style.left = rect.left + 'px';
+      dropdownContent.classList.add('show');
+    } else {
+      dropdownContent.classList.remove('show');
+    }
+  });
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    if (isOpen && !dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+      isOpen = false;
+      dropdownContent.classList.remove('show');
+    }
+  });
+});
+</script>
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/common/favicon_180x180.png" alt="뭐라도 하겠지"></a>
+        
+        <a class="site-title" href="/">
+          뭐라도 하겠지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <div class="game-dropdown">
+              <button class="head-content-btn">
+                play <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="game-dropdown-content">
+                <a href="/play/Flappy%20Bird.html" target="_blank">Flappy Bird</a>
+                <a href="/play/Minesweeper.html" target="_blank">Minesweeper</a>
+                <a href="/play/Random%20Printer.html" target="_blank">Random Printer</a>
+                <a href="/play/Maze%20Generator.html" target="_blank">Maze Generator</a>
+              </div>
+            </div>
+          </li>
+          <li class="masthead__menu-item">
+            <button class="head-content-btn" onclick="window.location.href='/board?path='">
+              explorer
+            </button>
+          </li>
+        </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <h1 class="title__logo"><a href="https://movingwoo.com/">뭐라도 하겠지</a></h1>
+ -->
+
+
+
+<script src="/assets/js/search.js"></script>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div class="home-layout">
+  <div class="home-sidebar">
+    
+
+
+
+
+
+
+
+<aside class="sidebar__left">
+  <div class="toc-wrapper">
+    <nav class="toc">
+      <header>
+        <h4 class="nav__title">
+          <span class="title-text">
+            <i class="fas fa-sitemap"></i> Archive
+          </span>
+          <a href="/board?path=" class="search-link" title="탐색">
+            <i class="fas fa-list-ul"></i>
+          </a>
+        </h4>
+      </header>
+
+      <ul class="toc__menu">
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="AI-playground/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">AI-playground</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="AI-playground/Claude/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Claude</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/ai-playground/claude/2025/05/01/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/ai-playground/claude/2025/04/30/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="AI-playground/GPT/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">GPT</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/ai-playground/gpt/2025/05/14/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/ai-playground/gpt/2025/05/01/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/ai-playground/gpt/2025/04/30/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="one-pan/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">one-pan</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/Java/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/java/2025/05/11/Bulls-and-Cows.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 숫자야구
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/JavaScript/" data-total-posts="4">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">JavaScript</span>
+              
+              
+                <span class="post-count">4</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/javascript/2025/05/20/Maze-Generator-01.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 미로 생성기 01
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/one-pan/javascript/2025/05/14/Random-Printer.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 랜덤 출력기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/one-pan/javascript/2025/05/13/Flappy-Bird.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 플래피 버드
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=one-pan%2FJavaScript%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/Python/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/python/2025/05/13/Clicker.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 클리커
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/ShellScript/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">ShellScript</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/shellscript/2025/05/12/File-Copier.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파일 복사기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/one-pan/shellscript/2025/04/28/Server-Manage-Console.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 서버 관리 콘솔
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="random-solve/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">random-solve</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="random-solve/C++/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">C++</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/random-solve/c++/2025/05/16/29348.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 29348번 Скользкий путь
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="random-solve/Java/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/random-solve/java/2025/05/20/15936.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 15936번 Hypercube
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="random-solve/Python/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/random-solve/python/2025/05/15/18382.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 18382번 2048
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/toc.js"></script> 
+  </div>
+
+  <div class="home-content">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="headline" content="미로 생성기 01">
+      <meta itemprop="description" content="  개요  이전에 DFS 공부한걸 찾아서 미로 만드는데 써봄.캔버스로 미로를 자동으로 그리고 추가로 미로를 만들 수 있는 다른 알고리즘도 써보기로 함.  구현  1. 설계미로 생성할 수 있는 대표 알고리즘 7종에 대하여 찾아보았다.            알고리즘      스타일      특징      용도                  DFS      꼬불꼬불한 한 줄기 통로, 가지치기 많음      재귀 기반, 한 방향으로 깊게 파고들며 되돌아오며 생성      일반적인 퍼즐형 미로              Prim’s      불규칙한 가지 형태, 길이 자연스럽게 분산      Queue 또는 set을 이용, 인접 벽 중 하나씩 랜덤 제거      일반적인 퍼즐형 미로              Kruskal’s      큰 방, 높은 통로 복잡도      Union find 기반, 모든 칸을 연결하되 사이클 제거      랜덤하고 복잡한 퍼즐 미로              Binary Tree      매우 단순하며 위 또는 오른쪽만 뚫음      단순하기에 성능이 좋지만 구조가 예측 가능      빠른 생성, 규칙적 패턴              Sidewinder      줄 단위, 수평 위주 통로      행 단위로 생성, 각 줄마다 위로 하나 연결하며 수평으로 길어짐      빠른 렌더링, 제한된 방향성              Recursive Division      벽 많은 구조, 사각형 영역      전체를 벽으로 채우고 구멍을 뚫어 나눔, 방처럼 보이는 구조      방 구성, 던전 형태              Eller’s      일정한 패턴, 세로로 잘 연결됨      행 단위로 생성하며 집합 유지, 메모리 효율적      모바일, 웹에서 실시간 생성      목표는 7종 알고리즘을 전부 시뮬레이션해보는 것인데 우선은 DFS만 시뮬레이션 해본다.한 html 파일에 몰아넣으면 보기 힘들어지므로, html 파일에는 뼈대와 공통함수만 몰아두고 DFS는 js로 별도 생성한다.이후 알고리즘 추가 시 js만 추가해서 바로 사용할 수 있도록 한다.2. 뼈대 작성Generate 버튼 클릭 시 미로를 생성하는 과정을 애니메이션으로 보여준다.그리고 입구부터 출구까지의 경로를 빨간색으로 표시한다.그러기 위한 공통변수와 함수를 이곳에 작성.&lt;!DOCTYPE html&gt;&lt;html lang=&quot;ko&quot;&gt;&lt;head&gt;  &lt;meta charset=&quot;UTF-8&quot;&gt;  &lt;title&gt;Maze Generator&lt;/title&gt;  &lt;style&gt;    body {      font-family: sans-serif;      display: flex;      flex-direction: column;      align-items: center;      background: #f2f2f2;      margin: 0;      padding: 20px;    }    button {      padding: 8px 16px;      margin-bottom: 10px;    }    #canvas {      border: 2px solid #333;    }  &lt;/style&gt;&lt;/head&gt;&lt;body&gt;  &lt;!-- DFS 기반 미로 버튼 --&gt;  &lt;button onclick=&quot;startDFS()&quot;&gt;DFS Generate&lt;/button&gt;  &lt;!-- 이후 버튼 추가 --&gt;  &lt;!-- 미로 캔버스 --&gt;  &lt;canvas id=&quot;canvas&quot; width=&quot;1020&quot; height=&quot;620&quot;&gt;&lt;/canvas&gt;  &lt;script&gt;    // 공통 변수와 함수    const canvas = document.querySelector(&#39;#canvas&#39;);    const ctx = canvas.getContext(&#39;2d&#39;);    const size = 20;    const cols = canvas.width / size;    const rows = canvas.height / size;    // 미로 상태    let maze = [];    let visited = new Set(); // 방문한 셀 저장용    let entrance = [0, 0]; // 입구    let exit = [cols - 2, rows - 2]; // 출구(정의만 해두고 실제 출구는 나중에)    // 시간 지연 함수 (애니메이션용)    function sleep(ms) {      return new Promise(resolve =&gt; setTimeout(resolve, ms));    }    // 셀 색칠    function drawCell(x, y, color) {      ctx.fillStyle = color;      ctx.fillRect(x * size, y * size, size, size);    }    // 미로 초기화    function initMaze() {      maze = Array.from({ length: rows }, () =&gt; Array(cols).fill(1)); // 전부 벽      visited.clear();      ctx.clearRect(0, 0, canvas.width, canvas.height);      // 캔버스 전체를 벽으로 색칠      for (let y = 0; y &lt; rows; y++) {        for (let x = 0; x &lt; cols; x++) {          drawCell(x, y, &#39;black&#39;);        }      }    }    initMaze();  &lt;/script&gt;  &lt;!-- DFS 미로 스크립트 --&gt;  &lt;script src=&quot;./js/DFS.js&quot;&gt;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;3. DFS 스크립트 작성DFS 미로 생성하고 길 찾는 부분은 BFS로 구현.// 배열 섞기function shuffle(arr) {  for (let i = arr.length - 1; i &gt; 0; i--) {    const j = Math.floor(Math.random() * (i + 1));    [arr[i], arr[j]] = [arr[j], arr[i]];  }  return arr;}  // 미로 생성(DFS)async function generateDFS(x = entrance[0], y = entrance[1]) {  const key = `${x},${y}`;  visited.add(key);  maze[y][x] = 0;  drawCell(x, y, &#39;white&#39;); // 흰색 길  // 이동 방향 무작위  const dirs = shuffle([[0, -2], [2, 0], [0, 2], [-2, 0]]);  // forEach 사용시 동기화 문제있어서 for of 사용  for (let [dx, dy] of dirs) {    const nx = x + dx;    const ny = y + dy;    const betweenX = x + dx / 2;    const betweenY = y + dy / 2;    const neighborKey = `${nx},${ny}`;    // 방문하지 않은 셀을 통로로 만들기    if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; !visited.has(neighborKey)) {      maze[ny][nx] = 0; // 다음 셀도 통로      maze[betweenY][betweenX] = 0; // 중간 벽 없애기      drawCell(betweenX, betweenY, &#39;white&#39;);      await sleep(5);      await generateDFS(nx, ny);    }  }}  // 가장 멀리 떨어진 셀을 출구로 지정(BFS)function findFurthestCell(sx, sy) {  const que = [[sx, sy, 0]];  const visited = new Set();  let maxDist = -1;  let furthest = [sx, sy];  while (que.length) {    const [x, y, dist] = que.shift();    const key = `${x},${y}`;    if (visited.has(key)) {      continue;    }    visited.add(key);    if (dist &gt; maxDist) {      maxDist = dist;      furthest = [x, y];    }    for (let [dx, dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {      const nx = x + dx, ny = y + dy;      if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 0) {        que.push([nx, ny, dist + 1]);      }    }  }  return furthest;}    // 탈출 경로 찾기(BFS)function findPathBFS(sx, sy, ex, ey) {  const que = [[sx, sy]];  const visited = new Set();  const parent = {};  while (que.length) {    const [x, y] = que.shift();    if (x === ex &amp;&amp; y === ey) {      break;    }    const key = `${x},${y}`;    visited.add(key);    for (let [dx, dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {      const nx = x + dx, ny = y + dy;      const nextKey = `${nx},${ny}`;      // 벽이 아니고 방문하지 않은 길      if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 0 &amp;&amp; !visited.has(nextKey)) {        que.push([nx, ny]);        visited.add(nextKey);        parent[nextKey] = key;      }    }  }  // 출구에서 역으로 경로 추적  const path = [];  let curr = `${ex},${ey}`;  while (curr !== `${sx},${sy}`) {    const [x, y] = curr.split(&#39;,&#39;).map(Number);    path.push([x, y]);    curr = parent[curr];  }  path.push([sx, sy]);  return path.reverse();}  // 미로 탈출 경로 그리기async function drawPathAnimated(path) {  for (let [x, y] of path) {    if ((x === entrance[0] &amp;&amp; y === entrance[1]) || (x === exit[0] &amp;&amp; y === exit[1])) {      continue;    }    // 빨강으로 색칠    drawCell(x, y, &#39;red&#39;);    await sleep(10);  }}  // 전체 실행 async function startDFS() {  initMaze();   await generateDFS();  // 입구 표시  drawCell(entrance[0], entrance[1], &#39;lime&#39;);  const [ex, ey] = findFurthestCell(entrance[0], entrance[1])  exit = [ex, ey];  // 출구 표시  drawCell(exit[0], exit[1], &#39;blue&#39;)    const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]);  await drawPathAnimated(path);}  완성    반성  async와 await에 대해 새롭게 배웠다.Promise 체인보다 코드가 엄청나게 깔끔해진다.좋아좋아 오늘도 하나 배웠어 일일신우일신  코드 확인    직접 해보기HTMLLink to GitHubJavaScriptLink to GitHub">
+      <meta itemprop="datePublished" content="2025-05-20T23:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-05-20T23:00:00+00:00">
+
+      <div class="page__inner-wrap">
+        
+          <header>
+            
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=one-pan" class="category-link">
+        one-pan
+      </a>
+      
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=one-pan%2FJavaScript" class="category-link">
+        JavaScript
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=one-pan%2FJavaScript%2F" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">미로 생성기 01
+</h1>
+            
+
+
+          </header>
+        
+
+        <section class="page__content" itemprop="text">
+          <blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p>이전에 DFS 공부한걸 찾아서 미로 만드는데 써봄.<br />
+캔버스로 미로를 자동으로 그리고 추가로 미로를 만들 수 있는 다른 알고리즘도 써보기로 함.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-설계">1. 설계</h5>
+
+<p>미로 생성할 수 있는 대표 알고리즘 7종에 대하여 찾아보았다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">알고리즘</th>
+      <th style="text-align: left">스타일</th>
+      <th style="text-align: left">특징</th>
+      <th style="text-align: left">용도</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">DFS</td>
+      <td style="text-align: left">꼬불꼬불한 한 줄기 통로, 가지치기 많음</td>
+      <td style="text-align: left">재귀 기반, 한 방향으로 깊게 파고들며 되돌아오며 생성</td>
+      <td style="text-align: left">일반적인 퍼즐형 미로</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Prim’s</td>
+      <td style="text-align: left">불규칙한 가지 형태, 길이 자연스럽게 분산</td>
+      <td style="text-align: left">Queue 또는 set을 이용, 인접 벽 중 하나씩 랜덤 제거</td>
+      <td style="text-align: left">일반적인 퍼즐형 미로</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Kruskal’s</td>
+      <td style="text-align: left">큰 방, 높은 통로 복잡도</td>
+      <td style="text-align: left">Union find 기반, 모든 칸을 연결하되 사이클 제거</td>
+      <td style="text-align: left">랜덤하고 복잡한 퍼즐 미로</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Binary Tree</td>
+      <td style="text-align: left">매우 단순하며 위 또는 오른쪽만 뚫음</td>
+      <td style="text-align: left">단순하기에 성능이 좋지만 구조가 예측 가능</td>
+      <td style="text-align: left">빠른 생성, 규칙적 패턴</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Sidewinder</td>
+      <td style="text-align: left">줄 단위, 수평 위주 통로</td>
+      <td style="text-align: left">행 단위로 생성, 각 줄마다 위로 하나 연결하며 수평으로 길어짐</td>
+      <td style="text-align: left">빠른 렌더링, 제한된 방향성</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Recursive Division</td>
+      <td style="text-align: left">벽 많은 구조, 사각형 영역</td>
+      <td style="text-align: left">전체를 벽으로 채우고 구멍을 뚫어 나눔, 방처럼 보이는 구조</td>
+      <td style="text-align: left">방 구성, 던전 형태</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Eller’s</td>
+      <td style="text-align: left">일정한 패턴, 세로로 잘 연결됨</td>
+      <td style="text-align: left">행 단위로 생성하며 집합 유지, 메모리 효율적</td>
+      <td style="text-align: left">모바일, 웹에서 실시간 생성</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>목표는 7종 알고리즘을 전부 시뮬레이션해보는 것인데 우선은 DFS만 시뮬레이션 해본다.<br />
+한 html 파일에 몰아넣으면 보기 힘들어지므로, html 파일에는 뼈대와 공통함수만 몰아두고 DFS는 js로 별도 생성한다.<br />
+이후 알고리즘 추가 시 js만 추가해서 바로 사용할 수 있도록 한다.</p>
+
+<h5 id="2-뼈대-작성">2. 뼈대 작성</h5>
+
+<p>Generate 버튼 클릭 시 미로를 생성하는 과정을 애니메이션으로 보여준다.<br />
+그리고 입구부터 출구까지의 경로를 빨간색으로 표시한다.<br />
+그러기 위한 공통변수와 함수를 이곳에 작성.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"ko"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Maze Generator<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;style&gt;</span>
+    <span class="nt">body</span> <span class="p">{</span>
+      <span class="nl">font-family</span><span class="p">:</span> <span class="nb">sans-serif</span><span class="p">;</span>
+      <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+      <span class="nl">flex-direction</span><span class="p">:</span> <span class="n">column</span><span class="p">;</span>
+      <span class="nl">align-items</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+      <span class="nl">background</span><span class="p">:</span> <span class="m">#f2f2f2</span><span class="p">;</span>
+      <span class="nl">margin</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+      <span class="nl">padding</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nt">button</span> <span class="p">{</span>
+      <span class="nl">padding</span><span class="p">:</span> <span class="m">8px</span> <span class="m">16px</span><span class="p">;</span>
+      <span class="nl">margin-bottom</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nf">#canvas</span> <span class="p">{</span>
+      <span class="nl">border</span><span class="p">:</span> <span class="m">2px</span> <span class="nb">solid</span> <span class="m">#333</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+  <span class="c">&lt;!-- DFS 기반 미로 버튼 --&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"startDFS()"</span><span class="nt">&gt;</span>DFS Generate<span class="nt">&lt;/button&gt;</span>
+  <span class="c">&lt;!-- 이후 버튼 추가 --&gt;</span>
+
+  <span class="c">&lt;!-- 미로 캔버스 --&gt;</span>
+  <span class="nt">&lt;canvas</span> <span class="na">id=</span><span class="s">"canvas"</span> <span class="na">width=</span><span class="s">"1020"</span> <span class="na">height=</span><span class="s">"620"</span><span class="nt">&gt;&lt;/canvas&gt;</span>
+
+  <span class="nt">&lt;script&gt;</span>
+    <span class="c1">// 공통 변수와 함수</span>
+    <span class="kd">const</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#canvas</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nf">getContext</span><span class="p">(</span><span class="dl">'</span><span class="s1">2d</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">cols</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">/</span> <span class="nx">size</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">rows</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">/</span> <span class="nx">size</span><span class="p">;</span>
+
+    <span class="c1">// 미로 상태</span>
+    <span class="kd">let</span> <span class="nx">maze</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">let</span> <span class="nx">visited</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">();</span> <span class="c1">// 방문한 셀 저장용</span>
+    <span class="kd">let</span> <span class="nx">entrance</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span> <span class="c1">// 입구</span>
+    <span class="kd">let</span> <span class="nx">exit</span> <span class="o">=</span> <span class="p">[</span><span class="nx">cols</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">rows</span> <span class="o">-</span> <span class="mi">2</span><span class="p">];</span> <span class="c1">// 출구(정의만 해두고 실제 출구는 나중에)</span>
+
+    <span class="c1">// 시간 지연 함수 (애니메이션용)</span>
+    <span class="kd">function</span> <span class="nf">sleep</span><span class="p">(</span><span class="nx">ms</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nc">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="nf">setTimeout</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">ms</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 셀 색칠</span>
+    <span class="kd">function</span> <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="nx">color</span><span class="p">;</span>
+      <span class="nx">ctx</span><span class="p">.</span><span class="nf">fillRect</span><span class="p">(</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">size</span><span class="p">,</span> <span class="nx">y</span> <span class="o">*</span> <span class="nx">size</span><span class="p">,</span> <span class="nx">size</span><span class="p">,</span> <span class="nx">size</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 미로 초기화</span>
+    <span class="kd">function</span> <span class="nf">initMaze</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">maze</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">({</span> <span class="na">length</span><span class="p">:</span> <span class="nx">rows</span> <span class="p">},</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nc">Array</span><span class="p">(</span><span class="nx">cols</span><span class="p">).</span><span class="nf">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span> <span class="c1">// 전부 벽</span>
+      <span class="nx">visited</span><span class="p">.</span><span class="nf">clear</span><span class="p">();</span>
+      <span class="nx">ctx</span><span class="p">.</span><span class="nf">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+
+      <span class="c1">// 캔버스 전체를 벽으로 색칠</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nf">initMaze</span><span class="p">();</span>
+  <span class="nt">&lt;/script&gt;</span>
+
+  <span class="c">&lt;!-- DFS 미로 스크립트 --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"./js/DFS.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<h5 id="3-dfs-스크립트-작성">3. DFS 스크립트 작성</h5>
+
+<p>DFS 미로 생성하고 길 찾는 부분은 BFS로 구현.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 배열 섞기</span>
+<span class="kd">function</span> <span class="nf">shuffle</span><span class="p">(</span><span class="nx">arr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+    <span class="p">[</span><span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">j</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">arr</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]];</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">arr</span><span class="p">;</span>
+<span class="p">}</span>
+  
+<span class="c1">// 미로 생성(DFS)</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">generateDFS</span><span class="p">(</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">key</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">x</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">y</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
+  <span class="nx">visited</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+  <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span> <span class="c1">// 흰색 길</span>
+
+  <span class="c1">// 이동 방향 무작위</span>
+  <span class="kd">const</span> <span class="nx">dirs</span> <span class="o">=</span> <span class="nf">shuffle</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]);</span>
+
+  <span class="c1">// forEach 사용시 동기화 문제있어서 for of 사용</span>
+  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">]</span> <span class="k">of</span> <span class="nx">dirs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">ny</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">betweenX</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">betweenY</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">neighborKey</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">nx</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">ny</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
+
+    <span class="c1">// 방문하지 않은 셀을 통로로 만들기</span>
+    <span class="k">if </span><span class="p">(</span><span class="nx">nx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nx</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&lt;</span> <span class="nx">rows</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">visited</span><span class="p">.</span><span class="nf">has</span><span class="p">(</span><span class="nx">neighborKey</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">maze</span><span class="p">[</span><span class="nx">ny</span><span class="p">][</span><span class="nx">nx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 다음 셀도 통로</span>
+      <span class="nx">maze</span><span class="p">[</span><span class="nx">betweenY</span><span class="p">][</span><span class="nx">betweenX</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 중간 벽 없애기</span>
+      <span class="nf">drawCell</span><span class="p">(</span><span class="nx">betweenX</span><span class="p">,</span> <span class="nx">betweenY</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+
+      <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+      <span class="k">await</span> <span class="nf">generateDFS</span><span class="p">(</span><span class="nx">nx</span><span class="p">,</span> <span class="nx">ny</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+  
+<span class="c1">// 가장 멀리 떨어진 셀을 출구로 지정(BFS)</span>
+<span class="kd">function</span> <span class="nf">findFurthestCell</span><span class="p">(</span><span class="nx">sx</span><span class="p">,</span> <span class="nx">sy</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">que</span> <span class="o">=</span> <span class="p">[[</span><span class="nx">sx</span><span class="p">,</span> <span class="nx">sy</span><span class="p">,</span> <span class="mi">0</span><span class="p">]];</span>
+  <span class="kd">const</span> <span class="nx">visited</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">();</span>
+  <span class="kd">let</span> <span class="nx">maxDist</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">furthest</span> <span class="o">=</span> <span class="p">[</span><span class="nx">sx</span><span class="p">,</span> <span class="nx">sy</span><span class="p">];</span>
+
+  <span class="k">while </span><span class="p">(</span><span class="nx">que</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">dist</span><span class="p">]</span> <span class="o">=</span> <span class="nx">que</span><span class="p">.</span><span class="nf">shift</span><span class="p">();</span>
+    <span class="kd">const</span> <span class="nx">key</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">x</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">y</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
+
+    <span class="k">if </span><span class="p">(</span><span class="nx">visited</span><span class="p">.</span><span class="nf">has</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">visited</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+
+    <span class="k">if </span><span class="p">(</span><span class="nx">dist</span> <span class="o">&gt;</span> <span class="nx">maxDist</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">maxDist</span> <span class="o">=</span> <span class="nx">dist</span><span class="p">;</span>
+      <span class="nx">furthest</span> <span class="o">=</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">]</span> <span class="k">of</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">,</span> <span class="nx">ny</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
+      <span class="k">if </span><span class="p">(</span><span class="nx">nx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nx</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&lt;</span> <span class="nx">rows</span> <span class="o">&amp;&amp;</span> <span class="nx">maze</span><span class="p">[</span><span class="nx">ny</span><span class="p">][</span><span class="nx">nx</span><span class="p">]</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">que</span><span class="p">.</span><span class="nf">push</span><span class="p">([</span><span class="nx">nx</span><span class="p">,</span> <span class="nx">ny</span><span class="p">,</span> <span class="nx">dist</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">furthest</span><span class="p">;</span>
+<span class="p">}</span>
+  
+  <span class="c1">// 탈출 경로 찾기(BFS)</span>
+<span class="kd">function</span> <span class="nf">findPathBFS</span><span class="p">(</span><span class="nx">sx</span><span class="p">,</span> <span class="nx">sy</span><span class="p">,</span> <span class="nx">ex</span><span class="p">,</span> <span class="nx">ey</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">que</span> <span class="o">=</span> <span class="p">[[</span><span class="nx">sx</span><span class="p">,</span> <span class="nx">sy</span><span class="p">]];</span>
+  <span class="kd">const</span> <span class="nx">visited</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">parent</span> <span class="o">=</span> <span class="p">{};</span>
+
+  <span class="k">while </span><span class="p">(</span><span class="nx">que</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span> <span class="o">=</span> <span class="nx">que</span><span class="p">.</span><span class="nf">shift</span><span class="p">();</span>
+
+    <span class="k">if </span><span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="nx">ex</span> <span class="o">&amp;&amp;</span> <span class="nx">y</span> <span class="o">===</span> <span class="nx">ey</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kd">const</span> <span class="nx">key</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">x</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">y</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
+
+    <span class="nx">visited</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">]</span> <span class="k">of</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">,</span> <span class="nx">ny</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
+      <span class="kd">const</span> <span class="nx">nextKey</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">nx</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">ny</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
+
+      <span class="c1">// 벽이 아니고 방문하지 않은 길</span>
+      <span class="k">if </span><span class="p">(</span><span class="nx">nx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nx</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&lt;</span> <span class="nx">rows</span> <span class="o">&amp;&amp;</span> <span class="nx">maze</span><span class="p">[</span><span class="nx">ny</span><span class="p">][</span><span class="nx">nx</span><span class="p">]</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">visited</span><span class="p">.</span><span class="nf">has</span><span class="p">(</span><span class="nx">nextKey</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">que</span><span class="p">.</span><span class="nf">push</span><span class="p">([</span><span class="nx">nx</span><span class="p">,</span> <span class="nx">ny</span><span class="p">]);</span>
+        <span class="nx">visited</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nx">nextKey</span><span class="p">);</span>
+        <span class="nx">parent</span><span class="p">[</span><span class="nx">nextKey</span><span class="p">]</span> <span class="o">=</span> <span class="nx">key</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 출구에서 역으로 경로 추적</span>
+  <span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">let</span> <span class="nx">curr</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">ex</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">ey</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
+
+  <span class="k">while </span><span class="p">(</span><span class="nx">curr</span> <span class="o">!==</span> <span class="s2">`</span><span class="p">${</span><span class="nx">sx</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">sy</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span> <span class="o">=</span> <span class="nx">curr</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">,</span><span class="dl">'</span><span class="p">).</span><span class="nf">map</span><span class="p">(</span><span class="nb">Number</span><span class="p">);</span>
+    <span class="nx">path</span><span class="p">.</span><span class="nf">push</span><span class="p">([</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]);</span>
+    <span class="nx">curr</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">[</span><span class="nx">curr</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="nx">path</span><span class="p">.</span><span class="nf">push</span><span class="p">([</span><span class="nx">sx</span><span class="p">,</span> <span class="nx">sy</span><span class="p">]);</span>
+
+  <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nf">reverse</span><span class="p">();</span>
+<span class="p">}</span>
+  
+<span class="c1">// 미로 탈출 경로 그리기</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">drawPathAnimated</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span> <span class="k">of</span> <span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if </span><span class="p">((</span><span class="nx">x</span> <span class="o">===</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">y</span> <span class="o">===</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">||</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">y</span> <span class="o">===</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="p">{</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 빨강으로 색칠</span>
+    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+  
+<span class="c1">// 전체 실행 </span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">startDFS</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nf">initMaze</span><span class="p">();</span> 
+  <span class="k">await</span> <span class="nf">generateDFS</span><span class="p">();</span>
+
+  <span class="c1">// 입구 표시</span>
+  <span class="nf">drawCell</span><span class="p">(</span><span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="dl">'</span><span class="s1">lime</span><span class="dl">'</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="p">[</span><span class="nx">ex</span><span class="p">,</span> <span class="nx">ey</span><span class="p">]</span> <span class="o">=</span> <span class="nf">findFurthestCell</span><span class="p">(</span><span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="nx">exit</span> <span class="o">=</span> <span class="p">[</span><span class="nx">ex</span><span class="p">,</span> <span class="nx">ey</span><span class="p">];</span>
+  <span class="c1">// 출구 표시</span>
+  <span class="nf">drawCell</span><span class="p">(</span><span class="nx">exit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">)</span>
+  
+  <span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nf">findPathBFS</span><span class="p">(</span><span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+  <span class="k">await</span> <span class="nf">drawPathAnimated</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="완성">완성</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/one-pan/JavaScript/2025-05-21-Maze Generator 01/img01.gif" alt="img01" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>async와 await에 대해 새롭게 배웠다.<br />
+Promise 체인보다 코드가 엄청나게 깔끔해진다.<br />
+좋아좋아 오늘도 하나 배웠어 일일신우일신</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="/play/Maze%20Generator.html" target="_blank" rel="noopener noreferrer">
+  직접 해보기
+</a></p>
+
+<p>HTML<br />
+<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-21-Maze%20Generator%2001.html">Link to GitHub</a></p>
+
+<p>JavaScript<br />
+<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-21-DFS.js">Link to GitHub</a></p>
+
+          
+        </section>
+
+        <footer class="page__meta">
+          
+          
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-21">May 21, 2025</time></p>
+
+
+        </footer>
+
+        
+
+        
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "미로 생성기 01",
+        url: "/one-pan/javascript/2025/05/20/Maze-Generator-01.html",
+        date: "2025-05-20",
+        categories: ["one-pan/JavaScript/"]
+      },
+      allPosts: [
+        
+        
+          
+          
+          {
+            title: "미로 생성기 01",
+            url: "/one-pan/javascript/2025/05/20/Maze-Generator-01.html",
+            date: "2025-05-20",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15936번 Hypercube",
+            url: "/random-solve/java/2025/05/20/15936.html",
+            date: "2025-05-20",
+            categories: ["random-solve/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "29348번 Скользкий путь",
+            url: "/random-solve/c++/2025/05/16/29348.html",
+            date: "2025-05-16",
+            categories: ["random-solve/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18382번 2048",
+            url: "/random-solve/python/2025/05/15/18382.html",
+            date: "2025-05-15",
+            categories: ["random-solve/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "랜덤 출력기",
+            url: "/one-pan/javascript/2025/05/14/Random-Printer.html",
+            date: "2025-05-14",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파이썬으로 CLI TODO 리스트 만들어보기",
+            url: "/ai-playground/gpt/2025/05/14/GPT.html",
+            date: "2025-05-14",
+            categories: ["AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "플래피 버드",
+            url: "/one-pan/javascript/2025/05/13/Flappy-Bird.html",
+            date: "2025-05-13",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "클리커",
+            url: "/one-pan/python/2025/05/13/Clicker.html",
+            date: "2025-05-13",
+            categories: ["one-pan/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파일 복사기",
+            url: "/one-pan/shellscript/2025/05/12/File-Copier.html",
+            date: "2025-05-12",
+            categories: ["one-pan/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "숫자야구",
+            url: "/one-pan/java/2025/05/11/Bulls-and-Cows.html",
+            date: "2025-05-11",
+            categories: ["one-pan/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴",
+            url: "/ai-playground/gpt/2025/05/01/GPT.html",
+            date: "2025-05-01",
+            categories: ["AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴, 어떻게 보내면 좋을까?",
+            url: "/ai-playground/claude/2025/05/01/Claude.html",
+            date: "2025-05-01",
+            categories: ["AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "프로그래머를 위한 생산성 툴 TOP 5 🧰",
+            url: "/ai-playground/gpt/2025/04/30/GPT.html",
+            date: "2025-04-30",
+            categories: ["AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "AI 시대의 개발자, 어떻게 준비해야 할까?",
+            url: "/ai-playground/claude/2025/04/30/Claude.html",
+            date: "2025-04-30",
+            categories: ["AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "지뢰찾기",
+            url: "/one-pan/javascript/2025/04/29/Minesweeper.html",
+            date: "2025-04-29",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "서버 관리 콘솔",
+            url: "/one-pan/shellscript/2025/04/28/Server-Manage-Console.html",
+            date: "2025-04-28",
+            categories: ["one-pan/ShellScript/"]
+          }
+          
+        
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
+      </div>
+
+      
+      
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+    </article>
+
+    
+    
+  </div>
+</div>
+
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 1rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .home-content {
+    padding: 0;
+  }
+}
+</style>
+
+    </div>
+
+    
+    
+    <div class="page__footer">
+  <div class="page__footer-copyright">
+    Visit: <a href="https://github.com/movingwoo/movingwoo.github.io">https://github.com/movingwoo/movingwoo.github.io</a>
+    <br>
+    <span class="theme-credit">Theme customized from Minimal Mistakes by Michael Rose (MIT License).</span>
+  </div>
+</div>
+
+    <div class="scroll-button">
+  <div class="scroll-button__container">
+    <button class="scroll-button__area scroll-button__area--top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="위로">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="scroll-button__area scroll-button__area--bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="아래로">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.scroll-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.scroll-button__container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(220, 20, 60, 0.6);
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-button__area {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button__area--top {
+  top: 0;
+}
+
+.scroll-button__area--bottom {
+  bottom: 0;
+}
+
+.scroll-button__area:focus {
+  outline: none;
+}
+
+.scroll-button__area:hover {
+  color: rgba(220, 20, 60, 1);
+}
+
+.scroll-button__area:hover i {
+  transform: scale(1.2);
+}
+
+.scroll-button__area i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll-button {
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .scroll-button__container {
+    width: 50px;
+    height: 50px;
+  }
+}
+</style> 
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+});
+</script>
+
+
+  </body>
+</html>

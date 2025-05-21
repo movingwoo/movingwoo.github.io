@@ -88,4 +88,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/java/2025/05/20/15936.html",
         "teaser": null
+      },{
+        "title": "미로 생성기 01",
+        "excerpt":"개요 이전에 DFS 공부한걸 찾아서 미로 만드는데 써봄. 캔버스로 미로를 자동으로 그리고 추가로 미로를 만들 수 있는 다른 알고리즘도 써보기로 함. 구현 1. 설계 미로 생성할 수 있는 대표 알고리즘 7종에 대하여 찾아보았다. 알고리즘 스타일 특징 용도 DFS 꼬불꼬불한 한 줄기 통로, 가지치기 많음 재귀 기반, 한 방향으로 깊게 파고들며...","categories": ["one-pan/JavaScript/"],
+        "tags": [],
+        "url": "/one-pan/javascript/2025/05/20/Maze-Generator-01.html",
+        "teaser": null
       }]
