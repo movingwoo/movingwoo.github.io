@@ -94,4 +94,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/javascript/2025/05/20/Maze-Generator-01.html",
         "teaser": null
+      },{
+        "title": "26226번 Autocomplete",
+        "excerpt":"문제 26226번 Autocomplete - 백준 설계 앗 영어 문제 단어를 비교하는 문제이다. 두 단어가 “비슷하다”고 말하는 조건은 다음과 같다. 대소문자 구분 없이 비교했을 때 완전히 같음 대소문자를 구분하면 서로 다른 문자의 위치가 K개 이하 단어의 길이 최대 2000, 단어 사전 1000개, 질의 1000개다. 생각보다 숫자가 좀 크다? 구현 1. 시간...","categories": ["random-solve/C++/"],
+        "tags": [],
+        "url": "/random-solve/c++/2025/05/21/26226.html",
+        "teaser": null
       }]
