@@ -1,4 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-22T01:00:14+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">미로 생성기 02</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/21/Maze-Generator-02.html" rel="alternate" type="text/html" title="미로 생성기 02" /><published>2025-05-21T23:00:00+00:00</published><updated>2025-05-21T23:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/21/Maze%20Generator%2002</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/21/Maze-Generator-02.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-22T02:16:42+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">26489번 Gum Gum for Jay Jay</title><link href="https://movingwoo.com/random-solve/python/2025/05/22/26489.html" rel="alternate" type="text/html" title="26489번 Gum Gum for Jay Jay" /><published>2025-05-22T02:00:00+00:00</published><updated>2025-05-22T02:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/22/26489</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/22/26489.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-22-26489/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/26489">18382번 2048 - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ<br />
+좋아좋아 이런 날도 있어야지.</p>
+
+<p>입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="nf">input</span><span class="p">()</span>
+        <span class="o">++</span><span class="n">n</span>
+<span class="k">except</span> <span class="nb">EOFError</span><span class="p">:</span>
+    <span class="k">pass</span> 
+
+<span class="nf">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>끝이다.<br />
+<span style="color: red;"><strong>아니 내 컨텐츠가!!!!!!!</strong></span><br />
+너무 쉬운 문제는 이런게 문제구나.</p>
+
+<p>이왕 이렇게 된 것, C++과 Java로도 처리하자.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">string</span> <span class="n">s</span><span class="p">;</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span> <span class="p">{</span>
+        <span class="o">++</span><span class="n">n</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>자바는 스캐너로 EOF 판단하는게 낫다.<br />
+어차피 속도가 중요한 문제도 아니니</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">Scanner</span> <span class="n">sc</span><span class="o">=</span><span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+		<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+
+		<span class="k">while</span><span class="o">(</span><span class="n">sc</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+			<span class="n">n</span><span class="o">++;</span>
+		<span class="o">}</span>
+
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">n</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-22-26489/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p><span style="color: red;"><strong>뭐???? 파이썬에서 틀렸습니다가 발생했다고???????</strong></span><br />
+파이썬은 ++n이 없고 n+=1을 해야하는데 자연스럽게 ++n한 나의 실수다.<br />
+이렇게 개꿀문제에서도 반성할 점은 있는 법.</p>
+
+<p>날먹 날먹 신나는 날먹</p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 18382번 2048 - 백준 설계 엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ 좋아좋아 이런 날도 있어야지. 입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다. 구현 n = 0 try: while True: input() ++n except EOFError: pass print(n) 끝이다. 아니 내 컨텐츠가!!!!!!! 너무 쉬운 문제는 이런게 문제구나. 이왕 이렇게 된 것, C++과 Java로도 처리하자. #include &lt;iostream&gt; #include &lt;string&gt; using namespace std; int main() { int n = 0; string s; while (getline(cin, s)) { ++n; } cout &lt;&lt; n; return 0; } 자바는 스캐너로 EOF 판단하는게 낫다. 어차피 속도가 중요한 문제도 아니니 import java.util.*; public class Main { public static void main(String[] args) { Scanner sc=new Scanner(System.in); int n=0; while(sc.hasNextLine()) { sc.nextLine(); n++; } System.out.print(n); } } 채점 반성 뭐???? 파이썬에서 틀렸습니다가 발생했다고??????? 파이썬은 ++n이 없고 n+=1을 해야하는데 자연스럽게 ++n한 나의 실수다. 이렇게 개꿀문제에서도 반성할 점은 있는 법. 날먹 날먹 신나는 날먹]]></summary></entry><entry><title type="html">미로 생성기 02</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/21/Maze-Generator-02.html" rel="alternate" type="text/html" title="미로 생성기 02" /><published>2025-05-21T23:00:00+00:00</published><updated>2025-05-21T23:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/21/Maze%20Generator%2002</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/21/Maze-Generator-02.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -2086,127 +2181,4 @@ class도 늘어나고 복잡해지는 경우에는 querySelector를 통해 코�
   직접 해보기
 </a></p>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-14-Flappy%20Bird.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 캔버스로 웹 게임 하나 만들어보기 마우스 클릭 조작만 이용하고 싶기에 고심끝에 Flappy Bird를 구현해보기로 한다. 그런데 이 게임 한국어로 뭐라고 하지? 그냥 플래피 버드라고 하면 되나? 구현 1. 설계 필요한 기능을 정리해보자. 마우스 클릭 시 점프 천장, 지면, 장애물 충돌 판정 장애물 높이 랜덤 생성 및 시간이 지날수록 속도 증가 점수 시스템 이를 바탕으로 코드 작성 순서를 정한다. HTML + CANVAS 세팅 새를 그려서 점프와 중력 구현 장애물 구현 충돌 판정 구현 점수 등 기타 기능 구현 2. HTML + CANVAS 세팅 &lt;!DOCTYPE html&gt; &lt;html lang="ko"&gt; &lt;head&gt; &lt;meta charset="UTF-8" /&gt; &lt;title&gt;Flappy Bird&lt;/title&gt; &lt;style&gt; body { margin: 0; background-color: #FFFFFF; display: flex; justify-content: center; align-items: center; height: 100vh; } canvas { border: 2px solid #000; background-color: #cceeff; } &lt;/style&gt; &lt;/head&gt; &lt;body&gt; &lt;canvas id="gameCanvas" width="640" height="480"&gt;&lt;/canvas&gt; &lt;script&gt; const canvas = document.querySelector('#gameCanvas'); const ctx = canvas.getContext('2d'); // 이하 코드 작성 &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; 3. 새를 그려서 점프와 중력 구현 새라고 하긴 했지만… 일단 동그라미를 그려놓고 새라고 우기자. 처음에 공중에서 시작했다가 중력을 받아 아래로 떨어진다. 그리고 클릭하면 공중으로 튀어오른다. 얼마나 빠르게 떨어지고 민감하게 튀어오를지는 다 만들고 조절하기로 함. // 새 const bird = { // 중력과 점프력을 추후 조정 x: 150, y: 240, radius: 20, velocity: 0, gravity: 0.5, jump: -8 }; let animationFrameId; canvas.addEventListener('click', () =&gt; { // 속도에 점프력을 더해 점프 bird.velocity = bird.jump; }); // 게임 루프 function run() { // 물리 계산 // 속도는 중력만큼 추가, 속도만큼 y축 조절 bird.velocity += bird.gravity; bird.y += bird.velocity; // 화면 지우기 ctx.clearRect(0, 0, canvas.width, canvas.height); // 새 그리기 ctx.beginPath(); ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2); ctx.fillStyle = '#ffcc00'; ctx.fill(); ctx.strokeStyle = '#333'; ctx.stroke(); // 천장 바닥 제한 if (bird.y + bird.radius &gt; canvas.height) { bird.y = canvas.height - bird.radius; bird.velocity = 0; } if (bird.y - bird.radius &lt; 0) { bird.y = bird.radius; bird.velocity = 0; } animationFrameId = requestAnimationFrame(run); } // 게임 시작 run(); 4. 장애물 구현 오른쪽에서 왼쪽으로 위/아래 배치된 장애물이 다가온다. 점프를 통해 장애물을 피하는게 목적인 게임이다. 장애물 위와 아래의 간격(피할 구멍)은 같아야하며, 장애물 크기는 랜덤으로 생성한다. // 장애물은 계속 추가, 제거되기 때문에 새처럼 고정객체로 설정하면 안되고 배열로 설정 // 장애물 너비와 속도 등 추후 조정 const pipeWidth = 20; const pipeGap = 180; // 위 아래 간격 const pipeSpeed = 5; const pipeInterval = 90; // 다음 장애물 간격 let frameCount = 0; let pipes = []; // 장애물 추가 function addPipe() { // 장애물의 최소 높이를 지정 후 나머지 계산 const minPipeHeight = 50; const maxPipeHeight = canvas.height - pipeGap - minPipeHeight; const topPipeHeight = Math.floor(Math.random() * (maxPipeHeight - minPipeHeight + 1)) + minPipeHeight; pipes.push({ x: canvas.width, topHeight: topPipeHeight, bottomY: topPipeHeight + pipeGap }); } // 장애물 그리기 function drawPipes() { ctx.fillStyle = '#228B22'; for (let pipe of pipes) { // 위쪽 장애물 ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight); // 아래쪽 장애물 ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth, canvas.height - pipe.bottomY); } } // 장애물 갱신 function updatePipes() { for (let pipe of pipes) { // 장애물 속도에 따라 x축 조절 pipe.x -= pipeSpeed; } // 화면 밖으로 나간 장애물 제거 pipes = pipes.filter(pipe =&gt; pipe.x + pipeWidth &gt; 0); } 5. 충돌 판정 구현 새와 장애물이 충돌했을 때 게임오버가 되어야한다. 장애물 뿐만 아니라 천장이나 바닥에 닿아도 게임오버다. 신나는 수학시간~~ 원과 직사각형 충돌 판정 공식이 존재하므로 사용한다. // 새와 파이프 사이 가장 가까운 점 // 값을 최소값 최대값 사이로 제한 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); } // 점이 원 안에 들어있는지 확인 // 거리공식 활용 (루트 연산은 성능 떨어져서 굳이 쓸 필요 없음) function circleCollides(cx, cy, cr, px, py) { const dx = cx - px; const dy = cy - py; return dx * dx + dy * dy &lt;= cr * cr; } 공식을 이용해 충돌 여부를 판단하고 충돌 판정 시 게임오버 시킨다. 천장이나 바닥은 그냥 좌표확인만 하면 끝난다. // 천장 바닥 충돌 체크 if (bird.y + bird.radius &gt;= canvas.height || bird.y - bird.radius &lt;= 0) { gameOver(); return; } // 장애물 충돌 체크 for (let pipe of pipes) { // 장애물 x축 범위 내 새와 가장 가까운 x 좌표 const closestX = clamp(bird.x, pipe.x, pipe.x + pipeWidth); // 위 장애물과 새의 y좌표 비교 const topY = clamp(bird.y, 0, pipe.topHeight); // 충돌하는지 확인 if (circleCollides(bird.x, bird.y, bird.radius, closestX, topY)) { gameOver(); return; } // 아래 장애물과 새의 y좌표 비교 const bottomY = clamp(bird.y, pipe.bottomY, canvas.height); // 충돌하는지 확인 if (circleCollides(bird.x, bird.y, bird.radius, closestX, bottomY)) { gameOver(); return; } } // 게임오버 function gameOver() { cancelAnimationFrame(animationFrameId); ctx.fillStyle = 'red'; ctx.font = '48px Arial'; ctx.textAlign = 'center'; ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2); } 6. 점수 등 기타 기능 구현 장애물 하나를 넘을 때 마다 1점으로 판단한다. 그리고 시간이 지날수록 속도를 좀 더 빠르게 해서 게임오버를 유도한다. // 점수 판정은 새보다 왼쪽으로 지나간 장애물의 수를 세면 됨 // 장애물 생성 시 점수 판정용 변수를 추가 pipes.push({ x: canvas.width, topHeight: topPipeHeight, bottomY: topPipeHeight + pipeGap, scored: false // 점수 판정 }); // 점수 계산 for (let pipe of pipes) { // 점수가 매겨지지 않고 새보다 왼쪽에 있는 장애물에 대하여 점수 추가 if (!pipe.scored &amp;&amp; pipe.x + pipeWidth &lt; bird.x) { score++; pipe.scored = true; } } // 점수 그리기 function drawScore() { ctx.fillStyle = 'black'; ctx.font = '32px Arial'; ctx.textAlign = 'left'; ctx.fillText(`Score: ${score}`, 20, 40); } 시간이 지날수록 속도 추가는 단순하게 장애물 속도를 계속 늘려가면 된다. 난이도 곡선을 생각하면 여러 방법이 있을텐데 매 초 속도 추가 특정 점수를 넘을 때마다 속도 추가 시간이 지날수록 증가하는 속도에 가중치 부여 등등 고민하다가 10점마다 속도를 증가시키고, 매 증가마다 늘어나는 속도에 가중치를 부여하기로 결정했다. // const 변수를 let으로 바꿔주기 // 장애물 속도 증가 (10점 당 증가하며 초기 속도 5 반영) pipeSpeed = Math.floor(score / 10) + 5; 7. 빼먹은 것들 시작하자마자 새가 낙하해서 게임오버 당하는 불상사를 방지하기 위해 start 버튼 선택 시 시작하도록 한다. 마찬가지로 끝나면 retry 버튼을 추가해 다시 플레이할 수 있도록 한다. 막상 테스트 해보니 마우스로만 하기 번거로워서 스페이스 입력도 받도록 한다. // 스페이스바 입력 document.addEventListener('keydown', (e) =&gt; { if (e.code === 'Space') { e.preventDefault(); // 스크롤 방지 bird.velocity = bird.jump; } }); // start, retry 버튼에 대한 이벤트 // start 버튼 이벤트 document.querySelector('#startBtn').addEventListener('click', () =&gt; { isPlaying = true; resetGame(); // 게임 초기화 run(); // 게임 시작 document.querySelector('#startBtn').style.display = 'none'; }); // retry 버튼 이벤트 document.querySelector('#retryBtn').addEventListener('click', () =&gt; { isPlaying = true; resetGame(); // 게임 초기화 run(); // 게임 시작 document.querySelector('#retryBtn').style.display = 'none'; }); 완성 플레이해보며 난이도를 좀 조절했다. 반성 난이도 조절의 어려움 요 단순한 딸깍 게임 만드는데도 난이도 조정에 많은 고민을 하게 된다. 심지어 내가 생각하기에 장애물 속도만큼 새의 속도도 고려하는게 밸런스 상 맞지 않나 싶은데… 갓겜 제작자들은 얼마나 많은 고민을 통해 난이도를 정하게 되었을까? 움직이는 배경 만약 배경에 구름같은 무늬라도 띄어두고 배경을 장애물 속도에 맞춰 스크롤했으면 더 생동감이 생겼을거다. 바닥이나 천장도 민짜가 아니라 오돌토돌하게 표시해두고 스크롤하면 엄청난 속도감을 느낄 수 있겠지… 스터터링? 장애물이 렉걸리는 것 같은데 프레임 기반 이동을 해서 그렇다. 시간 기반 이동을 사용하면 프레임이 약간 밀려도 부드럽게 보정된다. 다음 캔버스 게임 만들때는 프레임도 신경쓰면서 만들어봐야겠다. querySelector와 getElementById 아무 생각없이 querySelector로 id 요소를 찾아오고 있는데 역시 css 선택자를 사용하는 querySelector보다 getElementById가 빠르다고 한다. 그래도 밀리세컨드 단위로 신경 쓸 필요는 없다고… 지금처럼 id 몇개 찾아올때는 getElementById를 써도 될 것 같고 class도 늘어나고 복잡해지는 경우에는 querySelector를 통해 코드에 통일성을 주는게 좋을 것 같다. 그리고 예전 jquery 쓸때는 js 코드가 지저분해서 쓰는거였는데 예쁜 querySelector를 안쓸 이유는 또 없잖아? 계속 쓸거야. 코드 확인 직접 해보기 Link to GitHub]]></summary></entry><entry><title type="html">클리커</title><link href="https://movingwoo.com/one-pan/python/2025/05/13/Clicker.html" rel="alternate" type="text/html" title="클리커" /><published>2025-05-13T03:00:00+00:00</published><updated>2025-05-13T03:00:00+00:00</updated><id>https://movingwoo.com/one-pan/python/2025/05/13/Clicker</id><content type="html" xml:base="https://movingwoo.com/one-pan/python/2025/05/13/Clicker.html"><![CDATA[<blockquote>
-  <h4 id="탄생-비화">탄생 비화</h4>
-  <hr />
-</blockquote>
-
-<p>화면을 인식하고 다양한 입력을 받고 싶은데 어떡하지?<br />
-GUI 뚝딱 만들어내는게 파이썬이 간단해보여서 기초 문법을 공부할 겸 만들어봄</p>
-
-<blockquote>
-  <h4 id="구현-포인트">구현 포인트</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-메인">1. 메인</h5>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 프로그램의 시작점
-# C나 java의 main()과 같음
-</span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
-    <span class="c1"># 파이썬은 들여쓰기가 아주 중요함
-</span>    <span class="c1"># 스페이스 4칸이 국룰이라고 함
-</span>    <span class="c1"># 탭 누르면 4칸 들여쓰기가 됨
-</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="p">.</span><span class="nc">Tk</span><span class="p">()</span>  <span class="c1"># tkinter 창을 생성
-</span>    <span class="n">clicker</span> <span class="o">=</span> <span class="nc">Clicker</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>  <span class="c1"># 게임 객체를 생성
-</span>    <span class="n">root</span><span class="p">.</span><span class="nf">mainloop</span><span class="p">()</span>  <span class="c1"># 창을 표시하고 이벤트 루프를 시작, 없으면 창이 열렸다가 바로 닫힘
-</span>
-    <span class="c1"># 만약 창을 닫으면?
-</span>    <span class="c1"># 1. root.mainloop() 종료
-</span>    <span class="c1"># 2. clicker 객체가 더 이상 사용되지 않음
-</span>    <span class="c1"># 3. __del__ 함수가 자동으로 호출됨
-</span>    <span class="c1"># 4. self.running = False로 설정되어 자동 클릭 스레드가 종료됨
-</span></code></pre></div></div>
-
-<h5 id="2-초기화">2. 초기화</h5>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 초기화 함수, 이름이 반드시 __init__이어야 동작함
-# self는 js로 치면 this
-# root는 외부 인자, tkinter로 만든 GUI 객체
-</span><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>   
-    <span class="n">self</span><span class="p">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>  <span class="c1"># 메인 창 객체를 저장
-</span>    <span class="n">self</span><span class="p">.</span><span class="n">root</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Clicker</span><span class="sh">"</span><span class="p">)</span>  <span class="c1"># 창의 제목
-</span>    <span class="n">self</span><span class="p">.</span><span class="n">root</span><span class="p">.</span><span class="nf">geometry</span><span class="p">(</span><span class="sh">"</span><span class="s">800x600</span><span class="sh">"</span><span class="p">)</span>  <span class="c1"># 창의 크기
-</span>    
-    <span class="c1"># 게임이 진행될 캔버스를 생성
-</span>    <span class="n">self</span><span class="p">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">tk</span><span class="p">.</span><span class="nc">Canvas</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="sh">"</span><span class="s">white</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="nf">pack</span><span class="p">()</span>  <span class="c1"># 캔버스를 창에 배치해야 보임
-</span>
-    <span class="c1"># 현재 실행 중인 파일의 경로
-</span>    <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">image_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="sh">"</span><span class="s">target.png</span><span class="sh">"</span><span class="p">)</span>  <span class="c1"># 이미지 파일의 전체 경로를 생성
-</span>    
-    <span class="c1"># 이미지 파일을 열고 tkinter에서 사용할 수 있는 형태로 변환
-</span>    <span class="n">self</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">image_path</span><span class="p">)</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">tk_image</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="p">.</span><span class="nc">PhotoImage</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">image</span><span class="p">)</span>
-
-    <span class="c1"># 이미지 객체와 점수 텍스트를 저장할 변수를 초기화
-</span>    <span class="c1"># 파이썬은 타입 선언만 하면 안되고 값 할당을 해야함
-</span>    <span class="n">self</span><span class="p">.</span><span class="n">image_obj</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">score_text</span> <span class="o">=</span> <span class="bp">None</span>
-    
-    <span class="c1"># 초기 이미지와 점수를 화면에 표시
-</span>    <span class="n">self</span><span class="p">.</span><span class="nf">update_image</span><span class="p">()</span>
-    <span class="n">self</span><span class="p">.</span><span class="nf">update_score</span><span class="p">()</span>
-
-    <span class="c1"># 자동 클릭을 위한 스레드 시작
-</span>    <span class="c1"># 스레드를 분리하지 않으면 클릭 함수가 실행되는 동안 GUI 창이 멈춤
-</span>    <span class="n">self</span><span class="p">.</span><span class="n">running</span> <span class="o">=</span> <span class="bp">True</span>  <span class="c1"># 스레드 실행 상태를 저장, 프로그램 종료 시 스레드 종료
-</span>    <span class="n">threading</span><span class="p">.</span><span class="nc">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">auto_click</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="nf">start</span><span class="p">()</span>  <span class="c1"># 백그라운드에서 자동 클릭 스레드 실행
-</span></code></pre></div></div>
-
-<h5 id="3-클릭">3. 클릭</h5>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 자동으로 이미지를 클릭하는 함수
-</span><span class="k">def</span> <span class="nf">auto_click</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
-    <span class="k">global</span> <span class="n">CLICK_COUNT</span>  <span class="c1"># 전역 변수 CLICK_COUNT를 사용, global 선언하지 않으면 지역변수로 처리
-</span>    <span class="k">while</span> <span class="n">self</span><span class="p">.</span><span class="n">running</span><span class="p">:</span>  <span class="c1"># running이 True인 동안 계속 실행
-</span>        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># 화면에서 이미지 찾기 (70% 일치도)
-</span>            <span class="n">location</span> <span class="o">=</span> <span class="n">pyautogui</span><span class="p">.</span><span class="nf">locateOnScreen</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">image_path</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">location</span><span class="p">:</span> 
-                <span class="c1"># 이미지의 중앙 좌표를 계산
-</span>                <span class="n">center_x</span> <span class="o">=</span> <span class="n">location</span><span class="p">.</span><span class="n">left</span> <span class="o">+</span> <span class="n">location</span><span class="p">.</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span>
-                <span class="n">center_y</span> <span class="o">=</span> <span class="n">location</span><span class="p">.</span><span class="n">top</span> <span class="o">+</span> <span class="n">location</span><span class="p">.</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span>
-                <span class="n">pyautogui</span><span class="p">.</span><span class="nf">click</span><span class="p">(</span><span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">)</span>  <span class="c1"># 해당 위치 클릭
-</span>                <span class="n">CLICK_COUNT</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># 클릭 횟수 증가
-</span>                <span class="c1"># 이미지 위치 변경
-</span>                <span class="n">self</span><span class="p">.</span><span class="n">root</span><span class="p">.</span><span class="nf">after</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">update_image</span><span class="p">)</span>
-            <span class="n">time</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># 0.1초 대기 (클릭 간격 조절)
-</span>
-        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nf">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>  <span class="c1"># 오류 메시지가 있을 때만 출력
-</span>                <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">자동 클릭 중 오류 발생: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-            <span class="n">time</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># 오류 발생 시 0.5초 대기
-</span></code></pre></div></div>
-
-<blockquote>
-  <h4 id="완성">완성</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/one-pan/Python/2025-05-13-Clicker/img01.gif" alt="img01" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>이미지 생성 위치는 이미지의 크기를 고려하여 동적으로 정할 수 있을 것 같다.<br />
-그리고 마우스가 번쩍번쩍 움직여서 종료 트리거를 따로 만들어주는게 좋을지도?<br />
-지금은 Alt+F4로만 종료하는데 다른 키 입력이나 우클릭 등 간단하게 종료할 수 있도록 하는게 좋겠지.</p>
-
-<p>pyautogui.click() 함수는 실제 반환 값이 없다고 한다.<br />
-예외 또한 거의 발생시키지 않고 클릭을 안하면 그만이라서 <span style="color: orange;"><strong>진짜 클릭 되었는지 판단하기 어렵다고 한다.</strong></span><br />
-따라서 클릭 성공과 실패를 위해선 UI 변화를 주고 변화를 통한 클릭 여부 판단을 해야할 듯 하다.<br />
-클릭 여부 판정 코드가 없는 지금은 클릭 이벤트를 빼버려도 이미지가 위치를 바꾸는지라…</p>
-
-<p>아무튼 클릭은 잘 해주고 있으니 이번에 배운 것을 다음에 응용하면 되겠다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/Python/2025-05-13-Clicker.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/Python/" /><summary type="html"><![CDATA[탄생 비화 화면을 인식하고 다양한 입력을 받고 싶은데 어떡하지? GUI 뚝딱 만들어내는게 파이썬이 간단해보여서 기초 문법을 공부할 겸 만들어봄 구현 포인트 1. 메인 # 프로그램의 시작점 # C나 java의 main()과 같음 if __name__ == "__main__": # 파이썬은 들여쓰기가 아주 중요함 # 스페이스 4칸이 국룰이라고 함 # 탭 누르면 4칸 들여쓰기가 됨 root = tk.Tk() # tkinter 창을 생성 clicker = Clicker(root) # 게임 객체를 생성 root.mainloop() # 창을 표시하고 이벤트 루프를 시작, 없으면 창이 열렸다가 바로 닫힘 # 만약 창을 닫으면? # 1. root.mainloop() 종료 # 2. clicker 객체가 더 이상 사용되지 않음 # 3. __del__ 함수가 자동으로 호출됨 # 4. self.running = False로 설정되어 자동 클릭 스레드가 종료됨 2. 초기화 # 초기화 함수, 이름이 반드시 __init__이어야 동작함 # self는 js로 치면 this # root는 외부 인자, tkinter로 만든 GUI 객체 def __init__(self, root): self.root = root # 메인 창 객체를 저장 self.root.title("Clicker") # 창의 제목 self.root.geometry("800x600") # 창의 크기 # 게임이 진행될 캔버스를 생성 self.canvas = tk.Canvas(root, width=800, height=600, bg="white") self.canvas.pack() # 캔버스를 창에 배치해야 보임 # 현재 실행 중인 파일의 경로 current_dir = os.path.dirname(os.path.abspath(__file__)) self.image_path = os.path.join(current_dir, "target.png") # 이미지 파일의 전체 경로를 생성 # 이미지 파일을 열고 tkinter에서 사용할 수 있는 형태로 변환 self.image = Image.open(self.image_path) self.tk_image = ImageTk.PhotoImage(self.image) # 이미지 객체와 점수 텍스트를 저장할 변수를 초기화 # 파이썬은 타입 선언만 하면 안되고 값 할당을 해야함 self.image_obj = None self.score_text = None # 초기 이미지와 점수를 화면에 표시 self.update_image() self.update_score() # 자동 클릭을 위한 스레드 시작 # 스레드를 분리하지 않으면 클릭 함수가 실행되는 동안 GUI 창이 멈춤 self.running = True # 스레드 실행 상태를 저장, 프로그램 종료 시 스레드 종료 threading.Thread(target=self.auto_click, daemon=True).start() # 백그라운드에서 자동 클릭 스레드 실행 3. 클릭 # 자동으로 이미지를 클릭하는 함수 def auto_click(self): global CLICK_COUNT # 전역 변수 CLICK_COUNT를 사용, global 선언하지 않으면 지역변수로 처리 while self.running: # running이 True인 동안 계속 실행 try: # 화면에서 이미지 찾기 (70% 일치도) location = pyautogui.locateOnScreen(self.image_path, confidence=0.7) if location: # 이미지의 중앙 좌표를 계산 center_x = location.left + location.width // 2 center_y = location.top + location.height // 2 pyautogui.click(center_x, center_y) # 해당 위치 클릭 CLICK_COUNT += 1 # 클릭 횟수 증가 # 이미지 위치 변경 self.root.after(0, self.update_image) time.sleep(0.1) # 0.1초 대기 (클릭 간격 조절) except Exception as e: if str(e): # 오류 메시지가 있을 때만 출력 print(f"자동 클릭 중 오류 발생: {e}") time.sleep(0.5) # 오류 발생 시 0.5초 대기 완성 반성 이미지 생성 위치는 이미지의 크기를 고려하여 동적으로 정할 수 있을 것 같다. 그리고 마우스가 번쩍번쩍 움직여서 종료 트리거를 따로 만들어주는게 좋을지도? 지금은 Alt+F4로만 종료하는데 다른 키 입력이나 우클릭 등 간단하게 종료할 수 있도록 하는게 좋겠지. pyautogui.click() 함수는 실제 반환 값이 없다고 한다. 예외 또한 거의 발생시키지 않고 클릭을 안하면 그만이라서 진짜 클릭 되었는지 판단하기 어렵다고 한다. 따라서 클릭 성공과 실패를 위해선 UI 변화를 주고 변화를 통한 클릭 여부 판단을 해야할 듯 하다. 클릭 여부 판정 코드가 없는 지금은 클릭 이벤트를 빼버려도 이미지가 위치를 바꾸는지라… 아무튼 클릭은 잘 해주고 있으니 이번에 배운 것을 다음에 응용하면 되겠다. 코드 확인 Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-14-Flappy%20Bird.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 캔버스로 웹 게임 하나 만들어보기 마우스 클릭 조작만 이용하고 싶기에 고심끝에 Flappy Bird를 구현해보기로 한다. 그런데 이 게임 한국어로 뭐라고 하지? 그냥 플래피 버드라고 하면 되나? 구현 1. 설계 필요한 기능을 정리해보자. 마우스 클릭 시 점프 천장, 지면, 장애물 충돌 판정 장애물 높이 랜덤 생성 및 시간이 지날수록 속도 증가 점수 시스템 이를 바탕으로 코드 작성 순서를 정한다. HTML + CANVAS 세팅 새를 그려서 점프와 중력 구현 장애물 구현 충돌 판정 구현 점수 등 기타 기능 구현 2. HTML + CANVAS 세팅 &lt;!DOCTYPE html&gt; &lt;html lang="ko"&gt; &lt;head&gt; &lt;meta charset="UTF-8" /&gt; &lt;title&gt;Flappy Bird&lt;/title&gt; &lt;style&gt; body { margin: 0; background-color: #FFFFFF; display: flex; justify-content: center; align-items: center; height: 100vh; } canvas { border: 2px solid #000; background-color: #cceeff; } &lt;/style&gt; &lt;/head&gt; &lt;body&gt; &lt;canvas id="gameCanvas" width="640" height="480"&gt;&lt;/canvas&gt; &lt;script&gt; const canvas = document.querySelector('#gameCanvas'); const ctx = canvas.getContext('2d'); // 이하 코드 작성 &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; 3. 새를 그려서 점프와 중력 구현 새라고 하긴 했지만… 일단 동그라미를 그려놓고 새라고 우기자. 처음에 공중에서 시작했다가 중력을 받아 아래로 떨어진다. 그리고 클릭하면 공중으로 튀어오른다. 얼마나 빠르게 떨어지고 민감하게 튀어오를지는 다 만들고 조절하기로 함. // 새 const bird = { // 중력과 점프력을 추후 조정 x: 150, y: 240, radius: 20, velocity: 0, gravity: 0.5, jump: -8 }; let animationFrameId; canvas.addEventListener('click', () =&gt; { // 속도에 점프력을 더해 점프 bird.velocity = bird.jump; }); // 게임 루프 function run() { // 물리 계산 // 속도는 중력만큼 추가, 속도만큼 y축 조절 bird.velocity += bird.gravity; bird.y += bird.velocity; // 화면 지우기 ctx.clearRect(0, 0, canvas.width, canvas.height); // 새 그리기 ctx.beginPath(); ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2); ctx.fillStyle = '#ffcc00'; ctx.fill(); ctx.strokeStyle = '#333'; ctx.stroke(); // 천장 바닥 제한 if (bird.y + bird.radius &gt; canvas.height) { bird.y = canvas.height - bird.radius; bird.velocity = 0; } if (bird.y - bird.radius &lt; 0) { bird.y = bird.radius; bird.velocity = 0; } animationFrameId = requestAnimationFrame(run); } // 게임 시작 run(); 4. 장애물 구현 오른쪽에서 왼쪽으로 위/아래 배치된 장애물이 다가온다. 점프를 통해 장애물을 피하는게 목적인 게임이다. 장애물 위와 아래의 간격(피할 구멍)은 같아야하며, 장애물 크기는 랜덤으로 생성한다. // 장애물은 계속 추가, 제거되기 때문에 새처럼 고정객체로 설정하면 안되고 배열로 설정 // 장애물 너비와 속도 등 추후 조정 const pipeWidth = 20; const pipeGap = 180; // 위 아래 간격 const pipeSpeed = 5; const pipeInterval = 90; // 다음 장애물 간격 let frameCount = 0; let pipes = []; // 장애물 추가 function addPipe() { // 장애물의 최소 높이를 지정 후 나머지 계산 const minPipeHeight = 50; const maxPipeHeight = canvas.height - pipeGap - minPipeHeight; const topPipeHeight = Math.floor(Math.random() * (maxPipeHeight - minPipeHeight + 1)) + minPipeHeight; pipes.push({ x: canvas.width, topHeight: topPipeHeight, bottomY: topPipeHeight + pipeGap }); } // 장애물 그리기 function drawPipes() { ctx.fillStyle = '#228B22'; for (let pipe of pipes) { // 위쪽 장애물 ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight); // 아래쪽 장애물 ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth, canvas.height - pipe.bottomY); } } // 장애물 갱신 function updatePipes() { for (let pipe of pipes) { // 장애물 속도에 따라 x축 조절 pipe.x -= pipeSpeed; } // 화면 밖으로 나간 장애물 제거 pipes = pipes.filter(pipe =&gt; pipe.x + pipeWidth &gt; 0); } 5. 충돌 판정 구현 새와 장애물이 충돌했을 때 게임오버가 되어야한다. 장애물 뿐만 아니라 천장이나 바닥에 닿아도 게임오버다. 신나는 수학시간~~ 원과 직사각형 충돌 판정 공식이 존재하므로 사용한다. // 새와 파이프 사이 가장 가까운 점 // 값을 최소값 최대값 사이로 제한 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); } // 점이 원 안에 들어있는지 확인 // 거리공식 활용 (루트 연산은 성능 떨어져서 굳이 쓸 필요 없음) function circleCollides(cx, cy, cr, px, py) { const dx = cx - px; const dy = cy - py; return dx * dx + dy * dy &lt;= cr * cr; } 공식을 이용해 충돌 여부를 판단하고 충돌 판정 시 게임오버 시킨다. 천장이나 바닥은 그냥 좌표확인만 하면 끝난다. // 천장 바닥 충돌 체크 if (bird.y + bird.radius &gt;= canvas.height || bird.y - bird.radius &lt;= 0) { gameOver(); return; } // 장애물 충돌 체크 for (let pipe of pipes) { // 장애물 x축 범위 내 새와 가장 가까운 x 좌표 const closestX = clamp(bird.x, pipe.x, pipe.x + pipeWidth); // 위 장애물과 새의 y좌표 비교 const topY = clamp(bird.y, 0, pipe.topHeight); // 충돌하는지 확인 if (circleCollides(bird.x, bird.y, bird.radius, closestX, topY)) { gameOver(); return; } // 아래 장애물과 새의 y좌표 비교 const bottomY = clamp(bird.y, pipe.bottomY, canvas.height); // 충돌하는지 확인 if (circleCollides(bird.x, bird.y, bird.radius, closestX, bottomY)) { gameOver(); return; } } // 게임오버 function gameOver() { cancelAnimationFrame(animationFrameId); ctx.fillStyle = 'red'; ctx.font = '48px Arial'; ctx.textAlign = 'center'; ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2); } 6. 점수 등 기타 기능 구현 장애물 하나를 넘을 때 마다 1점으로 판단한다. 그리고 시간이 지날수록 속도를 좀 더 빠르게 해서 게임오버를 유도한다. // 점수 판정은 새보다 왼쪽으로 지나간 장애물의 수를 세면 됨 // 장애물 생성 시 점수 판정용 변수를 추가 pipes.push({ x: canvas.width, topHeight: topPipeHeight, bottomY: topPipeHeight + pipeGap, scored: false // 점수 판정 }); // 점수 계산 for (let pipe of pipes) { // 점수가 매겨지지 않고 새보다 왼쪽에 있는 장애물에 대하여 점수 추가 if (!pipe.scored &amp;&amp; pipe.x + pipeWidth &lt; bird.x) { score++; pipe.scored = true; } } // 점수 그리기 function drawScore() { ctx.fillStyle = 'black'; ctx.font = '32px Arial'; ctx.textAlign = 'left'; ctx.fillText(`Score: ${score}`, 20, 40); } 시간이 지날수록 속도 추가는 단순하게 장애물 속도를 계속 늘려가면 된다. 난이도 곡선을 생각하면 여러 방법이 있을텐데 매 초 속도 추가 특정 점수를 넘을 때마다 속도 추가 시간이 지날수록 증가하는 속도에 가중치 부여 등등 고민하다가 10점마다 속도를 증가시키고, 매 증가마다 늘어나는 속도에 가중치를 부여하기로 결정했다. // const 변수를 let으로 바꿔주기 // 장애물 속도 증가 (10점 당 증가하며 초기 속도 5 반영) pipeSpeed = Math.floor(score / 10) + 5; 7. 빼먹은 것들 시작하자마자 새가 낙하해서 게임오버 당하는 불상사를 방지하기 위해 start 버튼 선택 시 시작하도록 한다. 마찬가지로 끝나면 retry 버튼을 추가해 다시 플레이할 수 있도록 한다. 막상 테스트 해보니 마우스로만 하기 번거로워서 스페이스 입력도 받도록 한다. // 스페이스바 입력 document.addEventListener('keydown', (e) =&gt; { if (e.code === 'Space') { e.preventDefault(); // 스크롤 방지 bird.velocity = bird.jump; } }); // start, retry 버튼에 대한 이벤트 // start 버튼 이벤트 document.querySelector('#startBtn').addEventListener('click', () =&gt; { isPlaying = true; resetGame(); // 게임 초기화 run(); // 게임 시작 document.querySelector('#startBtn').style.display = 'none'; }); // retry 버튼 이벤트 document.querySelector('#retryBtn').addEventListener('click', () =&gt; { isPlaying = true; resetGame(); // 게임 초기화 run(); // 게임 시작 document.querySelector('#retryBtn').style.display = 'none'; }); 완성 플레이해보며 난이도를 좀 조절했다. 반성 난이도 조절의 어려움 요 단순한 딸깍 게임 만드는데도 난이도 조정에 많은 고민을 하게 된다. 심지어 내가 생각하기에 장애물 속도만큼 새의 속도도 고려하는게 밸런스 상 맞지 않나 싶은데… 갓겜 제작자들은 얼마나 많은 고민을 통해 난이도를 정하게 되었을까? 움직이는 배경 만약 배경에 구름같은 무늬라도 띄어두고 배경을 장애물 속도에 맞춰 스크롤했으면 더 생동감이 생겼을거다. 바닥이나 천장도 민짜가 아니라 오돌토돌하게 표시해두고 스크롤하면 엄청난 속도감을 느낄 수 있겠지… 스터터링? 장애물이 렉걸리는 것 같은데 프레임 기반 이동을 해서 그렇다. 시간 기반 이동을 사용하면 프레임이 약간 밀려도 부드럽게 보정된다. 다음 캔버스 게임 만들때는 프레임도 신경쓰면서 만들어봐야겠다. querySelector와 getElementById 아무 생각없이 querySelector로 id 요소를 찾아오고 있는데 역시 css 선택자를 사용하는 querySelector보다 getElementById가 빠르다고 한다. 그래도 밀리세컨드 단위로 신경 쓸 필요는 없다고… 지금처럼 id 몇개 찾아올때는 getElementById를 써도 될 것 같고 class도 늘어나고 복잡해지는 경우에는 querySelector를 통해 코드에 통일성을 주는게 좋을 것 같다. 그리고 예전 jquery 쓸때는 js 코드가 지저분해서 쓰는거였는데 예쁜 querySelector를 안쓸 이유는 또 없잖아? 계속 쓸거야. 코드 확인 직접 해보기 Link to GitHub]]></summary></entry></feed>
