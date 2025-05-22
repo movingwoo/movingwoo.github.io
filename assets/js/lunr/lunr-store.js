@@ -100,4 +100,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/c++/2025/05/21/26226.html",
         "teaser": null
+      },{
+        "title": "미로 생성기 02",
+        "excerpt":"개요 Prim’s 알고리즘과 Kruskal’s 알고리즘의 미로를 추가하기 구현 시작 전에 공통으로 사용할 함수를 index로 몰아준다. Prim’s 알고리즘 DFS와 Prim의 미로는 겉으로는 제법 유사해보이는데 Prim은 탈출 경로가 훨씬 단순해진다. DFS는 한 방향으로 쭈욱 파다가 막히면 돌아가서 새로운 길을 찾는데, Prim은 미로의 경계에서 새로운 길을 만들기 때문이다. 느낌으로 비교하자면 DFS는 ‘길을 파는...","categories": ["one-pan/JavaScript/"],
+        "tags": [],
+        "url": "/one-pan/javascript/2025/05/21/Maze-Generator-02.html",
+        "teaser": null
       }]
