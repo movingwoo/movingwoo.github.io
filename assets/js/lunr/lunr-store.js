@@ -108,7 +108,7 @@ var store = [{
         "teaser": null
       },{
         "title": "26489번 Gum Gum for Jay Jay",
-        "excerpt":"문제 18382번 2048 - 백준 설계 엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ 좋아좋아 이런 날도 있어야지. 입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다. 구현 n = 0 try: while True: input() ++n except EOFError: pass print(n) 끝이다. 아니 내 컨텐츠가!!!!!!! 너무 쉬운 문제는 이런게 문제구나. 이왕 이렇게 된 것, C++과 Java로도...","categories": ["random-solve/Python/"],
+        "excerpt":"문제 26489번 Gum Gum for Jay Jay - 백준 설계 엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ 좋아좋아 이런 날도 있어야지. 입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다. 구현 n = 0 try: while True: input() ++n except EOFError: pass print(n) 끝이다. 아니 내 컨텐츠가!!!!!!! 너무 쉬운 문제는 이런게 문제구나. 이왕 이렇게...","categories": ["random-solve/Python/"],
         "tags": [],
         "url": "/random-solve/python/2025/05/22/26489.html",
         "teaser": null
