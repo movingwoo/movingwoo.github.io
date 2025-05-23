@@ -30,12 +30,14 @@
 <body>
 
   <div id="btn_area">
-    <!-- DFS 기반 미로 버튼 -->
+    <!-- 미로 버튼 -->
     <button onclick="startDFS()">DFS Generate</button>
-    <!-- Prim's Algorithm 기반 미로 버튼  -->
     <button onclick="startPrim()">Prim's Generate</button>
-    <!-- Kruskal's Algorithm 기반 미로 버튼 -->
     <button onclick="startKruskal()">Kruskal's Generate</button>
+    <button onclick="startBinaryTree()">BinaryTree Generate</button>
+    <button onclick="startSidewinder()">Sidewinder Generate</button>
+    <button onclick="startRecursiveDivision()">RecursiveDivision Generate</button>
+    <button onclick="startEller()">Eller's Generate</button>
   </div>
 
   <!-- 미로 캔버스 -->
@@ -113,7 +115,7 @@
       return furthest;
     }
       
-      // 탈출 경로 찾기(BFS)
+    // 탈출 경로 찾기(BFS)
     function findPathBFS(sx, sy, ex, ey) {
       const que = [[sx, sy]];
       const visited = new Set();
@@ -170,13 +172,30 @@
       }
     }
 
+    // 패스파인더
+    async function pathFinder() {
+      // 입구 표시
+      drawCell(entrance[0], entrance[1], 'lime');
+      const [ex, ey] = findFurthestCell(entrance[0], entrance[1]);
+      exit = [ex, ey];
+      // 출구 표시
+      drawCell(exit[0], exit[1], 'blue');
+      
+      const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]);
+      await drawPathAnimated(path);
+    }
+
     initMaze();
   </script>
 
-  <!-- DFS 미로 스크립트 -->
+  <!-- 미로 스크립트 -->
   <script src="./js/DFS.js"></script>
   <script src="./js/Prim.js"></script>
   <script src="./js/Kruskal.js"></script>
+  <script src="./js/BinaryTree.js"></script>
+  <script src="./js/Sidewinder.js"></script>
+  <script src="./js/RecursiveDivision.js"></script>
+  <script src="./js/Eller.js"></script>
 
 </body>
 </html>

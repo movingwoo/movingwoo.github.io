@@ -42,15 +42,6 @@ async function generateDFS(x = entrance[0], y = entrance[1]) {
 async function startDFS() {
     initMaze(); 
     await generateDFS();
-
-    // 입구 표시
-    drawCell(entrance[0], entrance[1], 'lime');
-    const [ex, ey] = findFurthestCell(entrance[0], entrance[1])
-    exit = [ex, ey];
-    // 출구 표시
-    drawCell(exit[0], exit[1], 'blue')
-    
-    const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]);
-    await drawPathAnimated(path);
+    await pathFinder();
 }
   
