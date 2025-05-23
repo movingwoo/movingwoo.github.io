@@ -124,4 +124,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/c++/2025/05/23/25245.html",
         "teaser": null
+      },{
+        "title": "27391번 Platform Placing",
+        "excerpt":"문제 27391번 Platform Placing - 백준 설계 한글 문제 언제 나오나? 플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오. 대충 그리디 알고리즘...","categories": ["random-solve/Java/"],
+        "tags": [],
+        "url": "/random-solve/java/2025/05/23/27391.html",
+        "teaser": null
       }]

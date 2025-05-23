@@ -1,4 +1,124 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-23T05:54:41+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">25245번 Amusement Arcade</title><link href="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html" rel="alternate" type="text/html" title="25245번 Amusement Arcade" /><published>2025-05-23T05:00:00+00:00</published><updated>0225-05-23T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/23/25245</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-23T06:44:30+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">27391번 Platform Placing</title><link href="https://movingwoo.com/random-solve/java/2025/05/23/27391.html" rel="alternate" type="text/html" title="27391번 Platform Placing" /><published>2025-05-23T06:00:00+00:00</published><updated>2025-05-23T06:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/23/27391</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/23/27391.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-23-27391/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/27391">27391번 Platform Placing - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>한글 문제 언제 나오나?</p>
+
+<p>플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다.<br />
+양쪽으로 펼쳐진다는 뜻.<br />
+최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다.<br />
+모든 고정지점마다 플랫폼 하나 설치가 가능하다.<br />
+이때 플랫폼 길이의 총합이 최대가 되도록 하시오.</p>
+
+<p>대충 그리디 알고리즘 ㄱㄱ</p>
+
+<p>당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다.<br />
+고정 지점들을 정렬해 순차적으로 길이를 할당하되<br />
+이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다.</p>
+
+<p>해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-입력-받기">1. 입력 받기</h5>
+
+<p>제한시간은 항상 두려우니 버퍼로 입력받고<br />
+플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    	
+    	<span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+	        <span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">)))</span> <span class="o">{</span>
+	        
+	        <span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span> <span class="s">" "</span><span class="o">);</span>
+	        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+	        <span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+	        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+	        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	        
+	        <span class="kt">int</span><span class="o">[]</span> <span class="n">platforms</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
+	        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	        	<span class="n">platforms</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+	        <span class="o">}</span>
+	        <span class="c1">// 오름차순</span>
+	        <span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">platforms</span><span class="o">);</span>
+	        
+	        <span class="kt">int</span><span class="o">[]</span> <span class="n">lengths</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
+	        <span class="c1">// 최대길이로 일단 채우고 시작</span>
+	        <span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">lengths</span><span class="o">,</span> <span class="n">k</span><span class="o">);</span>
+	        
+	    <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+	        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+	    <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="2-플랫폼-배열-탐색">2. 플랫폼 배열 탐색</h5>
+
+<p>플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다.<br />
+배치 불가능하면 -1을 즉시 출력하고<br />
+가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">platforms</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">platforms</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
+    <span class="c1">// 플랫폼이 양쪽으로 펼쳐짐</span>
+    <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dist</span><span class="o">;</span>
+
+    <span class="c1">// 불가능한 경우</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">max</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"-1"</span><span class="o">);</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">max</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">max</span> <span class="o">-</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]));</span>
+
+        <span class="c1">// 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">max</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="n">max</span> <span class="o">-</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">length</span> <span class="o">:</span> <span class="n">lengths</span><span class="o">)</span> <span class="n">result</span> <span class="o">+=</span> <span class="n">length</span><span class="o">;</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">result</span><span class="o">));</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-23-27391/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>기분좋게 잘 해결되었다.<br />
+C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-23-27391.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 27391번 Platform Placing - 백준 설계 한글 문제 언제 나오나? 플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오. 대충 그리디 알고리즘 ㄱㄱ 당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다. 해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다. 구현 1. 입력 받기 제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine(), " "); int n = Integer.parseInt(st.nextToken()); int s = Integer.parseInt(st.nextToken()); int k = Integer.parseInt(st.nextToken()); int result = 0; int[] platforms = new int[n]; for(int i = 0 ; i &lt; n ; i++) { platforms[i] = Integer.parseInt(br.readLine()); } // 오름차순 Arrays.sort(platforms); int[] lengths = new int[n]; // 최대길이로 일단 채우고 시작 Arrays.fill(lengths, k); }catch(IOException e) { e.printStackTrace(); } } 2. 플랫폼 배열 탐색 플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다. for (int i = 1 ; i &lt; n ; i++) { int dist = platforms[i] - platforms[i - 1]; // 플랫폼이 양쪽으로 펼쳐짐 int max = 2 * dist; // 불가능한 경우 if (max &lt; 2 * s) { bw.write("-1"); return; } // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1])); // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i - 1] = Math.max(s, max - lengths[i]); } } } for (int length : lengths) result += length; bw.write(String.valueOf(result)); 채점 반성 기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">25245번 Amusement Arcade</title><link href="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html" rel="alternate" type="text/html" title="25245번 Amusement Arcade" /><published>2025-05-23T05:00:00+00:00</published><updated>0225-05-23T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/23/25245</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -2364,99 +2484,4 @@ O(N log K)로 바꾸면 통과가 가능하다.</p>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-15-18382.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 18382번 2048 - 백준 설계 앗 영어문제 2048 게임의 최종 점수를 출력하는 문제이다. 입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다. 4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다. 구현 1. 입력 받기 score = int(input()) # 무빙 moving_input = input() moving = [moving_input[i:i+4] for i in range(0, len(moving_input), 4)] # 현재 판 board_input = list(map(int, input().split())) board = [board_input[i*4:(i+1)*4] for i in range(4)] 2. 입력 파싱 # 무빙만큼 반복 for move in moving: dir = move[0] value = int(move[1]) x = int(move[2]) y = int(move[3]) board, gained = move_board(board, dir) score += gained board[x][y] = value print(score) 3. 실제 무빙 로직 def move_board(board, dir): gained = 0 # 방향에 따라 움직일 방향 설정 dir_delta = { 'U': (0, -1), 'D': (0, 1), 'L': (-1, 0), 'R': (1, 0), } dx, dy = dir_delta[dir] # 병합 여부 확인 merged = [[False]*4 for _ in range(4)] # 벽은 무시하고 탐색해야해서 이동 순서 조정 range_x = range(4) range_y = range(4) if dir == 'R': range_x = range(2, -1, -1) if dir == 'D': range_y = range(2, -1, -1) if dir == 'L': range_x = range(1, 4) if dir == 'U': range_y = range(1, 4) # 설정 범위내 무빙 for y in range_y: for x in range_x: # 0이면 무시 if board[y][x] == 0: continue # 현재 좌표 cx, cy = x, y while True: # 목표 좌표 nx, ny = cx + dx, cy + dy # 벽 만나면 중단 if not (0 &lt;= nx &lt; 4 and 0 &lt;= ny &lt; 4): break # 빈 칸이면 이동 if board[ny][nx] == 0: board[ny][nx] = board[cy][cx] board[cy][cx] = 0 cx, cy = nx, ny # 같은 숫자 + 병합 안 됐으면 합치기 elif board[ny][nx] == board[cy][cx] and not merged[ny][nx]: board[ny][nx] *= 2 board[cy][cx] = 0 merged[ny][nx] = True gained += board[ny][nx] break # 다른 숫자면 무시 else: break return board, gained 채점 반성 4X4 보드에 좌표계산하며 시뮬레이션 하는 식으로 해결했는데 파이썬에서는 좌표계산보다 줄단위 처리가 낫다고 한다. 파이썬의 자료구조와 문법은 좌표 반복보단 리스트 전체 조작에 강력하게 최적화돼 있기 때문이라고 리스트가 가변 배열이고 병합, 필터링 등 기능이 내장되어 있다고 한다. def slide_left(row): new_row = [x for x in row if x != 0] # 병합 처리 ... return new_row 이런 식으로 해결할 수 있다고… 2중 반복문을 안써도 되고 코드가 단순해지며 보드 회전을 통해 슬라이드 함수 하나로 처리도 가능하다. transpose = [list(row) for row in zip(*board)] # 전치 행렬 reversed_board = [row[::-1] for row in board] # 행 반전 c나 java와는 좀 다르다. 파이썬 고수가 되려면 한참 멀었다. 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">랜덤 출력기</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/14/Random-Printer.html" rel="alternate" type="text/html" title="랜덤 출력기" /><published>2025-05-14T23:00:00+00:00</published><updated>2025-05-14T23:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/14/Random%20Printer</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/14/Random-Printer.html"><![CDATA[<blockquote>
-  <h4 id="개요">개요</h4>
-  <hr />
-</blockquote>
-
-<p>백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데<br />
-랜덤 뽑아내는 기능이 필요해서 자급자족함</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-설계">1. 설계</h5>
-
-<p>백준에 문제가 몇개나 되지?
-현시점 전체 문제는 3만개 이상으로 나온다.<br />
-웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지?<br />
-최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다.</p>
-
-<p>언어는 72종 지원한다는데 내가 할 수 있는 언어만 나와야한다.<br />
-대충 java, c++, python 3종으로만 하자.</p>
-
-<h5 id="2-html-세팅">2. HTML 세팅</h5>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"ko"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;title&gt;</span>랜덤 출력기<span class="nt">&lt;/title&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body&gt;</span>
-  <span class="nt">&lt;h1&gt;</span>랜덤 출력기<span class="nt">&lt;/h1&gt;</span>
-
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"maxNumber"</span><span class="nt">&gt;</span>최대 숫자 입력 (최소는 1000 고정): <span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"number"</span> <span class="na">id=</span><span class="s">"maxNumber"</span> <span class="na">min=</span><span class="s">"1000"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"generateRandomNumbers()"</span><span class="nt">&gt;</span>생성하기<span class="nt">&lt;/button&gt;</span>
-
-  <span class="nt">&lt;h3&gt;</span>결과<span class="nt">&lt;/h3&gt;</span>
-  <span class="nt">&lt;p&gt;</span>문제 번호: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"randomNumber"</span><span class="nt">&gt;&lt;/span&gt;&lt;/p&gt;</span>
-  <span class="nt">&lt;p&gt;</span>언어: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"randomLanguage"</span><span class="nt">&gt;&lt;/span&gt;&lt;/p&gt;</span>
-
-  <span class="nt">&lt;script&gt;</span>
-    <span class="c1">// 스크립트</span>
-    <span class="c1">// 언어는 1부터 3까지 랜덤 뽑고 각 숫자에 할당</span>
-  <span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</code></pre></div></div>
-
-<h5 id="3-스크립트-작성">3. 스크립트 작성</h5>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">generateRandomNumbers</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">min</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">max</span> <span class="o">=</span> <span class="nf">parseInt</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#maxNumber</span><span class="dl">'</span><span class="p">).</span><span class="nx">value</span><span class="p">);</span>
-
-  <span class="c1">// 최대 숫자 예외처리</span>
-  <span class="k">if </span><span class="p">(</span><span class="nf">isNaN</span><span class="p">(</span><span class="nx">max</span><span class="p">)</span> <span class="o">||</span> <span class="nx">max</span> <span class="o">&lt;</span> <span class="nx">min</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nf">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">최소 1000 이상 숫자 입력</span><span class="dl">"</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="c1">// 랜덤 숫자 추출</span>
-  <span class="kd">const</span> <span class="nx">randomNum</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nx">min</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">randomLang</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-
-  <span class="c1">// 결과란에 배치</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#randomNumber</span><span class="dl">'</span><span class="p">).</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">randomNum</span><span class="p">;</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#randomLanguage</span><span class="dl">'</span><span class="p">).</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">randomLang</span> <span class="o">===</span> <span class="mi">1</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">java</span><span class="dl">'</span> <span class="p">:</span> <span class="nx">randomLang</span> <span class="o">===</span> <span class="mi">2</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">c++</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">python</span><span class="dl">'</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="완성">완성</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/one-pan/JavaScript/2025-05-15-Random Printer/img01.jpg" alt="img01" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>딱히?</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="/play/Random%20Printer.html" target="_blank" rel="noopener noreferrer">
-  직접 해보기
-</a></p>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-15-Random%20Printer.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데 랜덤 뽑아내는 기능이 필요해서 자급자족함 구현 1. 설계 백준에 문제가 몇개나 되지? 현시점 전체 문제는 3만개 이상으로 나온다. 웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지? 최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다. 언어는 72종 지원한다는데 내가 할 수 있는 언어만 나와야한다. 대충 java, c++, python 3종으로만 하자. 2. HTML 세팅 &lt;!DOCTYPE html&gt; &lt;html lang="ko"&gt; &lt;head&gt; &lt;meta charset="UTF-8"&gt; &lt;title&gt;랜덤 출력기&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;h1&gt;랜덤 출력기&lt;/h1&gt; &lt;label for="maxNumber"&gt;최대 숫자 입력 (최소는 1000 고정): &lt;/label&gt; &lt;input type="number" id="maxNumber" min="1000"&gt; &lt;button onclick="generateRandomNumbers()"&gt;생성하기&lt;/button&gt; &lt;h3&gt;결과&lt;/h3&gt; &lt;p&gt;문제 번호: &lt;span id="randomNumber"&gt;&lt;/span&gt;&lt;/p&gt; &lt;p&gt;언어: &lt;span id="randomLanguage"&gt;&lt;/span&gt;&lt;/p&gt; &lt;script&gt; // 스크립트 // 언어는 1부터 3까지 랜덤 뽑고 각 숫자에 할당 &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; 3. 스크립트 작성 function generateRandomNumbers() { const min = 1000; const max = parseInt(document.querySelector('#maxNumber').value); // 최대 숫자 예외처리 if (isNaN(max) || max &lt; min) { alert("최소 1000 이상 숫자 입력"); return; } // 랜덤 숫자 추출 const randomNum = Math.floor(Math.random() * (max - min + 1)) + min; const randomLang = Math.floor(Math.random() * 3) + 1; // 결과란에 배치 document.querySelector('#randomNumber').textContent = randomNum; document.querySelector('#randomLanguage').textContent = randomLang === 1 ? 'java' : randomLang === 2 ? 'c++' : 'python'; } 완성 반성 딱히? 코드 확인 직접 해보기 Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-15-18382.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 18382번 2048 - 백준 설계 앗 영어문제 2048 게임의 최종 점수를 출력하는 문제이다. 입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다. 4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다. 구현 1. 입력 받기 score = int(input()) # 무빙 moving_input = input() moving = [moving_input[i:i+4] for i in range(0, len(moving_input), 4)] # 현재 판 board_input = list(map(int, input().split())) board = [board_input[i*4:(i+1)*4] for i in range(4)] 2. 입력 파싱 # 무빙만큼 반복 for move in moving: dir = move[0] value = int(move[1]) x = int(move[2]) y = int(move[3]) board, gained = move_board(board, dir) score += gained board[x][y] = value print(score) 3. 실제 무빙 로직 def move_board(board, dir): gained = 0 # 방향에 따라 움직일 방향 설정 dir_delta = { 'U': (0, -1), 'D': (0, 1), 'L': (-1, 0), 'R': (1, 0), } dx, dy = dir_delta[dir] # 병합 여부 확인 merged = [[False]*4 for _ in range(4)] # 벽은 무시하고 탐색해야해서 이동 순서 조정 range_x = range(4) range_y = range(4) if dir == 'R': range_x = range(2, -1, -1) if dir == 'D': range_y = range(2, -1, -1) if dir == 'L': range_x = range(1, 4) if dir == 'U': range_y = range(1, 4) # 설정 범위내 무빙 for y in range_y: for x in range_x: # 0이면 무시 if board[y][x] == 0: continue # 현재 좌표 cx, cy = x, y while True: # 목표 좌표 nx, ny = cx + dx, cy + dy # 벽 만나면 중단 if not (0 &lt;= nx &lt; 4 and 0 &lt;= ny &lt; 4): break # 빈 칸이면 이동 if board[ny][nx] == 0: board[ny][nx] = board[cy][cx] board[cy][cx] = 0 cx, cy = nx, ny # 같은 숫자 + 병합 안 됐으면 합치기 elif board[ny][nx] == board[cy][cx] and not merged[ny][nx]: board[ny][nx] *= 2 board[cy][cx] = 0 merged[ny][nx] = True gained += board[ny][nx] break # 다른 숫자면 무시 else: break return board, gained 채점 반성 4X4 보드에 좌표계산하며 시뮬레이션 하는 식으로 해결했는데 파이썬에서는 좌표계산보다 줄단위 처리가 낫다고 한다. 파이썬의 자료구조와 문법은 좌표 반복보단 리스트 전체 조작에 강력하게 최적화돼 있기 때문이라고 리스트가 가변 배열이고 병합, 필터링 등 기능이 내장되어 있다고 한다. def slide_left(row): new_row = [x for x in row if x != 0] # 병합 처리 ... return new_row 이런 식으로 해결할 수 있다고… 2중 반복문을 안써도 되고 코드가 단순해지며 보드 회전을 통해 슬라이드 함수 하나로 처리도 가능하다. transpose = [list(row) for row in zip(*board)] # 전치 행렬 reversed_board = [row[::-1] for row in board] # 행 반전 c나 java와는 좀 다르다. 파이썬 고수가 되려면 한참 멀었다. 코드 확인 Link to GitHub]]></summary></entry></feed>
