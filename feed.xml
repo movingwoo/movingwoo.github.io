@@ -1,4 +1,65 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-23T06:44:30+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">27391번 Platform Placing</title><link href="https://movingwoo.com/random-solve/java/2025/05/23/27391.html" rel="alternate" type="text/html" title="27391번 Platform Placing" /><published>2025-05-23T06:00:00+00:00</published><updated>2025-05-23T06:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/23/27391</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/23/27391.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-23T07:46:35+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">5101번 Sequences</title><link href="https://movingwoo.com/random-solve/python/2025/05/23/5101.html" rel="alternate" type="text/html" title="5101번 Sequences" /><published>2025-05-23T07:00:00+00:00</published><updated>2025-05-23T07:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/23/5101</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/23/5101.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-23-5101/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/5101">5101번 Sequences - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>음 쉬운 문제<br />
+하루의 마무리로 딱이다.</p>
+
+<p>시작 숫자와 차이가 주어지고 다음 숫자가 수열의 항인지 판단하는 문제이다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>단순 덧셈 반복해도 문제없지만 조금 더 스마트하게 해봐야지.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">());</span>
+
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">break</span>
+
+    <span class="c1"># b가 0이면 예외처리
+</span>    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">c</span><span class="p">:</span>
+            <span class="nf">print</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">X</span><span class="sh">"</span><span class="p">)</span>
+    <span class="c1"># 음수 고려
+</span>    <span class="nf">elif </span><span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">%</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">//</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">((</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">//</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">X</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-23-5101/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>아무래도 랜덤 돌려서 브론즈 문제 나오면 좀 거르는게 좋겠다.<br />
+이것도 일종의 탄소 과잉배출로 볼 수 있지 않나?</p>
+
+<p>앞으로 랜덤백준디펜스의 브론즈 문제가 걸리면 다 거르는 것으로 해야겠다.<br />
+이건 뭐 깃에 코드 올리기도 뭐하고</p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 5101번 Sequences - 백준 설계 음 쉬운 문제 하루의 마무리로 딱이다. 시작 숫자와 차이가 주어지고 다음 숫자가 수열의 항인지 판단하는 문제이다. 구현 단순 덧셈 반복해도 문제없지만 조금 더 스마트하게 해봐야지. while True: a, b, c = map(int, input().split()); if a == 0 and b == 0 and c == 0: break # b가 0이면 예외처리 if b == 0: if a == c: print(1) else: print("X") # 음수 고려 elif (c - a) % b == 0 and (c - a) // b &gt;= 0: print((c - a) // b + 1) else: print("X") 채점 반성 아무래도 랜덤 돌려서 브론즈 문제 나오면 좀 거르는게 좋겠다. 이것도 일종의 탄소 과잉배출로 볼 수 있지 않나? 앞으로 랜덤백준디펜스의 브론즈 문제가 걸리면 다 거르는 것으로 해야겠다. 이건 뭐 깃에 코드 올리기도 뭐하고]]></summary></entry><entry><title type="html">27391번 Platform Placing</title><link href="https://movingwoo.com/random-solve/java/2025/05/23/27391.html" rel="alternate" type="text/html" title="27391번 Platform Placing" /><published>2025-05-23T06:00:00+00:00</published><updated>2025-05-23T06:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/23/27391</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/23/27391.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -2323,165 +2384,4 @@ O(N log K)로 바꾸면 통과가 가능하다.</p>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-16-29348.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 29348번 Скользкий путь - 백준 설계 앗 러시아어 문제 번역기의 힘을 빌리자… 루크 스카이워커가 어쩌고 하는데 집어치우고 문제의 요지를 파악해야한다. 정사각형으로 이루어진 맵에서 최단 경로를 찾아야하는 문제이다. 이동 조건은 아래와 같다. 지형은 건물, 눈, 얼음 3가지로 이루어져 있으며 칸마다 높이가 존재함 일반 이동 조건은 아래와 같음 건물과 건물은 자유롭게 이동 가능 건물과 눈은 자유롭게 이동 가능 눈과 눈은 고도가 같거나 낮아야 이동 가능 눈과 얼음은 고도가 같거나 낮아야 이동 가능 얼음과 얼음 고도가 같거나 낮아야 이동 가능 특수 이동조건으로 미끄러짐이 존재함 얼음에서 고도가 낮은 얼음으로 가면 미끄러지기 시작 다음 칸이 눈이거나 고도가 높은 얼음, 맵 끝이라면 멈춤 만약 건물을 만나면 충돌해서 실패하는 경로 출발점에서 도착점까지 최단 경로(칸 수)를 찾아야하며 경로가 존재하지 않으면 Impossible을 출력해야한다. 문제가 좀 머리아픈데… 잘못 걸린 것 같다. 단순히 생각하면 BFS 전략을 통해 최단거리를 찾으면 될 것 같긴 한데 미끄러지는 특수 이동이 문제다. 이거 미끄러지는게 미끄러지는 동안 1칸으로 취급되는건지, 미끄러지는 동안 그 칸을 모두 세어야하는건지… 이 망할 문제 푼 사람도 없어서 모르겠다. 만약 미끄러지는 구간 전체가 1칸으로 취급하는 것 보다 미끄러지는 모든 칸을 세는게 더 코드 짜기 쉬울 것 같아서 그렇게 짜보자. 틀리면 수정해야지. BFS로 짜보자. 구현 1. 입력 받기 입력 받아서 큐는 초기화 진행한다. int ar, ac, br, bc; // 시작점과 도착점 좌표 cin &gt;&gt; n &gt;&gt; m; cin &gt;&gt; ar &gt;&gt; ac &gt;&gt; br &gt;&gt; bc; ar--; ac--; br--; bc--; // 맵에 지형 정보 입력 map.resize(n); for (int i = 0 ; i &lt; n ; i++) { cin &gt;&gt; map[i]; } // 높이 정보 입력 height.assign(n, vector&lt;int&gt;(m)); for (int i = 0 ; i &lt; n ; i++) { for (int j = 0 ; j &lt; m ; j++) { cin &gt;&gt; height[i][j]; } } // 방문 거리 정보 초기화 (-1은 미방문, 방문 시 거리 저장) visited.assign(n, vector&lt;int&gt;(m, -1)); que.push({ar, ac}); // 시작점 삽입 visited[ar][ac] = 0; // 시작점 거리: 0 2. BFS 루프 미끄러지는 특수이동 때문에 경로를 전체 탐색해야한다. 도착점 도달 결과가 없으면 Impossible, 있다면 저장된 거리 수를 출력한다. while (!que.empty()) { int x, y; x = get&lt;0&gt;(que.front()); y = get&lt;1&gt;(que.front()); que.pop(); // 현재 위치 int d = visited[x][y]; // 현재까지 거리 for (int dir = 0; dir &lt; 4; ++dir) { // 탐색 로직 } } // 도착점까지 도달했는지 확인 if (visited[br][bc] &lt; 0){ cout &lt;&lt; "Impossible"; } else{ cout &lt;&lt; visited[br][bc]; } 3. 이동 조건 분기 루프 내부에 이동조건 분기를 만들어야한다. 건물 건물 &lt;-&gt; 건물: 자유롭게 이동 건물 -&gt; 눈: 이동 가능 건물 &lt;- 눈: 이동 가능 눈 눈 -&gt; 눈: 높이가 작거나 같을 경우만 가능 눈 -&gt; 얼음: 높이가 작거나 같을 경우만 가능 눈 &lt;- 얼음: 높이가 작거나 같을 경우만 가능 얼음 얼음 -&gt; 눈: 높이가 작거나 같을 경우만 가능 얼음 -&gt; 얼음 (동일한 높이): 이동 가능 얼음 -&gt; 얼음 (낮은 높이): 미끄러짐 시작 정지 조건 눈 만남 더 높은 얼음 만남 지도 경계 얼음 -&gt; 건물: 충돌로 무조건 실패 (Impossible) 헷갈려서 계속 틀린 상황 눈에서 얼음갈때 높이 조건이 =&lt; 인지 &lt; 인지 체크 눈과 눈 이동도 높이 체크 필요 얼음에서 이동할때 높이 제대로 체크 얼음에서 얼음 갈때 높이 같으면 미끄러지는거 아님 미끄러질때 개박살 조건인 건물 반드시 체크 건물에서 얼음으로 가는 경우는 조건에 주어져 있지 않음 어떤 상황에서든 지도 경계 고려 얼음에서 미끄러지는 건 제외하고 나머지를 구현한다. int nx = x + dx[dir], ny = y + dy[dir]; // 다음 위치 // 맵 범위 벗어나면 continue if (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) continue; char now = map[x][y], next = map[nx][ny]; int nowHeight = height[x][y], nextHeight = height[nx][ny]; if (now == 'B' &amp;&amp; (next == 'B' || next == 'S')) { // 건물에서 건물 또는 눈으로 이동 update(nx, ny, 1, d); } else if (now == 'S') { // 눈에서 이동 if (next == 'B' || ((next == 'S' || next == 'I') &amp;&amp; nextHeight &lt;= nowHeight)) // 건물이거나 높이 확인 update(nx, ny, 1, d); } else if (now == 'I') { // 얼음에서 이동 (건물은 박살나니까 고려 안함) if (next == 'S' &amp;&amp; nextHeight &lt;= nowHeight){ // 눈으로 이동 update(nx, ny, 1, d); } else if (next == 'I') { // 얼음이면 if (nextHeight == nowHeight){ // 높이 같으면 이동 update(nx, ny, 1, d); } else if (nextHeight &lt; nowHeight) { // 미끄러지는 로직 } } } 4. 미끄러짐 미끄러질 경우 이동 방향으로 멈출때까지 전진한다. 멈추는 조건까지 전진하며 거리를 채우고 건물에 박는 경로는 폐기한다. 미끄러지는 동안은 while문으로 끝날 때까지 반복한다. 예제를 테스트 해보면 미끄러질 경우 지나간 칸 만큼 거리로 쳐주기 때문에 칸 수를 정확하게 체크해야한다. 건물에 부딪히면 박살나기 때문에 경로 폐기를 위한 불 값을 마련해준다. 정지 조건에 맞춰 정지했을 경우에 도착지점과 미끄러진 거리를 업데이트한다. 미끄러지는 도중은 정상적인 착지가 아니라 의미 없으므로 visited 갱신을 하지 않는다. // 미끄러지기 시작 int slide = 1; // 이동 거리 bool isBuilding = false; // 건물 충돌 박살 여부 int ox = x, oy = y; // 계속 미끄러지기 while (true) { if (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) { // 맵 벗어나면 멈춤 break; } if (map[nx][ny] == 'B') { // 건물 부딪히면 상태 업데이트하고 break isBuilding = true; break; } if (map[nx][ny] != 'I' || height[nx][ny] &gt; height[ox][oy]){ // 얼음이 아니고 높이가 높으면 정지 break; } ox = nx; oy = ny; nx += dx[dir]; ny += dy[dir]; slide++; } // 멈췄으면 실제 멈춘 위치로 보정 nx -= dx[dir]; ny -= dy[dir]; slide--; // 맵 범위, 건물 체크 if ((nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) || (map[nx][ny] == 'B')) { continue; } // 정상적으로 멈추면 업데이트 if (!isBuilding &amp;&amp; map[nx][ny] != 'B') { update(nx, ny, slide, d); } 채점 거지같은 문제 내가 해냈어 해냈다구 반성 계속 틀려서 BFS가 아니라 다익스트라에 가까워졌다. 미끄러지는 부분 고려하는게 너무 어려웠다. 아무래도 컨텐츠 잘못 만든 것 같다. 너무 지독한 문제에 걸려 오래 고생했다. 좀 쉬어야겠다. 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">18382번 2048</title><link href="https://movingwoo.com/random-solve/python/2025/05/15/18382.html" rel="alternate" type="text/html" title="18382번 2048" /><published>2025-05-15T02:00:00+00:00</published><updated>2025-05-15T02:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/15/18382</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/15/18382.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-15-18382/img01.jpg" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/18382">18382번 2048 - 백준</a></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>앗 영어문제</p>
-
-<p>2048 게임의 최종 점수를 출력하는 문제이다.<br />
-입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다.<br />
-4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-입력-받기">1. 입력 받기</h5>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">score</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="c1"># 무빙
-</span><span class="n">moving_input</span> <span class="o">=</span> <span class="nf">input</span><span class="p">()</span>
-<span class="n">moving</span> <span class="o">=</span> <span class="p">[</span><span class="n">moving_input</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">moving_input</span><span class="p">),</span> <span class="mi">4</span><span class="p">)]</span>
-
-<span class="c1"># 현재 판
-</span><span class="n">board_input</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-<span class="n">board</span> <span class="o">=</span> <span class="p">[</span><span class="n">board_input</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">4</span><span class="p">:(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
-</code></pre></div></div>
-
-<h5 id="2-입력-파싱">2. 입력 파싱</h5>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 무빙만큼 반복
-</span><span class="k">for</span> <span class="n">move</span> <span class="ow">in</span> <span class="n">moving</span><span class="p">:</span>
-    <span class="nb">dir</span> <span class="o">=</span> <span class="n">move</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">value</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">move</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">move</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">move</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-
-    <span class="n">board</span><span class="p">,</span> <span class="n">gained</span> <span class="o">=</span> <span class="nf">move_board</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="nb">dir</span><span class="p">)</span>
-    <span class="n">score</span> <span class="o">+=</span> <span class="n">gained</span>
-
-    <span class="n">board</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h5 id="3-실제-무빙-로직">3. 실제 무빙 로직</h5>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">move_board</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="nb">dir</span><span class="p">):</span>
-    <span class="n">gained</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="c1"># 방향에 따라 움직일 방향 설정
-</span>    <span class="n">dir_delta</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="sh">'</span><span class="s">U</span><span class="sh">'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-        <span class="sh">'</span><span class="s">D</span><span class="sh">'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="sh">'</span><span class="s">L</span><span class="sh">'</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="sh">'</span><span class="s">R</span><span class="sh">'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="p">}</span>
-
-    <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">dir_delta</span><span class="p">[</span><span class="nb">dir</span><span class="p">]</span>
-
-    <span class="c1"># 병합 여부 확인
-</span>    <span class="n">merged</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">False</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
-
-    <span class="c1"># 벽은 무시하고 탐색해야해서 이동 순서 조정
-</span>    <span class="n">range_x</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">range_y</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="sh">'</span><span class="s">R</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">range_x</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="sh">'</span><span class="s">D</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">range_y</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="sh">'</span><span class="s">L</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">range_x</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="sh">'</span><span class="s">U</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">range_y</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-
-    <span class="c1"># 설정 범위내 무빙
-</span>    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">range_y</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">range_x</span><span class="p">:</span>
-            <span class="c1"># 0이면 무시
-</span>            <span class="k">if</span> <span class="n">board</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">continue</span>
-
-            <span class="c1"># 현재 좌표
-</span>            <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-            <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-                <span class="c1"># 목표 좌표
-</span>                <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">dy</span>
-
-                <span class="c1"># 벽 만나면 중단
-</span>                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">nx</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">ny</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">):</span>
-                    <span class="k">break</span>
-
-                <span class="c1"># 빈 칸이면 이동
-</span>                <span class="k">if</span> <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="p">[</span><span class="n">cy</span><span class="p">][</span><span class="n">cx</span><span class="p">]</span>
-                    <span class="n">board</span><span class="p">[</span><span class="n">cy</span><span class="p">][</span><span class="n">cx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span>
-
-                <span class="c1"># 같은 숫자 + 병합 안 됐으면 합치기
-</span>                <span class="k">elif</span> <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">==</span> <span class="n">board</span><span class="p">[</span><span class="n">cy</span><span class="p">][</span><span class="n">cx</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">merged</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]:</span>
-                    <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
-                    <span class="n">board</span><span class="p">[</span><span class="n">cy</span><span class="p">][</span><span class="n">cx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">merged</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-                    <span class="n">gained</span> <span class="o">+=</span> <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span>
-                    <span class="k">break</span>
-                <span class="c1"># 다른 숫자면 무시
-</span>                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">break</span>
-    
-    <span class="k">return</span> <span class="n">board</span><span class="p">,</span> <span class="n">gained</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-15-18382/img02.jpg" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>4X4 보드에 좌표계산하며 시뮬레이션 하는 식으로 해결했는데 파이썬에서는 좌표계산보다 줄단위 처리가 낫다고 한다.<br />
-<span style="color: orange;"><strong>파이썬의 자료구조와 문법은 좌표 반복보단 리스트 전체 조작에 강력하게 최적화돼 있기 때문</strong></span>이라고<br />
-리스트가 가변 배열이고 병합, 필터링 등 기능이 내장되어 있다고 한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">slide_left</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-    <span class="n">new_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="c1"># 병합 처리
-</span>    <span class="bp">...</span>
-    <span class="k">return</span> <span class="n">new_row</span>
-</code></pre></div></div>
-
-<p>이런 식으로 해결할 수 있다고…</p>
-
-<p>2중 반복문을 안써도 되고 코드가 단순해지며 보드 회전을 통해 슬라이드 함수 하나로 처리도 가능하다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transpose</span> <span class="o">=</span> <span class="p">[</span><span class="nf">list</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="o">*</span><span class="n">board</span><span class="p">)]</span>  <span class="c1"># 전치 행렬
-</span><span class="n">reversed_board</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">board</span><span class="p">]</span>   <span class="c1"># 행 반전
-</span></code></pre></div></div>
-
-<p>c나 java와는 좀 다르다.<br />
-파이썬 고수가 되려면 한참 멀었다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-15-18382.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 18382번 2048 - 백준 설계 앗 영어문제 2048 게임의 최종 점수를 출력하는 문제이다. 입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다. 4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다. 구현 1. 입력 받기 score = int(input()) # 무빙 moving_input = input() moving = [moving_input[i:i+4] for i in range(0, len(moving_input), 4)] # 현재 판 board_input = list(map(int, input().split())) board = [board_input[i*4:(i+1)*4] for i in range(4)] 2. 입력 파싱 # 무빙만큼 반복 for move in moving: dir = move[0] value = int(move[1]) x = int(move[2]) y = int(move[3]) board, gained = move_board(board, dir) score += gained board[x][y] = value print(score) 3. 실제 무빙 로직 def move_board(board, dir): gained = 0 # 방향에 따라 움직일 방향 설정 dir_delta = { 'U': (0, -1), 'D': (0, 1), 'L': (-1, 0), 'R': (1, 0), } dx, dy = dir_delta[dir] # 병합 여부 확인 merged = [[False]*4 for _ in range(4)] # 벽은 무시하고 탐색해야해서 이동 순서 조정 range_x = range(4) range_y = range(4) if dir == 'R': range_x = range(2, -1, -1) if dir == 'D': range_y = range(2, -1, -1) if dir == 'L': range_x = range(1, 4) if dir == 'U': range_y = range(1, 4) # 설정 범위내 무빙 for y in range_y: for x in range_x: # 0이면 무시 if board[y][x] == 0: continue # 현재 좌표 cx, cy = x, y while True: # 목표 좌표 nx, ny = cx + dx, cy + dy # 벽 만나면 중단 if not (0 &lt;= nx &lt; 4 and 0 &lt;= ny &lt; 4): break # 빈 칸이면 이동 if board[ny][nx] == 0: board[ny][nx] = board[cy][cx] board[cy][cx] = 0 cx, cy = nx, ny # 같은 숫자 + 병합 안 됐으면 합치기 elif board[ny][nx] == board[cy][cx] and not merged[ny][nx]: board[ny][nx] *= 2 board[cy][cx] = 0 merged[ny][nx] = True gained += board[ny][nx] break # 다른 숫자면 무시 else: break return board, gained 채점 반성 4X4 보드에 좌표계산하며 시뮬레이션 하는 식으로 해결했는데 파이썬에서는 좌표계산보다 줄단위 처리가 낫다고 한다. 파이썬의 자료구조와 문법은 좌표 반복보단 리스트 전체 조작에 강력하게 최적화돼 있기 때문이라고 리스트가 가변 배열이고 병합, 필터링 등 기능이 내장되어 있다고 한다. def slide_left(row): new_row = [x for x in row if x != 0] # 병합 처리 ... return new_row 이런 식으로 해결할 수 있다고… 2중 반복문을 안써도 되고 코드가 단순해지며 보드 회전을 통해 슬라이드 함수 하나로 처리도 가능하다. transpose = [list(row) for row in zip(*board)] # 전치 행렬 reversed_board = [row[::-1] for row in board] # 행 반전 c나 java와는 좀 다르다. 파이썬 고수가 되려면 한참 멀었다. 코드 확인 Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-16-29348.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 29348번 Скользкий путь - 백준 설계 앗 러시아어 문제 번역기의 힘을 빌리자… 루크 스카이워커가 어쩌고 하는데 집어치우고 문제의 요지를 파악해야한다. 정사각형으로 이루어진 맵에서 최단 경로를 찾아야하는 문제이다. 이동 조건은 아래와 같다. 지형은 건물, 눈, 얼음 3가지로 이루어져 있으며 칸마다 높이가 존재함 일반 이동 조건은 아래와 같음 건물과 건물은 자유롭게 이동 가능 건물과 눈은 자유롭게 이동 가능 눈과 눈은 고도가 같거나 낮아야 이동 가능 눈과 얼음은 고도가 같거나 낮아야 이동 가능 얼음과 얼음 고도가 같거나 낮아야 이동 가능 특수 이동조건으로 미끄러짐이 존재함 얼음에서 고도가 낮은 얼음으로 가면 미끄러지기 시작 다음 칸이 눈이거나 고도가 높은 얼음, 맵 끝이라면 멈춤 만약 건물을 만나면 충돌해서 실패하는 경로 출발점에서 도착점까지 최단 경로(칸 수)를 찾아야하며 경로가 존재하지 않으면 Impossible을 출력해야한다. 문제가 좀 머리아픈데… 잘못 걸린 것 같다. 단순히 생각하면 BFS 전략을 통해 최단거리를 찾으면 될 것 같긴 한데 미끄러지는 특수 이동이 문제다. 이거 미끄러지는게 미끄러지는 동안 1칸으로 취급되는건지, 미끄러지는 동안 그 칸을 모두 세어야하는건지… 이 망할 문제 푼 사람도 없어서 모르겠다. 만약 미끄러지는 구간 전체가 1칸으로 취급하는 것 보다 미끄러지는 모든 칸을 세는게 더 코드 짜기 쉬울 것 같아서 그렇게 짜보자. 틀리면 수정해야지. BFS로 짜보자. 구현 1. 입력 받기 입력 받아서 큐는 초기화 진행한다. int ar, ac, br, bc; // 시작점과 도착점 좌표 cin &gt;&gt; n &gt;&gt; m; cin &gt;&gt; ar &gt;&gt; ac &gt;&gt; br &gt;&gt; bc; ar--; ac--; br--; bc--; // 맵에 지형 정보 입력 map.resize(n); for (int i = 0 ; i &lt; n ; i++) { cin &gt;&gt; map[i]; } // 높이 정보 입력 height.assign(n, vector&lt;int&gt;(m)); for (int i = 0 ; i &lt; n ; i++) { for (int j = 0 ; j &lt; m ; j++) { cin &gt;&gt; height[i][j]; } } // 방문 거리 정보 초기화 (-1은 미방문, 방문 시 거리 저장) visited.assign(n, vector&lt;int&gt;(m, -1)); que.push({ar, ac}); // 시작점 삽입 visited[ar][ac] = 0; // 시작점 거리: 0 2. BFS 루프 미끄러지는 특수이동 때문에 경로를 전체 탐색해야한다. 도착점 도달 결과가 없으면 Impossible, 있다면 저장된 거리 수를 출력한다. while (!que.empty()) { int x, y; x = get&lt;0&gt;(que.front()); y = get&lt;1&gt;(que.front()); que.pop(); // 현재 위치 int d = visited[x][y]; // 현재까지 거리 for (int dir = 0; dir &lt; 4; ++dir) { // 탐색 로직 } } // 도착점까지 도달했는지 확인 if (visited[br][bc] &lt; 0){ cout &lt;&lt; "Impossible"; } else{ cout &lt;&lt; visited[br][bc]; } 3. 이동 조건 분기 루프 내부에 이동조건 분기를 만들어야한다. 건물 건물 &lt;-&gt; 건물: 자유롭게 이동 건물 -&gt; 눈: 이동 가능 건물 &lt;- 눈: 이동 가능 눈 눈 -&gt; 눈: 높이가 작거나 같을 경우만 가능 눈 -&gt; 얼음: 높이가 작거나 같을 경우만 가능 눈 &lt;- 얼음: 높이가 작거나 같을 경우만 가능 얼음 얼음 -&gt; 눈: 높이가 작거나 같을 경우만 가능 얼음 -&gt; 얼음 (동일한 높이): 이동 가능 얼음 -&gt; 얼음 (낮은 높이): 미끄러짐 시작 정지 조건 눈 만남 더 높은 얼음 만남 지도 경계 얼음 -&gt; 건물: 충돌로 무조건 실패 (Impossible) 헷갈려서 계속 틀린 상황 눈에서 얼음갈때 높이 조건이 =&lt; 인지 &lt; 인지 체크 눈과 눈 이동도 높이 체크 필요 얼음에서 이동할때 높이 제대로 체크 얼음에서 얼음 갈때 높이 같으면 미끄러지는거 아님 미끄러질때 개박살 조건인 건물 반드시 체크 건물에서 얼음으로 가는 경우는 조건에 주어져 있지 않음 어떤 상황에서든 지도 경계 고려 얼음에서 미끄러지는 건 제외하고 나머지를 구현한다. int nx = x + dx[dir], ny = y + dy[dir]; // 다음 위치 // 맵 범위 벗어나면 continue if (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) continue; char now = map[x][y], next = map[nx][ny]; int nowHeight = height[x][y], nextHeight = height[nx][ny]; if (now == 'B' &amp;&amp; (next == 'B' || next == 'S')) { // 건물에서 건물 또는 눈으로 이동 update(nx, ny, 1, d); } else if (now == 'S') { // 눈에서 이동 if (next == 'B' || ((next == 'S' || next == 'I') &amp;&amp; nextHeight &lt;= nowHeight)) // 건물이거나 높이 확인 update(nx, ny, 1, d); } else if (now == 'I') { // 얼음에서 이동 (건물은 박살나니까 고려 안함) if (next == 'S' &amp;&amp; nextHeight &lt;= nowHeight){ // 눈으로 이동 update(nx, ny, 1, d); } else if (next == 'I') { // 얼음이면 if (nextHeight == nowHeight){ // 높이 같으면 이동 update(nx, ny, 1, d); } else if (nextHeight &lt; nowHeight) { // 미끄러지는 로직 } } } 4. 미끄러짐 미끄러질 경우 이동 방향으로 멈출때까지 전진한다. 멈추는 조건까지 전진하며 거리를 채우고 건물에 박는 경로는 폐기한다. 미끄러지는 동안은 while문으로 끝날 때까지 반복한다. 예제를 테스트 해보면 미끄러질 경우 지나간 칸 만큼 거리로 쳐주기 때문에 칸 수를 정확하게 체크해야한다. 건물에 부딪히면 박살나기 때문에 경로 폐기를 위한 불 값을 마련해준다. 정지 조건에 맞춰 정지했을 경우에 도착지점과 미끄러진 거리를 업데이트한다. 미끄러지는 도중은 정상적인 착지가 아니라 의미 없으므로 visited 갱신을 하지 않는다. // 미끄러지기 시작 int slide = 1; // 이동 거리 bool isBuilding = false; // 건물 충돌 박살 여부 int ox = x, oy = y; // 계속 미끄러지기 while (true) { if (nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) { // 맵 벗어나면 멈춤 break; } if (map[nx][ny] == 'B') { // 건물 부딪히면 상태 업데이트하고 break isBuilding = true; break; } if (map[nx][ny] != 'I' || height[nx][ny] &gt; height[ox][oy]){ // 얼음이 아니고 높이가 높으면 정지 break; } ox = nx; oy = ny; nx += dx[dir]; ny += dy[dir]; slide++; } // 멈췄으면 실제 멈춘 위치로 보정 nx -= dx[dir]; ny -= dy[dir]; slide--; // 맵 범위, 건물 체크 if ((nx &lt; 0 || ny &lt; 0 || nx &gt;= n || ny &gt;= m) || (map[nx][ny] == 'B')) { continue; } // 정상적으로 멈추면 업데이트 if (!isBuilding &amp;&amp; map[nx][ny] != 'B') { update(nx, ny, slide, d); } 채점 거지같은 문제 내가 해냈어 해냈다구 반성 계속 틀려서 BFS가 아니라 다익스트라에 가까워졌다. 미끄러지는 부분 고려하는게 너무 어려웠다. 아무래도 컨텐츠 잘못 만든 것 같다. 너무 지독한 문제에 걸려 오래 고생했다. 좀 쉬어야겠다. 코드 확인 Link to GitHub]]></summary></entry></feed>

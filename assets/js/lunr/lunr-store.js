@@ -130,4 +130,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/java/2025/05/23/27391.html",
         "teaser": null
+      },{
+        "title": "5101번 Sequences",
+        "excerpt":"문제 5101번 Sequences - 백준 설계 음 쉬운 문제 하루의 마무리로 딱이다. 시작 숫자와 차이가 주어지고 다음 숫자가 수열의 항인지 판단하는 문제이다. 구현 단순 덧셈 반복해도 문제없지만 조금 더 스마트하게 해봐야지. while True: a, b, c = map(int, input().split()); if a == 0 and b == 0 and c ==...","categories": ["random-solve/Python/"],
+        "tags": [],
+        "url": "/random-solve/python/2025/05/23/5101.html",
+        "teaser": null
       }]
