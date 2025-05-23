@@ -118,4 +118,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/javascript/2025/05/23/Maze-Generator-03.html",
         "teaser": null
+      },{
+        "title": "25245번 Amusement Arcade",
+        "excerpt":"문제 25245번 Amusement Arcade - 백준 설계 n개의 오락기가 있다.(n은 홀수) 사람이 앉아야하는데 반드시 오락기에 한 칸씩 비우고 앉아야한다. 도착하는 사람은 사람이 있는 곳에서 가장 멀리 떨어진 자리를 고르며, 여러개라면 무작위로 선택한다. 이때 줄리아가 가장 먼저 앉을 적절한 위치를 고르시오. n은 반드시 홀수고 한 칸씩 비우면 최대 인원은 (n +...","categories": ["random-solve/C++/"],
+        "tags": [],
+        "url": "/random-solve/c++/2025/05/23/25245.html",
+        "teaser": null
       }]

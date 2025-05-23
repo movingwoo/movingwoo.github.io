@@ -1,4 +1,418 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-23T01:30:08+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">미로 생성기 03</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/23/Maze-Generator-03.html" rel="alternate" type="text/html" title="미로 생성기 03" /><published>2025-05-23T01:00:00+00:00</published><updated>2025-05-23T01:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/23/Maze%20Generator%2003</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/23/Maze-Generator-03.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-23T05:54:41+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">25245번 Amusement Arcade</title><link href="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html" rel="alternate" type="text/html" title="25245번 Amusement Arcade" /><published>2025-05-23T05:00:00+00:00</published><updated>0225-05-23T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/23/25245</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-23-25245/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/25245">25245번 Amusement Arcade - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>n개의 오락기가 있다.(n은 홀수)<br />
+사람이 앉아야하는데 반드시 오락기에 한 칸씩 비우고 앉아야한다.<br />
+도착하는 사람은 사람이 있는 곳에서 가장 멀리 떨어진 자리를 고르며, 여러개라면 무작위로 선택한다.</p>
+
+<p>이때 줄리아가 가장 먼저 앉을 적절한 위치를 고르시오.</p>
+
+<p>n은 반드시 홀수고 한 칸씩 비우면 최대 인원은 (n + 1) / 2 이다.<br />
+줄리아가 대충 n / 2 + 1 위치인 중앙에 앉으면 impossible이 나올 조건은 없어보이는데…<br />
+예제에서는 15를 넣을 시 impossible이 나온다.</p>
+
+<p><span style="color: orange;"><strong>사람에서 최대한 멀리 떨어진 곳에 앉으려는 좋지 않은 습성</strong></span> 때문인데…<br />
+실제 15를 받아 줄리아를 8번에 앉힐 경우<br />
+[1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1]
+이 상황에서 정확히 한 칸 조건이 깨져버린다!</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-시뮬레이션">1. 시뮬레이션</h5>
+
+<p>제한시간이 빡빡해서 단순 시뮬레이션은 아닌 것 같다.<br />
+일단 대충 코드짜서 순열 규칙 확인 ㄱㄱ</p>
+
+<p>줄리아의 자리는 모든 홀수 자리를 탐색해서 앉혀본다.<br />
+단순히 n / 2 + 1 에만 앉을 경우 7을 넣으면 4에 앉아야 하는데 그러면 오답이 나온다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;limits&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">simulate</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">where</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">k</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">result</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">seats</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> 
+        <span class="c1">// 줄리아가 앉을 자리</span>
+        <span class="n">seats</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">people</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">people</span> <span class="o">&lt;</span> <span class="n">max</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 현재 가능한 자리들 중 가장 큰 최소 거리</span>
+            <span class="kt">int</span> <span class="n">max_dist</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+            <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">candidates</span><span class="p">;</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+
+                <span class="kt">int</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">seats</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="c1">// 가장 가까운 사람과의 거리</span>
+                        <span class="n">dist</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">));</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+
+                <span class="c1">// 현재 자리가 이전보다 더 멀리 떨어져 있다면 새로운 후보, 같으면 추가</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">dist</span> <span class="o">&gt;</span> <span class="n">max_dist</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">max_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="p">;</span>
+                    <span class="n">candidates</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+                    <span class="n">candidates</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">dist</span> <span class="o">==</span> <span class="n">max_dist</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">candidates</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 후보자리가 없으면 끝</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">candidates</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">candidates</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="c1">// 홀수 자리에 앉지 못하면 의미 없음</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+                    <span class="n">seats</span><span class="p">[</span><span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            
+            <span class="n">people</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 최종 상태가 x . x . x ... 패턴인지 확인</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">where</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">where</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kt">bool</span> <span class="n">result</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">31</span> <span class="p">;</span> <span class="n">i</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">" : "</span> <span class="o">&lt;&lt;</span> <span class="n">simulate</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>시뮬레이션 결과는 아래와 같다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">n</th>
+      <th style="text-align: center">줄리아</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">7</td>
+      <td style="text-align: center">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">9</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">11</td>
+      <td style="text-align: center">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">13</td>
+      <td style="text-align: center">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">15</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">17</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">19</td>
+      <td style="text-align: center">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">21</td>
+      <td style="text-align: center">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">23</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">25</td>
+      <td style="text-align: center">9</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">27</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">29</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">31</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>예제는 다 맞는다.</p>
+
+<h5 id="2-규칙-찾기">2. 규칙 찾기</h5>
+
+<p>가설 1: <span style="color: orange;"><strong>n = 2^k + 1 (k &gt; 0)</strong></span> 인 경우 답은 반드시 1이다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">n</th>
+      <th style="text-align: center">줄리아</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">9</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">17</td>
+      <td style="text-align: center">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>가설 2: <span style="color: orange;"><strong>n != 2^a + 2^b + 1</strong></span> 인 경우 배치가 불가능하다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">n</th>
+      <th style="text-align: center">줄리아</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">15</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">23</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">27</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">29</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">31</td>
+      <td style="text-align: center">impossible</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>이부분은 <span style="color: orange;"><strong>n + 1의 이진수 1의 개수가 3 이상이면 불가능</strong></span>으로 처리할 수 있다.</p>
+
+<p>가설 3: 그 외의 경우는 시뮬레이션을 하되, 2^k + 1 인 자리만 대상으로 한다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">n</th>
+      <th style="text-align: center">줄리아</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">7</td>
+      <td style="text-align: center">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">11</td>
+      <td style="text-align: center">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">13</td>
+      <td style="text-align: center">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">19</td>
+      <td style="text-align: center">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">21</td>
+      <td style="text-align: center">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">25</td>
+      <td style="text-align: center">9</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="2-구현">2. 구현</h5>
+
+<p>가설 1, 2를 넘었을 경우 시뮬레이션을 해야하는데<br />
+n이 10^18까지 있으므로 평범하게 하면 바로 시간초과다.<br />
+어차피 꽉 채워 앉으면 완전 이진트리 구조가 되므로 줄리아 배치 기준 양쪽을 반으로 계속 나눌 수 있는지만 확인하면 된다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 가설 1: n == 2^k + 1 이면 반드시 줄리아는 1번 자리에 앉으면 됨</span>
+<span class="kt">bool</span> <span class="nf">hypothesis_1</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 가설 2: n == 2^a + 2^b + 1 형태인지 확인</span>
+<span class="c1">// n - 1 == 2^a + 2^b 라면 가능성 있음</span>
+<span class="kt">bool</span> <span class="nf">hypothesis_2</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int64_t</span> <span class="n">x</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="n">x</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="c1">// 균등분할이 가능할지</span>
+<span class="kt">bool</span> <span class="nf">can_seat</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">len</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">can_seat</span><span class="p">((</span><span class="n">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int64_t</span> <span class="nf">solve</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 짝수일 경우 패스</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 가설 1</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">hypothesis_1</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 가설 2</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">hypothesis_2</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 가설 3</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">64</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="kt">int64_t</span> <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1LL</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">can_seat</span><span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">can_seat</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">pos</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-23-25245/img02.jpg" alt="img02" /></p>
+
+<p>허허 정답비율 나 혼자 다깎아먹었넹</p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>반복문 조건도 잘 못잡고 균등분할 조건도 잘 못잡고<br />
+제대로 했으면 덜 틀렸을걸 실컷 틀렸다.<br />
+아주 고봉밥이다 어우 배불러</p>
+
+<p>근데 분명 더 멋진 풀이가 있을거란 말이지<br />
+맞힌 사람 보면 코드 길이가 심상치가 않다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-23-25245.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 25245번 Amusement Arcade - 백준 설계 n개의 오락기가 있다.(n은 홀수) 사람이 앉아야하는데 반드시 오락기에 한 칸씩 비우고 앉아야한다. 도착하는 사람은 사람이 있는 곳에서 가장 멀리 떨어진 자리를 고르며, 여러개라면 무작위로 선택한다. 이때 줄리아가 가장 먼저 앉을 적절한 위치를 고르시오. n은 반드시 홀수고 한 칸씩 비우면 최대 인원은 (n + 1) / 2 이다. 줄리아가 대충 n / 2 + 1 위치인 중앙에 앉으면 impossible이 나올 조건은 없어보이는데… 예제에서는 15를 넣을 시 impossible이 나온다. 사람에서 최대한 멀리 떨어진 곳에 앉으려는 좋지 않은 습성 때문인데… 실제 15를 받아 줄리아를 8번에 앉힐 경우 [1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1] 이 상황에서 정확히 한 칸 조건이 깨져버린다! 구현 1. 시뮬레이션 제한시간이 빡빡해서 단순 시뮬레이션은 아닌 것 같다. 일단 대충 코드짜서 순열 규칙 확인 ㄱㄱ 줄리아의 자리는 모든 홀수 자리를 탐색해서 앉혀본다. 단순히 n / 2 + 1 에만 앉을 경우 7을 넣으면 4에 앉아야 하는데 그러면 오답이 나온다. #include &lt;iostream&gt; #include &lt;vector&gt; #include &lt;cmath&gt; #include &lt;limits&gt; using namespace std; int simulate(int n) { int max = (n + 1) / 2; int where = -1; for (int k = 0 ; k &lt; n ; k+=2) { bool result = true; vector&lt;int&gt; seats(n, 0); // 줄리아가 앉을 자리 seats[k] = 1; int people = 1; while (people &lt; max) { // 현재 가능한 자리들 중 가장 큰 최소 거리 int max_dist = -1; vector&lt;int&gt; candidates; for (int i = 0 ; i &lt; n ; i++) { if (seats[i] == 1) { continue; } int dist = numeric_limits&lt;int&gt;::max(); for (int j = 0 ; j &lt; n ; j++) { if (seats[j] == 1) { // 가장 가까운 사람과의 거리 dist = min(dist, abs(i - j)); } } // 현재 자리가 이전보다 더 멀리 떨어져 있다면 새로운 후보, 같으면 추가 if (dist &gt; max_dist) { max_dist = dist; candidates.clear(); candidates.push_back(i); } else if (dist == max_dist) { candidates.push_back(i); } } // 후보자리가 없으면 끝 if (candidates.empty()) { break; } for (int i = 0 ; i &lt; candidates.size() ; i++) { if (candidates[i] % 2 != 0) { // 홀수 자리에 앉지 못하면 의미 없음 continue; }else { seats[candidates[i]] = 1; break; } } people++; } // 최종 상태가 x . x . x ... 패턴인지 확인 for (int i = 0 ; i &lt; n ; i++) { if (i % 2 == 0) { if (seats[i] != 1) { result = false; break; } } else { if (seats[i] != 0) { result = false; break; } } } if (result) { where = k + 1; break; } } return where; } int main() { bool result = false; for (int i = 1 ; i &lt;= 31 ; i+=2) { cout &lt;&lt; i &lt;&lt; " : " &lt;&lt; simulate(i) &lt;&lt; endl; } return 0; } 시뮬레이션 결과는 아래와 같다. n 줄리아 1 1 3 1 5 1 7 3 9 1 11 3 13 5 15 impossible 17 1 19 3 21 5 23 impossible 25 9 27 impossible 29 impossible 31 impossible 예제는 다 맞는다. 2. 규칙 찾기 가설 1: n = 2^k + 1 (k &gt; 0) 인 경우 답은 반드시 1이다. n 줄리아 3 1 5 1 9 1 17 1 가설 2: n != 2^a + 2^b + 1 인 경우 배치가 불가능하다. n 줄리아 15 impossible 23 impossible 27 impossible 29 impossible 31 impossible 이부분은 n + 1의 이진수 1의 개수가 3 이상이면 불가능으로 처리할 수 있다. 가설 3: 그 외의 경우는 시뮬레이션을 하되, 2^k + 1 인 자리만 대상으로 한다. n 줄리아 7 3 11 3 13 5 19 3 21 5 25 9 2. 구현 가설 1, 2를 넘었을 경우 시뮬레이션을 해야하는데 n이 10^18까지 있으므로 평범하게 하면 바로 시간초과다. 어차피 꽉 채워 앉으면 완전 이진트리 구조가 되므로 줄리아 배치 기준 양쪽을 반으로 계속 나눌 수 있는지만 확인하면 된다. // 가설 1: n == 2^k + 1 이면 반드시 줄리아는 1번 자리에 앉으면 됨 bool hypothesis_1(int64_t n) { return (n &gt; 1) &amp;&amp; ((n - 1) &amp; (n - 2)) == 0; } // 가설 2: n == 2^a + 2^b + 1 형태인지 확인 // n - 1 == 2^a + 2^b 라면 가능성 있음 bool hypothesis_2(int64_t n) { int64_t x = n - 1; int count = 0; while (x &gt; 0) { if (x &amp; 1) count++; if (count &gt; 2) return false; x &gt;&gt;= 1; } return count == 2; } // 균등분할이 가능할지 bool can_seat(int64_t len) { if (len &lt; 2) return true; if (len % 2 == 0) return false; return can_seat((len - 1) / 2); } int64_t solve(int64_t n) { // 짝수일 경우 패스 if (n % 2 == 0) { return -1; } // 가설 1 if (hypothesis_1(n)) { return 1; } // 가설 2 if (!hypothesis_2(n)) { return -1; } // 가설 3 for (int i = 0 ; i &lt; 64 ; i++){ int64_t pos = (1LL &lt;&lt; i) + 1; if (pos &gt; n) { break; } if (can_seat(pos - 2) &amp;&amp; can_seat(n - pos - 1)) { return pos; } } return -1; } 채점 허허 정답비율 나 혼자 다깎아먹었넹 반성 반복문 조건도 잘 못잡고 균등분할 조건도 잘 못잡고 제대로 했으면 덜 틀렸을걸 실컷 틀렸다. 아주 고봉밥이다 어우 배불러 근데 분명 더 멋진 풀이가 있을거란 말이지 맞힌 사람 보면 코드 길이가 심상치가 않다. 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">미로 생성기 03</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/23/Maze-Generator-03.html" rel="alternate" type="text/html" title="미로 생성기 03" /><published>2025-05-23T01:00:00+00:00</published><updated>2025-05-23T01:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/23/Maze%20Generator%2003</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/23/Maze-Generator-03.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -2045,163 +2459,4 @@ O(N log K)로 바꾸면 통과가 가능하다.</p>
   직접 해보기
 </a></p>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-15-Random%20Printer.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데 랜덤 뽑아내는 기능이 필요해서 자급자족함 구현 1. 설계 백준에 문제가 몇개나 되지? 현시점 전체 문제는 3만개 이상으로 나온다. 웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지? 최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다. 언어는 72종 지원한다는데 내가 할 수 있는 언어만 나와야한다. 대충 java, c++, python 3종으로만 하자. 2. HTML 세팅 &lt;!DOCTYPE html&gt; &lt;html lang="ko"&gt; &lt;head&gt; &lt;meta charset="UTF-8"&gt; &lt;title&gt;랜덤 출력기&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;h1&gt;랜덤 출력기&lt;/h1&gt; &lt;label for="maxNumber"&gt;최대 숫자 입력 (최소는 1000 고정): &lt;/label&gt; &lt;input type="number" id="maxNumber" min="1000"&gt; &lt;button onclick="generateRandomNumbers()"&gt;생성하기&lt;/button&gt; &lt;h3&gt;결과&lt;/h3&gt; &lt;p&gt;문제 번호: &lt;span id="randomNumber"&gt;&lt;/span&gt;&lt;/p&gt; &lt;p&gt;언어: &lt;span id="randomLanguage"&gt;&lt;/span&gt;&lt;/p&gt; &lt;script&gt; // 스크립트 // 언어는 1부터 3까지 랜덤 뽑고 각 숫자에 할당 &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; 3. 스크립트 작성 function generateRandomNumbers() { const min = 1000; const max = parseInt(document.querySelector('#maxNumber').value); // 최대 숫자 예외처리 if (isNaN(max) || max &lt; min) { alert("최소 1000 이상 숫자 입력"); return; } // 랜덤 숫자 추출 const randomNum = Math.floor(Math.random() * (max - min + 1)) + min; const randomLang = Math.floor(Math.random() * 3) + 1; // 결과란에 배치 document.querySelector('#randomNumber').textContent = randomNum; document.querySelector('#randomLanguage').textContent = randomLang === 1 ? 'java' : randomLang === 2 ? 'c++' : 'python'; } 완성 반성 딱히? 코드 확인 직접 해보기 Link to GitHub]]></summary></entry><entry><title type="html">파이썬으로 CLI TODO 리스트 만들어보기</title><link href="https://movingwoo.com/ai-playground/gpt/2025/05/14/GPT.html" rel="alternate" type="text/html" title="파이썬으로 CLI TODO 리스트 만들어보기" /><published>2025-05-14T05:00:00+00:00</published><updated>2025-05-14T05:00:00+00:00</updated><id>https://movingwoo.com/ai-playground/gpt/2025/05/14/GPT</id><content type="html" xml:base="https://movingwoo.com/ai-playground/gpt/2025/05/14/GPT.html"><![CDATA[<p><span style="color: red;"><strong>본 포스트는 AI가 제작한 포스트입니다.</strong></span><br />
-<span style="color: orange;">명령: (지금까지 작성한 포스트를 학습 시킨 후) 유사한 양식과 주제로 포스트를 한 번 써봐.</span></p>
-
-<hr />
-
-<h1 id="파이썬으로-cli-todo-리스트-만들어보기">파이썬으로 CLI TODO 리스트 만들어보기</h1>
-
-<p>요즘도 종이에 할 일 적고 잊는 사람?<br />
-나는 그랬다. 매일 “뭐 하지?” 하면서 검색창에 TODO 쳐보다가,<br />
-아니 그냥 내가 하나 만들자 싶어서 만든, <strong>CLI 기반 TODO 리스트</strong>.</p>
-
-<hr />
-
-<h2 id="만들게-된-이유">만들게 된 이유</h2>
-
-<p>회사에서 쓸 일은 없는데,<br />
-일정 관리 앱이 너무 무겁기도 하고…<br />
-매일 아침에 <code class="language-plaintext highlighter-rouge">python todo.py</code> 딱 치면 오늘 할 일 쭉 나오면 좋겠더라구.</p>
-
-<hr />
-
-<h2 id="주요-기능">주요 기능</h2>
-
-<ul>
-  <li>할 일 추가 / 삭제</li>
-  <li>완료 체크</li>
-  <li>날짜 기준 정렬</li>
-  <li>json 파일에 저장</li>
-</ul>
-
-<hr />
-
-<h2 id="코드-요약">코드 요약</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">json</span>
-<span class="kn">from</span> <span class="n">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-
-<span class="n">FILE</span> <span class="o">=</span> <span class="sh">"</span><span class="s">todo.json</span><span class="sh">"</span>
-
-<span class="k">def</span> <span class="nf">load_tasks</span><span class="p">():</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">FILE</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="k">except</span> <span class="nb">FileNotFoundError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-
-<span class="k">def</span> <span class="nf">save_tasks</span><span class="p">(</span><span class="n">tasks</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">FILE</span><span class="p">,</span> <span class="sh">"</span><span class="s">w</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">json</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="n">tasks</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">add_task</span><span class="p">(</span><span class="n">title</span><span class="p">):</span>
-    <span class="n">tasks</span> <span class="o">=</span> <span class="nf">load_tasks</span><span class="p">()</span>
-    <span class="n">task</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="sh">"</span><span class="s">done</span><span class="sh">"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="sh">"</span><span class="s">created_at</span><span class="sh">"</span><span class="p">:</span> <span class="n">datetime</span><span class="p">.</span><span class="nf">now</span><span class="p">().</span><span class="nf">isoformat</span><span class="p">()}</span>
-    <span class="n">tasks</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-    <span class="nf">save_tasks</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>전체 코드는 GitHub에 올려둠:<br />
-→ <span style="color: red;"><strong>– AI가 생성한 가짜 링크라 제거함 –</strong></span></p>
-
-<hr />
-
-<h2 id="사용법">사용법</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python todo.py add <span class="s2">"블로그 글쓰기"</span>
-<span class="nv">$ </span>python todo.py list
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="만들면서-느낀-점">만들면서 느낀 점</h2>
-
-<ul>
-  <li>생각보다 CLI 만들 때도 UX 고려할 게 많다.</li>
-  <li>파일 저장하는 방식도 JSON 외에 sqlite 도 고민했는데 너무 무거워서 패스.</li>
-  <li>argparse 안 쓰고 직접 파싱한 거 약간 후회.</li>
-</ul>
-
-<hr />
-
-<h2 id="다음에-해보고-싶은-것">다음에 해보고 싶은 것</h2>
-
-<ul>
-  <li>GUI 버전도 PyQt나 tkinter로?</li>
-  <li>정기 알림 기능 추가</li>
-  <li>Windows에서도 동작 잘 되게 exe 빌드</li>
-</ul>
-
-<blockquote>
-  <h4 id="내-생각">내 생각</h4>
-  <hr />
-</blockquote>
-
-<p>말투 흉내내려고 애쓴건 장한데<br />
-애초에 저 코드 돌아가지도 않을거다.<br />
-진입점도 없는걸?</p>
-
-<p>해당 부분의 코드를 실제 사용할 수 있게 다시 GPT에게 요청했다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">json</span>
-<span class="kn">import</span> <span class="n">sys</span>
-<span class="kn">from</span> <span class="n">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-
-<span class="n">FILE</span> <span class="o">=</span> <span class="sh">"</span><span class="s">todo.json</span><span class="sh">"</span>
-
-<span class="k">def</span> <span class="nf">load_tasks</span><span class="p">():</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">FILE</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="k">except</span> <span class="nb">FileNotFoundError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-
-<span class="k">def</span> <span class="nf">save_tasks</span><span class="p">(</span><span class="n">tasks</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">FILE</span><span class="p">,</span> <span class="sh">"</span><span class="s">w</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">json</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="n">tasks</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">add_task</span><span class="p">(</span><span class="n">title</span><span class="p">):</span>
-    <span class="n">tasks</span> <span class="o">=</span> <span class="nf">load_tasks</span><span class="p">()</span>
-    <span class="n">task</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="sh">"</span><span class="s">done</span><span class="sh">"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="sh">"</span><span class="s">created_at</span><span class="sh">"</span><span class="p">:</span> <span class="n">datetime</span><span class="p">.</span><span class="nf">now</span><span class="p">().</span><span class="nf">isoformat</span><span class="p">()}</span>
-    <span class="n">tasks</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-    <span class="nf">save_tasks</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">할 일 추가됨: </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">list_tasks</span><span class="p">():</span>
-    <span class="n">tasks</span> <span class="o">=</span> <span class="nf">load_tasks</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">tasks</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">할 일이 없음.</span><span class="sh">"</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">task</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">tasks</span><span class="p">):</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="sh">"</span><span class="s">✔</span><span class="sh">"</span> <span class="k">if</span> <span class="n">task</span><span class="p">[</span><span class="sh">"</span><span class="s">done</span><span class="sh">"</span><span class="p">]</span> <span class="k">else</span> <span class="sh">"</span><span class="s">✘</span><span class="sh">"</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s">. [</span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s">] </span><span class="si">{</span><span class="n">task</span><span class="p">[</span><span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
-    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">사용법: python todo.py add &lt;내용&gt; | list</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="n">command</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="sh">"</span><span class="s">add</span><span class="sh">"</span> <span class="ow">and</span> <span class="nf">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="nf">add_task</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">:]))</span>
-    <span class="k">elif</span> <span class="n">command</span> <span class="o">==</span> <span class="sh">"</span><span class="s">list</span><span class="sh">"</span><span class="p">:</span>
-        <span class="nf">list_tasks</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">지원하지 않는 명령어.</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>실제 테스트 해보면 아래와 같다.</p>
-
-<div class="language-batch highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">python</span> <span class="kd">todo</span>.py <span class="kd">add</span> <span class="s2">"tteesstt"</span>
-할 일 추가됨: <span class="kd">tteesstt</span>
-
-<span class="kd">python</span> <span class="kd">todo</span>.py <span class="kd">list</span>
-<span class="m">1</span>. <span class="o">[</span>✘<span class="o">]</span> <span class="kd">tteesstt</span>
-</code></pre></div></div>
-
-<p>저장은 이제 되지만 할 일 완료처리는 아직 할 수 없다.<br />
-커맨드가 add와 list 밖에 없으므로…</p>
-
-<p>뭔가 아쉽다.<br />
-AI가 제대로 만들 수 있으면 날로 먹을 수 있을텐데 말이다.</p>]]></content><author><name>GPT4o</name></author><category term="AI-playground/GPT/" /><summary type="html"><![CDATA[본 포스트는 AI가 제작한 포스트입니다. 명령: (지금까지 작성한 포스트를 학습 시킨 후) 유사한 양식과 주제로 포스트를 한 번 써봐. 파이썬으로 CLI TODO 리스트 만들어보기 요즘도 종이에 할 일 적고 잊는 사람? 나는 그랬다. 매일 “뭐 하지?” 하면서 검색창에 TODO 쳐보다가, 아니 그냥 내가 하나 만들자 싶어서 만든, CLI 기반 TODO 리스트. 만들게 된 이유 회사에서 쓸 일은 없는데, 일정 관리 앱이 너무 무겁기도 하고… 매일 아침에 python todo.py 딱 치면 오늘 할 일 쭉 나오면 좋겠더라구. 주요 기능 할 일 추가 / 삭제 완료 체크 날짜 기준 정렬 json 파일에 저장 코드 요약 import json from datetime import datetime FILE = "todo.json" def load_tasks(): try: with open(FILE, "r") as f: return json.load(f) except FileNotFoundError: return [] def save_tasks(tasks): with open(FILE, "w") as f: json.dump(tasks, f, indent=2) def add_task(title): tasks = load_tasks() task = {"title": title, "done": False, "created_at": datetime.now().isoformat()} tasks.append(task) save_tasks(tasks) 전체 코드는 GitHub에 올려둠: → – AI가 생성한 가짜 링크라 제거함 – 사용법 $ python todo.py add "블로그 글쓰기" $ python todo.py list 만들면서 느낀 점 생각보다 CLI 만들 때도 UX 고려할 게 많다. 파일 저장하는 방식도 JSON 외에 sqlite 도 고민했는데 너무 무거워서 패스. argparse 안 쓰고 직접 파싱한 거 약간 후회. 다음에 해보고 싶은 것 GUI 버전도 PyQt나 tkinter로? 정기 알림 기능 추가 Windows에서도 동작 잘 되게 exe 빌드 내 생각 말투 흉내내려고 애쓴건 장한데 애초에 저 코드 돌아가지도 않을거다. 진입점도 없는걸? 해당 부분의 코드를 실제 사용할 수 있게 다시 GPT에게 요청했다. import json import sys from datetime import datetime FILE = "todo.json" def load_tasks(): try: with open(FILE, "r") as f: return json.load(f) except FileNotFoundError: return [] def save_tasks(tasks): with open(FILE, "w") as f: json.dump(tasks, f, indent=2) def add_task(title): tasks = load_tasks() task = {"title": title, "done": False, "created_at": datetime.now().isoformat()} tasks.append(task) save_tasks(tasks) print(f"할 일 추가됨: {title}") def list_tasks(): tasks = load_tasks() if not tasks: print("할 일이 없음.") for i, task in enumerate(tasks): status = "✔" if task["done"] else "✘" print(f"{i + 1}. [{status}] {task['title']}") if __name__ == "__main__": if len(sys.argv) &lt; 2: print("사용법: python todo.py add &lt;내용&gt; | list") sys.exit(1) command = sys.argv[1] if command == "add" and len(sys.argv) &gt; 2: add_task(" ".join(sys.argv[2:])) elif command == "list": list_tasks() else: print("지원하지 않는 명령어.") 실제 테스트 해보면 아래와 같다. python todo.py add "tteesstt" 할 일 추가됨: tteesstt python todo.py list 1. [✘] tteesstt 저장은 이제 되지만 할 일 완료처리는 아직 할 수 없다. 커맨드가 add와 list 밖에 없으므로… 뭔가 아쉽다. AI가 제대로 만들 수 있으면 날로 먹을 수 있을텐데 말이다.]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-15-Random%20Printer.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데 랜덤 뽑아내는 기능이 필요해서 자급자족함 구현 1. 설계 백준에 문제가 몇개나 되지? 현시점 전체 문제는 3만개 이상으로 나온다. 웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지? 최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다. 언어는 72종 지원한다는데 내가 할 수 있는 언어만 나와야한다. 대충 java, c++, python 3종으로만 하자. 2. HTML 세팅 &lt;!DOCTYPE html&gt; &lt;html lang="ko"&gt; &lt;head&gt; &lt;meta charset="UTF-8"&gt; &lt;title&gt;랜덤 출력기&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;h1&gt;랜덤 출력기&lt;/h1&gt; &lt;label for="maxNumber"&gt;최대 숫자 입력 (최소는 1000 고정): &lt;/label&gt; &lt;input type="number" id="maxNumber" min="1000"&gt; &lt;button onclick="generateRandomNumbers()"&gt;생성하기&lt;/button&gt; &lt;h3&gt;결과&lt;/h3&gt; &lt;p&gt;문제 번호: &lt;span id="randomNumber"&gt;&lt;/span&gt;&lt;/p&gt; &lt;p&gt;언어: &lt;span id="randomLanguage"&gt;&lt;/span&gt;&lt;/p&gt; &lt;script&gt; // 스크립트 // 언어는 1부터 3까지 랜덤 뽑고 각 숫자에 할당 &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; 3. 스크립트 작성 function generateRandomNumbers() { const min = 1000; const max = parseInt(document.querySelector('#maxNumber').value); // 최대 숫자 예외처리 if (isNaN(max) || max &lt; min) { alert("최소 1000 이상 숫자 입력"); return; } // 랜덤 숫자 추출 const randomNum = Math.floor(Math.random() * (max - min + 1)) + min; const randomLang = Math.floor(Math.random() * 3) + 1; // 결과란에 배치 document.querySelector('#randomNumber').textContent = randomNum; document.querySelector('#randomLanguage').textContent = randomLang === 1 ? 'java' : randomLang === 2 ? 'c++' : 'python'; } 완성 반성 딱히? 코드 확인 직접 해보기 Link to GitHub]]></summary></entry></feed>
