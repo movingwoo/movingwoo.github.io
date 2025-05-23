@@ -78,15 +78,5 @@ function getNeighbors(x, y) {
 async function startPrim() {
     initMaze();
     await generatePrim();
-    // 입구 표시
-    drawCell(entrance[0], entrance[1], 'lime');
-
-    // 가장 먼 곳이 출구
-    const [ex, ey] = findFurthestCell(entrance[0], entrance[1]); 
-    exit = [ex, ey];
-    // 출구 표시
-    drawCell(exit[0], exit[1], 'blue');
-
-    const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]);
-    await drawPathAnimated(path);
+    await pathFinder();
 }

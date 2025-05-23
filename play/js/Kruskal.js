@@ -67,14 +67,5 @@ function union(sets, set1, set2) {
 async function startKruskal() {
     initMaze();
     await generateKruskal();
-    
-    // 입구 표시
-    drawCell(entrance[0], entrance[1], 'lime');
-    const [ex, ey] = findFurthestCell(entrance[0], entrance[1]);
-    exit = [ex, ey];
-    // 출구 표시
-    drawCell(exit[0], exit[1], 'blue');
-    
-    const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]);
-    await drawPathAnimated(path);
+    await pathFinder();
 }

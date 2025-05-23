@@ -102,14 +102,20 @@ var store = [{
         "teaser": null
       },{
         "title": "미로 생성기 02",
-        "excerpt":"개요 Prim’s 알고리즘과 Kruskal’s 알고리즘의 미로를 추가하기 구현 시작 전에 공통으로 사용할 함수를 index로 몰아준다. Prim’s 알고리즘 DFS와 Prim의 미로는 겉으로는 제법 유사해보이는데 Prim은 탈출 경로가 훨씬 단순해진다. DFS는 한 방향으로 쭈욱 파다가 막히면 돌아가서 새로운 길을 찾는데, Prim은 미로의 경계에서 새로운 길을 만들기 때문이다. 느낌으로 비교하자면 DFS는 ‘길을 파는...","categories": ["one-pan/JavaScript/"],
+        "excerpt":"개요 Prim’s 알고리즘과 Kruskal’s 알고리즘의 미로를 추가하기 구현 시작 전에 공통으로 사용할 함수를 index로 몰아준다. 1. Prim’s 알고리즘 DFS와 Prim의 미로는 겉으로는 제법 유사해보이는데 Prim은 탈출 경로가 훨씬 단순해진다. DFS는 한 방향으로 쭈욱 파다가 막히면 돌아가서 새로운 길을 찾는데, Prim은 미로의 경계에서 새로운 길을 만들기 때문이다. 느낌으로 비교하자면 DFS는 ‘길을...","categories": ["one-pan/JavaScript/"],
         "tags": [],
         "url": "/one-pan/javascript/2025/05/21/Maze-Generator-02.html",
         "teaser": null
       },{
         "title": "26489번 Gum Gum for Jay Jay",
-        "excerpt":"문제 26489번 Gum Gum for Jay Jay - 백준 설계 엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ 좋아좋아 이런 날도 있어야지. 입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다. 구현 n = 0 try: while True: input() ++n except EOFError: pass print(n) 끝이다. 아니 내 컨텐츠가!!!!!!! 너무 쉬운 문제는 이런게 문제구나. 이왕 이렇게...","categories": ["random-solve/Python/"],
+        "excerpt":"문제 26489번 Gum Gum for Jay Jay - 백준 설계 엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ 좋아좋아 이런 날도 있어야지. 입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다. 구현 n = 0 try: while True: input() n+=1 except EOFError: pass print(n) 끝이다. 아니 내 컨텐츠가!!!!!!! 너무 쉬운 문제는 이런게 문제구나. 이왕 이렇게...","categories": ["random-solve/Python/"],
         "tags": [],
         "url": "/random-solve/python/2025/05/22/26489.html",
+        "teaser": null
+      },{
+        "title": "미로 생성기 03",
+        "excerpt":"개요 남은 알고리즘 미로 추가하여 미로 생성기 완성하기. 구현 시작 전에 길찾고 그리는 부분이 중복되기 때문에 공통 함수로 옮겨줬다. 1. Binary Tree 알고리즘과 Sidewinder 알고리즘 두 알고리즘의 미로 생성 과정이나 결과물은 상당히 유사해보인다. 셀에서 방향을 무작위로 선택해 벽을 제거하고 나아가는 방식이다. 차이점을 정리해보면 Binary Tree 각 셀마다 독립적으로 결정을 내림...","categories": ["one-pan/JavaScript/"],
+        "tags": [],
+        "url": "/one-pan/javascript/2025/05/23/Maze-Generator-03.html",
         "teaser": null
       }]

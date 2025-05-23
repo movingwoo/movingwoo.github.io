@@ -1,0 +1,1884 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>미로 생성기 03 - 뭐라도 하겠지</title>
+<meta name="description" content="개요      남은 알고리즘 미로 추가하여 미로 생성기 완성하기.     구현      시작 전에 길찾고 그리는 부분이 중복되기 때문에 공통 함수로 옮겨줬다.  1. Binary Tree 알고리즘과 Sidewinder 알고리즘  두 알고리즘의 미로 생성 과정이나 결과물은 상당히 유사해보인다. 셀에서 방향을 무작위로 선택해 벽을 제거하고 나아가는 방식이다.  차이점을 정리해보면    Binary Tree            각 셀마다 독립적으로 결정을 내림       대각선 방향의 경향           Sidewinder            연속된 동쪽 경로인 run이라는 개념을 활용, 동쪽으로 진행       현재 run에서 무작위 셀을 남쪽으로 연결하며 run 종료       이전 셀들의 선택이 다음 셀 선택에 영향을 줌       수평 방향의 경향           실제 입구 출구를 이어보면 이는 더 명확하게 드러난다. 전통적인 Sidewinder 알고리즘 사용시 동쪽과 북쪽을 선택하는데 시작 좌표를 [0, 0] 으로 잡기 때문에 동쪽과 남쪽으로 진행하게 방향을 잡았다.  // Binary Tree 알고리즘 async function generateBinaryTree() {     // 모든 셀을 벽으로 초기화     for (let y = 0; y &lt; rows; y++) {         for (let x = 0; x &lt; cols; x++) {             maze[y][x] = 1;             drawCell(x, y, &#39;black&#39;);         }     }      // 각 셀에 대해     for (let y = 0; y &lt; rows; y += 2) {         for (let x = 0; x &lt; cols; x += 2) {             // 현재 셀을 통로로 만들기             maze[y][x] = 0;             drawCell(x, y, &#39;white&#39;);              // 동쪽과 남쪽 중 하나를 무작위로 선택             const canGoEast = x + 2 &lt; cols;             const canGoSouth = y + 2 &lt; rows;              if (canGoEast &amp;&amp; canGoSouth) {                 // 둘 다 가능하면 무작위로 선택                 if (Math.random() &lt; 0.5) {                     // 동쪽으로                     maze[y][x + 1] = 0;                     drawCell(x + 1, y, &#39;white&#39;);                 } else {                     // 남쪽으로                     maze[y + 1][x] = 0;                     drawCell(x, y + 1, &#39;white&#39;);                 }             } else if (canGoEast) {                 // 동쪽만 가능                 maze[y][x + 1] = 0;                 drawCell(x + 1, y, &#39;white&#39;);             } else if (canGoSouth) {                 // 남쪽만 가능                 maze[y + 1][x] = 0;                 drawCell(x, y + 1, &#39;white&#39;);             }              await sleep(5);         }     } }  // Sidewinder 알고리즘 // 전통적인 Sidewinder 알고리즘은 북쪽으로 길을 파는데 입구가 0,0이라 남쪽으로 파는 것으로 변경 async function generateSidewinder() {     // 모든 셀을 벽으로 초기화     for (let y = 0; y &lt; rows; y++) {         for (let x = 0; x &lt; cols; x++) {             maze[y][x] = 1;             drawCell(x, y, &#39;black&#39;);         }     }      // 각 행을 처리     for (let y = 0; y &lt; rows; y += 2) {         let run = []; // 현재 실행 중인 경로 (연속된 동쪽 경로)          for (let x = 0; x &lt; cols; x += 2) {             // 현재 셀을 통로로 만들기             maze[y][x] = 0;             drawCell(x, y, &#39;white&#39;);             run.push([x, y]); // 현재 셀을 run에 추가              // 동쪽으로 갈 수 있는지 확인             const canGoEast = x + 2 &lt; cols;             // 남쪽으로 갈 수 있는지 확인             const canGoSouth = y + 2 &lt; rows;              // 동쪽으로 계속 진행할지, 남쪽으로 연결할지 결정             // 1. 동쪽으로 갈 수 없거나             // 2. 남쪽으로 갈 수 있고 50% 확률로 run을 종료             const shouldCloseOut = !canGoEast || (canGoSouth &amp;&amp; Math.random() &lt; 0.5);              if (shouldCloseOut) {                 // 현재 run에서 무작위로 선택된 셀을 남쪽과 연결                 const [rx, ry] = run[Math.floor(Math.random() * run.length)];                 if (canGoSouth) {                     maze[ry + 1][rx] = 0;                     drawCell(rx, ry + 1, &#39;white&#39;);                 }                 run = []; // run 초기화             } else {                 // 동쪽으로 계속 진행 (run 확장)                 maze[y][x + 1] = 0;                 drawCell(x + 1, y, &#39;white&#39;);             }              await sleep(5);         }     } }   2. Recursive Division 알고리즘  Resursive Division 알고리즘으로 생성된 미로를 보면 다른 미로들과 비교해 상당히 이질적이다. 마치 던전 맵 같은 방 구조로 되어있으며 접근할 수 없는 갇힌 방도 만들어진다.  공간을 분할하며 한 줄짜리 벽을 만들고 벽에 단 하나의 통로만 뚫는다. 이 과정이 반복되며 어떤 영역은 한 통로만 생기고 나머지는 벽으로 막혀버릴 수 있다.  모든 칸이 연결된 완전 미로를 만들기 위해 코드를 약간 수정했다. 벽을 만들 때 이미 통로가 있는지 확인하고 막히게 된다면 추가로 통로를 더 뚫어주는 로직을 넣어주었다. 그래도 막힌 방이 생성됨… 좀 벽을 더 뚫어줘야할 것 같다.  // Recursive Division 알고리즘 // 완전 미로를 만들기 위한 커스텀 // 분할선 크기 조정 시 방 크기 조정 async function generateRecursiveDivision(x1, y1, x2, y2, orientation) {     // 방이 너무 작으면 중단     if (x2 - x1 &lt; 2 || y2 - y1 &lt; 2) {         return;     }      // 수평     if (orientation === &#39;horizontal&#39;) {         // 분할선 후보(짝수)         const possibleYs = [];                  for (let y = y1 + 2; y &lt; y2; y += 2) {             possibleYs.push(y);         }          if (possibleYs.length === 0) {             // 분할선 후보가 없으면 중단             return;          }         const y = possibleYs[Math.floor(Math.random() * possibleYs.length)];          // 통로 후보(홀수)         const possiblePassages = [];                  for (let x = x1 + 1; x &lt; x2; x += 2) {             possiblePassages.push(x);         }                  if (possiblePassages.length === 0) {             // 통로 후보가 없으면 중단             return;         }          // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여         const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3));         const passages = [];         const passageCandidates = [...possiblePassages];         while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) {             const idx = Math.floor(Math.random() * passageCandidates.length);             const px = passageCandidates.splice(idx, 1)[0];             passages.push(px);         }          // 벽 생성 (통로 제외)         for (let x = x1; x &lt;= x2; x++) {             if (!passages.includes(x)) {                 maze[y][x] = 1;                 drawCell(x, y, &#39;black&#39;);             }         }         await sleep(5);          // 위/아래 영역 재귀 호출         await generateRecursiveDivision(x1, y1, x2, y - 1, &#39;vertical&#39;);         await generateRecursiveDivision(x1, y + 1, x2, y2, &#39;vertical&#39;);     } else { // 수직         // 분할선 후보(짝수)         const possibleXs = [];                  for (let x = x1 + 2; x &lt; x2; x += 2) {             possibleXs.push(x);         }          if (possibleXs.length === 0) {             // 분할선 후보가 없으면 중단             return;         }          const x = possibleXs[Math.floor(Math.random() * possibleXs.length)];          // 통로 후보(홀수)         const possiblePassages = [];          for (let y = y1 + 1; y &lt; y2; y += 2) {             possiblePassages.push(y);         }          if (possiblePassages.length === 0) {             // 통로 후보가 없으면 중단             return;         }          // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여         const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3));         const passages = [];         const passageCandidates = [...possiblePassages];         while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) {             const idx = Math.floor(Math.random() * passageCandidates.length);             const py = passageCandidates.splice(idx, 1)[0];             passages.push(py);         }          // 벽 생성 (통로 제외)         for (let y = y1; y &lt;= y2; y++) {             if (!passages.includes(y)) {                 maze[y][x] = 1;                 drawCell(x, y, &#39;black&#39;);             }         }         await sleep(5);          // 좌/우 영역 재귀 호출         await generateRecursiveDivision(x1, y1, x - 1, y2, &#39;horizontal&#39;);         await generateRecursiveDivision(x + 1, y1, x2, y2, &#39;horizontal&#39;);     } }   3. Eller’s 알고리즘  Eller’s 알고리즘은 각 행마다 집합을 관리하며 벽을 뚫을 때 집합을 병합하거나 새로 부여한다. 한 줄씩 처리하며 집합 연산과 벽 뚫기만 하고 복잡한 경로 탐색이 없어서 메모리 접근이 효율적이고 엄청나게 빠르다.  실제로 시뮬레이션 돌리면 혼자서 미로를 호다닥 생성해버린다.  엄청나게 빠른게 장점이라면 단점으로는 무작위성이 떨어지며 수평으로 편향되어 있다는 점 정도?  좀 숭숭 뚫려있는 느낌도 받는다. 수직으로 한 칸 짜리 벽 생성을 지양해야하는데 수평으로 한 줄씩 처리하기 때문에 수직 처리하기 곤란하다.  // Eller&#39;s Algorithm 미로 생성 async function generateEller() {     // 모든 셀을 벽으로 초기화     for (let y = 0; y &lt; rows; y++) {         for (let x = 0; x &lt; cols; x++) {             maze[y][x] = 1;             drawCell(x, y, &#39;black&#39;);         }     }      // 각 셀의 집합 번호를 저장할 배열     let sets = [];     let nextSet = 1;      // 첫 번째 행 초기화     for (let x = 0; x &lt; cols; x += 2) {         sets[x] = nextSet++;         maze[0][x] = 0;         drawCell(x, 0, &#39;white&#39;);     }      // 각 행을 처리     for (let y = 0; y &lt; rows; y += 2) {         // 1. 오른쪽으로 벽을 뚫을지 결정         for (let x = 0; x &lt; cols - 2; x += 2) {             // 같은 집합이 아니고, 랜덤하게 벽을 뚫기로 결정하면             if (sets[x] !== sets[x + 2] &amp;&amp; Math.random() &lt; 0.5) {                 // 벽 뚫기                 maze[y][x + 1] = 0;                 drawCell(x + 1, y, &#39;white&#39;);                 // 집합 병합                 const oldSet = sets[x + 2];                 const newSet = sets[x];                 for (let i = 0; i &lt; cols; i += 2) {                     if (sets[i] === oldSet) sets[i] = newSet;                 }             }         }          // 마지막 행이 아니면 아래로 벽을 뚫기         if (y + 2 &lt; rows) {             // 각 집합별로 아래로 연결할 셀을 최소 1개 이상 선택             const setCells = {};             for (let x = 0; x &lt; cols; x += 2) {                 if (!setCells[sets[x]]) setCells[sets[x]] = [];                 setCells[sets[x]].push(x);             }              // 아래로 연결             let newSets = [];             for (const set in setCells) {                 // 반드시 하나는 아래로 연결                 const cells = setCells[set];                 const shuffled = cells.slice().sort(() =&gt; Math.random() - 0.5);                 const downCount = 1 + Math.floor(Math.random() * cells.length);                 for (let i = 0; i &lt; downCount; i++) {                     const x = shuffled[i];                     maze[y + 1][x] = 0;                     drawCell(x, y + 1, &#39;white&#39;);                     maze[y + 2][x] = 0;                     drawCell(x, y + 2, &#39;white&#39;);                     newSets[x] = nextSet++;                 }             }             // 나머지 셀은 새로운 집합 번호 부여             for (let x = 0; x &lt; cols; x += 2) {                 if (!newSets[x]) {                     maze[y + 2][x] = 0;                     drawCell(x, y + 2, &#39;white&#39;);                     newSets[x] = nextSet++;                 }             }             sets = newSets;         }         await sleep(10);     } }      완성      Binary Tree 알고리즘 미로    Sidewinder 알고리즘 미로    Recursive Division 알고리즘 미로    Eller’s 알고리즘 미로       반성      7종 알고리즘 미로를 완성했다. 그 외 몇가지 알고리즘이 더 있긴한데, 대표적으로 이 7종이면 더 맛 볼 필요는 없다고 한다.  그리고 미로 알고리즘 짜다가 알게 되었는데 던전 맵 만드는 알고리즘과 미로 알고리즘은 또 다르다고 한다… 정리 되면 던전 맵 시뮬레이터도 만들어봐야겠다.     코드 확인         직접 해보기   Binary Tree Link to GitHub  Sidewinder Link to GitHub  Recursive Division Link to GitHub  Eller’s Link to GitHub">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="뭐라도 하겠지">
+<meta property="og:title" content="미로 생성기 03">
+<meta property="og:url" content="https://movingwoo.com/one-pan/javascript/2025/05/23/Maze-Generator-03.html">
+
+
+  <meta property="og:description" content="개요      남은 알고리즘 미로 추가하여 미로 생성기 완성하기.     구현      시작 전에 길찾고 그리는 부분이 중복되기 때문에 공통 함수로 옮겨줬다.  1. Binary Tree 알고리즘과 Sidewinder 알고리즘  두 알고리즘의 미로 생성 과정이나 결과물은 상당히 유사해보인다. 셀에서 방향을 무작위로 선택해 벽을 제거하고 나아가는 방식이다.  차이점을 정리해보면    Binary Tree            각 셀마다 독립적으로 결정을 내림       대각선 방향의 경향           Sidewinder            연속된 동쪽 경로인 run이라는 개념을 활용, 동쪽으로 진행       현재 run에서 무작위 셀을 남쪽으로 연결하며 run 종료       이전 셀들의 선택이 다음 셀 선택에 영향을 줌       수평 방향의 경향           실제 입구 출구를 이어보면 이는 더 명확하게 드러난다. 전통적인 Sidewinder 알고리즘 사용시 동쪽과 북쪽을 선택하는데 시작 좌표를 [0, 0] 으로 잡기 때문에 동쪽과 남쪽으로 진행하게 방향을 잡았다.  // Binary Tree 알고리즘 async function generateBinaryTree() {     // 모든 셀을 벽으로 초기화     for (let y = 0; y &lt; rows; y++) {         for (let x = 0; x &lt; cols; x++) {             maze[y][x] = 1;             drawCell(x, y, &#39;black&#39;);         }     }      // 각 셀에 대해     for (let y = 0; y &lt; rows; y += 2) {         for (let x = 0; x &lt; cols; x += 2) {             // 현재 셀을 통로로 만들기             maze[y][x] = 0;             drawCell(x, y, &#39;white&#39;);              // 동쪽과 남쪽 중 하나를 무작위로 선택             const canGoEast = x + 2 &lt; cols;             const canGoSouth = y + 2 &lt; rows;              if (canGoEast &amp;&amp; canGoSouth) {                 // 둘 다 가능하면 무작위로 선택                 if (Math.random() &lt; 0.5) {                     // 동쪽으로                     maze[y][x + 1] = 0;                     drawCell(x + 1, y, &#39;white&#39;);                 } else {                     // 남쪽으로                     maze[y + 1][x] = 0;                     drawCell(x, y + 1, &#39;white&#39;);                 }             } else if (canGoEast) {                 // 동쪽만 가능                 maze[y][x + 1] = 0;                 drawCell(x + 1, y, &#39;white&#39;);             } else if (canGoSouth) {                 // 남쪽만 가능                 maze[y + 1][x] = 0;                 drawCell(x, y + 1, &#39;white&#39;);             }              await sleep(5);         }     } }  // Sidewinder 알고리즘 // 전통적인 Sidewinder 알고리즘은 북쪽으로 길을 파는데 입구가 0,0이라 남쪽으로 파는 것으로 변경 async function generateSidewinder() {     // 모든 셀을 벽으로 초기화     for (let y = 0; y &lt; rows; y++) {         for (let x = 0; x &lt; cols; x++) {             maze[y][x] = 1;             drawCell(x, y, &#39;black&#39;);         }     }      // 각 행을 처리     for (let y = 0; y &lt; rows; y += 2) {         let run = []; // 현재 실행 중인 경로 (연속된 동쪽 경로)          for (let x = 0; x &lt; cols; x += 2) {             // 현재 셀을 통로로 만들기             maze[y][x] = 0;             drawCell(x, y, &#39;white&#39;);             run.push([x, y]); // 현재 셀을 run에 추가              // 동쪽으로 갈 수 있는지 확인             const canGoEast = x + 2 &lt; cols;             // 남쪽으로 갈 수 있는지 확인             const canGoSouth = y + 2 &lt; rows;              // 동쪽으로 계속 진행할지, 남쪽으로 연결할지 결정             // 1. 동쪽으로 갈 수 없거나             // 2. 남쪽으로 갈 수 있고 50% 확률로 run을 종료             const shouldCloseOut = !canGoEast || (canGoSouth &amp;&amp; Math.random() &lt; 0.5);              if (shouldCloseOut) {                 // 현재 run에서 무작위로 선택된 셀을 남쪽과 연결                 const [rx, ry] = run[Math.floor(Math.random() * run.length)];                 if (canGoSouth) {                     maze[ry + 1][rx] = 0;                     drawCell(rx, ry + 1, &#39;white&#39;);                 }                 run = []; // run 초기화             } else {                 // 동쪽으로 계속 진행 (run 확장)                 maze[y][x + 1] = 0;                 drawCell(x + 1, y, &#39;white&#39;);             }              await sleep(5);         }     } }   2. Recursive Division 알고리즘  Resursive Division 알고리즘으로 생성된 미로를 보면 다른 미로들과 비교해 상당히 이질적이다. 마치 던전 맵 같은 방 구조로 되어있으며 접근할 수 없는 갇힌 방도 만들어진다.  공간을 분할하며 한 줄짜리 벽을 만들고 벽에 단 하나의 통로만 뚫는다. 이 과정이 반복되며 어떤 영역은 한 통로만 생기고 나머지는 벽으로 막혀버릴 수 있다.  모든 칸이 연결된 완전 미로를 만들기 위해 코드를 약간 수정했다. 벽을 만들 때 이미 통로가 있는지 확인하고 막히게 된다면 추가로 통로를 더 뚫어주는 로직을 넣어주었다. 그래도 막힌 방이 생성됨… 좀 벽을 더 뚫어줘야할 것 같다.  // Recursive Division 알고리즘 // 완전 미로를 만들기 위한 커스텀 // 분할선 크기 조정 시 방 크기 조정 async function generateRecursiveDivision(x1, y1, x2, y2, orientation) {     // 방이 너무 작으면 중단     if (x2 - x1 &lt; 2 || y2 - y1 &lt; 2) {         return;     }      // 수평     if (orientation === &#39;horizontal&#39;) {         // 분할선 후보(짝수)         const possibleYs = [];                  for (let y = y1 + 2; y &lt; y2; y += 2) {             possibleYs.push(y);         }          if (possibleYs.length === 0) {             // 분할선 후보가 없으면 중단             return;          }         const y = possibleYs[Math.floor(Math.random() * possibleYs.length)];          // 통로 후보(홀수)         const possiblePassages = [];                  for (let x = x1 + 1; x &lt; x2; x += 2) {             possiblePassages.push(x);         }                  if (possiblePassages.length === 0) {             // 통로 후보가 없으면 중단             return;         }          // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여         const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3));         const passages = [];         const passageCandidates = [...possiblePassages];         while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) {             const idx = Math.floor(Math.random() * passageCandidates.length);             const px = passageCandidates.splice(idx, 1)[0];             passages.push(px);         }          // 벽 생성 (통로 제외)         for (let x = x1; x &lt;= x2; x++) {             if (!passages.includes(x)) {                 maze[y][x] = 1;                 drawCell(x, y, &#39;black&#39;);             }         }         await sleep(5);          // 위/아래 영역 재귀 호출         await generateRecursiveDivision(x1, y1, x2, y - 1, &#39;vertical&#39;);         await generateRecursiveDivision(x1, y + 1, x2, y2, &#39;vertical&#39;);     } else { // 수직         // 분할선 후보(짝수)         const possibleXs = [];                  for (let x = x1 + 2; x &lt; x2; x += 2) {             possibleXs.push(x);         }          if (possibleXs.length === 0) {             // 분할선 후보가 없으면 중단             return;         }          const x = possibleXs[Math.floor(Math.random() * possibleXs.length)];          // 통로 후보(홀수)         const possiblePassages = [];          for (let y = y1 + 1; y &lt; y2; y += 2) {             possiblePassages.push(y);         }          if (possiblePassages.length === 0) {             // 통로 후보가 없으면 중단             return;         }          // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여         const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3));         const passages = [];         const passageCandidates = [...possiblePassages];         while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) {             const idx = Math.floor(Math.random() * passageCandidates.length);             const py = passageCandidates.splice(idx, 1)[0];             passages.push(py);         }          // 벽 생성 (통로 제외)         for (let y = y1; y &lt;= y2; y++) {             if (!passages.includes(y)) {                 maze[y][x] = 1;                 drawCell(x, y, &#39;black&#39;);             }         }         await sleep(5);          // 좌/우 영역 재귀 호출         await generateRecursiveDivision(x1, y1, x - 1, y2, &#39;horizontal&#39;);         await generateRecursiveDivision(x + 1, y1, x2, y2, &#39;horizontal&#39;);     } }   3. Eller’s 알고리즘  Eller’s 알고리즘은 각 행마다 집합을 관리하며 벽을 뚫을 때 집합을 병합하거나 새로 부여한다. 한 줄씩 처리하며 집합 연산과 벽 뚫기만 하고 복잡한 경로 탐색이 없어서 메모리 접근이 효율적이고 엄청나게 빠르다.  실제로 시뮬레이션 돌리면 혼자서 미로를 호다닥 생성해버린다.  엄청나게 빠른게 장점이라면 단점으로는 무작위성이 떨어지며 수평으로 편향되어 있다는 점 정도?  좀 숭숭 뚫려있는 느낌도 받는다. 수직으로 한 칸 짜리 벽 생성을 지양해야하는데 수평으로 한 줄씩 처리하기 때문에 수직 처리하기 곤란하다.  // Eller&#39;s Algorithm 미로 생성 async function generateEller() {     // 모든 셀을 벽으로 초기화     for (let y = 0; y &lt; rows; y++) {         for (let x = 0; x &lt; cols; x++) {             maze[y][x] = 1;             drawCell(x, y, &#39;black&#39;);         }     }      // 각 셀의 집합 번호를 저장할 배열     let sets = [];     let nextSet = 1;      // 첫 번째 행 초기화     for (let x = 0; x &lt; cols; x += 2) {         sets[x] = nextSet++;         maze[0][x] = 0;         drawCell(x, 0, &#39;white&#39;);     }      // 각 행을 처리     for (let y = 0; y &lt; rows; y += 2) {         // 1. 오른쪽으로 벽을 뚫을지 결정         for (let x = 0; x &lt; cols - 2; x += 2) {             // 같은 집합이 아니고, 랜덤하게 벽을 뚫기로 결정하면             if (sets[x] !== sets[x + 2] &amp;&amp; Math.random() &lt; 0.5) {                 // 벽 뚫기                 maze[y][x + 1] = 0;                 drawCell(x + 1, y, &#39;white&#39;);                 // 집합 병합                 const oldSet = sets[x + 2];                 const newSet = sets[x];                 for (let i = 0; i &lt; cols; i += 2) {                     if (sets[i] === oldSet) sets[i] = newSet;                 }             }         }          // 마지막 행이 아니면 아래로 벽을 뚫기         if (y + 2 &lt; rows) {             // 각 집합별로 아래로 연결할 셀을 최소 1개 이상 선택             const setCells = {};             for (let x = 0; x &lt; cols; x += 2) {                 if (!setCells[sets[x]]) setCells[sets[x]] = [];                 setCells[sets[x]].push(x);             }              // 아래로 연결             let newSets = [];             for (const set in setCells) {                 // 반드시 하나는 아래로 연결                 const cells = setCells[set];                 const shuffled = cells.slice().sort(() =&gt; Math.random() - 0.5);                 const downCount = 1 + Math.floor(Math.random() * cells.length);                 for (let i = 0; i &lt; downCount; i++) {                     const x = shuffled[i];                     maze[y + 1][x] = 0;                     drawCell(x, y + 1, &#39;white&#39;);                     maze[y + 2][x] = 0;                     drawCell(x, y + 2, &#39;white&#39;);                     newSets[x] = nextSet++;                 }             }             // 나머지 셀은 새로운 집합 번호 부여             for (let x = 0; x &lt; cols; x += 2) {                 if (!newSets[x]) {                     maze[y + 2][x] = 0;                     drawCell(x, y + 2, &#39;white&#39;);                     newSets[x] = nextSet++;                 }             }             sets = newSets;         }         await sleep(10);     } }      완성      Binary Tree 알고리즘 미로    Sidewinder 알고리즘 미로    Recursive Division 알고리즘 미로    Eller’s 알고리즘 미로       반성      7종 알고리즘 미로를 완성했다. 그 외 몇가지 알고리즘이 더 있긴한데, 대표적으로 이 7종이면 더 맛 볼 필요는 없다고 한다.  그리고 미로 알고리즘 짜다가 알게 되었는데 던전 맵 만드는 알고리즘과 미로 알고리즘은 또 다르다고 한다… 정리 되면 던전 맵 시뮬레이터도 만들어봐야겠다.     코드 확인         직접 해보기   Binary Tree Link to GitHub  Sidewinder Link to GitHub  Recursive Division Link to GitHub  Eller’s Link to GitHub">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-05-23T01:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-05-23T01:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://movingwoo.com/one-pan/javascript/2025/05/23/Maze-Generator-03.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "뭐라도 하겠지",
+      "url": "https://movingwoo.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/common/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/common/favicon_16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/common/favicon_180x180.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="뭐라도 하겠지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.querySelector('.head-content-btn');
+  const dropdownContent = document.querySelector('.game-dropdown-content');
+  let isOpen = false;
+
+  // 드롭다운 버튼 클릭 이벤트
+  dropdownBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    if (isOpen) {
+      const rect = dropdownBtn.getBoundingClientRect();
+      dropdownContent.style.top = rect.bottom + 'px';
+      dropdownContent.style.left = rect.left + 'px';
+      dropdownContent.classList.add('show');
+    } else {
+      dropdownContent.classList.remove('show');
+    }
+  });
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    if (isOpen && !dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+      isOpen = false;
+      dropdownContent.classList.remove('show');
+    }
+  });
+});
+</script>
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/common/favicon_180x180.png" alt="뭐라도 하겠지"></a>
+        
+        <a class="site-title" href="/">
+          뭐라도 하겠지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <div class="game-dropdown">
+              <button class="head-content-btn">
+                play <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="game-dropdown-content">
+                <a href="/play/Flappy%20Bird.html" target="_blank">Flappy Bird</a>
+                <a href="/play/Minesweeper.html" target="_blank">Minesweeper</a>
+                <a href="/play/Random%20Printer.html" target="_blank">Random Printer</a>
+                <a href="/play/Maze%20Generator.html" target="_blank">Maze Generator</a>
+              </div>
+            </div>
+          </li>
+          <li class="masthead__menu-item">
+            <button class="head-content-btn" onclick="window.location.href='/board?path='">
+              explorer
+            </button>
+          </li>
+        </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <h1 class="title__logo"><a href="https://movingwoo.com/">뭐라도 하겠지</a></h1>
+ -->
+
+
+
+<script src="/assets/js/search.js"></script>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div class="home-layout">
+  <div class="home-sidebar">
+    
+
+
+
+
+
+
+
+<aside class="sidebar__left">
+  <div class="toc-wrapper">
+    <nav class="toc">
+      <header>
+        <h4 class="nav__title">
+          <span class="title-text">
+            <i class="fas fa-sitemap"></i> Archive
+          </span>
+          <a href="/board?path=" class="search-link" title="탐색">
+            <i class="fas fa-list-ul"></i>
+          </a>
+        </h4>
+      </header>
+
+      <ul class="toc__menu">
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="AI-playground/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">AI-playground</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="AI-playground/Claude/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Claude</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/ai-playground/claude/2025/05/01/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/ai-playground/claude/2025/04/30/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="AI-playground/GPT/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">GPT</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/ai-playground/gpt/2025/05/14/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/ai-playground/gpt/2025/05/01/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/ai-playground/gpt/2025/04/30/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="one-pan/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">one-pan</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/Java/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/java/2025/05/11/Bulls-and-Cows.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 숫자야구
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/JavaScript/" data-total-posts="6">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">JavaScript</span>
+              
+              
+                <span class="post-count">6</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/javascript/2025/05/23/Maze-Generator-03.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 미로 생성기 03
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/one-pan/javascript/2025/05/21/Maze-Generator-02.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 미로 생성기 02
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/one-pan/javascript/2025/05/20/Maze-Generator-01.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 미로 생성기 01
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=one-pan%2FJavaScript%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/Python/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/python/2025/05/13/Clicker.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 클리커
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="one-pan/ShellScript/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">ShellScript</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/one-pan/shellscript/2025/05/12/File-Copier.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파일 복사기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/one-pan/shellscript/2025/04/28/Server-Manage-Console.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 서버 관리 콘솔
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="random-solve/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">random-solve</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="random-solve/C++/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">C++</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/random-solve/c++/2025/05/21/26226.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 26226번 Autocomplete
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/random-solve/c++/2025/05/16/29348.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 29348번 Скользкий путь
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="random-solve/Java/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/random-solve/java/2025/05/20/15936.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 15936번 Hypercube
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="random-solve/Python/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/random-solve/python/2025/05/22/26489.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 26489번 Gum Gum for Jay Jay
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/random-solve/python/2025/05/15/18382.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 18382번 2048
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/toc.js"></script> 
+  </div>
+
+  <div class="home-content">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="headline" content="미로 생성기 03">
+      <meta itemprop="description" content="  개요  남은 알고리즘 미로 추가하여 미로 생성기 완성하기.  구현  시작 전에 길찾고 그리는 부분이 중복되기 때문에 공통 함수로 옮겨줬다.1. Binary Tree 알고리즘과 Sidewinder 알고리즘두 알고리즘의 미로 생성 과정이나 결과물은 상당히 유사해보인다.셀에서 방향을 무작위로 선택해 벽을 제거하고 나아가는 방식이다.차이점을 정리해보면  Binary Tree          각 셀마다 독립적으로 결정을 내림      대각선 방향의 경향        Sidewinder          연속된 동쪽 경로인 run이라는 개념을 활용, 동쪽으로 진행      현재 run에서 무작위 셀을 남쪽으로 연결하며 run 종료      이전 셀들의 선택이 다음 셀 선택에 영향을 줌      수평 방향의 경향      실제 입구 출구를 이어보면 이는 더 명확하게 드러난다.전통적인 Sidewinder 알고리즘 사용시 동쪽과 북쪽을 선택하는데시작 좌표를 [0, 0] 으로 잡기 때문에 동쪽과 남쪽으로 진행하게 방향을 잡았다.// Binary Tree 알고리즘async function generateBinaryTree() {    // 모든 셀을 벽으로 초기화    for (let y = 0; y &lt; rows; y++) {        for (let x = 0; x &lt; cols; x++) {            maze[y][x] = 1;            drawCell(x, y, &#39;black&#39;);        }    }    // 각 셀에 대해    for (let y = 0; y &lt; rows; y += 2) {        for (let x = 0; x &lt; cols; x += 2) {            // 현재 셀을 통로로 만들기            maze[y][x] = 0;            drawCell(x, y, &#39;white&#39;);            // 동쪽과 남쪽 중 하나를 무작위로 선택            const canGoEast = x + 2 &lt; cols;            const canGoSouth = y + 2 &lt; rows;            if (canGoEast &amp;&amp; canGoSouth) {                // 둘 다 가능하면 무작위로 선택                if (Math.random() &lt; 0.5) {                    // 동쪽으로                    maze[y][x + 1] = 0;                    drawCell(x + 1, y, &#39;white&#39;);                } else {                    // 남쪽으로                    maze[y + 1][x] = 0;                    drawCell(x, y + 1, &#39;white&#39;);                }            } else if (canGoEast) {                // 동쪽만 가능                maze[y][x + 1] = 0;                drawCell(x + 1, y, &#39;white&#39;);            } else if (canGoSouth) {                // 남쪽만 가능                maze[y + 1][x] = 0;                drawCell(x, y + 1, &#39;white&#39;);            }            await sleep(5);        }    }}// Sidewinder 알고리즘// 전통적인 Sidewinder 알고리즘은 북쪽으로 길을 파는데 입구가 0,0이라 남쪽으로 파는 것으로 변경async function generateSidewinder() {    // 모든 셀을 벽으로 초기화    for (let y = 0; y &lt; rows; y++) {        for (let x = 0; x &lt; cols; x++) {            maze[y][x] = 1;            drawCell(x, y, &#39;black&#39;);        }    }    // 각 행을 처리    for (let y = 0; y &lt; rows; y += 2) {        let run = []; // 현재 실행 중인 경로 (연속된 동쪽 경로)        for (let x = 0; x &lt; cols; x += 2) {            // 현재 셀을 통로로 만들기            maze[y][x] = 0;            drawCell(x, y, &#39;white&#39;);            run.push([x, y]); // 현재 셀을 run에 추가            // 동쪽으로 갈 수 있는지 확인            const canGoEast = x + 2 &lt; cols;            // 남쪽으로 갈 수 있는지 확인            const canGoSouth = y + 2 &lt; rows;            // 동쪽으로 계속 진행할지, 남쪽으로 연결할지 결정            // 1. 동쪽으로 갈 수 없거나            // 2. 남쪽으로 갈 수 있고 50% 확률로 run을 종료            const shouldCloseOut = !canGoEast || (canGoSouth &amp;&amp; Math.random() &lt; 0.5);            if (shouldCloseOut) {                // 현재 run에서 무작위로 선택된 셀을 남쪽과 연결                const [rx, ry] = run[Math.floor(Math.random() * run.length)];                if (canGoSouth) {                    maze[ry + 1][rx] = 0;                    drawCell(rx, ry + 1, &#39;white&#39;);                }                run = []; // run 초기화            } else {                // 동쪽으로 계속 진행 (run 확장)                maze[y][x + 1] = 0;                drawCell(x + 1, y, &#39;white&#39;);            }            await sleep(5);        }    }}2. Recursive Division 알고리즘Resursive Division 알고리즘으로 생성된 미로를 보면 다른 미로들과 비교해 상당히 이질적이다.마치 던전 맵 같은 방 구조로 되어있으며 접근할 수 없는 갇힌 방도 만들어진다.공간을 분할하며 한 줄짜리 벽을 만들고 벽에 단 하나의 통로만 뚫는다.이 과정이 반복되며 어떤 영역은 한 통로만 생기고 나머지는 벽으로 막혀버릴 수 있다.모든 칸이 연결된 완전 미로를 만들기 위해 코드를 약간 수정했다.벽을 만들 때 이미 통로가 있는지 확인하고 막히게 된다면 추가로 통로를 더 뚫어주는 로직을 넣어주었다.그래도 막힌 방이 생성됨… 좀 벽을 더 뚫어줘야할 것 같다.// Recursive Division 알고리즘// 완전 미로를 만들기 위한 커스텀// 분할선 크기 조정 시 방 크기 조정async function generateRecursiveDivision(x1, y1, x2, y2, orientation) {    // 방이 너무 작으면 중단    if (x2 - x1 &lt; 2 || y2 - y1 &lt; 2) {        return;    }    // 수평    if (orientation === &#39;horizontal&#39;) {        // 분할선 후보(짝수)        const possibleYs = [];                for (let y = y1 + 2; y &lt; y2; y += 2) {            possibleYs.push(y);        }        if (possibleYs.length === 0) {            // 분할선 후보가 없으면 중단            return;         }        const y = possibleYs[Math.floor(Math.random() * possibleYs.length)];        // 통로 후보(홀수)        const possiblePassages = [];                for (let x = x1 + 1; x &lt; x2; x += 2) {            possiblePassages.push(x);        }                if (possiblePassages.length === 0) {            // 통로 후보가 없으면 중단            return;        }        // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여        const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3));        const passages = [];        const passageCandidates = [...possiblePassages];        while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) {            const idx = Math.floor(Math.random() * passageCandidates.length);            const px = passageCandidates.splice(idx, 1)[0];            passages.push(px);        }        // 벽 생성 (통로 제외)        for (let x = x1; x &lt;= x2; x++) {            if (!passages.includes(x)) {                maze[y][x] = 1;                drawCell(x, y, &#39;black&#39;);            }        }        await sleep(5);        // 위/아래 영역 재귀 호출        await generateRecursiveDivision(x1, y1, x2, y - 1, &#39;vertical&#39;);        await generateRecursiveDivision(x1, y + 1, x2, y2, &#39;vertical&#39;);    } else { // 수직        // 분할선 후보(짝수)        const possibleXs = [];                for (let x = x1 + 2; x &lt; x2; x += 2) {            possibleXs.push(x);        }        if (possibleXs.length === 0) {            // 분할선 후보가 없으면 중단            return;        }        const x = possibleXs[Math.floor(Math.random() * possibleXs.length)];        // 통로 후보(홀수)        const possiblePassages = [];        for (let y = y1 + 1; y &lt; y2; y += 2) {            possiblePassages.push(y);        }        if (possiblePassages.length === 0) {            // 통로 후보가 없으면 중단            return;        }        // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여        const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3));        const passages = [];        const passageCandidates = [...possiblePassages];        while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) {            const idx = Math.floor(Math.random() * passageCandidates.length);            const py = passageCandidates.splice(idx, 1)[0];            passages.push(py);        }        // 벽 생성 (통로 제외)        for (let y = y1; y &lt;= y2; y++) {            if (!passages.includes(y)) {                maze[y][x] = 1;                drawCell(x, y, &#39;black&#39;);            }        }        await sleep(5);        // 좌/우 영역 재귀 호출        await generateRecursiveDivision(x1, y1, x - 1, y2, &#39;horizontal&#39;);        await generateRecursiveDivision(x + 1, y1, x2, y2, &#39;horizontal&#39;);    }}3. Eller’s 알고리즘Eller’s 알고리즘은 각 행마다 집합을 관리하며 벽을 뚫을 때 집합을 병합하거나 새로 부여한다.한 줄씩 처리하며 집합 연산과 벽 뚫기만 하고 복잡한 경로 탐색이 없어서 메모리 접근이 효율적이고 엄청나게 빠르다.실제로 시뮬레이션 돌리면 혼자서 미로를 호다닥 생성해버린다.엄청나게 빠른게 장점이라면 단점으로는 무작위성이 떨어지며 수평으로 편향되어 있다는 점 정도? 좀 숭숭 뚫려있는 느낌도 받는다.수직으로 한 칸 짜리 벽 생성을 지양해야하는데 수평으로 한 줄씩 처리하기 때문에 수직 처리하기 곤란하다.// Eller&#39;s Algorithm 미로 생성async function generateEller() {    // 모든 셀을 벽으로 초기화    for (let y = 0; y &lt; rows; y++) {        for (let x = 0; x &lt; cols; x++) {            maze[y][x] = 1;            drawCell(x, y, &#39;black&#39;);        }    }    // 각 셀의 집합 번호를 저장할 배열    let sets = [];    let nextSet = 1;    // 첫 번째 행 초기화    for (let x = 0; x &lt; cols; x += 2) {        sets[x] = nextSet++;        maze[0][x] = 0;        drawCell(x, 0, &#39;white&#39;);    }    // 각 행을 처리    for (let y = 0; y &lt; rows; y += 2) {        // 1. 오른쪽으로 벽을 뚫을지 결정        for (let x = 0; x &lt; cols - 2; x += 2) {            // 같은 집합이 아니고, 랜덤하게 벽을 뚫기로 결정하면            if (sets[x] !== sets[x + 2] &amp;&amp; Math.random() &lt; 0.5) {                // 벽 뚫기                maze[y][x + 1] = 0;                drawCell(x + 1, y, &#39;white&#39;);                // 집합 병합                const oldSet = sets[x + 2];                const newSet = sets[x];                for (let i = 0; i &lt; cols; i += 2) {                    if (sets[i] === oldSet) sets[i] = newSet;                }            }        }        // 마지막 행이 아니면 아래로 벽을 뚫기        if (y + 2 &lt; rows) {            // 각 집합별로 아래로 연결할 셀을 최소 1개 이상 선택            const setCells = {};            for (let x = 0; x &lt; cols; x += 2) {                if (!setCells[sets[x]]) setCells[sets[x]] = [];                setCells[sets[x]].push(x);            }            // 아래로 연결            let newSets = [];            for (const set in setCells) {                // 반드시 하나는 아래로 연결                const cells = setCells[set];                const shuffled = cells.slice().sort(() =&gt; Math.random() - 0.5);                const downCount = 1 + Math.floor(Math.random() * cells.length);                for (let i = 0; i &lt; downCount; i++) {                    const x = shuffled[i];                    maze[y + 1][x] = 0;                    drawCell(x, y + 1, &#39;white&#39;);                    maze[y + 2][x] = 0;                    drawCell(x, y + 2, &#39;white&#39;);                    newSets[x] = nextSet++;                }            }            // 나머지 셀은 새로운 집합 번호 부여            for (let x = 0; x &lt; cols; x += 2) {                if (!newSets[x]) {                    maze[y + 2][x] = 0;                    drawCell(x, y + 2, &#39;white&#39;);                    newSets[x] = nextSet++;                }            }            sets = newSets;        }        await sleep(10);    }}  완성  Binary Tree 알고리즘 미로Sidewinder 알고리즘 미로Recursive Division 알고리즘 미로Eller’s 알고리즘 미로  반성  7종 알고리즘 미로를 완성했다.그 외 몇가지 알고리즘이 더 있긴한데, 대표적으로 이 7종이면 더 맛 볼 필요는 없다고 한다.그리고 미로 알고리즘 짜다가 알게 되었는데 던전 맵 만드는 알고리즘과 미로 알고리즘은 또 다르다고 한다…정리 되면 던전 맵 시뮬레이터도 만들어봐야겠다.  코드 확인    직접 해보기Binary TreeLink to GitHubSidewinderLink to GitHubRecursive DivisionLink to GitHubEller’sLink to GitHub">
+      <meta itemprop="datePublished" content="2025-05-23T01:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-05-23T01:00:00+00:00">
+
+      <div class="page__inner-wrap">
+        
+          <header>
+            
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=one-pan" class="category-link">
+        one-pan
+      </a>
+      
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=one-pan%2FJavaScript" class="category-link">
+        JavaScript
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=one-pan%2FJavaScript%2F" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">미로 생성기 03
+</h1>
+            
+
+
+          </header>
+        
+
+        <section class="page__content" itemprop="text">
+          <blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p>남은 알고리즘 미로 추가하여 미로 생성기 완성하기.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>시작 전에 길찾고 그리는 부분이 중복되기 때문에 공통 함수로 옮겨줬다.</p>
+
+<h5 id="1-binary-tree-알고리즘과-sidewinder-알고리즘">1. Binary Tree 알고리즘과 Sidewinder 알고리즘</h5>
+
+<p>두 알고리즘의 미로 생성 과정이나 결과물은 상당히 유사해보인다.<br />
+셀에서 방향을 무작위로 선택해 벽을 제거하고 나아가는 방식이다.</p>
+
+<p>차이점을 정리해보면</p>
+<ul>
+  <li>Binary Tree
+    <ul>
+      <li>각 셀마다 독립적으로 결정을 내림</li>
+      <li>대각선 방향의 경향</li>
+    </ul>
+  </li>
+  <li>Sidewinder
+    <ul>
+      <li>연속된 동쪽 경로인 run이라는 개념을 활용, 동쪽으로 진행</li>
+      <li>현재 run에서 무작위 셀을 남쪽으로 연결하며 run 종료</li>
+      <li>이전 셀들의 선택이 다음 셀 선택에 영향을 줌</li>
+      <li>수평 방향의 경향</li>
+    </ul>
+  </li>
+</ul>
+
+<p>실제 입구 출구를 이어보면 이는 더 명확하게 드러난다.<br />
+전통적인 Sidewinder 알고리즘 사용시 동쪽과 북쪽을 선택하는데<br />
+시작 좌표를 [0, 0] 으로 잡기 때문에 동쪽과 남쪽으로 진행하게 방향을 잡았다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Binary Tree 알고리즘</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">generateBinaryTree</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 모든 셀을 벽으로 초기화</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 각 셀에 대해</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 현재 셀을 통로로 만들기</span>
+            <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+
+            <span class="c1">// 동쪽과 남쪽 중 하나를 무작위로 선택</span>
+            <span class="kd">const</span> <span class="nx">canGoEast</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span>
+            <span class="kd">const</span> <span class="nx">canGoSouth</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span>
+
+            <span class="k">if </span><span class="p">(</span><span class="nx">canGoEast</span> <span class="o">&amp;&amp;</span> <span class="nx">canGoSouth</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// 둘 다 가능하면 무작위로 선택</span>
+                <span class="k">if </span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="c1">// 동쪽으로</span>
+                    <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// 남쪽으로</span>
+                    <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">canGoEast</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// 동쪽만 가능</span>
+                <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">canGoSouth</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// 남쪽만 가능</span>
+                <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Sidewinder 알고리즘</span>
+<span class="c1">// 전통적인 Sidewinder 알고리즘은 북쪽으로 길을 파는데 입구가 0,0이라 남쪽으로 파는 것으로 변경</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">generateSidewinder</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 모든 셀을 벽으로 초기화</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 각 행을 처리</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">run</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 현재 실행 중인 경로 (연속된 동쪽 경로)</span>
+
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 현재 셀을 통로로 만들기</span>
+            <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+            <span class="nx">run</span><span class="p">.</span><span class="nf">push</span><span class="p">([</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]);</span> <span class="c1">// 현재 셀을 run에 추가</span>
+
+            <span class="c1">// 동쪽으로 갈 수 있는지 확인</span>
+            <span class="kd">const</span> <span class="nx">canGoEast</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span>
+            <span class="c1">// 남쪽으로 갈 수 있는지 확인</span>
+            <span class="kd">const</span> <span class="nx">canGoSouth</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span>
+
+            <span class="c1">// 동쪽으로 계속 진행할지, 남쪽으로 연결할지 결정</span>
+            <span class="c1">// 1. 동쪽으로 갈 수 없거나</span>
+            <span class="c1">// 2. 남쪽으로 갈 수 있고 50% 확률로 run을 종료</span>
+            <span class="kd">const</span> <span class="nx">shouldCloseOut</span> <span class="o">=</span> <span class="o">!</span><span class="nx">canGoEast</span> <span class="o">||</span> <span class="p">(</span><span class="nx">canGoSouth</span> <span class="o">&amp;&amp;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">);</span>
+
+            <span class="k">if </span><span class="p">(</span><span class="nx">shouldCloseOut</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// 현재 run에서 무작위로 선택된 셀을 남쪽과 연결</span>
+                <span class="kd">const</span> <span class="p">[</span><span class="nx">rx</span><span class="p">,</span> <span class="nx">ry</span><span class="p">]</span> <span class="o">=</span> <span class="nx">run</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">run</span><span class="p">.</span><span class="nx">length</span><span class="p">)];</span>
+                <span class="k">if </span><span class="p">(</span><span class="nx">canGoSouth</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">maze</span><span class="p">[</span><span class="nx">ry</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">rx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">rx</span><span class="p">,</span> <span class="nx">ry</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="nx">run</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// run 초기화</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="c1">// 동쪽으로 계속 진행 (run 확장)</span>
+                <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="2-recursive-division-알고리즘">2. Recursive Division 알고리즘</h5>
+
+<p>Resursive Division 알고리즘으로 생성된 미로를 보면 다른 미로들과 비교해 상당히 이질적이다.<br />
+마치 던전 맵 같은 방 구조로 되어있으며 <span style="color: orange;"><strong>접근할 수 없는 갇힌 방</strong></span>도 만들어진다.</p>
+
+<p>공간을 분할하며 한 줄짜리 벽을 만들고 벽에 단 하나의 통로만 뚫는다.<br />
+이 과정이 반복되며 어떤 영역은 한 통로만 생기고 나머지는 벽으로 막혀버릴 수 있다.</p>
+
+<p>모든 칸이 연결된 완전 미로를 만들기 위해 코드를 약간 수정했다.<br />
+벽을 만들 때 이미 통로가 있는지 확인하고 막히게 된다면 추가로 통로를 더 뚫어주는 로직을 넣어주었다.<br />
+그래도 막힌 방이 생성됨… 좀 벽을 더 뚫어줘야할 것 같다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Recursive Division 알고리즘</span>
+<span class="c1">// 완전 미로를 만들기 위한 커스텀</span>
+<span class="c1">// 분할선 크기 조정 시 방 크기 조정</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">generateRecursiveDivision</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">,</span> <span class="nx">orientation</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 방이 너무 작으면 중단</span>
+    <span class="k">if </span><span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">||</span> <span class="nx">y2</span> <span class="o">-</span> <span class="nx">y1</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 수평</span>
+    <span class="k">if </span><span class="p">(</span><span class="nx">orientation</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">horizontal</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 분할선 후보(짝수)</span>
+        <span class="kd">const</span> <span class="nx">possibleYs</span> <span class="o">=</span> <span class="p">[];</span>
+        
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">y1</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">y2</span><span class="p">;</span> <span class="nx">y</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">possibleYs</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">y</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="nx">possibleYs</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 분할선 후보가 없으면 중단</span>
+            <span class="k">return</span><span class="p">;</span> 
+        <span class="p">}</span>
+        <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">possibleYs</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">possibleYs</span><span class="p">.</span><span class="nx">length</span><span class="p">)];</span>
+
+        <span class="c1">// 통로 후보(홀수)</span>
+        <span class="kd">const</span> <span class="nx">possiblePassages</span> <span class="o">=</span> <span class="p">[];</span>
+        
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">x1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">x2</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">possiblePassages</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="k">if </span><span class="p">(</span><span class="nx">possiblePassages</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 통로 후보가 없으면 중단</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여</span>
+        <span class="kd">const</span> <span class="nx">passageCount</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">possiblePassages</span><span class="p">.</span><span class="nx">length</span> <span class="o">/</span> <span class="mi">3</span><span class="p">));</span>
+        <span class="kd">const</span> <span class="nx">passages</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="kd">const</span> <span class="nx">passageCandidates</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">possiblePassages</span><span class="p">];</span>
+        <span class="k">while </span><span class="p">(</span><span class="nx">passages</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">passageCount</span> <span class="o">&amp;&amp;</span> <span class="nx">passageCandidates</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">idx</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">passageCandidates</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+            <span class="kd">const</span> <span class="nx">px</span> <span class="o">=</span> <span class="nx">passageCandidates</span><span class="p">.</span><span class="nf">splice</span><span class="p">(</span><span class="nx">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+            <span class="nx">passages</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">px</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 벽 생성 (통로 제외)</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">x1</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;=</span> <span class="nx">x2</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">passages</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="nx">x</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+
+        <span class="c1">// 위/아래 영역 재귀 호출</span>
+        <span class="k">await</span> <span class="nf">generateRecursiveDivision</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">vertical</span><span class="dl">'</span><span class="p">);</span>
+        <span class="k">await</span> <span class="nf">generateRecursiveDivision</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">,</span> <span class="dl">'</span><span class="s1">vertical</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="c1">// 수직</span>
+        <span class="c1">// 분할선 후보(짝수)</span>
+        <span class="kd">const</span> <span class="nx">possibleXs</span> <span class="o">=</span> <span class="p">[];</span>
+        
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">x1</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">x2</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">possibleXs</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="nx">possibleXs</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 분할선 후보가 없으면 중단</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">possibleXs</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">possibleXs</span><span class="p">.</span><span class="nx">length</span><span class="p">)];</span>
+
+        <span class="c1">// 통로 후보(홀수)</span>
+        <span class="kd">const</span> <span class="nx">possiblePassages</span> <span class="o">=</span> <span class="p">[];</span>
+
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">y1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">y2</span><span class="p">;</span> <span class="nx">y</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">possiblePassages</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">y</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if </span><span class="p">(</span><span class="nx">possiblePassages</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 통로 후보가 없으면 중단</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여</span>
+        <span class="kd">const</span> <span class="nx">passageCount</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">possiblePassages</span><span class="p">.</span><span class="nx">length</span> <span class="o">/</span> <span class="mi">3</span><span class="p">));</span>
+        <span class="kd">const</span> <span class="nx">passages</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="kd">const</span> <span class="nx">passageCandidates</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">possiblePassages</span><span class="p">];</span>
+        <span class="k">while </span><span class="p">(</span><span class="nx">passages</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">passageCount</span> <span class="o">&amp;&amp;</span> <span class="nx">passageCandidates</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">idx</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">passageCandidates</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+            <span class="kd">const</span> <span class="nx">py</span> <span class="o">=</span> <span class="nx">passageCandidates</span><span class="p">.</span><span class="nf">splice</span><span class="p">(</span><span class="nx">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+            <span class="nx">passages</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">py</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 벽 생성 (통로 제외)</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">y1</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;=</span> <span class="nx">y2</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">passages</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="nx">y</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+
+        <span class="c1">// 좌/우 영역 재귀 호출</span>
+        <span class="k">await</span> <span class="nf">generateRecursiveDivision</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">y2</span><span class="p">,</span> <span class="dl">'</span><span class="s1">horizontal</span><span class="dl">'</span><span class="p">);</span>
+        <span class="k">await</span> <span class="nf">generateRecursiveDivision</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">,</span> <span class="dl">'</span><span class="s1">horizontal</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="3-ellers-알고리즘">3. Eller’s 알고리즘</h5>
+
+<p>Eller’s 알고리즘은 각 행마다 집합을 관리하며 벽을 뚫을 때 집합을 병합하거나 새로 부여한다.<br />
+한 줄씩 처리하며 집합 연산과 벽 뚫기만 하고 복잡한 경로 탐색이 없어서 <span style="color: orange;"><strong>메모리 접근이 효율적이고 엄청나게 빠르다.</strong></span></p>
+
+<p>실제로 시뮬레이션 돌리면 혼자서 미로를 호다닥 생성해버린다.</p>
+
+<p>엄청나게 빠른게 장점이라면 단점으로는 무작위성이 떨어지며 수평으로 편향되어 있다는 점 정도? 
+좀 숭숭 뚫려있는 느낌도 받는다.<br />
+수직으로 한 칸 짜리 벽 생성을 지양해야하는데 수평으로 한 줄씩 처리하기 때문에 수직 처리하기 곤란하다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Eller's Algorithm 미로 생성</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">generateEller</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 모든 셀을 벽으로 초기화</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 각 셀의 집합 번호를 저장할 배열</span>
+    <span class="kd">let</span> <span class="nx">sets</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">let</span> <span class="nx">nextSet</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="c1">// 첫 번째 행 초기화</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">sets</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nextSet</span><span class="o">++</span><span class="p">;</span>
+        <span class="nx">maze</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 각 행을 처리</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 1. 오른쪽으로 벽을 뚫을지 결정</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 같은 집합이 아니고, 랜덤하게 벽을 뚫기로 결정하면</span>
+            <span class="k">if </span><span class="p">(</span><span class="nx">sets</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span> <span class="o">!==</span> <span class="nx">sets</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// 벽 뚫기</span>
+                <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+                <span class="c1">// 집합 병합</span>
+                <span class="kd">const</span> <span class="nx">oldSet</span> <span class="o">=</span> <span class="nx">sets</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">];</span>
+                <span class="kd">const</span> <span class="nx">newSet</span> <span class="o">=</span> <span class="nx">sets</span><span class="p">[</span><span class="nx">x</span><span class="p">];</span>
+                <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if </span><span class="p">(</span><span class="nx">sets</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">oldSet</span><span class="p">)</span> <span class="nx">sets</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">newSet</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 마지막 행이 아니면 아래로 벽을 뚫기</span>
+        <span class="k">if </span><span class="p">(</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 각 집합별로 아래로 연결할 셀을 최소 1개 이상 선택</span>
+            <span class="kd">const</span> <span class="nx">setCells</span> <span class="o">=</span> <span class="p">{};</span>
+            <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">setCells</span><span class="p">[</span><span class="nx">sets</span><span class="p">[</span><span class="nx">x</span><span class="p">]])</span> <span class="nx">setCells</span><span class="p">[</span><span class="nx">sets</span><span class="p">[</span><span class="nx">x</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[];</span>
+                <span class="nx">setCells</span><span class="p">[</span><span class="nx">sets</span><span class="p">[</span><span class="nx">x</span><span class="p">]].</span><span class="nf">push</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 아래로 연결</span>
+            <span class="kd">let</span> <span class="nx">newSets</span> <span class="o">=</span> <span class="p">[];</span>
+            <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="kd">set</span> <span class="k">in</span> <span class="nx">setCells</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// 반드시 하나는 아래로 연결</span>
+                <span class="kd">const</span> <span class="nx">cells</span> <span class="o">=</span> <span class="nx">setCells</span><span class="p">[</span><span class="kd">set</span><span class="p">];</span>
+                <span class="kd">const</span> <span class="nx">shuffled</span> <span class="o">=</span> <span class="nx">cells</span><span class="p">.</span><span class="nf">slice</span><span class="p">().</span><span class="nf">sort</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">);</span>
+                <span class="kd">const</span> <span class="nx">downCount</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">cells</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+                <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">downCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">shuffled</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+                    <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+                    <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+                    <span class="nx">newSets</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nextSet</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="c1">// 나머지 셀은 새로운 집합 번호 부여</span>
+            <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">newSets</span><span class="p">[</span><span class="nx">x</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
+                    <span class="nx">newSets</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nextSet</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="nx">sets</span> <span class="o">=</span> <span class="nx">newSets</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="완성">완성</h4>
+  <hr />
+</blockquote>
+
+<p>Binary Tree 알고리즘 미로</p>
+
+<p><img src="/assets/images/posts/one-pan/JavaScript/2025-05-23-Maze Generator 03/img01.gif" alt="img01" /></p>
+
+<p>Sidewinder 알고리즘 미로</p>
+
+<p><img src="/assets/images/posts/one-pan/JavaScript/2025-05-23-Maze Generator 03/img02.gif" alt="img02" /></p>
+
+<p>Recursive Division 알고리즘 미로</p>
+
+<p><img src="/assets/images/posts/one-pan/JavaScript/2025-05-23-Maze Generator 03/img03.gif" alt="img03" /></p>
+
+<p>Eller’s 알고리즘 미로</p>
+
+<p><img src="/assets/images/posts/one-pan/JavaScript/2025-05-23-Maze Generator 03/img04.gif" alt="img04" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>7종 알고리즘 미로를 완성했다.<br />
+그 외 몇가지 알고리즘이 더 있긴한데, 대표적으로 이 7종이면 더 맛 볼 필요는 없다고 한다.</p>
+
+<p>그리고 미로 알고리즘 짜다가 알게 되었는데 던전 맵 만드는 알고리즘과 미로 알고리즘은 또 다르다고 한다…<br />
+정리 되면 던전 맵 시뮬레이터도 만들어봐야겠다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="/play/Maze%20Generator.html" target="_blank" rel="noopener noreferrer">
+  직접 해보기
+</a></p>
+
+<p>Binary Tree<br />
+<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-23-BinaryTree.js">Link to GitHub</a></p>
+
+<p>Sidewinder<br />
+<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-23-Sidewinder.js">Link to GitHub</a></p>
+
+<p>Recursive Division<br />
+<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-23-RecursiveDivision.js">Link to GitHub</a></p>
+
+<p>Eller’s<br />
+<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-23-Eller.js">Link to GitHub</a></p>
+
+          
+        </section>
+
+        <footer class="page__meta">
+          
+          
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-23">May 23, 2025</time></p>
+
+
+        </footer>
+
+        
+
+        
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "미로 생성기 03",
+        url: "/one-pan/javascript/2025/05/23/Maze-Generator-03.html",
+        date: "2025-05-23",
+        categories: ["one-pan/JavaScript/"]
+      },
+      allPosts: [
+        
+        
+          
+          
+          {
+            title: "미로 생성기 03",
+            url: "/one-pan/javascript/2025/05/23/Maze-Generator-03.html",
+            date: "2025-05-23",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26489번 Gum Gum for Jay Jay",
+            url: "/random-solve/python/2025/05/22/26489.html",
+            date: "2025-05-22",
+            categories: ["random-solve/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 02",
+            url: "/one-pan/javascript/2025/05/21/Maze-Generator-02.html",
+            date: "2025-05-21",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26226번 Autocomplete",
+            url: "/random-solve/c++/2025/05/21/26226.html",
+            date: "2025-05-21",
+            categories: ["random-solve/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 01",
+            url: "/one-pan/javascript/2025/05/20/Maze-Generator-01.html",
+            date: "2025-05-20",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15936번 Hypercube",
+            url: "/random-solve/java/2025/05/20/15936.html",
+            date: "2025-05-20",
+            categories: ["random-solve/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "29348번 Скользкий путь",
+            url: "/random-solve/c++/2025/05/16/29348.html",
+            date: "2025-05-16",
+            categories: ["random-solve/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18382번 2048",
+            url: "/random-solve/python/2025/05/15/18382.html",
+            date: "2025-05-15",
+            categories: ["random-solve/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "랜덤 출력기",
+            url: "/one-pan/javascript/2025/05/14/Random-Printer.html",
+            date: "2025-05-14",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파이썬으로 CLI TODO 리스트 만들어보기",
+            url: "/ai-playground/gpt/2025/05/14/GPT.html",
+            date: "2025-05-14",
+            categories: ["AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "플래피 버드",
+            url: "/one-pan/javascript/2025/05/13/Flappy-Bird.html",
+            date: "2025-05-13",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "클리커",
+            url: "/one-pan/python/2025/05/13/Clicker.html",
+            date: "2025-05-13",
+            categories: ["one-pan/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파일 복사기",
+            url: "/one-pan/shellscript/2025/05/12/File-Copier.html",
+            date: "2025-05-12",
+            categories: ["one-pan/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "숫자야구",
+            url: "/one-pan/java/2025/05/11/Bulls-and-Cows.html",
+            date: "2025-05-11",
+            categories: ["one-pan/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴",
+            url: "/ai-playground/gpt/2025/05/01/GPT.html",
+            date: "2025-05-01",
+            categories: ["AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴, 어떻게 보내면 좋을까?",
+            url: "/ai-playground/claude/2025/05/01/Claude.html",
+            date: "2025-05-01",
+            categories: ["AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "프로그래머를 위한 생산성 툴 TOP 5 🧰",
+            url: "/ai-playground/gpt/2025/04/30/GPT.html",
+            date: "2025-04-30",
+            categories: ["AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "AI 시대의 개발자, 어떻게 준비해야 할까?",
+            url: "/ai-playground/claude/2025/04/30/Claude.html",
+            date: "2025-04-30",
+            categories: ["AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "지뢰찾기",
+            url: "/one-pan/javascript/2025/04/29/Minesweeper.html",
+            date: "2025-04-29",
+            categories: ["one-pan/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "서버 관리 콘솔",
+            url: "/one-pan/shellscript/2025/04/28/Server-Manage-Console.html",
+            date: "2025-04-28",
+            categories: ["one-pan/ShellScript/"]
+          }
+          
+        
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
+      </div>
+
+      
+      
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+    </article>
+
+    
+    
+  </div>
+</div>
+
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 1rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .home-content {
+    padding: 0;
+  }
+}
+</style>
+
+    </div>
+
+    
+    
+    <div class="page__footer">
+  <div class="page__footer-copyright">
+    Visit: <a href="https://github.com/movingwoo/movingwoo.github.io">https://github.com/movingwoo/movingwoo.github.io</a>
+    <br>
+    <span class="theme-credit">Theme customized from Minimal Mistakes by Michael Rose (MIT License).</span>
+  </div>
+</div>
+
+    <div class="scroll-button">
+  <div class="scroll-button__container">
+    <button class="scroll-button__area scroll-button__area--top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="위로">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="scroll-button__area scroll-button__area--bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="아래로">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.scroll-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.scroll-button__container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(220, 20, 60, 0.6);
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-button__area {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button__area--top {
+  top: 0;
+}
+
+.scroll-button__area--bottom {
+  bottom: 0;
+}
+
+.scroll-button__area:focus {
+  outline: none;
+}
+
+.scroll-button__area:hover {
+  color: rgba(220, 20, 60, 1);
+}
+
+.scroll-button__area:hover i {
+  transform: scale(1.2);
+}
+
+.scroll-button__area i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll-button {
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .scroll-button__container {
+    width: 50px;
+    height: 50px;
+  }
+}
+</style> 
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+});
+</script>
+
+
+  </body>
+</html>
