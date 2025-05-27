@@ -136,4 +136,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/python/2025/05/23/5101.html",
         "teaser": null
+      },{
+        "title": "던전 생성기 01",
+        "excerpt":"개요 신나는 던전 맵 생성기 5종 알고리즘과 함께 구현 1. 설계 던전 맵 생성 관련 대표 알고리즘에 대해 찾아보았다. 알고리즘 스타일 특징 용도 BSP (Binary Space Partitioning) 직사각형 방 + 복도 공간을 재귀적으로 분할, 각 방을 연결 방 중심의 던전, 구조적 배치 Random Walk (Drunkard’s Walk) 유기적 경로, 비정형 무작위...","categories": ["one-pan/JavaScript/"],
+        "tags": [],
+        "url": "/one-pan/javascript/2025/05/27/Dungeon-Generator-01.html",
+        "teaser": null
       }]
