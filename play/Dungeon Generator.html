@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Dungeon Generator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+    button {
+      padding: 8px 16px;
+      margin-bottom: 10px;
+    }
+    #canvas {
+      border: 2px solid #333;
+    }
+    #btn_area {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="btn_area">
+    <!-- 던전 버튼 -->
+    <button onclick="startBSP()">BSP Generate</button>
+    <button onclick="startRandomWalk()">RandomWalk Generate</button>
+    <button onclick="startCellularAutomata()">CellularAutomata Generate</button>
+  </div>
+
+  <!-- 던전 캔버스 -->
+  <canvas id="canvas" width="1020" height="620"></canvas>
+
+  <script>
+    // 공통 변수와 함수
+    const canvas = document.querySelector('#canvas');
+    const ctx = canvas.getContext('2d');
+    const size = 20;
+    const cols = canvas.width / size;
+    const rows = canvas.height / size;
+
+    // 던전 상태
+    let map = [];
+    let visited = new Set(); // 방문한 셀 저장용
+
+    // 시간 지연 함수 (애니메이션용)
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // 셀 색칠
+    function drawCell(x, y, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(x * size, y * size, size, size);
+    }
+
+    // 던전 초기화
+    function initMap() {
+      map = Array.from({ length: rows }, () => Array(cols).fill(1)); // 전부 벽
+      visited.clear();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 캔버스 전체를 벽으로 색칠
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          drawCell(x, y, 'black');
+        }
+      }
+    }
+
+    // 0, 0에서 가장 가까운 셀을 입구로 지정
+    function findNearestCell(sx, sy) {
+      const que = [[sx, sy]];
+      const visited = new Set();
+      while (que.length) {
+        const [x, y] = que.shift();
+        const key = `${x},${y}`;
+        if (visited.has(key)) continue;
+        visited.add(key);
+
+        // 통로(길)인 셀을 찾으면 반환
+        if (x >= 0 && x < cols && y >= 0 && y < rows && map[y][x] === 0) {
+          return [x, y];
+        }
+
+        // 4방향 탐색
+        for (const [dx, dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {
+          const nx = x + dx, ny = y + dy;
+          if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
+            que.push([nx, ny]);
+          }
+        }
+      }
+      // 못 찾으면 (0,0) 반환 (예외 처리)
+      return [0, 0];
+    }
+
+    // 가장 멀리 떨어진 셀을 출구로 지정
+    function findFurthestCell(sx, sy) {
+      const que = [[sx, sy, 0]];
+      const visited = new Set();
+      let maxDist = -1;
+      let furthest = [sx, sy];
+
+      while (que.length) {
+        const [x, y, dist] = que.shift();
+        const key = `${x},${y}`;
+
+        if (visited.has(key)) {
+          continue;
+        }
+
+        visited.add(key);
+
+        if (dist > maxDist) {
+          maxDist = dist;
+          furthest = [x, y];
+        }
+
+        for (let [dx, dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {
+          const nx = x + dx, ny = y + dy;
+          if (nx >= 0 && nx < cols && ny >= 0 && ny < rows && map[ny][nx] === 0) {
+            que.push([nx, ny, dist + 1]);
+          }
+        }
+      }
+
+      return furthest;
+    }
+      
+    // 출입구 생성
+    async function generateEntrance() {
+      // 입구 표시
+      const entrance = findNearestCell(0, 0);
+      drawCell(entrance[0], entrance[1], 'lime');
+      const [ex, ey] = findFurthestCell(entrance[0], entrance[1]);
+      exit = [ex, ey];
+      // 출구 표시
+      drawCell(exit[0], exit[1], 'blue');
+      
+    }
+
+    initMap();
+  </script>
+
+  <!-- 미로 스크립트 -->
+  <script src="./js/BSP.js"></script>
+  <script src="./js/RandomWalk.js"></script>
+  <script src="./js/CellularAutomata.js"></script>
+
+</body>
+</html>
