@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-27T07:18:39+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">7106번 Wonderful Fours</title><link href="https://movingwoo.com/random-solve/python/2025/05/27/7106.html" rel="alternate" type="text/html" title="7106번 Wonderful Fours" /><published>2025-05-27T07:00:00+00:00</published><updated>2025-05-27T07:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/27/7106</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/27/7106.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-27T07:20:57+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">7106번 Wonderful Fours</title><link href="https://movingwoo.com/random-solve/python/2025/05/27/7106.html" rel="alternate" type="text/html" title="7106번 Wonderful Fours" /><published>2025-05-27T07:00:00+00:00</published><updated>2025-05-27T07:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/27/7106</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/27/7106.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -18,14 +18,14 @@
 
 <p>십진수 숫자 5개를 K5라 부른다.<br />
 모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 <span style="color: orange;"><strong>‘적절히’</strong></span> 만들어진 것이다.<br />
-그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다.</p>
+그리고 아래 내용이 모두 참일 경우 <span style="color: orange;"><strong>완다풀 포</strong></span>가 된다.</p>
 <ul>
   <li>4개의 5자리 자연수가 모두 적절하게 만들어짐</li>
   <li>4개의 5자리 자연수는 모두 다른 숫자</li>
   <li>s1 + s2 + s3 = s4</li>
 </ul>
 
-<p>여기서 주어진 K5로 몇 개의 서로 다른 <span style="color: orange;"><strong>완다풀 포</strong></span>를 만들 수 있는지 계산하시오.</p>
+<p>여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오.</p>
 
 <blockquote>
   <h4 id="설계">설계</h4>
