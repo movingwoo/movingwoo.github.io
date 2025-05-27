@@ -8,10 +8,16 @@ layout: default
   </div>
 
   <div class="home-content">
-    <h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
+    <div class="recent-posts-header">
+      <div class="header-images">
+        <img src="/assets/images/common/main1.png" alt="나도 사람인데 뭐라도 하겠지" class="recent-posts-image">
+        <img src="/assets/images/common/main2.png" alt="뭐라도 하지 않을까" class="recent-posts-image">
+      </div>
+      <h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "최근 포스트" }}</h3>
+    </div>
 
     {% assign all_posts = site.posts | sort: 'date' | reverse %}
-    {% assign recent_posts = all_posts | limit: 5 %}
+    {% assign recent_posts = all_posts | slice: 0, 5 %}
     {% assign entries_layout = page.entries_layout | default: 'list' %}
     <div class="entries-{{ entries_layout }}">
       {% for post in recent_posts %}
@@ -57,5 +63,21 @@ layout: default
     margin-bottom: 1rem;
     margin-top: 1rem;
   }
+}
+
+.recent-posts-header {
+  margin-bottom: 2em;
+  text-align: left;
+}
+
+.header-images {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.recent-posts-image {
+  width: 500px;
+  border-radius: 8px;
 }
 </style>
