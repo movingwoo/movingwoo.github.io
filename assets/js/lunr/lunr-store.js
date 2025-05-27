@@ -142,4 +142,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/javascript/2025/05/27/Dungeon-Generator-01.html",
         "teaser": null
+      },{
+        "title": "7106번 Wonderful Fours",
+        "excerpt":"문제 7106번 Wonderful Fours - 백준 번역 브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제. 내 그지같은 파이썬 실력에 알맞은 난이도다. 찬찬히 해석해보면… 십진수 숫자 5개를 K5라 부른다. 모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다. 그리고 아래 내용이 모두 참일 경우 완다풀...","categories": ["random-solve/Python/"],
+        "tags": [],
+        "url": "/random-solve/python/2025/05/27/7106.html",
+        "teaser": null
       }]

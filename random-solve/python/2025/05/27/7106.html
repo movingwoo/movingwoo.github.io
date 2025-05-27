@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>파일 복사기 - 뭐라도 하겠지</title>
-<meta name="description" content="탄생 비화      리눅스 파일 100개를 일일이 복사하려는 안타까운 광경을 보고 대충 투닥투닥 만들어줌…     구현 포인트      1. 입력받기  파일과 복사할 숫자를 입력받고 없으면 예외처리해준다.  read -p &quot;파일명 입력 (확장자 포함) : &quot; FILENAME  if [ ! -e &quot;$FILENAME&quot; ]; then   echo &quot;파일이 없음...&quot;   exit 1 fi  read -p &quot;복사할 개수 (숫자) : &quot; COUNT  if [[ ! $COUNT =~ ^[0-9]+$ ]]; then   echo &quot;숫자가 아님...&quot;   exit 1 fi   2. 복사  인덱스를 1부터 잡고 반복문을 돌려 파일을 생성한다.  for i in $(seq 1 $COUNT) do   cp -r &quot;$FILENAME&quot; &quot;${FILENAME%.*}$i.${FILENAME##*.}&quot;   echo &quot;$i/$COUNT 진행 중..&quot; done  echo &quot;$COUNT 개 복사 완료!!&quot;      완성           반성      같은 경로에 있는 파일만 되는데 제대로 할거면    복사할 파일 경로   복사 위치   파일명 규칙   이렇게 받아야하지 않을까?  다음에 해봐야겠다.     코드 확인      Link to GitHub">
+<!-- begin _includes/seo.html --><title>7106번 Wonderful Fours - 뭐라도 하겠지</title>
+<meta name="description" content="문제        7106번 Wonderful Fours - 백준     번역      브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제. 내 그지같은 파이썬 실력에 알맞은 난이도다. 찬찬히 해석해보면…  십진수 숫자 5개를 K5라 부른다. 모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다. 그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다.    4개의 5자리 자연수가 모두 적절하게 만들어짐   4개의 5자리 자연수는 모두 다른 숫자   s1 + s2 + s3 = s4   여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오.     설계      뭐 방법이 있나? 숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다. 중복 제거에만 신경쓰면 될 듯     구현      중복 제거를 고민해봤는데 처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다.  1. 입력받아 ‘적절한’ 숫자 만들기  더 똑똑하게 할 수 있지만 겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다. 중복 거르고 정렬.  K5 = input().split()  r = 0  # 적절한 숫자 생성(중복제외) all_num = set()  # 몇개 안되고 귀찮으니 5중반복문 for i in range(5):     for j in range(5):         if j == i:             continue         for k in range(5):             if k == i or k == j:                 continue             for l in range(5):                 if l == i or l == j or l == k:                     continue                 for m in range(5):                     if m == i or m == j or m == k or m == l:                         continue                     num_str = K5[i] + K5[j] + K5[k] + K5[l] + K5[m]                     if num_str[0] != &#39;0&#39;:                         all_num.add(int(num_str))  all_num = list(all_num) all_num.sort()   2. 완다풀 포 구하기  미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고 리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다.  length = len(all_num) max = all_num[length-1]  # list 순회하며 s1 + s2 + s3 = s4 조건 확인 if length &gt;= 4:      for i in range(length):         for j in range(i + 1, length):             for k in range(j + 1, length):                 s1, s2, s3 = all_num[i], all_num[j], all_num[k]                 s4 = s1 + s2 + s3                  if s4 &gt; max:                     # 최대 숫자보다 크면 탈출                     break                 if s4 in all_num:                     r+=1  print(r)      채점           반성      머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다. 이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다. 휴식이 필요한 하루다…  얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남     코드 확인      Link to GitHub">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="파일 복사기">
-<meta property="og:url" content="https://movingwoo.com/one-pan/shellscript/2025/05/12/File-Copier.html">
+<meta property="og:title" content="7106번 Wonderful Fours">
+<meta property="og:url" content="https://movingwoo.com/random-solve/python/2025/05/27/7106.html">
 
 
-  <meta property="og:description" content="탄생 비화      리눅스 파일 100개를 일일이 복사하려는 안타까운 광경을 보고 대충 투닥투닥 만들어줌…     구현 포인트      1. 입력받기  파일과 복사할 숫자를 입력받고 없으면 예외처리해준다.  read -p &quot;파일명 입력 (확장자 포함) : &quot; FILENAME  if [ ! -e &quot;$FILENAME&quot; ]; then   echo &quot;파일이 없음...&quot;   exit 1 fi  read -p &quot;복사할 개수 (숫자) : &quot; COUNT  if [[ ! $COUNT =~ ^[0-9]+$ ]]; then   echo &quot;숫자가 아님...&quot;   exit 1 fi   2. 복사  인덱스를 1부터 잡고 반복문을 돌려 파일을 생성한다.  for i in $(seq 1 $COUNT) do   cp -r &quot;$FILENAME&quot; &quot;${FILENAME%.*}$i.${FILENAME##*.}&quot;   echo &quot;$i/$COUNT 진행 중..&quot; done  echo &quot;$COUNT 개 복사 완료!!&quot;      완성           반성      같은 경로에 있는 파일만 되는데 제대로 할거면    복사할 파일 경로   복사 위치   파일명 규칙   이렇게 받아야하지 않을까?  다음에 해봐야겠다.     코드 확인      Link to GitHub">
-
-
-
+  <meta property="og:description" content="문제        7106번 Wonderful Fours - 백준     번역      브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제. 내 그지같은 파이썬 실력에 알맞은 난이도다. 찬찬히 해석해보면…  십진수 숫자 5개를 K5라 부른다. 모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다. 그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다.    4개의 5자리 자연수가 모두 적절하게 만들어짐   4개의 5자리 자연수는 모두 다른 숫자   s1 + s2 + s3 = s4   여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오.     설계      뭐 방법이 있나? 숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다. 중복 제거에만 신경쓰면 될 듯     구현      중복 제거를 고민해봤는데 처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다.  1. 입력받아 ‘적절한’ 숫자 만들기  더 똑똑하게 할 수 있지만 겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다. 중복 거르고 정렬.  K5 = input().split()  r = 0  # 적절한 숫자 생성(중복제외) all_num = set()  # 몇개 안되고 귀찮으니 5중반복문 for i in range(5):     for j in range(5):         if j == i:             continue         for k in range(5):             if k == i or k == j:                 continue             for l in range(5):                 if l == i or l == j or l == k:                     continue                 for m in range(5):                     if m == i or m == j or m == k or m == l:                         continue                     num_str = K5[i] + K5[j] + K5[k] + K5[l] + K5[m]                     if num_str[0] != &#39;0&#39;:                         all_num.add(int(num_str))  all_num = list(all_num) all_num.sort()   2. 완다풀 포 구하기  미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고 리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다.  length = len(all_num) max = all_num[length-1]  # list 순회하며 s1 + s2 + s3 = s4 조건 확인 if length &gt;= 4:      for i in range(length):         for j in range(i + 1, length):             for k in range(j + 1, length):                 s1, s2, s3 = all_num[i], all_num[j], all_num[k]                 s4 = s1 + s2 + s3                  if s4 &gt; max:                     # 최대 숫자보다 크면 탈출                     break                 if s4 in all_num:                     r+=1  print(r)      채점           반성      머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다. 이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다. 휴식이 필요한 하루다…  얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남     코드 확인      Link to GitHub">
 
 
 
 
-  <meta property="article:published_time" content="2025-05-12T07:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-05-12T07:00:00+00:00">
+  <meta property="article:published_time" content="2025-05-27T07:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-05-27T07:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/one-pan/shellscript/2025/05/12/File-Copier.html">
+<link rel="canonical" href="https://movingwoo.com/random-solve/python/2025/05/27/7106.html">
 
 
 
@@ -1034,10 +1034,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="파일 복사기">
-      <meta itemprop="description" content="  탄생 비화  리눅스 파일 100개를 일일이 복사하려는 안타까운 광경을 보고 대충 투닥투닥 만들어줌…  구현 포인트  1. 입력받기파일과 복사할 숫자를 입력받고 없으면 예외처리해준다.read -p &quot;파일명 입력 (확장자 포함) : &quot; FILENAMEif [ ! -e &quot;$FILENAME&quot; ]; then  echo &quot;파일이 없음...&quot;  exit 1firead -p &quot;복사할 개수 (숫자) : &quot; COUNTif [[ ! $COUNT =~ ^[0-9]+$ ]]; then  echo &quot;숫자가 아님...&quot;  exit 1fi2. 복사인덱스를 1부터 잡고 반복문을 돌려 파일을 생성한다.for i in $(seq 1 $COUNT)do  cp -r &quot;$FILENAME&quot; &quot;${FILENAME%.*}$i.${FILENAME##*.}&quot;  echo &quot;$i/$COUNT 진행 중..&quot;doneecho &quot;$COUNT 개 복사 완료!!&quot;  완성    반성  같은 경로에 있는 파일만 되는데 제대로 할거면  복사할 파일 경로  복사 위치  파일명 규칙이렇게 받아야하지 않을까?다음에 해봐야겠다.  코드 확인  Link to GitHub">
-      <meta itemprop="datePublished" content="2025-05-12T07:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-05-12T07:00:00+00:00">
+      <meta itemprop="headline" content="7106번 Wonderful Fours">
+      <meta itemprop="description" content="  문제  7106번 Wonderful Fours - 백준  번역  브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제.내 그지같은 파이썬 실력에 알맞은 난이도다.찬찬히 해석해보면…십진수 숫자 5개를 K5라 부른다.모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다.그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다.  4개의 5자리 자연수가 모두 적절하게 만들어짐  4개의 5자리 자연수는 모두 다른 숫자  s1 + s2 + s3 = s4여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오.  설계  뭐 방법이 있나?숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다.중복 제거에만 신경쓰면 될 듯  구현  중복 제거를 고민해봤는데처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다.1. 입력받아 ‘적절한’ 숫자 만들기더 똑똑하게 할 수 있지만겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다.중복 거르고 정렬.K5 = input().split()r = 0# 적절한 숫자 생성(중복제외)all_num = set()# 몇개 안되고 귀찮으니 5중반복문for i in range(5):    for j in range(5):        if j == i:            continue        for k in range(5):            if k == i or k == j:                continue            for l in range(5):                if l == i or l == j or l == k:                    continue                for m in range(5):                    if m == i or m == j or m == k or m == l:                        continue                    num_str = K5[i] + K5[j] + K5[k] + K5[l] + K5[m]                    if num_str[0] != &#39;0&#39;:                        all_num.add(int(num_str))all_num = list(all_num)all_num.sort()2. 완다풀 포 구하기미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다.length = len(all_num)max = all_num[length-1]# list 순회하며 s1 + s2 + s3 = s4 조건 확인if length &gt;= 4:    for i in range(length):        for j in range(i + 1, length):            for k in range(j + 1, length):                s1, s2, s3 = all_num[i], all_num[j], all_num[k]                s4 = s1 + s2 + s3                if s4 &gt; max:                    # 최대 숫자보다 크면 탈출                    break                if s4 in all_num:                    r+=1print(r)  채점    반성  머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다.이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다.휴식이 필요한 하루다…얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-05-27T07:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-05-27T07:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1051,25 +1051,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
       <span class="separator">/</span>
       
-      <a href="/board?path=one-pan" class="category-link">
-        one-pan
+      <a href="/board?path=random-solve" class="category-link">
+        random-solve
       </a>
       
     
       <span class="separator">/</span>
       
-      <a href="/board?path=one-pan%2FShellScript" class="category-link">
-        ShellScript
+      <a href="/board?path=random-solve%2FPython" class="category-link">
+        Python
       </a>
       
     
   </div>
-  <a href="/board?path=one-pan%2FShellScript%2F" class="category-icon" title="리스트">
+  <a href="/board?path=random-solve%2FPython%2F" class="category-icon" title="리스트">
     <i class="fas fa-list-ul" aria-hidden="true"></i>
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">파일 복사기
+            <h1 id="page-title" class="page__title" itemprop="headline">7106번 Wonderful Fours
 </h1>
             
 
@@ -1079,79 +1079,136 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <section class="page__content" itemprop="text">
           <blockquote>
-  <h4 id="탄생-비화">탄생 비화</h4>
+  <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
 
-<p>리눅스 파일 100개를 일일이 복사하려는 안타까운 광경을 보고 대충 투닥투닥 만들어줌…</p>
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-27-7106/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/7106">7106번 Wonderful Fours - 백준</a></p>
 
 <blockquote>
-  <h4 id="구현-포인트">구현 포인트</h4>
+  <h4 id="번역">번역</h4>
   <hr />
 </blockquote>
 
-<h5 id="1-입력받기">1. 입력받기</h5>
+<p>브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제.<br />
+내 그지같은 파이썬 실력에 알맞은 난이도다.<br />
+찬찬히 해석해보면…</p>
 
-<p>파일과 복사할 숫자를 입력받고 없으면 예외처리해준다.</p>
+<p>십진수 숫자 5개를 K5라 부른다.<br />
+모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 <span style="color: orange;"><strong>‘적절히’</strong></span> 만들어진 것이다.<br />
+그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다.</p>
+<ul>
+  <li>4개의 5자리 자연수가 모두 적절하게 만들어짐</li>
+  <li>4개의 5자리 자연수는 모두 다른 숫자</li>
+  <li>s1 + s2 + s3 = s4</li>
+</ul>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"파일명 입력 (확장자 포함) : "</span> FILENAME
+<p>여기서 주어진 K5로 몇 개의 서로 다른 <span style="color: orange;"><strong>완다풀 포</strong></span>를 만들 수 있는지 계산하시오.</p>
 
-<span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-e</span> <span class="s2">"</span><span class="nv">$FILENAME</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-  </span><span class="nb">echo</span> <span class="s2">"파일이 없음..."</span>
-  <span class="nb">exit </span>1
-<span class="k">fi
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
 
-</span><span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"복사할 개수 (숫자) : "</span> COUNT
+<p>뭐 방법이 있나?<br />
+숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다.<br />
+중복 제거에만 신경쓰면 될 듯</p>
 
-<span class="k">if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nv">$COUNT</span> <span class="o">=</span>~ ^[0-9]+<span class="nv">$ </span><span class="o">]]</span><span class="p">;</span> <span class="k">then
-  </span><span class="nb">echo</span> <span class="s2">"숫자가 아님..."</span>
-  <span class="nb">exit </span>1
-<span class="k">fi</span>
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>중복 제거를 고민해봤는데<br />
+처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다.</p>
+
+<h5 id="1-입력받아-적절한-숫자-만들기">1. 입력받아 ‘적절한’ 숫자 만들기</h5>
+
+<p>더 똑똑하게 할 수 있지만<br />
+겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다.<br />
+중복 거르고 정렬.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">K5</span> <span class="o">=</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># 적절한 숫자 생성(중복제외)
+</span><span class="n">all_num</span> <span class="o">=</span> <span class="nf">set</span><span class="p">()</span>
+
+<span class="c1"># 몇개 안되고 귀찮으니 5중반복문
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">k</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">==</span> <span class="n">j</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">==</span> <span class="n">j</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">==</span> <span class="n">k</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">==</span> <span class="n">l</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">num_str</span> <span class="o">=</span> <span class="n">K5</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">K5</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">K5</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">K5</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">+</span> <span class="n">K5</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">num_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="sh">'</span><span class="s">0</span><span class="sh">'</span><span class="p">:</span>
+                        <span class="n">all_num</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nf">int</span><span class="p">(</span><span class="n">num_str</span><span class="p">))</span>
+
+<span class="n">all_num</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">all_num</span><span class="p">)</span>
+<span class="n">all_num</span><span class="p">.</span><span class="nf">sort</span><span class="p">()</span>
 </code></pre></div></div>
 
-<h5 id="2-복사">2. 복사</h5>
+<h5 id="2-완다풀-포-구하기">2. 완다풀 포 구하기</h5>
 
-<p>인덱스를 1부터 잡고 반복문을 돌려 파일을 생성한다.</p>
+<p>미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고<br />
+리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>i <span class="k">in</span> <span class="si">$(</span><span class="nb">seq </span>1 <span class="nv">$COUNT</span><span class="si">)</span>
-<span class="k">do
-  </span><span class="nb">cp</span> <span class="nt">-r</span> <span class="s2">"</span><span class="nv">$FILENAME</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="k">}</span><span class="nv">$i</span><span class="s2">.</span><span class="k">${</span><span class="nv">FILENAME</span><span class="p">##*.</span><span class="k">}</span><span class="s2">"</span>
-  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$i</span><span class="s2">/</span><span class="nv">$COUNT</span><span class="s2"> 진행 중.."</span>
-<span class="k">done
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">length</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">all_num</span><span class="p">)</span>
+<span class="nb">max</span> <span class="o">=</span> <span class="n">all_num</span><span class="p">[</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$COUNT</span><span class="s2"> 개 복사 완료!!"</span>
+<span class="c1"># list 순회하며 s1 + s2 + s3 = s4 조건 확인
+</span><span class="k">if</span> <span class="n">length</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+                <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s3</span> <span class="o">=</span> <span class="n">all_num</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">all_num</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">all_num</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="n">s4</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span> <span class="o">+</span> <span class="n">s3</span>
+
+                <span class="k">if</span> <span class="n">s4</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">:</span>
+                    <span class="c1"># 최대 숫자보다 크면 탈출
+</span>                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">s4</span> <span class="ow">in</span> <span class="n">all_num</span><span class="p">:</span>
+                    <span class="n">r</span><span class="o">+=</span><span class="mi">1</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </code></pre></div></div>
 
 <blockquote>
-  <h4 id="완성">완성</h4>
+  <h4 id="채점">채점</h4>
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/one-pan/ShellScript/2025-05-12-File Copier/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-27-7106/img02.jpg" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
   <hr />
 </blockquote>
 
-<p>같은 경로에 있는 파일만 되는데 제대로 할거면</p>
-<ul>
-  <li>복사할 파일 경로</li>
-  <li>복사 위치</li>
-  <li>파일명 규칙</li>
-</ul>
+<p>머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다.<br />
+이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다.<br />
+휴식이 필요한 하루다…</p>
 
-<p>이렇게 받아야하지 않을까?</p>
-
-<p>다음에 해봐야겠다.</p>
+<p>얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남</p>
 
 <blockquote>
   <h4 id="코드-확인">코드 확인</h4>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/ShellScript/2025-05-12-File%20Copier.sh">Link to GitHub</a></p>
-
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-27-7106.py">Link to GitHub</a></p>
 
           
         </section>
@@ -1160,7 +1217,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-12">May 12, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-27">May 27, 2025</time></p>
 
 
         </footer>
@@ -1175,10 +1232,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "파일 복사기",
-        url: "/one-pan/shellscript/2025/05/12/File-Copier.html",
-        date: "2025-05-12",
-        categories: ["one-pan/ShellScript/"]
+        title: "7106번 Wonderful Fours",
+        url: "/random-solve/python/2025/05/27/7106.html",
+        date: "2025-05-27",
+        categories: ["random-solve/Python/"]
       },
       allPosts: [
         
