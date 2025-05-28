@@ -148,4 +148,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/python/2025/05/27/7106.html",
         "teaser": null
+      },{
+        "title": "던전 생성기 02",
+        "excerpt":"개요 남은 두개의 알고리즘으로 맵 만들기 즐 겁 다 !! 구현 1. Delaunay Triangulation + MST 얘는 왜 두개가 합쳐졌느냐??? 우선 랜덤한 점을 방의 중심점으로 사용해 방을 넒힌다. 그리고 Delaunay Triangulation 알고리즘으로 모든 점을 삼각형으로 연결해 각 삼각형의 외접원이 다른 점을 포함하지 않도록 최적의 삼각형 분할을 생성한다. 마지막으로 MST 알고리즘은...","categories": ["one-pan/JavaScript/"],
+        "tags": [],
+        "url": "/one-pan/javascript/2025/05/28/Dungeon-Generator-02.html",
+        "teaser": null
       }]
