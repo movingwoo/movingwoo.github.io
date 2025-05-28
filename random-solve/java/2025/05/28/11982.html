@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>18382번 2048 - 뭐라도 하겠지</title>
-<meta name="description" content="문제        18382번 2048 - 백준     설계      앗 영어문제  2048 게임의 최종 점수를 출력하는 문제이다. 입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다. 4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다.     구현      1. 입력 받기  score = int(input())  # 무빙 moving_input = input() moving = [moving_input[i:i+4] for i in range(0, len(moving_input), 4)]  # 현재 판 board_input = list(map(int, input().split())) board = [board_input[i*4:(i+1)*4] for i in range(4)]   2. 입력 파싱  # 무빙만큼 반복 for move in moving:     dir = move[0]     value = int(move[1])     x = int(move[2])     y = int(move[3])      board, gained = move_board(board, dir)     score += gained      board[x][y] = value  print(score)   3. 실제 무빙 로직  def move_board(board, dir):     gained = 0      # 방향에 따라 움직일 방향 설정     dir_delta = {         &#39;U&#39;: (0, -1),         &#39;D&#39;: (0, 1),         &#39;L&#39;: (-1, 0),         &#39;R&#39;: (1, 0),     }      dx, dy = dir_delta[dir]      # 병합 여부 확인     merged = [[False]*4 for _ in range(4)]      # 벽은 무시하고 탐색해야해서 이동 순서 조정     range_x = range(4)     range_y = range(4)     if dir == &#39;R&#39;:         range_x = range(2, -1, -1)     if dir == &#39;D&#39;:         range_y = range(2, -1, -1)     if dir == &#39;L&#39;:         range_x = range(1, 4)     if dir == &#39;U&#39;:         range_y = range(1, 4)      # 설정 범위내 무빙     for y in range_y:         for x in range_x:             # 0이면 무시             if board[y][x] == 0:                 continue              # 현재 좌표             cx, cy = x, y             while True:                 # 목표 좌표                 nx, ny = cx + dx, cy + dy                  # 벽 만나면 중단                 if not (0 &lt;= nx &lt; 4 and 0 &lt;= ny &lt; 4):                     break                  # 빈 칸이면 이동                 if board[ny][nx] == 0:                     board[ny][nx] = board[cy][cx]                     board[cy][cx] = 0                     cx, cy = nx, ny                  # 같은 숫자 + 병합 안 됐으면 합치기                 elif board[ny][nx] == board[cy][cx] and not merged[ny][nx]:                     board[ny][nx] *= 2                     board[cy][cx] = 0                     merged[ny][nx] = True                     gained += board[ny][nx]                     break                 # 다른 숫자면 무시                 else:                     break          return board, gained      채점           반성      4X4 보드에 좌표계산하며 시뮬레이션 하는 식으로 해결했는데 파이썬에서는 좌표계산보다 줄단위 처리가 낫다고 한다. 파이썬의 자료구조와 문법은 좌표 반복보단 리스트 전체 조작에 강력하게 최적화돼 있기 때문이라고 리스트가 가변 배열이고 병합, 필터링 등 기능이 내장되어 있다고 한다.  def slide_left(row):     new_row = [x for x in row if x != 0]     # 병합 처리     ...     return new_row   이런 식으로 해결할 수 있다고…  2중 반복문을 안써도 되고 코드가 단순해지며 보드 회전을 통해 슬라이드 함수 하나로 처리도 가능하다.  transpose = [list(row) for row in zip(*board)]  # 전치 행렬 reversed_board = [row[::-1] for row in board]   # 행 반전   c나 java와는 좀 다르다. 파이썬 고수가 되려면 한참 멀었다.     코드 확인      Link to GitHub">
+<!-- begin _includes/seo.html --><title>11982번 Angry Cows (Gold) - 뭐라도 하겠지</title>
+<meta name="description" content="문제        11982번 Angry Cows (Gold) - 백준     번역      오 뭔가 재밌어보이는 문제  ‘Angry Cows’ 라는 게임이 있다. 소를 쏴서 건초더미를 폭발시키는 게임이다.  R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고 폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다. R이 0이 될 때까지 폭발이 계속된다. 이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오.     설계      예체 출력이 실수형이라 골치가 아픈데…  1차 시도)  우선 건초더미를 정렬해 이진탐색 실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다. 솔직히 시간초과 날 것 같았음  2차 시도) 문제 알고리즘 분류대로 DP 활용 소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고 두 포인터로 구간 분할해 최소 반경을 구한다.     구현      1. 건초 배열, DP 배열  2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다.  int N = Integer.parseInt(br.readLine()); long[] hayBales = new long[N];  for (int i = 0; i &lt; N; i++) { 	// 소숫점 처리를 위해 2배 스케일링  	hayBales[i] = Long.parseLong(br.readLine()) * 2; }  // 오름차순 Arrays.sort(hayBales);  long[] leftDP = new long[N]; long[] rightDP = new long[N]; // 큰 값으로 초기화 (2 더하면 오버플로우남) Arrays.fill(leftDP, Long.MAX_VALUE - 2); Arrays.fill(rightDP, Long.MAX_VALUE - 2);   2. DP  2배 스케일링되어 있기 때문에 2씩 조절해야한다.  // 2배 스케일링해서 2씩 조절함 // 왼쪽 전파 DP leftDP[0] = -2;   int last = 0; for (int i = 1; i &lt; N; i++) { 	// last를 오른쪽으로 밀며 폭발이 닿을 때까지 	while (last + 1 &lt; i &amp;&amp; hayBales[i] - hayBales[last+1] &gt; leftDP[last+1] + 2) { 		last++; 	} 	// hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽 	leftDP[i] = Math.min(hayBales[i] - hayBales[last], leftDP[last+1] + 2); }  // 오른쪽 전파 DP rightDP[N-1] = -2; last = N - 1; for (int i = N - 2; i &gt;= 0; i--) { 	// 왼쪽으로 밀며 체크 	while (last - 1 &gt; i &amp;&amp; hayBales[last-1] - hayBales[i] &gt; rightDP[last-1] + 2) { 		last--; 	} 	 	// 한 단계 줄인 값과 비교 	rightDP[i] = Math.min(hayBales[last] - hayBales[i], rightDP[last-1] + 2); }   3. 두 포인터  구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다.  // 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음 long best = Long.MAX_VALUE;  int i = 0; int j = N - 1; while (i &lt; j) { 	// i~j 구간의 가운데와 전파에 필요한 직경 비교 	long need = Math.max((hayBales[j] - hayBales[i]) / 2, Math.max(leftDP[i], rightDP[j]) + 2); 	best = Math.min(best, need);  	// 어느 쪽 DP가 더 작은가에 따라 포인터 이동 	if (leftDP[i+1] &lt; rightDP[j-1]) { 		i++; 	} else { 		j--; 	} }  // 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기 bw.write(best % 2 == 0 ? String.format(&quot;%d.0\n&quot;, best/2) : String.format(&quot;%d.5\n&quot;, best/2)); bw.flush();      채점           반성      코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다. 번역해보니 문제가 다르더라… 날먹 실패 다음에 언젠가 걸리면 풀겠지 뭐  항상 고급문제를 풀면 시간초과가 걸리적거린다. 가장 효율적인 방안을 바로 찾기가 쉽지 않다.     코드 확인      Link to GitHub">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="18382번 2048">
-<meta property="og:url" content="https://movingwoo.com/random-solve/python/2025/05/15/18382.html">
+<meta property="og:title" content="11982번 Angry Cows (Gold)">
+<meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/05/28/11982.html">
 
 
-  <meta property="og:description" content="문제        18382번 2048 - 백준     설계      앗 영어문제  2048 게임의 최종 점수를 출력하는 문제이다. 입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다. 4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다.     구현      1. 입력 받기  score = int(input())  # 무빙 moving_input = input() moving = [moving_input[i:i+4] for i in range(0, len(moving_input), 4)]  # 현재 판 board_input = list(map(int, input().split())) board = [board_input[i*4:(i+1)*4] for i in range(4)]   2. 입력 파싱  # 무빙만큼 반복 for move in moving:     dir = move[0]     value = int(move[1])     x = int(move[2])     y = int(move[3])      board, gained = move_board(board, dir)     score += gained      board[x][y] = value  print(score)   3. 실제 무빙 로직  def move_board(board, dir):     gained = 0      # 방향에 따라 움직일 방향 설정     dir_delta = {         &#39;U&#39;: (0, -1),         &#39;D&#39;: (0, 1),         &#39;L&#39;: (-1, 0),         &#39;R&#39;: (1, 0),     }      dx, dy = dir_delta[dir]      # 병합 여부 확인     merged = [[False]*4 for _ in range(4)]      # 벽은 무시하고 탐색해야해서 이동 순서 조정     range_x = range(4)     range_y = range(4)     if dir == &#39;R&#39;:         range_x = range(2, -1, -1)     if dir == &#39;D&#39;:         range_y = range(2, -1, -1)     if dir == &#39;L&#39;:         range_x = range(1, 4)     if dir == &#39;U&#39;:         range_y = range(1, 4)      # 설정 범위내 무빙     for y in range_y:         for x in range_x:             # 0이면 무시             if board[y][x] == 0:                 continue              # 현재 좌표             cx, cy = x, y             while True:                 # 목표 좌표                 nx, ny = cx + dx, cy + dy                  # 벽 만나면 중단                 if not (0 &lt;= nx &lt; 4 and 0 &lt;= ny &lt; 4):                     break                  # 빈 칸이면 이동                 if board[ny][nx] == 0:                     board[ny][nx] = board[cy][cx]                     board[cy][cx] = 0                     cx, cy = nx, ny                  # 같은 숫자 + 병합 안 됐으면 합치기                 elif board[ny][nx] == board[cy][cx] and not merged[ny][nx]:                     board[ny][nx] *= 2                     board[cy][cx] = 0                     merged[ny][nx] = True                     gained += board[ny][nx]                     break                 # 다른 숫자면 무시                 else:                     break          return board, gained      채점           반성      4X4 보드에 좌표계산하며 시뮬레이션 하는 식으로 해결했는데 파이썬에서는 좌표계산보다 줄단위 처리가 낫다고 한다. 파이썬의 자료구조와 문법은 좌표 반복보단 리스트 전체 조작에 강력하게 최적화돼 있기 때문이라고 리스트가 가변 배열이고 병합, 필터링 등 기능이 내장되어 있다고 한다.  def slide_left(row):     new_row = [x for x in row if x != 0]     # 병합 처리     ...     return new_row   이런 식으로 해결할 수 있다고…  2중 반복문을 안써도 되고 코드가 단순해지며 보드 회전을 통해 슬라이드 함수 하나로 처리도 가능하다.  transpose = [list(row) for row in zip(*board)]  # 전치 행렬 reversed_board = [row[::-1] for row in board]   # 행 반전   c나 java와는 좀 다르다. 파이썬 고수가 되려면 한참 멀었다.     코드 확인      Link to GitHub">
-
-
-
+  <meta property="og:description" content="문제        11982번 Angry Cows (Gold) - 백준     번역      오 뭔가 재밌어보이는 문제  ‘Angry Cows’ 라는 게임이 있다. 소를 쏴서 건초더미를 폭발시키는 게임이다.  R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고 폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다. R이 0이 될 때까지 폭발이 계속된다. 이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오.     설계      예체 출력이 실수형이라 골치가 아픈데…  1차 시도)  우선 건초더미를 정렬해 이진탐색 실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다. 솔직히 시간초과 날 것 같았음  2차 시도) 문제 알고리즘 분류대로 DP 활용 소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고 두 포인터로 구간 분할해 최소 반경을 구한다.     구현      1. 건초 배열, DP 배열  2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다.  int N = Integer.parseInt(br.readLine()); long[] hayBales = new long[N];  for (int i = 0; i &lt; N; i++) { 	// 소숫점 처리를 위해 2배 스케일링  	hayBales[i] = Long.parseLong(br.readLine()) * 2; }  // 오름차순 Arrays.sort(hayBales);  long[] leftDP = new long[N]; long[] rightDP = new long[N]; // 큰 값으로 초기화 (2 더하면 오버플로우남) Arrays.fill(leftDP, Long.MAX_VALUE - 2); Arrays.fill(rightDP, Long.MAX_VALUE - 2);   2. DP  2배 스케일링되어 있기 때문에 2씩 조절해야한다.  // 2배 스케일링해서 2씩 조절함 // 왼쪽 전파 DP leftDP[0] = -2;   int last = 0; for (int i = 1; i &lt; N; i++) { 	// last를 오른쪽으로 밀며 폭발이 닿을 때까지 	while (last + 1 &lt; i &amp;&amp; hayBales[i] - hayBales[last+1] &gt; leftDP[last+1] + 2) { 		last++; 	} 	// hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽 	leftDP[i] = Math.min(hayBales[i] - hayBales[last], leftDP[last+1] + 2); }  // 오른쪽 전파 DP rightDP[N-1] = -2; last = N - 1; for (int i = N - 2; i &gt;= 0; i--) { 	// 왼쪽으로 밀며 체크 	while (last - 1 &gt; i &amp;&amp; hayBales[last-1] - hayBales[i] &gt; rightDP[last-1] + 2) { 		last--; 	} 	 	// 한 단계 줄인 값과 비교 	rightDP[i] = Math.min(hayBales[last] - hayBales[i], rightDP[last-1] + 2); }   3. 두 포인터  구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다.  // 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음 long best = Long.MAX_VALUE;  int i = 0; int j = N - 1; while (i &lt; j) { 	// i~j 구간의 가운데와 전파에 필요한 직경 비교 	long need = Math.max((hayBales[j] - hayBales[i]) / 2, Math.max(leftDP[i], rightDP[j]) + 2); 	best = Math.min(best, need);  	// 어느 쪽 DP가 더 작은가에 따라 포인터 이동 	if (leftDP[i+1] &lt; rightDP[j-1]) { 		i++; 	} else { 		j--; 	} }  // 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기 bw.write(best % 2 == 0 ? String.format(&quot;%d.0\n&quot;, best/2) : String.format(&quot;%d.5\n&quot;, best/2)); bw.flush();      채점           반성      코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다. 번역해보니 문제가 다르더라… 날먹 실패 다음에 언젠가 걸리면 풀겠지 뭐  항상 고급문제를 풀면 시간초과가 걸리적거린다. 가장 효율적인 방안을 바로 찾기가 쉽지 않다.     코드 확인      Link to GitHub">
 
 
 
 
-  <meta property="article:published_time" content="2025-05-15T02:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-05-15T02:00:00+00:00">
+  <meta property="article:published_time" content="2025-05-28T08:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-05-28T08:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/random-solve/python/2025/05/15/18382.html">
+<link rel="canonical" href="https://movingwoo.com/random-solve/java/2025/05/28/11982.html">
 
 
 
@@ -1046,10 +1046,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="18382번 2048">
-      <meta itemprop="description" content="  문제  18382번 2048 - 백준  설계  앗 영어문제2048 게임의 최종 점수를 출력하는 문제이다.입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다.4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다.  구현  1. 입력 받기score = int(input())# 무빙moving_input = input()moving = [moving_input[i:i+4] for i in range(0, len(moving_input), 4)]# 현재 판board_input = list(map(int, input().split()))board = [board_input[i*4:(i+1)*4] for i in range(4)]2. 입력 파싱# 무빙만큼 반복for move in moving:    dir = move[0]    value = int(move[1])    x = int(move[2])    y = int(move[3])    board, gained = move_board(board, dir)    score += gained    board[x][y] = valueprint(score)3. 실제 무빙 로직def move_board(board, dir):    gained = 0    # 방향에 따라 움직일 방향 설정    dir_delta = {        &#39;U&#39;: (0, -1),        &#39;D&#39;: (0, 1),        &#39;L&#39;: (-1, 0),        &#39;R&#39;: (1, 0),    }    dx, dy = dir_delta[dir]    # 병합 여부 확인    merged = [[False]*4 for _ in range(4)]    # 벽은 무시하고 탐색해야해서 이동 순서 조정    range_x = range(4)    range_y = range(4)    if dir == &#39;R&#39;:        range_x = range(2, -1, -1)    if dir == &#39;D&#39;:        range_y = range(2, -1, -1)    if dir == &#39;L&#39;:        range_x = range(1, 4)    if dir == &#39;U&#39;:        range_y = range(1, 4)    # 설정 범위내 무빙    for y in range_y:        for x in range_x:            # 0이면 무시            if board[y][x] == 0:                continue            # 현재 좌표            cx, cy = x, y            while True:                # 목표 좌표                nx, ny = cx + dx, cy + dy                # 벽 만나면 중단                if not (0 &lt;= nx &lt; 4 and 0 &lt;= ny &lt; 4):                    break                # 빈 칸이면 이동                if board[ny][nx] == 0:                    board[ny][nx] = board[cy][cx]                    board[cy][cx] = 0                    cx, cy = nx, ny                # 같은 숫자 + 병합 안 됐으면 합치기                elif board[ny][nx] == board[cy][cx] and not merged[ny][nx]:                    board[ny][nx] *= 2                    board[cy][cx] = 0                    merged[ny][nx] = True                    gained += board[ny][nx]                    break                # 다른 숫자면 무시                else:                    break        return board, gained  채점    반성  4X4 보드에 좌표계산하며 시뮬레이션 하는 식으로 해결했는데 파이썬에서는 좌표계산보다 줄단위 처리가 낫다고 한다.파이썬의 자료구조와 문법은 좌표 반복보단 리스트 전체 조작에 강력하게 최적화돼 있기 때문이라고리스트가 가변 배열이고 병합, 필터링 등 기능이 내장되어 있다고 한다.def slide_left(row):    new_row = [x for x in row if x != 0]    # 병합 처리    ...    return new_row이런 식으로 해결할 수 있다고…2중 반복문을 안써도 되고 코드가 단순해지며 보드 회전을 통해 슬라이드 함수 하나로 처리도 가능하다.transpose = [list(row) for row in zip(*board)]  # 전치 행렬reversed_board = [row[::-1] for row in board]   # 행 반전c나 java와는 좀 다르다.파이썬 고수가 되려면 한참 멀었다.  코드 확인  Link to GitHub">
-      <meta itemprop="datePublished" content="2025-05-15T02:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-05-15T02:00:00+00:00">
+      <meta itemprop="headline" content="11982번 Angry Cows (Gold)">
+      <meta itemprop="description" content="  문제  11982번 Angry Cows (Gold) - 백준  번역  오 뭔가 재밌어보이는 문제‘Angry Cows’ 라는 게임이 있다.소를 쏴서 건초더미를 폭발시키는 게임이다.R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다.R이 0이 될 때까지 폭발이 계속된다.이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오.  설계  예체 출력이 실수형이라 골치가 아픈데…1차 시도) 우선 건초더미를 정렬해 이진탐색실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다.솔직히 시간초과 날 것 같았음2차 시도)문제 알고리즘 분류대로 DP 활용소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고두 포인터로 구간 분할해 최소 반경을 구한다.  구현  1. 건초 배열, DP 배열2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다.int N = Integer.parseInt(br.readLine());long[] hayBales = new long[N];for (int i = 0; i &lt; N; i++) {	// 소숫점 처리를 위해 2배 스케일링 	hayBales[i] = Long.parseLong(br.readLine()) * 2;}// 오름차순Arrays.sort(hayBales);long[] leftDP = new long[N];long[] rightDP = new long[N];// 큰 값으로 초기화 (2 더하면 오버플로우남)Arrays.fill(leftDP, Long.MAX_VALUE - 2);Arrays.fill(rightDP, Long.MAX_VALUE - 2);2. DP2배 스케일링되어 있기 때문에 2씩 조절해야한다.// 2배 스케일링해서 2씩 조절함// 왼쪽 전파 DPleftDP[0] = -2;  int last = 0;for (int i = 1; i &lt; N; i++) {	// last를 오른쪽으로 밀며 폭발이 닿을 때까지	while (last + 1 &lt; i &amp;&amp; hayBales[i] - hayBales[last+1] &gt; leftDP[last+1] + 2) {		last++;	}	// hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽	leftDP[i] = Math.min(hayBales[i] - hayBales[last], leftDP[last+1] + 2);}// 오른쪽 전파 DPrightDP[N-1] = -2;last = N - 1;for (int i = N - 2; i &gt;= 0; i--) {	// 왼쪽으로 밀며 체크	while (last - 1 &gt; i &amp;&amp; hayBales[last-1] - hayBales[i] &gt; rightDP[last-1] + 2) {		last--;	}		// 한 단계 줄인 값과 비교	rightDP[i] = Math.min(hayBales[last] - hayBales[i], rightDP[last-1] + 2);}3. 두 포인터구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다.// 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음long best = Long.MAX_VALUE;int i = 0;int j = N - 1;while (i &lt; j) {	// i~j 구간의 가운데와 전파에 필요한 직경 비교	long need = Math.max((hayBales[j] - hayBales[i]) / 2, Math.max(leftDP[i], rightDP[j]) + 2);	best = Math.min(best, need);	// 어느 쪽 DP가 더 작은가에 따라 포인터 이동	if (leftDP[i+1] &lt; rightDP[j-1]) {		i++;	} else {		j--;	}}// 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기bw.write(best % 2 == 0 ? String.format(&quot;%d.0\n&quot;, best/2) : String.format(&quot;%d.5\n&quot;, best/2));bw.flush();  채점    반성  코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다.번역해보니 문제가 다르더라… 날먹 실패다음에 언젠가 걸리면 풀겠지 뭐항상 고급문제를 풀면 시간초과가 걸리적거린다.가장 효율적인 방안을 바로 찾기가 쉽지 않다.  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-05-28T08:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-05-28T08:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1070,18 +1070,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
       <span class="separator">/</span>
       
-      <a href="/board?path=random-solve%2FPython" class="category-link">
-        Python
+      <a href="/board?path=random-solve%2FJava" class="category-link">
+        Java
       </a>
       
     
   </div>
-  <a href="/board?path=random-solve%2FPython%2F" class="category-icon" title="리스트">
+  <a href="/board?path=random-solve%2FJava%2F" class="category-icon" title="리스트">
     <i class="fas fa-list-ul" aria-hidden="true"></i>
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">18382번 2048
+            <h1 id="page-title" class="page__title" itemprop="headline">11982번 Angry Cows (Gold)
 </h1>
             
 
@@ -1095,121 +1095,125 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-15-18382/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img01.jpg" alt="img01" /></p>
 
-<p><a href="https://www.acmicpc.net/problem/18382">18382번 2048 - 백준</a></p>
+<p><a href="https://www.acmicpc.net/problem/11982">11982번 Angry Cows (Gold) - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>오 뭔가 재밌어보이는 문제</p>
+
+<p>‘Angry Cows’ 라는 게임이 있다.<br />
+소를 쏴서 건초더미를 폭발시키는 게임이다.</p>
+
+<p>R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고<br />
+폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다.<br />
+R이 0이 될 때까지 폭발이 계속된다.<br />
+이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오.</p>
 
 <blockquote>
   <h4 id="설계">설계</h4>
   <hr />
 </blockquote>
 
-<p>앗 영어문제</p>
+<p>예체 출력이 실수형이라 골치가 아픈데…</p>
 
-<p>2048 게임의 최종 점수를 출력하는 문제이다.<br />
-입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다.<br />
-4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다.</p>
+<p>1차 시도) 
+우선 건초더미를 정렬해 이진탐색<br />
+실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다.<br />
+솔직히 시간초과 날 것 같았음</p>
+
+<p>2차 시도)
+문제 알고리즘 분류대로 DP 활용<br />
+소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고<br />
+두 포인터로 구간 분할해 최소 반경을 구한다.</p>
 
 <blockquote>
   <h4 id="구현">구현</h4>
   <hr />
 </blockquote>
 
-<h5 id="1-입력-받기">1. 입력 받기</h5>
+<h5 id="1-건초-배열-dp-배열">1. 건초 배열, DP 배열</h5>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">score</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
+<p>2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다.</p>
 
-<span class="c1"># 무빙
-</span><span class="n">moving_input</span> <span class="o">=</span> <span class="nf">input</span><span class="p">()</span>
-<span class="n">moving</span> <span class="o">=</span> <span class="p">[</span><span class="n">moving_input</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">moving_input</span><span class="p">),</span> <span class="mi">4</span><span class="p">)]</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+<span class="kt">long</span><span class="o">[]</span> <span class="n">hayBales</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
 
-<span class="c1"># 현재 판
-</span><span class="n">board_input</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-<span class="n">board</span> <span class="o">=</span> <span class="p">[</span><span class="n">board_input</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">4</span><span class="p">:(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="c1">// 소숫점 처리를 위해 2배 스케일링 </span>
+	<span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">*</span> <span class="mi">2</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">// 오름차순</span>
+<span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">hayBales</span><span class="o">);</span>
+
+<span class="kt">long</span><span class="o">[]</span> <span class="n">leftDP</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
+<span class="kt">long</span><span class="o">[]</span> <span class="n">rightDP</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
+<span class="c1">// 큰 값으로 초기화 (2 더하면 오버플로우남)</span>
+<span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">leftDP</span><span class="o">,</span> <span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>
+<span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">rightDP</span><span class="o">,</span> <span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>
 </code></pre></div></div>
 
-<h5 id="2-입력-파싱">2. 입력 파싱</h5>
+<h5 id="2-dp">2. DP</h5>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 무빙만큼 반복
-</span><span class="k">for</span> <span class="n">move</span> <span class="ow">in</span> <span class="n">moving</span><span class="p">:</span>
-    <span class="nb">dir</span> <span class="o">=</span> <span class="n">move</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">value</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">move</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">move</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">move</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<p>2배 스케일링되어 있기 때문에 2씩 조절해야한다.</p>
 
-    <span class="n">board</span><span class="p">,</span> <span class="n">gained</span> <span class="o">=</span> <span class="nf">move_board</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="nb">dir</span><span class="p">)</span>
-    <span class="n">score</span> <span class="o">+=</span> <span class="n">gained</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 2배 스케일링해서 2씩 조절함</span>
+<span class="c1">// 왼쪽 전파 DP</span>
+<span class="n">leftDP</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">;</span>  
+<span class="kt">int</span> <span class="n">last</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="c1">// last를 오른쪽으로 밀며 폭발이 닿을 때까지</span>
+	<span class="k">while</span> <span class="o">(</span><span class="n">last</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">leftDP</span><span class="o">[</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">last</span><span class="o">++;</span>
+	<span class="o">}</span>
+	<span class="c1">// hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽</span>
+	<span class="n">leftDP</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">],</span> <span class="n">leftDP</span><span class="o">[</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
+<span class="o">}</span>
 
-    <span class="n">board</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="c1">// 오른쪽 전파 DP</span>
+<span class="n">rightDP</span><span class="o">[</span><span class="no">N</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">;</span>
+<span class="n">last</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">2</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+	<span class="c1">// 왼쪽으로 밀며 체크</span>
+	<span class="k">while</span> <span class="o">(</span><span class="n">last</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">last</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">last</span><span class="o">--;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">// 한 단계 줄인 값과 비교</span>
+	<span class="n">rightDP</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">last</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
+<span class="o">}</span>
 </code></pre></div></div>
 
-<h5 id="3-실제-무빙-로직">3. 실제 무빙 로직</h5>
+<h5 id="3-두-포인터">3. 두 포인터</h5>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">move_board</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="nb">dir</span><span class="p">):</span>
-    <span class="n">gained</span> <span class="o">=</span> <span class="mi">0</span>
+<p>구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다.</p>
 
-    <span class="c1"># 방향에 따라 움직일 방향 설정
-</span>    <span class="n">dir_delta</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="sh">'</span><span class="s">U</span><span class="sh">'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-        <span class="sh">'</span><span class="s">D</span><span class="sh">'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="sh">'</span><span class="s">L</span><span class="sh">'</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="sh">'</span><span class="s">R</span><span class="sh">'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="p">}</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음</span>
+<span class="kt">long</span> <span class="n">best</span> <span class="o">=</span> <span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
 
-    <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">dir_delta</span><span class="p">[</span><span class="nb">dir</span><span class="p">]</span>
+<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// i~j 구간의 가운데와 전파에 필요한 직경 비교</span>
+	<span class="kt">long</span> <span class="n">need</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">((</span><span class="n">hayBales</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">/</span> <span class="mi">2</span><span class="o">,</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">leftDP</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">j</span><span class="o">])</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
+	<span class="n">best</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">best</span><span class="o">,</span> <span class="n">need</span><span class="o">);</span>
 
-    <span class="c1"># 병합 여부 확인
-</span>    <span class="n">merged</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">False</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+	<span class="c1">// 어느 쪽 DP가 더 작은가에 따라 포인터 이동</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">leftDP</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">])</span> <span class="o">{</span>
+		<span class="n">i</span><span class="o">++;</span>
+	<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+		<span class="n">j</span><span class="o">--;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
 
-    <span class="c1"># 벽은 무시하고 탐색해야해서 이동 순서 조정
-</span>    <span class="n">range_x</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">range_y</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="sh">'</span><span class="s">R</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">range_x</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="sh">'</span><span class="s">D</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">range_y</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="sh">'</span><span class="s">L</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">range_x</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">dir</span> <span class="o">==</span> <span class="sh">'</span><span class="s">U</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">range_y</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-
-    <span class="c1"># 설정 범위내 무빙
-</span>    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">range_y</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">range_x</span><span class="p">:</span>
-            <span class="c1"># 0이면 무시
-</span>            <span class="k">if</span> <span class="n">board</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">continue</span>
-
-            <span class="c1"># 현재 좌표
-</span>            <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-            <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-                <span class="c1"># 목표 좌표
-</span>                <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">dy</span>
-
-                <span class="c1"># 벽 만나면 중단
-</span>                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">nx</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">ny</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">):</span>
-                    <span class="k">break</span>
-
-                <span class="c1"># 빈 칸이면 이동
-</span>                <span class="k">if</span> <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="p">[</span><span class="n">cy</span><span class="p">][</span><span class="n">cx</span><span class="p">]</span>
-                    <span class="n">board</span><span class="p">[</span><span class="n">cy</span><span class="p">][</span><span class="n">cx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span>
-
-                <span class="c1"># 같은 숫자 + 병합 안 됐으면 합치기
-</span>                <span class="k">elif</span> <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">==</span> <span class="n">board</span><span class="p">[</span><span class="n">cy</span><span class="p">][</span><span class="n">cx</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">merged</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]:</span>
-                    <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
-                    <span class="n">board</span><span class="p">[</span><span class="n">cy</span><span class="p">][</span><span class="n">cx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">merged</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-                    <span class="n">gained</span> <span class="o">+=</span> <span class="n">board</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span>
-                    <span class="k">break</span>
-                <span class="c1"># 다른 숫자면 무시
-</span>                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">break</span>
-    
-    <span class="k">return</span> <span class="n">board</span><span class="p">,</span> <span class="n">gained</span>
+<span class="c1">// 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">best</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%d.0\n"</span><span class="o">,</span> <span class="n">best</span><span class="o">/</span><span class="mi">2</span><span class="o">)</span> <span class="o">:</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%d.5\n"</span><span class="o">,</span> <span class="n">best</span><span class="o">/</span><span class="mi">2</span><span class="o">));</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -1217,41 +1221,26 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-15-18382/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img02.jpg" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
   <hr />
 </blockquote>
 
-<p>4X4 보드에 좌표계산하며 시뮬레이션 하는 식으로 해결했는데 파이썬에서는 좌표계산보다 줄단위 처리가 낫다고 한다.<br />
-<span style="color: orange;"><strong>파이썬의 자료구조와 문법은 좌표 반복보단 리스트 전체 조작에 강력하게 최적화돼 있기 때문</strong></span>이라고<br />
-리스트가 가변 배열이고 병합, 필터링 등 기능이 내장되어 있다고 한다.</p>
+<p>코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다.<br />
+번역해보니 문제가 다르더라… 날먹 실패<br />
+다음에 언젠가 걸리면 풀겠지 뭐</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">slide_left</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-    <span class="n">new_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="c1"># 병합 처리
-</span>    <span class="bp">...</span>
-    <span class="k">return</span> <span class="n">new_row</span>
-</code></pre></div></div>
-
-<p>이런 식으로 해결할 수 있다고…</p>
-
-<p>2중 반복문을 안써도 되고 코드가 단순해지며 보드 회전을 통해 슬라이드 함수 하나로 처리도 가능하다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transpose</span> <span class="o">=</span> <span class="p">[</span><span class="nf">list</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="o">*</span><span class="n">board</span><span class="p">)]</span>  <span class="c1"># 전치 행렬
-</span><span class="n">reversed_board</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">board</span><span class="p">]</span>   <span class="c1"># 행 반전
-</span></code></pre></div></div>
-
-<p>c나 java와는 좀 다르다.<br />
-파이썬 고수가 되려면 한참 멀었다.</p>
+<p>항상 고급문제를 풀면 시간초과가 걸리적거린다.<br />
+가장 효율적인 방안을 바로 찾기가 쉽지 않다.</p>
 
 <blockquote>
   <h4 id="코드-확인">코드 확인</h4>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-15-18382.py">Link to GitHub</a></p>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-28-11982.java">Link to GitHub</a></p>
 
 
           
@@ -1261,7 +1250,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-15">May 15, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-28">May 28, 2025</time></p>
 
 
         </footer>
@@ -1276,10 +1265,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "18382번 2048",
-        url: "/random-solve/python/2025/05/15/18382.html",
-        date: "2025-05-15",
-        categories: ["random-solve/Python/"]
+        title: "11982번 Angry Cows (Gold)",
+        url: "/random-solve/java/2025/05/28/11982.html",
+        date: "2025-05-28",
+        categories: ["random-solve/Java/"]
       },
       allPosts: [
         

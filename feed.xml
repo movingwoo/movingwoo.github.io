@@ -1,4 +1,154 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-28T05:49:31+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">16085번 Гэмт хэрэг</title><link href="https://movingwoo.com/random-solve/c++/2025/05/28/16085.html" rel="alternate" type="text/html" title="16085번 Гэмт хэрэг" /><published>2025-05-28T05:00:00+00:00</published><updated>2025-05-28T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/28/16085</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/28/16085.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-28T08:23:59+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">11982번 Angry Cows (Gold)</title><link href="https://movingwoo.com/random-solve/java/2025/05/28/11982.html" rel="alternate" type="text/html" title="11982번 Angry Cows (Gold)" /><published>2025-05-28T08:00:00+00:00</published><updated>2025-05-28T08:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/28/11982</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/28/11982.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/11982">11982번 Angry Cows (Gold) - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>오 뭔가 재밌어보이는 문제</p>
+
+<p>‘Angry Cows’ 라는 게임이 있다.<br />
+소를 쏴서 건초더미를 폭발시키는 게임이다.</p>
+
+<p>R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고<br />
+폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다.<br />
+R이 0이 될 때까지 폭발이 계속된다.<br />
+이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>예체 출력이 실수형이라 골치가 아픈데…</p>
+
+<p>1차 시도) 
+우선 건초더미를 정렬해 이진탐색<br />
+실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다.<br />
+솔직히 시간초과 날 것 같았음</p>
+
+<p>2차 시도)
+문제 알고리즘 분류대로 DP 활용<br />
+소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고<br />
+두 포인터로 구간 분할해 최소 반경을 구한다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-건초-배열-dp-배열">1. 건초 배열, DP 배열</h5>
+
+<p>2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+<span class="kt">long</span><span class="o">[]</span> <span class="n">hayBales</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="c1">// 소숫점 처리를 위해 2배 스케일링 </span>
+	<span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">*</span> <span class="mi">2</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">// 오름차순</span>
+<span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">hayBales</span><span class="o">);</span>
+
+<span class="kt">long</span><span class="o">[]</span> <span class="n">leftDP</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
+<span class="kt">long</span><span class="o">[]</span> <span class="n">rightDP</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
+<span class="c1">// 큰 값으로 초기화 (2 더하면 오버플로우남)</span>
+<span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">leftDP</span><span class="o">,</span> <span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>
+<span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">rightDP</span><span class="o">,</span> <span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h5 id="2-dp">2. DP</h5>
+
+<p>2배 스케일링되어 있기 때문에 2씩 조절해야한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 2배 스케일링해서 2씩 조절함</span>
+<span class="c1">// 왼쪽 전파 DP</span>
+<span class="n">leftDP</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">;</span>  
+<span class="kt">int</span> <span class="n">last</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="c1">// last를 오른쪽으로 밀며 폭발이 닿을 때까지</span>
+	<span class="k">while</span> <span class="o">(</span><span class="n">last</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">leftDP</span><span class="o">[</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">last</span><span class="o">++;</span>
+	<span class="o">}</span>
+	<span class="c1">// hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽</span>
+	<span class="n">leftDP</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">],</span> <span class="n">leftDP</span><span class="o">[</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 오른쪽 전파 DP</span>
+<span class="n">rightDP</span><span class="o">[</span><span class="no">N</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">;</span>
+<span class="n">last</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">2</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+	<span class="c1">// 왼쪽으로 밀며 체크</span>
+	<span class="k">while</span> <span class="o">(</span><span class="n">last</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">last</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">last</span><span class="o">--;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">// 한 단계 줄인 값과 비교</span>
+	<span class="n">rightDP</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">last</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="3-두-포인터">3. 두 포인터</h5>
+
+<p>구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음</span>
+<span class="kt">long</span> <span class="n">best</span> <span class="o">=</span> <span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+
+<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// i~j 구간의 가운데와 전파에 필요한 직경 비교</span>
+	<span class="kt">long</span> <span class="n">need</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">((</span><span class="n">hayBales</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">/</span> <span class="mi">2</span><span class="o">,</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">leftDP</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">j</span><span class="o">])</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
+	<span class="n">best</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">best</span><span class="o">,</span> <span class="n">need</span><span class="o">);</span>
+
+	<span class="c1">// 어느 쪽 DP가 더 작은가에 따라 포인터 이동</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">leftDP</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">])</span> <span class="o">{</span>
+		<span class="n">i</span><span class="o">++;</span>
+	<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+		<span class="n">j</span><span class="o">--;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">best</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%d.0\n"</span><span class="o">,</span> <span class="n">best</span><span class="o">/</span><span class="mi">2</span><span class="o">)</span> <span class="o">:</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%d.5\n"</span><span class="o">,</span> <span class="n">best</span><span class="o">/</span><span class="mi">2</span><span class="o">));</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다.<br />
+번역해보니 문제가 다르더라… 날먹 실패<br />
+다음에 언젠가 걸리면 풀겠지 뭐</p>
+
+<p>항상 고급문제를 풀면 시간초과가 걸리적거린다.<br />
+가장 효율적인 방안을 바로 찾기가 쉽지 않다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-28-11982.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 11982번 Angry Cows (Gold) - 백준 번역 오 뭔가 재밌어보이는 문제 ‘Angry Cows’ 라는 게임이 있다. 소를 쏴서 건초더미를 폭발시키는 게임이다. R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고 폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다. R이 0이 될 때까지 폭발이 계속된다. 이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오. 설계 예체 출력이 실수형이라 골치가 아픈데… 1차 시도) 우선 건초더미를 정렬해 이진탐색 실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다. 솔직히 시간초과 날 것 같았음 2차 시도) 문제 알고리즘 분류대로 DP 활용 소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고 두 포인터로 구간 분할해 최소 반경을 구한다. 구현 1. 건초 배열, DP 배열 2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다. int N = Integer.parseInt(br.readLine()); long[] hayBales = new long[N]; for (int i = 0; i &lt; N; i++) { // 소숫점 처리를 위해 2배 스케일링 hayBales[i] = Long.parseLong(br.readLine()) * 2; } // 오름차순 Arrays.sort(hayBales); long[] leftDP = new long[N]; long[] rightDP = new long[N]; // 큰 값으로 초기화 (2 더하면 오버플로우남) Arrays.fill(leftDP, Long.MAX_VALUE - 2); Arrays.fill(rightDP, Long.MAX_VALUE - 2); 2. DP 2배 스케일링되어 있기 때문에 2씩 조절해야한다. // 2배 스케일링해서 2씩 조절함 // 왼쪽 전파 DP leftDP[0] = -2; int last = 0; for (int i = 1; i &lt; N; i++) { // last를 오른쪽으로 밀며 폭발이 닿을 때까지 while (last + 1 &lt; i &amp;&amp; hayBales[i] - hayBales[last+1] &gt; leftDP[last+1] + 2) { last++; } // hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽 leftDP[i] = Math.min(hayBales[i] - hayBales[last], leftDP[last+1] + 2); } // 오른쪽 전파 DP rightDP[N-1] = -2; last = N - 1; for (int i = N - 2; i &gt;= 0; i--) { // 왼쪽으로 밀며 체크 while (last - 1 &gt; i &amp;&amp; hayBales[last-1] - hayBales[i] &gt; rightDP[last-1] + 2) { last--; } // 한 단계 줄인 값과 비교 rightDP[i] = Math.min(hayBales[last] - hayBales[i], rightDP[last-1] + 2); } 3. 두 포인터 구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다. // 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음 long best = Long.MAX_VALUE; int i = 0; int j = N - 1; while (i &lt; j) { // i~j 구간의 가운데와 전파에 필요한 직경 비교 long need = Math.max((hayBales[j] - hayBales[i]) / 2, Math.max(leftDP[i], rightDP[j]) + 2); best = Math.min(best, need); // 어느 쪽 DP가 더 작은가에 따라 포인터 이동 if (leftDP[i+1] &lt; rightDP[j-1]) { i++; } else { j--; } } // 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기 bw.write(best % 2 == 0 ? String.format("%d.0\n", best/2) : String.format("%d.5\n", best/2)); bw.flush(); 채점 반성 코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다. 번역해보니 문제가 다르더라… 날먹 실패 다음에 언젠가 걸리면 풀겠지 뭐 항상 고급문제를 풀면 시간초과가 걸리적거린다. 가장 효율적인 방안을 바로 찾기가 쉽지 않다. 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">16085번 Гэмт хэрэг</title><link href="https://movingwoo.com/random-solve/c++/2025/05/28/16085.html" rel="alternate" type="text/html" title="16085번 Гэмт хэрэг" /><published>2025-05-28T05:00:00+00:00</published><updated>2025-05-28T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/28/16085</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/28/16085.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -2224,249 +2374,4 @@ n이 10^18까지 있으므로 평범하게 하면 바로 시간초과다.<br />
 파이썬은 ++n이 없고 n+=1을 해야하는데 자연스럽게 ++n한 나의 실수다.<br />
 이렇게 개꿀문제에서도 반성할 점은 있는 법.</p>
 
-<p>날먹 날먹 신나는 날먹</p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 26489번 Gum Gum for Jay Jay - 백준 설계 엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ 좋아좋아 이런 날도 있어야지. 입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다. 구현 n = 0 try: while True: input() n+=1 except EOFError: pass print(n) 끝이다. 아니 내 컨텐츠가!!!!!!! 너무 쉬운 문제는 이런게 문제구나. 이왕 이렇게 된 것, C++과 Java로도 처리하자. #include &lt;iostream&gt; #include &lt;string&gt; using namespace std; int main() { int n = 0; string s; while (getline(cin, s)) { ++n; } cout &lt;&lt; n; return 0; } 자바는 스캐너로 EOF 판단하는게 낫다. 어차피 속도가 중요한 문제도 아니니 import java.util.*; public class Main { public static void main(String[] args) { Scanner sc=new Scanner(System.in); int n=0; while(sc.hasNextLine()) { sc.nextLine(); n++; } System.out.print(n); } } 채점 반성 뭐???? 파이썬에서 틀렸습니다가 발생했다고??????? 파이썬은 ++n이 없고 n+=1을 해야하는데 자연스럽게 ++n한 나의 실수다. 이렇게 개꿀문제에서도 반성할 점은 있는 법. 날먹 날먹 신나는 날먹]]></summary></entry><entry><title type="html">미로 생성기 02</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/21/Maze-Generator-02.html" rel="alternate" type="text/html" title="미로 생성기 02" /><published>2025-05-21T23:00:00+00:00</published><updated>2025-05-21T23:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/21/Maze%20Generator%2002</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/21/Maze-Generator-02.html"><![CDATA[<blockquote>
-  <h4 id="개요">개요</h4>
-  <hr />
-</blockquote>
-
-<p>Prim’s 알고리즘과 Kruskal’s 알고리즘의 미로를 추가하기</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>시작 전에 공통으로 사용할 함수를 index로 몰아준다.</p>
-
-<h5 id="1-prims-알고리즘">1. Prim’s 알고리즘</h5>
-
-<p>DFS와 Prim의 미로는 겉으로는 제법 유사해보이는데 Prim은 탈출 경로가 훨씬 단순해진다.<br />
-DFS는 한 방향으로 쭈욱 파다가 막히면 돌아가서 새로운 길을 찾는데,<br />
-Prim은 미로의 경계에서 새로운 길을 만들기 때문이다.</p>
-
-<p>느낌으로 비교하자면 DFS는 <span style="color: orange;"><strong>‘길을 파는 것’</strong></span>이고 Prim은 <span style="color: orange;"><strong>‘벽을 뚫는 것’</strong></span>이다.<br />
-벽을 뚫는 것이기 때문에 인접한 벽(여기서는 프론티어)을 모아두고 랜덤으로 선택해서 뚫어나간다.</p>
-
-<p>DFS와 마찬가지로 js를 작성하고 기존 html에 스크립트를 추가한다.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Prim's 알고리즘</span>
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">generatePrim</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// 시작점 (0,0)</span>
-    <span class="kd">const</span> <span class="nx">startX</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="kd">const</span> <span class="nx">startY</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="nx">maze</span><span class="p">[</span><span class="nx">startY</span><span class="p">][</span><span class="nx">startX</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">startX</span><span class="p">,</span> <span class="nx">startY</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-
-    <span class="c1">// 프론티어 셀</span>
-    <span class="kd">const</span> <span class="nx">frontiers</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="kd">const</span> <span class="nx">frontierSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">();</span>
-    <span class="nf">addFrontiers</span><span class="p">(</span><span class="nx">startX</span><span class="p">,</span> <span class="nx">startY</span><span class="p">,</span> <span class="nx">frontiers</span><span class="p">,</span> <span class="nx">frontierSet</span><span class="p">);</span>
-
-    <span class="k">while </span><span class="p">(</span><span class="nx">frontiers</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// 무작위 프론티어 선택</span>
-        <span class="kd">const</span> <span class="nx">randomIndex</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">frontiers</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-        <span class="kd">const</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span> <span class="o">=</span> <span class="nx">frontiers</span><span class="p">.</span><span class="nf">splice</span><span class="p">(</span><span class="nx">randomIndex</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
-        <span class="nx">frontierSet</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">x</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">y</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
-
-        <span class="c1">// 인접한 통로 찾기 (경계 포함)</span>
-        <span class="kd">const</span> <span class="nx">neighbors</span> <span class="o">=</span> <span class="nf">getNeighbors</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
-
-        <span class="k">if </span><span class="p">(</span><span class="nx">neighbors</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// 인접 통로 없으면 무시</span>
-            <span class="k">continue</span><span class="p">;</span> 
-        <span class="p">}</span>
-
-        <span class="c1">// 무작위 인접 통로 선택</span>
-        <span class="kd">const</span> <span class="p">[</span><span class="nx">nx</span><span class="p">,</span> <span class="nx">ny</span><span class="p">]</span> <span class="o">=</span> <span class="nx">neighbors</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">neighbors</span><span class="p">.</span><span class="nx">length</span><span class="p">)];</span>
-
-        <span class="c1">// 벽 뚫기</span>
-        <span class="kd">const</span> <span class="nx">wallX</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">nx</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-        <span class="kd">const</span> <span class="nx">wallY</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">ny</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-        <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="nx">maze</span><span class="p">[</span><span class="nx">wallY</span><span class="p">][</span><span class="nx">wallX</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        
-        <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-        <span class="nf">drawCell</span><span class="p">(</span><span class="nx">wallX</span><span class="p">,</span> <span class="nx">wallY</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-
-        <span class="c1">// 새로운 프론티어 추가</span>
-        <span class="nf">addFrontiers</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">frontiers</span><span class="p">,</span> <span class="nx">frontierSet</span><span class="p">);</span>
-        <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 프론티어 셀 추가 (중복 방지, 경계 포함)</span>
-<span class="kd">function</span> <span class="nf">addFrontiers</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">frontiers</span><span class="p">,</span> <span class="nx">frontierSet</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">dirs</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]];</span>
-
-    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">]</span> <span class="k">of</span> <span class="nx">dirs</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">;</span>
-        <span class="kd">const</span> <span class="nx">ny</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
-        <span class="kd">const</span> <span class="nx">key</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">nx</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">ny</span><span class="p">}</span><span class="s2">`</span><span class="p">;</span>
-
-        <span class="k">if </span><span class="p">(</span><span class="nx">nx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nx</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&lt;</span> <span class="nx">rows</span> <span class="o">&amp;&amp;</span> <span class="nx">maze</span><span class="p">[</span><span class="nx">ny</span><span class="p">][</span><span class="nx">nx</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">frontierSet</span><span class="p">.</span><span class="nf">has</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span> <span class="p">{</span>
-            <span class="nx">frontiers</span><span class="p">.</span><span class="nf">push</span><span class="p">([</span><span class="nx">nx</span><span class="p">,</span> <span class="nx">ny</span><span class="p">]);</span>
-            <span class="nx">frontierSet</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 인접한 통로 찾기 (경계 포함)</span>
-<span class="kd">function</span> <span class="nf">getNeighbors</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">neighbors</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="kd">const</span> <span class="nx">dirs</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]];</span>
-
-    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">]</span> <span class="k">of</span> <span class="nx">dirs</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">;</span>
-        <span class="kd">const</span> <span class="nx">ny</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
-
-        <span class="k">if </span><span class="p">(</span><span class="nx">nx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nx</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&lt;</span> <span class="nx">rows</span> <span class="o">&amp;&amp;</span> <span class="nx">maze</span><span class="p">[</span><span class="nx">ny</span><span class="p">][</span><span class="nx">nx</span><span class="p">]</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">neighbors</span><span class="p">.</span><span class="nf">push</span><span class="p">([</span><span class="nx">nx</span><span class="p">,</span> <span class="nx">ny</span><span class="p">]);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="nx">neighbors</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">startPrim</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nf">initMaze</span><span class="p">();</span>
-    <span class="k">await</span> <span class="nf">generatePrim</span><span class="p">();</span>
-    <span class="c1">// 입구 표시</span>
-    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="dl">'</span><span class="s1">lime</span><span class="dl">'</span><span class="p">);</span>
-
-    <span class="c1">// 가장 먼 곳이 출구</span>
-    <span class="kd">const</span> <span class="p">[</span><span class="nx">ex</span><span class="p">,</span> <span class="nx">ey</span><span class="p">]</span> <span class="o">=</span> <span class="nf">findFurthestCell</span><span class="p">(</span><span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-    <span class="nx">exit</span> <span class="o">=</span> <span class="p">[</span><span class="nx">ex</span><span class="p">,</span> <span class="nx">ey</span><span class="p">];</span>
-    <span class="c1">// 출구 표시</span>
-    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">exit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">);</span>
-
-    <span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nf">findPathBFS</span><span class="p">(</span><span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-    <span class="k">await</span> <span class="nf">drawPathAnimated</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="2-kruskals-알고리즘">2. Kruskal’s 알고리즘</h5>
-
-<p>Kruskal 미로는 벽에 갇힌 통로를 생성해두고 무작위로 벽을 뚫어 통로를 연결하는 방식이다.<br />
-복잡도로 따지면 Prim 보다는 복잡하고 DFS보다는 덜 복잡한 느낌이다.</p>
-
-<p>Prim도 벽을 뚫고 Kruskal도 벽을 뚫는데 차이가 있다면<br />
-Prim은 현재 통로와 인접한 벽만 뚫어서 확장해 나가는 것이고<br />
-Kruskal은 <span style="color: oragne;"><strong>미로 전체 벽에서 무작위로 통로가 합쳐지도록 뚫는 것</strong></span>이다.<br />
-그러니 Prim보다 더 복잡해 보일 수 밖에.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Kruskal's 알고리즘</span>
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">generateKruskal</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">sets</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Map</span><span class="p">();</span>
-    <span class="kd">const</span> <span class="nx">walls</span> <span class="o">=</span> <span class="p">[];</span>
-
-    <span class="c1">// 짝수 좌표만 통로로 초기화, 집합 생성</span>
-    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;=</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;=</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">maze</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-            <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-            <span class="nx">sets</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">x</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">y</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span> <span class="s2">`</span><span class="p">${</span><span class="nx">x</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">y</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 통로 사이의 벽만 벽 리스트에 추가</span>
-    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;=</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;=</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if </span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// 수평 벽</span>
-                <span class="nx">walls</span><span class="p">.</span><span class="nf">push</span><span class="p">([</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">y</span><span class="p">]);</span>
-            <span class="p">}</span>
-            <span class="k">if </span><span class="p">(</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// 수직 벽</span>
-                <span class="nx">walls</span><span class="p">.</span><span class="nf">push</span><span class="p">([</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 벽을 무작위로 섞기</span>
-    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">walls</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
-        <span class="p">[</span><span class="nx">walls</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">walls</span><span class="p">[</span><span class="nx">j</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">walls</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">walls</span><span class="p">[</span><span class="nx">i</span><span class="p">]];</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 하나씩 꺼내서 뚫기</span>
-    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="p">[</span><span class="nx">wx</span><span class="p">,</span> <span class="nx">wy</span><span class="p">,</span> <span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">]</span> <span class="k">of</span> <span class="nx">walls</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">set1</span> <span class="o">=</span> <span class="nf">findSet</span><span class="p">(</span><span class="nx">sets</span><span class="p">,</span> <span class="s2">`</span><span class="p">${</span><span class="nx">x1</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">y1</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
-        <span class="kd">const</span> <span class="nx">set2</span> <span class="o">=</span> <span class="nf">findSet</span><span class="p">(</span><span class="nx">sets</span><span class="p">,</span> <span class="s2">`</span><span class="p">${</span><span class="nx">x2</span><span class="p">}</span><span class="s2">,</span><span class="p">${</span><span class="nx">y2</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
-
-        <span class="k">if </span><span class="p">(</span><span class="nx">set1</span> <span class="o">!==</span> <span class="nx">set2</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">maze</span><span class="p">[</span><span class="nx">wy</span><span class="p">][</span><span class="nx">wx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-            <span class="nf">drawCell</span><span class="p">(</span><span class="nx">wx</span><span class="p">,</span> <span class="nx">wy</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-            <span class="nf">union</span><span class="p">(</span><span class="nx">sets</span><span class="p">,</span> <span class="nx">set1</span><span class="p">,</span> <span class="nx">set2</span><span class="p">);</span>
-            <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 경로 압축을 위한 집합 찾기</span>
-<span class="kd">function</span> <span class="nf">findSet</span><span class="p">(</span><span class="nx">sets</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if </span><span class="p">(</span><span class="nx">sets</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="o">!==</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">sets</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nf">findSet</span><span class="p">(</span><span class="nx">sets</span><span class="p">,</span> <span class="nx">sets</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="nx">key</span><span class="p">)));</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="nx">sets</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// 집합 합치기</span>
-<span class="kd">function</span> <span class="nf">union</span><span class="p">(</span><span class="nx">sets</span><span class="p">,</span> <span class="nx">set1</span><span class="p">,</span> <span class="nx">set2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">sets</span><span class="p">.</span><span class="nf">forEach</span><span class="p">((</span><span class="nx">v</span><span class="p">,</span> <span class="nx">k</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="k">if </span><span class="p">(</span><span class="nx">v</span> <span class="o">===</span> <span class="nx">set2</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">sets</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="nx">k</span><span class="p">,</span> <span class="nx">set1</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
-<span class="p">}</span>
-
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">startKruskal</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nf">initMaze</span><span class="p">();</span>
-    <span class="k">await</span> <span class="nf">generateKruskal</span><span class="p">();</span>
-    
-    <span class="c1">// 입구 표시</span>
-    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="dl">'</span><span class="s1">lime</span><span class="dl">'</span><span class="p">);</span>
-    <span class="kd">const</span> <span class="p">[</span><span class="nx">ex</span><span class="p">,</span> <span class="nx">ey</span><span class="p">]</span> <span class="o">=</span> <span class="nf">findFurthestCell</span><span class="p">(</span><span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-    <span class="nx">exit</span> <span class="o">=</span> <span class="p">[</span><span class="nx">ex</span><span class="p">,</span> <span class="nx">ey</span><span class="p">];</span>
-    <span class="c1">// 출구 표시</span>
-    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">exit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">);</span>
-    
-    <span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nf">findPathBFS</span><span class="p">(</span><span class="nx">entrance</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">entrance</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">exit</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-    <span class="k">await</span> <span class="nf">drawPathAnimated</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="완성">완성</h4>
-  <hr />
-</blockquote>
-
-<p>Prim’s 알고리즘 미로</p>
-
-<p><img src="/assets/images/posts/one-pan/JavaScript/2025-05-22-Maze Generator 02/img01.gif" alt="img01" /></p>
-
-<p>Kruskal’s 알고리즘 미로</p>
-
-<p><img src="/assets/images/posts/one-pan/JavaScript/2025-05-22-Maze Generator 02/img02.gif" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>미로 그려지는게 예쁘다.<br />
-가만히 보고 있으면 기분이 좋아진다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="/play/Maze%20Generator.html" target="_blank" rel="noopener noreferrer">
-  직접 해보기
-</a></p>
-
-<p>Prim’s<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-22-Prim.js">Link to GitHub</a></p>
-
-<p>Kruskal’s<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-22-Kruskal.js">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 Prim’s 알고리즘과 Kruskal’s 알고리즘의 미로를 추가하기 구현 시작 전에 공통으로 사용할 함수를 index로 몰아준다. 1. Prim’s 알고리즘 DFS와 Prim의 미로는 겉으로는 제법 유사해보이는데 Prim은 탈출 경로가 훨씬 단순해진다. DFS는 한 방향으로 쭈욱 파다가 막히면 돌아가서 새로운 길을 찾는데, Prim은 미로의 경계에서 새로운 길을 만들기 때문이다. 느낌으로 비교하자면 DFS는 ‘길을 파는 것’이고 Prim은 ‘벽을 뚫는 것’이다. 벽을 뚫는 것이기 때문에 인접한 벽(여기서는 프론티어)을 모아두고 랜덤으로 선택해서 뚫어나간다. DFS와 마찬가지로 js를 작성하고 기존 html에 스크립트를 추가한다. // Prim's 알고리즘 async function generatePrim() { // 시작점 (0,0) const startX = 0; const startY = 0; maze[startY][startX] = 0; drawCell(startX, startY, 'white'); // 프론티어 셀 const frontiers = []; const frontierSet = new Set(); addFrontiers(startX, startY, frontiers, frontierSet); while (frontiers.length &gt; 0) { // 무작위 프론티어 선택 const randomIndex = Math.floor(Math.random() * frontiers.length); const [x, y] = frontiers.splice(randomIndex, 1)[0]; frontierSet.delete(`${x},${y}`); // 인접한 통로 찾기 (경계 포함) const neighbors = getNeighbors(x, y); if (neighbors.length === 0) { // 인접 통로 없으면 무시 continue; } // 무작위 인접 통로 선택 const [nx, ny] = neighbors[Math.floor(Math.random() * neighbors.length)]; // 벽 뚫기 const wallX = (x + nx) / 2; const wallY = (y + ny) / 2; maze[y][x] = 0; maze[wallY][wallX] = 0; drawCell(x, y, 'white'); drawCell(wallX, wallY, 'white'); // 새로운 프론티어 추가 addFrontiers(x, y, frontiers, frontierSet); await sleep(5); } } // 프론티어 셀 추가 (중복 방지, 경계 포함) function addFrontiers(x, y, frontiers, frontierSet) { const dirs = [[0, -2], [2, 0], [0, 2], [-2, 0]]; for (let [dx, dy] of dirs) { const nx = x + dx; const ny = y + dy; const key = `${nx},${ny}`; if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 1 &amp;&amp; !frontierSet.has(key)) { frontiers.push([nx, ny]); frontierSet.add(key); } } } // 인접한 통로 찾기 (경계 포함) function getNeighbors(x, y) { const neighbors = []; const dirs = [[0, -2], [2, 0], [0, 2], [-2, 0]]; for (let [dx, dy] of dirs) { const nx = x + dx; const ny = y + dy; if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 0) { neighbors.push([nx, ny]); } } return neighbors; } async function startPrim() { initMaze(); await generatePrim(); // 입구 표시 drawCell(entrance[0], entrance[1], 'lime'); // 가장 먼 곳이 출구 const [ex, ey] = findFurthestCell(entrance[0], entrance[1]); exit = [ex, ey]; // 출구 표시 drawCell(exit[0], exit[1], 'blue'); const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]); await drawPathAnimated(path); } 2. Kruskal’s 알고리즘 Kruskal 미로는 벽에 갇힌 통로를 생성해두고 무작위로 벽을 뚫어 통로를 연결하는 방식이다. 복잡도로 따지면 Prim 보다는 복잡하고 DFS보다는 덜 복잡한 느낌이다. Prim도 벽을 뚫고 Kruskal도 벽을 뚫는데 차이가 있다면 Prim은 현재 통로와 인접한 벽만 뚫어서 확장해 나가는 것이고 Kruskal은 미로 전체 벽에서 무작위로 통로가 합쳐지도록 뚫는 것이다. 그러니 Prim보다 더 복잡해 보일 수 밖에. // Kruskal's 알고리즘 async function generateKruskal() { const sets = new Map(); const walls = []; // 짝수 좌표만 통로로 초기화, 집합 생성 for (let y = 0; y &lt;= rows; y += 2) { for (let x = 0; x &lt;= cols; x += 2) { maze[y][x] = 0; drawCell(x, y, 'white'); sets.set(`${x},${y}`, `${x},${y}`); } } // 통로 사이의 벽만 벽 리스트에 추가 for (let y = 0; y &lt;= rows; y += 2) { for (let x = 0; x &lt;= cols; x += 2) { if (x + 2 &lt; cols) { // 수평 벽 walls.push([x + 1, y, x, y, x + 2, y]); } if (y + 2 &lt; rows) { // 수직 벽 walls.push([x, y + 1, x, y, x, y + 2]); } } } // 벽을 무작위로 섞기 for (let i = walls.length - 1; i &gt; 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [walls[i], walls[j]] = [walls[j], walls[i]]; } // 하나씩 꺼내서 뚫기 for (let [wx, wy, x1, y1, x2, y2] of walls) { const set1 = findSet(sets, `${x1},${y1}`); const set2 = findSet(sets, `${x2},${y2}`); if (set1 !== set2) { maze[wy][wx] = 0; drawCell(wx, wy, 'white'); union(sets, set1, set2); await sleep(5); } } } // 경로 압축을 위한 집합 찾기 function findSet(sets, key) { if (sets.get(key) !== key) { sets.set(key, findSet(sets, sets.get(key))); } return sets.get(key); } // 집합 합치기 function union(sets, set1, set2) { sets.forEach((v, k) =&gt; { if (v === set2) { sets.set(k, set1); } }); } async function startKruskal() { initMaze(); await generateKruskal(); // 입구 표시 drawCell(entrance[0], entrance[1], 'lime'); const [ex, ey] = findFurthestCell(entrance[0], entrance[1]); exit = [ex, ey]; // 출구 표시 drawCell(exit[0], exit[1], 'blue'); const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]); await drawPathAnimated(path); } 완성 Prim’s 알고리즘 미로 Kruskal’s 알고리즘 미로 반성 미로 그려지는게 예쁘다. 가만히 보고 있으면 기분이 좋아진다. 코드 확인 직접 해보기 Prim’s Link to GitHub Kruskal’s Link to GitHub]]></summary></entry></feed>
+<p>날먹 날먹 신나는 날먹</p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 26489번 Gum Gum for Jay Jay - 백준 설계 엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ 좋아좋아 이런 날도 있어야지. 입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다. 구현 n = 0 try: while True: input() n+=1 except EOFError: pass print(n) 끝이다. 아니 내 컨텐츠가!!!!!!! 너무 쉬운 문제는 이런게 문제구나. 이왕 이렇게 된 것, C++과 Java로도 처리하자. #include &lt;iostream&gt; #include &lt;string&gt; using namespace std; int main() { int n = 0; string s; while (getline(cin, s)) { ++n; } cout &lt;&lt; n; return 0; } 자바는 스캐너로 EOF 판단하는게 낫다. 어차피 속도가 중요한 문제도 아니니 import java.util.*; public class Main { public static void main(String[] args) { Scanner sc=new Scanner(System.in); int n=0; while(sc.hasNextLine()) { sc.nextLine(); n++; } System.out.print(n); } } 채점 반성 뭐???? 파이썬에서 틀렸습니다가 발생했다고??????? 파이썬은 ++n이 없고 n+=1을 해야하는데 자연스럽게 ++n한 나의 실수다. 이렇게 개꿀문제에서도 반성할 점은 있는 법. 날먹 날먹 신나는 날먹]]></summary></entry></feed>

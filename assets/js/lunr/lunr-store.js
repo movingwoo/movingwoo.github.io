@@ -160,4 +160,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/c++/2025/05/28/16085.html",
         "teaser": null
+      },{
+        "title": "11982번 Angry Cows (Gold)",
+        "excerpt":"문제 11982번 Angry Cows (Gold) - 백준 번역 오 뭔가 재밌어보이는 문제 ‘Angry Cows’ 라는 게임이 있다. 소를 쏴서 건초더미를 폭발시키는 게임이다. R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고 폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다. R이 0이 될 때까지 폭발이 계속된다. 이때 소...","categories": ["random-solve/Java/"],
+        "tags": [],
+        "url": "/random-solve/java/2025/05/28/11982.html",
+        "teaser": null
       }]
