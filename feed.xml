@@ -1,4 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-28T02:42:24+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">던전 생성기 02</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/28/Dungeon-Generator-02.html" rel="alternate" type="text/html" title="던전 생성기 02" /><published>2025-05-28T02:00:00+00:00</published><updated>2025-05-28T02:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/28/Dungeon%20Generator%2002</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/28/Dungeon-Generator-02.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-28T05:49:31+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">16085번 Гэмт хэрэг</title><link href="https://movingwoo.com/random-solve/c++/2025/05/28/16085.html" rel="alternate" type="text/html" title="16085번 Гэмт хэрэг" /><published>2025-05-28T05:00:00+00:00</published><updated>2025-05-28T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/28/16085</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/28/16085.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-28-16085/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/16085">16085번 Гэмт хэрэг - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>형사가 용의자가 있을 수 있는 지역의 넓이를 계산하는 문제.</p>
+
+<p>정보가 들어온지 T초가 지났다.<br />
+차량은 오직 도로 위로만 이동하며 도로는 단 하나 존재한다.(x축)<br />
+도보로는 도로를 벗어날 수 있다.(y축)<br />
+도보로는 초당 W미터, 차를 타면 초당 C 미터 이동 가능하다.<br />
+탑승, 하차 시간은 계산하지 않음.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>단순히 원형, 캡슐형을 생각해서 계산하니 예제에 맞지 않는다.<br />
+우선 분기해야하는 부분이 C와 W 속도 차이.<br />
+차량보다 도보가 빠르면 차량을 탈 이유가 없다.<br />
+따라서 <span style="color: orange;"><strong>W가 C보다 크거나 같을 경우 도보로 가능한 원의 너비를 계산</strong></span>하면 끝.</p>
+
+<p>C가 W보다 큰게 문제인데<br />
+우선 도로를 타고 차량을 타고 이동한다.<br />
+거기서 내린 뒤 남은 시간동안 도보로 이동할 수 있다.</p>
+
+<p>도보로 이동하는 거리는 차량을 쓰는 만큼 줄어든다.<br />
+0 &lt;= x &lt;= T * C 만큼 차를 타고 이동하면 남은 시간은 T - x / C 이며<br />
+보행반경이 W * (T - x / C) 만큼 줄어든다.</p>
+
+<p>순수 도보로 그려지는 원의 경계가 더 큰 동안 원의 경계를 따르고<br />
+이후 차량-&gt;도보로 그려지는 선형구간의 넓이를 추가한다.</p>
+
+<p>도보 원의 세그먼트 면적과 차량-&gt;도보로 이어지는 선형구간을 합하고 양쪽으로 갈 수 있으니 2를 곱해서 나오는 공식은<br />
+<span style="color: orange;"><strong>2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2))</strong></span></p>
+
+<p>아 머리아파</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">n</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">T</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">C</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">T</span> <span class="o">&gt;&gt;</span> <span class="n">W</span> <span class="o">&gt;&gt;</span> <span class="n">C</span><span class="p">;</span>
+        <span class="kt">double</span> <span class="n">result</span><span class="p">;</span>
+
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">C</span> <span class="o">&lt;=</span> <span class="n">W</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 도보가 빠르면 원 면적 계산</span>
+            <span class="c1">// (W*T)^2 * π</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">W</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// 차량이 빠르면 공식에 대입</span>
+            <span class="c1">// 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2))</span>
+            <span class="kt">double</span> <span class="n">term1</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">W</span> <span class="o">*</span> <span class="n">asin</span><span class="p">(</span><span class="n">W</span> <span class="o">/</span> <span class="n">C</span><span class="p">);</span> <span class="c1">// W^2 * arcsin(W/C)</span>
+            <span class="kt">double</span> <span class="n">term2</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">C</span> <span class="o">*</span> <span class="n">C</span> <span class="o">-</span> <span class="n">W</span> <span class="o">*</span> <span class="n">W</span><span class="p">);</span> <span class="c1">// W * sqrt(C^2 - W^2)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">term1</span> <span class="o">+</span> <span class="n">term2</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 소수점 셋째 자리까지 출력</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%.3f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-28-16085/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>이딴게 왜 골드? 하고 접근했다가<br />
+예제 다틀려서 상당히 당황했다.</p>
+
+<p>세상만사 다 이유가 있지…</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-28-16085.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 16085번 Гэмт хэрэг - 백준 번역 형사가 용의자가 있을 수 있는 지역의 넓이를 계산하는 문제. 정보가 들어온지 T초가 지났다. 차량은 오직 도로 위로만 이동하며 도로는 단 하나 존재한다.(x축) 도보로는 도로를 벗어날 수 있다.(y축) 도보로는 초당 W미터, 차를 타면 초당 C 미터 이동 가능하다. 탑승, 하차 시간은 계산하지 않음. 설계 단순히 원형, 캡슐형을 생각해서 계산하니 예제에 맞지 않는다. 우선 분기해야하는 부분이 C와 W 속도 차이. 차량보다 도보가 빠르면 차량을 탈 이유가 없다. 따라서 W가 C보다 크거나 같을 경우 도보로 가능한 원의 너비를 계산하면 끝. C가 W보다 큰게 문제인데 우선 도로를 타고 차량을 타고 이동한다. 거기서 내린 뒤 남은 시간동안 도보로 이동할 수 있다. 도보로 이동하는 거리는 차량을 쓰는 만큼 줄어든다. 0 &lt;= x &lt;= T * C 만큼 차를 타고 이동하면 남은 시간은 T - x / C 이며 보행반경이 W * (T - x / C) 만큼 줄어든다. 순수 도보로 그려지는 원의 경계가 더 큰 동안 원의 경계를 따르고 이후 차량-&gt;도보로 그려지는 선형구간의 넓이를 추가한다. 도보 원의 세그먼트 면적과 차량-&gt;도보로 이어지는 선형구간을 합하고 양쪽으로 갈 수 있으니 2를 곱해서 나오는 공식은 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2)) 아 머리아파 구현 #include &lt;iostream&gt; #include &lt;cmath&gt; #include &lt;cstdio&gt; using namespace std; int main() { int n; cin &gt;&gt; n; while (n--) { double T, W, C; cin &gt;&gt; T &gt;&gt; W &gt;&gt; C; double result; if (C &lt;= W) { // 도보가 빠르면 원 면적 계산 // (W*T)^2 * π result = W * W * T * T * M_PI; } else { // 차량이 빠르면 공식에 대입 // 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2)) double term1 = W * W * asin(W / C); // W^2 * arcsin(W/C) double term2 = W * sqrt(C * C - W * W); // W * sqrt(C^2 - W^2) result = 2.0 * T * T * (term1 + term2); } // 소수점 셋째 자리까지 출력 printf("%.3f\n", result); } return 0; } 채점 반성 이딴게 왜 골드? 하고 접근했다가 예제 다틀려서 상당히 당황했다. 세상만사 다 이유가 있지… 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">던전 생성기 02</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/28/Dungeon-Generator-02.html" rel="alternate" type="text/html" title="던전 생성기 02" /><published>2025-05-28T02:00:00+00:00</published><updated>2025-05-28T02:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/28/Dungeon%20Generator%2002</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/28/Dungeon-Generator-02.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -1201,7 +1312,7 @@ C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 �
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-23-27391.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 27391번 Platform Placing - 백준 설계 한글 문제 언제 나오나? 플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오. 대충 그리디 알고리즘 ㄱㄱ 당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다. 해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다. 구현 1. 입력 받기 제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine(), " "); int n = Integer.parseInt(st.nextToken()); int s = Integer.parseInt(st.nextToken()); int k = Integer.parseInt(st.nextToken()); int result = 0; int[] platforms = new int[n]; for(int i = 0 ; i &lt; n ; i++) { platforms[i] = Integer.parseInt(br.readLine()); } // 오름차순 Arrays.sort(platforms); int[] lengths = new int[n]; // 최대길이로 일단 채우고 시작 Arrays.fill(lengths, k); }catch(IOException e) { e.printStackTrace(); } } 2. 플랫폼 배열 탐색 플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다. for (int i = 1 ; i &lt; n ; i++) { int dist = platforms[i] - platforms[i - 1]; // 플랫폼이 양쪽으로 펼쳐짐 int max = 2 * dist; // 불가능한 경우 if (max &lt; 2 * s) { bw.write("-1"); return; } // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1])); // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i - 1] = Math.max(s, max - lengths[i]); } } } for (int length : lengths) result += length; bw.write(String.valueOf(result)); 채점 반성 기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">25245번 Amusement Arcade</title><link href="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html" rel="alternate" type="text/html" title="25245번 Amusement Arcade" /><published>2025-05-23T05:00:00+00:00</published><updated>0225-05-23T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/23/25245</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html"><![CDATA[<blockquote>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-23-27391.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 27391번 Platform Placing - 백준 설계 한글 문제 언제 나오나? 플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오. 대충 그리디 알고리즘 ㄱㄱ 당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다. 해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다. 구현 1. 입력 받기 제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine(), " "); int n = Integer.parseInt(st.nextToken()); int s = Integer.parseInt(st.nextToken()); int k = Integer.parseInt(st.nextToken()); int result = 0; int[] platforms = new int[n]; for(int i = 0 ; i &lt; n ; i++) { platforms[i] = Integer.parseInt(br.readLine()); } // 오름차순 Arrays.sort(platforms); int[] lengths = new int[n]; // 최대길이로 일단 채우고 시작 Arrays.fill(lengths, k); }catch(IOException e) { e.printStackTrace(); } } 2. 플랫폼 배열 탐색 플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다. for (int i = 1 ; i &lt; n ; i++) { int dist = platforms[i] - platforms[i - 1]; // 플랫폼이 양쪽으로 펼쳐짐 int max = 2 * dist; // 불가능한 경우 if (max &lt; 2 * s) { bw.write("-1"); return; } // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1])); // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i - 1] = Math.max(s, max - lengths[i]); } } } for (int length : lengths) result += length; bw.write(String.valueOf(result)); 채점 반성 기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">25245번 Amusement Arcade</title><link href="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html" rel="alternate" type="text/html" title="25245번 Amusement Arcade" /><published>2025-05-23T05:00:00+00:00</published><updated>2025-05-23T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/23/25245</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -2358,131 +2469,4 @@ Kruskal은 <span style="color: oragne;"><strong>미로 전체 벽에서 무작�
 <a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-22-Prim.js">Link to GitHub</a></p>
 
 <p>Kruskal’s<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-22-Kruskal.js">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 Prim’s 알고리즘과 Kruskal’s 알고리즘의 미로를 추가하기 구현 시작 전에 공통으로 사용할 함수를 index로 몰아준다. 1. Prim’s 알고리즘 DFS와 Prim의 미로는 겉으로는 제법 유사해보이는데 Prim은 탈출 경로가 훨씬 단순해진다. DFS는 한 방향으로 쭈욱 파다가 막히면 돌아가서 새로운 길을 찾는데, Prim은 미로의 경계에서 새로운 길을 만들기 때문이다. 느낌으로 비교하자면 DFS는 ‘길을 파는 것’이고 Prim은 ‘벽을 뚫는 것’이다. 벽을 뚫는 것이기 때문에 인접한 벽(여기서는 프론티어)을 모아두고 랜덤으로 선택해서 뚫어나간다. DFS와 마찬가지로 js를 작성하고 기존 html에 스크립트를 추가한다. // Prim's 알고리즘 async function generatePrim() { // 시작점 (0,0) const startX = 0; const startY = 0; maze[startY][startX] = 0; drawCell(startX, startY, 'white'); // 프론티어 셀 const frontiers = []; const frontierSet = new Set(); addFrontiers(startX, startY, frontiers, frontierSet); while (frontiers.length &gt; 0) { // 무작위 프론티어 선택 const randomIndex = Math.floor(Math.random() * frontiers.length); const [x, y] = frontiers.splice(randomIndex, 1)[0]; frontierSet.delete(`${x},${y}`); // 인접한 통로 찾기 (경계 포함) const neighbors = getNeighbors(x, y); if (neighbors.length === 0) { // 인접 통로 없으면 무시 continue; } // 무작위 인접 통로 선택 const [nx, ny] = neighbors[Math.floor(Math.random() * neighbors.length)]; // 벽 뚫기 const wallX = (x + nx) / 2; const wallY = (y + ny) / 2; maze[y][x] = 0; maze[wallY][wallX] = 0; drawCell(x, y, 'white'); drawCell(wallX, wallY, 'white'); // 새로운 프론티어 추가 addFrontiers(x, y, frontiers, frontierSet); await sleep(5); } } // 프론티어 셀 추가 (중복 방지, 경계 포함) function addFrontiers(x, y, frontiers, frontierSet) { const dirs = [[0, -2], [2, 0], [0, 2], [-2, 0]]; for (let [dx, dy] of dirs) { const nx = x + dx; const ny = y + dy; const key = `${nx},${ny}`; if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 1 &amp;&amp; !frontierSet.has(key)) { frontiers.push([nx, ny]); frontierSet.add(key); } } } // 인접한 통로 찾기 (경계 포함) function getNeighbors(x, y) { const neighbors = []; const dirs = [[0, -2], [2, 0], [0, 2], [-2, 0]]; for (let [dx, dy] of dirs) { const nx = x + dx; const ny = y + dy; if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 0) { neighbors.push([nx, ny]); } } return neighbors; } async function startPrim() { initMaze(); await generatePrim(); // 입구 표시 drawCell(entrance[0], entrance[1], 'lime'); // 가장 먼 곳이 출구 const [ex, ey] = findFurthestCell(entrance[0], entrance[1]); exit = [ex, ey]; // 출구 표시 drawCell(exit[0], exit[1], 'blue'); const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]); await drawPathAnimated(path); } 2. Kruskal’s 알고리즘 Kruskal 미로는 벽에 갇힌 통로를 생성해두고 무작위로 벽을 뚫어 통로를 연결하는 방식이다. 복잡도로 따지면 Prim 보다는 복잡하고 DFS보다는 덜 복잡한 느낌이다. Prim도 벽을 뚫고 Kruskal도 벽을 뚫는데 차이가 있다면 Prim은 현재 통로와 인접한 벽만 뚫어서 확장해 나가는 것이고 Kruskal은 미로 전체 벽에서 무작위로 통로가 합쳐지도록 뚫는 것이다. 그러니 Prim보다 더 복잡해 보일 수 밖에. // Kruskal's 알고리즘 async function generateKruskal() { const sets = new Map(); const walls = []; // 짝수 좌표만 통로로 초기화, 집합 생성 for (let y = 0; y &lt;= rows; y += 2) { for (let x = 0; x &lt;= cols; x += 2) { maze[y][x] = 0; drawCell(x, y, 'white'); sets.set(`${x},${y}`, `${x},${y}`); } } // 통로 사이의 벽만 벽 리스트에 추가 for (let y = 0; y &lt;= rows; y += 2) { for (let x = 0; x &lt;= cols; x += 2) { if (x + 2 &lt; cols) { // 수평 벽 walls.push([x + 1, y, x, y, x + 2, y]); } if (y + 2 &lt; rows) { // 수직 벽 walls.push([x, y + 1, x, y, x, y + 2]); } } } // 벽을 무작위로 섞기 for (let i = walls.length - 1; i &gt; 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [walls[i], walls[j]] = [walls[j], walls[i]]; } // 하나씩 꺼내서 뚫기 for (let [wx, wy, x1, y1, x2, y2] of walls) { const set1 = findSet(sets, `${x1},${y1}`); const set2 = findSet(sets, `${x2},${y2}`); if (set1 !== set2) { maze[wy][wx] = 0; drawCell(wx, wy, 'white'); union(sets, set1, set2); await sleep(5); } } } // 경로 압축을 위한 집합 찾기 function findSet(sets, key) { if (sets.get(key) !== key) { sets.set(key, findSet(sets, sets.get(key))); } return sets.get(key); } // 집합 합치기 function union(sets, set1, set2) { sets.forEach((v, k) =&gt; { if (v === set2) { sets.set(k, set1); } }); } async function startKruskal() { initMaze(); await generateKruskal(); // 입구 표시 drawCell(entrance[0], entrance[1], 'lime'); const [ex, ey] = findFurthestCell(entrance[0], entrance[1]); exit = [ex, ey]; // 출구 표시 drawCell(exit[0], exit[1], 'blue'); const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]); await drawPathAnimated(path); } 완성 Prim’s 알고리즘 미로 Kruskal’s 알고리즘 미로 반성 미로 그려지는게 예쁘다. 가만히 보고 있으면 기분이 좋아진다. 코드 확인 직접 해보기 Prim’s Link to GitHub Kruskal’s Link to GitHub]]></summary></entry><entry><title type="html">26226번 Autocomplete</title><link href="https://movingwoo.com/random-solve/c++/2025/05/21/26226.html" rel="alternate" type="text/html" title="26226번 Autocomplete" /><published>2025-05-21T06:00:00+00:00</published><updated>2025-05-21T06:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/21/26226</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/21/26226.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-21-26226/img01.jpg" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/26226">26226번 Autocomplete - 백준</a></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>앗 영어 문제</p>
-
-<p>단어를 비교하는 문제이다.<br />
-두 단어가 “비슷하다”고 말하는 조건은 다음과 같다.</p>
-<ul>
-  <li>대소문자 구분 없이 비교했을 때 완전히 같음</li>
-  <li>대소문자를 구분하면 서로 다른 문자의 위치가 K개 이하</li>
-</ul>
-
-<p>단어의 길이 최대 2000, 단어 사전 1000개, 질의 1000개다.<br />
-생각보다 숫자가 좀 크다?</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-시간-초과의-역사">1. 시간 초과의 역사</h5>
-
-<p><span style="color: orange;"><strong>2000 * 1000 * 1000 = 2000000000</strong></span><br />
-<span style="color: red;"><strong>이런 미친 숫자가!</strong></span></p>
-
-<p>문제의 제한시간은 1초다.<br />
-탐색범위를 최대한 줄여야한다.<br />
-K는 최대 5기 때문에 빠른 탈출 트리거로 사용할 수 있는데<br />
-나머지 숫자는 커서 잘 생각해야한다.</p>
-
-<p>아래는 시간 초과난 경우</p>
-<ol>
-  <li>문자열 전체 비교하면 터져서 소문자 변환 후 별도 저장했지만 터짐</li>
-  <li>마스킹 처리 후 비트기반 xor 연산했지만 터짐</li>
-  <li>K가 작기 때문에 가능한 모든 마스크 조합을 만들어봤지만 터짐</li>
-  <li>bitset 구조로 바꿨는데 터짐</li>
-  <li>다 때려치우고 소문자 정렬 후 이진탐색했는데 터짐</li>
-</ol>
-
-<p>결국 초심으로 돌아가 단순하게 후보군 필터링 후 해시 기반 탐색하니 통과되었다.</p>
-
-<h5 id="2-입력-받아-필터링-후-탐색">2. 입력 받아 필터링 후 탐색</h5>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-
-    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">nullptr</span><span class="p">);</span>
-
-    <span class="kt">int</span> <span class="n">K</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Q</span><span class="p">;</span>
-    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">K</span> <span class="o">&gt;&gt;</span> <span class="n">W</span><span class="p">;</span>
-
-    <span class="c1">// 소문자 + 길이 기준</span>
-    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&gt;&gt;</span> <span class="n">words</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">string</span> <span class="n">word</span><span class="p">;</span>
-        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">word</span><span class="p">;</span>
-
-        <span class="n">string</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">toLower</span><span class="p">(</span><span class="n">word</span><span class="p">);</span>
-        <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">word</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-
-        <span class="n">words</span><span class="p">[</span><span class="n">lower</span><span class="p">][</span><span class="n">length</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">word</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">Q</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Q</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">string</span> <span class="n">query</span><span class="p">;</span>
-        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">query</span><span class="p">;</span>
-
-        <span class="n">string</span> <span class="n">lowerQuery</span> <span class="o">=</span> <span class="n">toLower</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
-        <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-        <span class="c1">// 소문자 + 길이 일치하는 단어만 대상으로 필터링</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">words</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">lowerQuery</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">words</span><span class="p">[</span><span class="n">lowerQuery</span><span class="p">].</span><span class="n">count</span><span class="p">(</span><span class="n">length</span><span class="p">))</span> <span class="p">{</span>
-
-            <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">lowerQuery</span><span class="p">][</span><span class="n">length</span><span class="p">];</span>
-
-            <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">target</span> <span class="o">:</span> <span class="n">list</span><span class="p">)</span> <span class="p">{</span>
-                <span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="n">caseDifference</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">K</span><span class="p">);</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&lt;=</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="n">result</span><span class="o">++</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
-        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-21-26226/img02.jpg" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>괜시리 머리 굴려서 살 붙이며 비대해지는 것 보다 가끔은 초심으로 돌아갈 필요가 있다.</p>
-
-<p>그건 그렇고 왜 쉬운 문제는 안나오지?<br />
-처음에 조건보고 할만한데? 하고 덤볐다가 피봤다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-21-26226.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 26226번 Autocomplete - 백준 설계 앗 영어 문제 단어를 비교하는 문제이다. 두 단어가 “비슷하다”고 말하는 조건은 다음과 같다. 대소문자 구분 없이 비교했을 때 완전히 같음 대소문자를 구분하면 서로 다른 문자의 위치가 K개 이하 단어의 길이 최대 2000, 단어 사전 1000개, 질의 1000개다. 생각보다 숫자가 좀 크다? 구현 1. 시간 초과의 역사 2000 * 1000 * 1000 = 2000000000 이런 미친 숫자가! 문제의 제한시간은 1초다. 탐색범위를 최대한 줄여야한다. K는 최대 5기 때문에 빠른 탈출 트리거로 사용할 수 있는데 나머지 숫자는 커서 잘 생각해야한다. 아래는 시간 초과난 경우 문자열 전체 비교하면 터져서 소문자 변환 후 별도 저장했지만 터짐 마스킹 처리 후 비트기반 xor 연산했지만 터짐 K가 작기 때문에 가능한 모든 마스크 조합을 만들어봤지만 터짐 bitset 구조로 바꿨는데 터짐 다 때려치우고 소문자 정렬 후 이진탐색했는데 터짐 결국 초심으로 돌아가 단순하게 후보군 필터링 후 해시 기반 탐색하니 통과되었다. 2. 입력 받아 필터링 후 탐색 int main() { ios::sync_with_stdio(false); cin.tie(nullptr); int K, W, Q; cin &gt;&gt; K &gt;&gt; W; // 소문자 + 길이 기준 unordered_map&lt;string, unordered_map&lt;int, vector&lt;string&gt;&gt;&gt; words; for (int i = 0; i &lt; W; ++i) { string word; cin &gt;&gt; word; string lower = toLower(word); int length = word.size(); words[lower][length].push_back(word); } cin &gt;&gt; Q; for (int i = 0; i &lt; Q; ++i) { string query; cin &gt;&gt; query; string lowerQuery = toLower(query); int length = query.size(); int result = 0; // 소문자 + 길이 일치하는 단어만 대상으로 필터링 if (words.count(lowerQuery) &amp;&amp; words[lowerQuery].count(length)) { const vector&lt;string&gt;&amp; list = words[lowerQuery][length]; for (const string&amp; target : list) { int cnt = caseDifference(query, target, K); if (cnt &lt;= K) { result++; } } } cout &lt;&lt; result &lt;&lt; '\n'; } return 0; } 채점 반성 괜시리 머리 굴려서 살 붙이며 비대해지는 것 보다 가끔은 초심으로 돌아갈 필요가 있다. 그건 그렇고 왜 쉬운 문제는 안나오지? 처음에 조건보고 할만한데? 하고 덤볐다가 피봤다. 코드 확인 Link to GitHub]]></summary></entry></feed>
+<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-22-Kruskal.js">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 Prim’s 알고리즘과 Kruskal’s 알고리즘의 미로를 추가하기 구현 시작 전에 공통으로 사용할 함수를 index로 몰아준다. 1. Prim’s 알고리즘 DFS와 Prim의 미로는 겉으로는 제법 유사해보이는데 Prim은 탈출 경로가 훨씬 단순해진다. DFS는 한 방향으로 쭈욱 파다가 막히면 돌아가서 새로운 길을 찾는데, Prim은 미로의 경계에서 새로운 길을 만들기 때문이다. 느낌으로 비교하자면 DFS는 ‘길을 파는 것’이고 Prim은 ‘벽을 뚫는 것’이다. 벽을 뚫는 것이기 때문에 인접한 벽(여기서는 프론티어)을 모아두고 랜덤으로 선택해서 뚫어나간다. DFS와 마찬가지로 js를 작성하고 기존 html에 스크립트를 추가한다. // Prim's 알고리즘 async function generatePrim() { // 시작점 (0,0) const startX = 0; const startY = 0; maze[startY][startX] = 0; drawCell(startX, startY, 'white'); // 프론티어 셀 const frontiers = []; const frontierSet = new Set(); addFrontiers(startX, startY, frontiers, frontierSet); while (frontiers.length &gt; 0) { // 무작위 프론티어 선택 const randomIndex = Math.floor(Math.random() * frontiers.length); const [x, y] = frontiers.splice(randomIndex, 1)[0]; frontierSet.delete(`${x},${y}`); // 인접한 통로 찾기 (경계 포함) const neighbors = getNeighbors(x, y); if (neighbors.length === 0) { // 인접 통로 없으면 무시 continue; } // 무작위 인접 통로 선택 const [nx, ny] = neighbors[Math.floor(Math.random() * neighbors.length)]; // 벽 뚫기 const wallX = (x + nx) / 2; const wallY = (y + ny) / 2; maze[y][x] = 0; maze[wallY][wallX] = 0; drawCell(x, y, 'white'); drawCell(wallX, wallY, 'white'); // 새로운 프론티어 추가 addFrontiers(x, y, frontiers, frontierSet); await sleep(5); } } // 프론티어 셀 추가 (중복 방지, 경계 포함) function addFrontiers(x, y, frontiers, frontierSet) { const dirs = [[0, -2], [2, 0], [0, 2], [-2, 0]]; for (let [dx, dy] of dirs) { const nx = x + dx; const ny = y + dy; const key = `${nx},${ny}`; if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 1 &amp;&amp; !frontierSet.has(key)) { frontiers.push([nx, ny]); frontierSet.add(key); } } } // 인접한 통로 찾기 (경계 포함) function getNeighbors(x, y) { const neighbors = []; const dirs = [[0, -2], [2, 0], [0, 2], [-2, 0]]; for (let [dx, dy] of dirs) { const nx = x + dx; const ny = y + dy; if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; maze[ny][nx] === 0) { neighbors.push([nx, ny]); } } return neighbors; } async function startPrim() { initMaze(); await generatePrim(); // 입구 표시 drawCell(entrance[0], entrance[1], 'lime'); // 가장 먼 곳이 출구 const [ex, ey] = findFurthestCell(entrance[0], entrance[1]); exit = [ex, ey]; // 출구 표시 drawCell(exit[0], exit[1], 'blue'); const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]); await drawPathAnimated(path); } 2. Kruskal’s 알고리즘 Kruskal 미로는 벽에 갇힌 통로를 생성해두고 무작위로 벽을 뚫어 통로를 연결하는 방식이다. 복잡도로 따지면 Prim 보다는 복잡하고 DFS보다는 덜 복잡한 느낌이다. Prim도 벽을 뚫고 Kruskal도 벽을 뚫는데 차이가 있다면 Prim은 현재 통로와 인접한 벽만 뚫어서 확장해 나가는 것이고 Kruskal은 미로 전체 벽에서 무작위로 통로가 합쳐지도록 뚫는 것이다. 그러니 Prim보다 더 복잡해 보일 수 밖에. // Kruskal's 알고리즘 async function generateKruskal() { const sets = new Map(); const walls = []; // 짝수 좌표만 통로로 초기화, 집합 생성 for (let y = 0; y &lt;= rows; y += 2) { for (let x = 0; x &lt;= cols; x += 2) { maze[y][x] = 0; drawCell(x, y, 'white'); sets.set(`${x},${y}`, `${x},${y}`); } } // 통로 사이의 벽만 벽 리스트에 추가 for (let y = 0; y &lt;= rows; y += 2) { for (let x = 0; x &lt;= cols; x += 2) { if (x + 2 &lt; cols) { // 수평 벽 walls.push([x + 1, y, x, y, x + 2, y]); } if (y + 2 &lt; rows) { // 수직 벽 walls.push([x, y + 1, x, y, x, y + 2]); } } } // 벽을 무작위로 섞기 for (let i = walls.length - 1; i &gt; 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [walls[i], walls[j]] = [walls[j], walls[i]]; } // 하나씩 꺼내서 뚫기 for (let [wx, wy, x1, y1, x2, y2] of walls) { const set1 = findSet(sets, `${x1},${y1}`); const set2 = findSet(sets, `${x2},${y2}`); if (set1 !== set2) { maze[wy][wx] = 0; drawCell(wx, wy, 'white'); union(sets, set1, set2); await sleep(5); } } } // 경로 압축을 위한 집합 찾기 function findSet(sets, key) { if (sets.get(key) !== key) { sets.set(key, findSet(sets, sets.get(key))); } return sets.get(key); } // 집합 합치기 function union(sets, set1, set2) { sets.forEach((v, k) =&gt; { if (v === set2) { sets.set(k, set1); } }); } async function startKruskal() { initMaze(); await generateKruskal(); // 입구 표시 drawCell(entrance[0], entrance[1], 'lime'); const [ex, ey] = findFurthestCell(entrance[0], entrance[1]); exit = [ex, ey]; // 출구 표시 drawCell(exit[0], exit[1], 'blue'); const path = findPathBFS(entrance[0], entrance[1], exit[0], exit[1]); await drawPathAnimated(path); } 완성 Prim’s 알고리즘 미로 Kruskal’s 알고리즘 미로 반성 미로 그려지는게 예쁘다. 가만히 보고 있으면 기분이 좋아진다. 코드 확인 직접 해보기 Prim’s Link to GitHub Kruskal’s Link to GitHub]]></summary></entry></feed>

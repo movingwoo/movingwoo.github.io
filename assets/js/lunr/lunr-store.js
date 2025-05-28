@@ -154,4 +154,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/javascript/2025/05/28/Dungeon-Generator-02.html",
         "teaser": null
+      },{
+        "title": "16085번 Гэмт хэрэг",
+        "excerpt":"문제 16085번 Гэмт хэрэг - 백준 번역 형사가 용의자가 있을 수 있는 지역의 넓이를 계산하는 문제. 정보가 들어온지 T초가 지났다. 차량은 오직 도로 위로만 이동하며 도로는 단 하나 존재한다.(x축) 도보로는 도로를 벗어날 수 있다.(y축) 도보로는 초당 W미터, 차를 타면 초당 C 미터 이동 가능하다. 탑승, 하차 시간은 계산하지 않음. 설계...","categories": ["random-solve/C++/"],
+        "tags": [],
+        "url": "/random-solve/c++/2025/05/28/16085.html",
+        "teaser": null
       }]
