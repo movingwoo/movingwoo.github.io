@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-28T08:23:59+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">11982번 Angry Cows (Gold)</title><link href="https://movingwoo.com/random-solve/java/2025/05/28/11982.html" rel="alternate" type="text/html" title="11982번 Angry Cows (Gold)" /><published>2025-05-28T08:00:00+00:00</published><updated>2025-05-28T08:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/28/11982</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/28/11982.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-28T08:28:41+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">11982번 Angry Cows (Gold)</title><link href="https://movingwoo.com/random-solve/java/2025/05/28/11982.html" rel="alternate" type="text/html" title="11982번 Angry Cows (Gold)" /><published>2025-05-28T08:00:00+00:00</published><updated>2025-05-28T08:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/28/11982</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/28/11982.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -36,8 +36,8 @@ R이 0이 될 때까지 폭발이 계속된다.<br />
 
 <p>2차 시도)
 문제 알고리즘 분류대로 DP 활용<br />
-소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고<br />
-두 포인터로 구간 분할해 최소 반경을 구한다.</p>
+소숫점 계산을 위해 <span style="color: orange;"><strong>2배 스케일링</strong></span> 후 <span style="color: orange;"><strong>DP</strong></span>로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고<br />
+<span style="color: orange;"><strong>두 포인터</strong></span>로 구간 분할해 최소 반경을 구한다.</p>
 
 <blockquote>
   <h4 id="구현">구현</h4>
