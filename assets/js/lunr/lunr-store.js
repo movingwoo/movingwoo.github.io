@@ -178,4 +178,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/python/2025/05/30/15654.html",
         "teaser": null
+      },{
+        "title": "6862번 Tin Can Telephone",
+        "excerpt":"문제 6862번 Tin Can Telephone - 백준 번역 깡통 전화라는 문제인데 한국인에겐 종이컵 전화가 더 익숙할 듯 하다. 깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데 경로에 건물이 있거나 닿으면 안된다. 입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오. 건물 모서리는 최대 32개다. 설계 두 가지를 고려해 구현하면 될 것 같다....","categories": ["random-solve/Java/"],
+        "tags": [],
+        "url": "/random-solve/java/2025/05/30/6862.html",
+        "teaser": null
       }]

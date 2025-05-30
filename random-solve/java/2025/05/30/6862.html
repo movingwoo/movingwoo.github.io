@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>15654번 N과 M (5) - 뭐라도 하겠지</title>
-<meta name="description" content="문제        15654번 N과 M (5) - 백준     설계      뭐야 드디어 번역이 필요없는 문제가…  N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다. 쉬어가는 문제로구나 백트래킹 ㄱㄱ     구현      설명할게 없음  N, M = map(int, input().split())  numbers = list(map(int, input().split())) # 오름차순 numbers.sort()  result = M * [0] visited = N * [False]  def back_tracking(depth):     if depth == M:         # M개 까지 출력         print(*result, sep=&#39; &#39;)         return          for i in range(N):         if not visited[i]:             # 방문 처리             visited[i] = True             result[depth] = numbers[i]             back_tracking(depth + 1)              visited[i] = False  # 재귀 back_tracking(0)      채점           코드 확인      Link to GitHub">
+<!-- begin _includes/seo.html --><title>6862번 Tin Can Telephone - 뭐라도 하겠지</title>
+<meta name="description" content="문제        6862번 Tin Can Telephone - 백준     번역      깡통 전화라는 문제인데 한국인에겐 종이컵 전화가 더 익숙할 듯 하다.  깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데 경로에 건물이 있거나 닿으면 안된다.  입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오. 건물 모서리는 최대 32개다.     설계      두 가지를 고려해 구현하면 될 것 같다.    전화선이 건물의 변과 교차하는 경우   전화선이 건물의 꼭지점과 접촉하는 경우   꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다.     구현      1. 건물 꼭지점 클래스와 입력받기  건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데 막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다.  public static void main(String[] args) {  	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { 		 		StringTokenizer st = new StringTokenizer(br.readLine(),&quot; &quot;); 		 		int xR = Integer.parseInt(st.nextToken()); 		int yR = Integer.parseInt(st.nextToken()); 		int xJ = Integer.parseInt(st.nextToken()); 		int yJ = Integer.parseInt(st.nextToken()); 		 		int n = Integer.parseInt(br.readLine()); 		int count = 0; 		 		for (int i = 0 ; i &lt; n ; i++) { 			st = new StringTokenizer(br.readLine(),&quot; &quot;); 			int length = Integer.parseInt(st.nextToken()); 			Vertex[] vertexes = new Vertex[length]; 			int j = 0; 			 			while(st.hasMoreTokens()) { 				int x = Integer.parseInt(st.nextToken()); 				int y = Integer.parseInt(st.nextToken()); 				 				vertexes[j++] = new Vertex(x, y); 			} 			 		} 		 		bw.write(String.valueOf(count)); 		bw.flush(); 		 	}catch(IOException e) { 		e.printStackTrace(); 	} }  // 건물 꼭지점 클래스 static class Vertex{ 	int x; 	int y; 	 	Vertex(int x, int y){ 		this.x = x; 		this.y = y; 	} }   2. 함수와 메인루프  세 점의 방향성을 계산하는 Counter ClockWise 함수와 점이 선분위에 있는지 판단하는 onSegment 함수를 작성. 이후 꼭지점 수만큼 계산한다.  // Counter ClockWise static long counterClockWise(int x1, int y1, int x2, int y2, int x3, int y3) { 	return (long)(x2 - x1) * (y3 - y1) - (long)(y2 - y1) * (x3 - x1); }  // 점이 선분위에 있는지 여부 static boolean onSegment(int x1, int y1, int x2, int y2, int x3, int y3) { 	return Math.min(x1, x2) &lt;= x3 &amp;&amp; x3 &lt;= Math.max(x1, x2) &amp;&amp; 			Math.min(y1, y2) &lt;= y3 &amp;&amp; y3 &lt;= Math.max(y1, y2); }  // ... 중략 ...  boolean blocked = false;     			 // 메인루프 for(int k = 0 ; k &lt; length ; k++) { 	 	// 세 점의 방향성을 확인해 선분 교차 확인 	long ab1 = counterClockWise(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y); 	long ab2 = counterClockWise(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y); 	long cd1 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR); 	long cd2 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ); 	 	if (ab1 * ab2 &lt; 0 &amp;&amp; cd1 * cd2 &lt; 0) { 		blocked = true; 		break; 	} 	 	// 꼭지점 접촉 확인 	if ((ab1 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y)) || 		(ab2 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y)) || 		(cd1 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR)) || 		(cd2 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ))) { 		blocked = true; 		break; 	} }  if (blocked) count++;      채점           반성      왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지 정신차려라 나야     코드 확인      Link to GitHub">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="15654번 N과 M (5)">
-<meta property="og:url" content="https://movingwoo.com/random-solve/python/2025/05/30/15654.html">
+<meta property="og:title" content="6862번 Tin Can Telephone">
+<meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/05/30/6862.html">
 
 
-  <meta property="og:description" content="문제        15654번 N과 M (5) - 백준     설계      뭐야 드디어 번역이 필요없는 문제가…  N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다. 쉬어가는 문제로구나 백트래킹 ㄱㄱ     구현      설명할게 없음  N, M = map(int, input().split())  numbers = list(map(int, input().split())) # 오름차순 numbers.sort()  result = M * [0] visited = N * [False]  def back_tracking(depth):     if depth == M:         # M개 까지 출력         print(*result, sep=&#39; &#39;)         return          for i in range(N):         if not visited[i]:             # 방문 처리             visited[i] = True             result[depth] = numbers[i]             back_tracking(depth + 1)              visited[i] = False  # 재귀 back_tracking(0)      채점           코드 확인      Link to GitHub">
-
-
-
+  <meta property="og:description" content="문제        6862번 Tin Can Telephone - 백준     번역      깡통 전화라는 문제인데 한국인에겐 종이컵 전화가 더 익숙할 듯 하다.  깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데 경로에 건물이 있거나 닿으면 안된다.  입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오. 건물 모서리는 최대 32개다.     설계      두 가지를 고려해 구현하면 될 것 같다.    전화선이 건물의 변과 교차하는 경우   전화선이 건물의 꼭지점과 접촉하는 경우   꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다.     구현      1. 건물 꼭지점 클래스와 입력받기  건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데 막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다.  public static void main(String[] args) {  	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { 		 		StringTokenizer st = new StringTokenizer(br.readLine(),&quot; &quot;); 		 		int xR = Integer.parseInt(st.nextToken()); 		int yR = Integer.parseInt(st.nextToken()); 		int xJ = Integer.parseInt(st.nextToken()); 		int yJ = Integer.parseInt(st.nextToken()); 		 		int n = Integer.parseInt(br.readLine()); 		int count = 0; 		 		for (int i = 0 ; i &lt; n ; i++) { 			st = new StringTokenizer(br.readLine(),&quot; &quot;); 			int length = Integer.parseInt(st.nextToken()); 			Vertex[] vertexes = new Vertex[length]; 			int j = 0; 			 			while(st.hasMoreTokens()) { 				int x = Integer.parseInt(st.nextToken()); 				int y = Integer.parseInt(st.nextToken()); 				 				vertexes[j++] = new Vertex(x, y); 			} 			 		} 		 		bw.write(String.valueOf(count)); 		bw.flush(); 		 	}catch(IOException e) { 		e.printStackTrace(); 	} }  // 건물 꼭지점 클래스 static class Vertex{ 	int x; 	int y; 	 	Vertex(int x, int y){ 		this.x = x; 		this.y = y; 	} }   2. 함수와 메인루프  세 점의 방향성을 계산하는 Counter ClockWise 함수와 점이 선분위에 있는지 판단하는 onSegment 함수를 작성. 이후 꼭지점 수만큼 계산한다.  // Counter ClockWise static long counterClockWise(int x1, int y1, int x2, int y2, int x3, int y3) { 	return (long)(x2 - x1) * (y3 - y1) - (long)(y2 - y1) * (x3 - x1); }  // 점이 선분위에 있는지 여부 static boolean onSegment(int x1, int y1, int x2, int y2, int x3, int y3) { 	return Math.min(x1, x2) &lt;= x3 &amp;&amp; x3 &lt;= Math.max(x1, x2) &amp;&amp; 			Math.min(y1, y2) &lt;= y3 &amp;&amp; y3 &lt;= Math.max(y1, y2); }  // ... 중략 ...  boolean blocked = false;     			 // 메인루프 for(int k = 0 ; k &lt; length ; k++) { 	 	// 세 점의 방향성을 확인해 선분 교차 확인 	long ab1 = counterClockWise(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y); 	long ab2 = counterClockWise(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y); 	long cd1 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR); 	long cd2 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ); 	 	if (ab1 * ab2 &lt; 0 &amp;&amp; cd1 * cd2 &lt; 0) { 		blocked = true; 		break; 	} 	 	// 꼭지점 접촉 확인 	if ((ab1 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y)) || 		(ab2 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y)) || 		(cd1 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR)) || 		(cd2 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ))) { 		blocked = true; 		break; 	} }  if (blocked) count++;      채점           반성      왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지 정신차려라 나야     코드 확인      Link to GitHub">
 
 
 
 
-  <meta property="article:published_time" content="2025-05-30T02:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-05-30T02:00:00+00:00">
+  <meta property="article:published_time" content="2025-05-30T05:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-05-30T05:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/random-solve/python/2025/05/30/15654.html">
+<link rel="canonical" href="https://movingwoo.com/random-solve/java/2025/05/30/6862.html">
 
 
 
@@ -1052,10 +1052,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="15654번 N과 M (5)">
-      <meta itemprop="description" content="  문제  15654번 N과 M (5) - 백준  설계  뭐야 드디어 번역이 필요없는 문제가…N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다.쉬어가는 문제로구나백트래킹 ㄱㄱ  구현  설명할게 없음N, M = map(int, input().split())numbers = list(map(int, input().split()))# 오름차순numbers.sort()result = M * [0]visited = N * [False]def back_tracking(depth):    if depth == M:        # M개 까지 출력        print(*result, sep=&#39; &#39;)        return        for i in range(N):        if not visited[i]:            # 방문 처리            visited[i] = True            result[depth] = numbers[i]            back_tracking(depth + 1)            visited[i] = False# 재귀back_tracking(0)  채점    코드 확인  Link to GitHub">
-      <meta itemprop="datePublished" content="2025-05-30T02:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-05-30T02:00:00+00:00">
+      <meta itemprop="headline" content="6862번 Tin Can Telephone">
+      <meta itemprop="description" content="  문제  6862번 Tin Can Telephone - 백준  번역  깡통 전화라는 문제인데한국인에겐 종이컵 전화가 더 익숙할 듯 하다.깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데경로에 건물이 있거나 닿으면 안된다.입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오.건물 모서리는 최대 32개다.  설계  두 가지를 고려해 구현하면 될 것 같다.  전화선이 건물의 변과 교차하는 경우  전화선이 건물의 꼭지점과 접촉하는 경우꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다.  구현  1. 건물 꼭지점 클래스와 입력받기건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다.public static void main(String[] args) {	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in));		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) {				StringTokenizer st = new StringTokenizer(br.readLine(),&quot; &quot;);				int xR = Integer.parseInt(st.nextToken());		int yR = Integer.parseInt(st.nextToken());		int xJ = Integer.parseInt(st.nextToken());		int yJ = Integer.parseInt(st.nextToken());				int n = Integer.parseInt(br.readLine());		int count = 0;				for (int i = 0 ; i &lt; n ; i++) {			st = new StringTokenizer(br.readLine(),&quot; &quot;);			int length = Integer.parseInt(st.nextToken());			Vertex[] vertexes = new Vertex[length];			int j = 0;						while(st.hasMoreTokens()) {				int x = Integer.parseInt(st.nextToken());				int y = Integer.parseInt(st.nextToken());								vertexes[j++] = new Vertex(x, y);			}					}				bw.write(String.valueOf(count));		bw.flush();			}catch(IOException e) {		e.printStackTrace();	}}// 건물 꼭지점 클래스static class Vertex{	int x;	int y;		Vertex(int x, int y){		this.x = x;		this.y = y;	}}2. 함수와 메인루프세 점의 방향성을 계산하는 Counter ClockWise 함수와 점이 선분위에 있는지 판단하는 onSegment 함수를 작성.이후 꼭지점 수만큼 계산한다.// Counter ClockWisestatic long counterClockWise(int x1, int y1, int x2, int y2, int x3, int y3) {	return (long)(x2 - x1) * (y3 - y1) - (long)(y2 - y1) * (x3 - x1);}// 점이 선분위에 있는지 여부static boolean onSegment(int x1, int y1, int x2, int y2, int x3, int y3) {	return Math.min(x1, x2) &lt;= x3 &amp;&amp; x3 &lt;= Math.max(x1, x2) &amp;&amp;			Math.min(y1, y2) &lt;= y3 &amp;&amp; y3 &lt;= Math.max(y1, y2);}// ... 중략 ...boolean blocked = false;    			// 메인루프for(int k = 0 ; k &lt; length ; k++) {		// 세 점의 방향성을 확인해 선분 교차 확인	long ab1 = counterClockWise(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y);	long ab2 = counterClockWise(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y);	long cd1 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR);	long cd2 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ);		if (ab1 * ab2 &lt; 0 &amp;&amp; cd1 * cd2 &lt; 0) {		blocked = true;		break;	}		// 꼭지점 접촉 확인	if ((ab1 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y)) ||		(ab2 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y)) ||		(cd1 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR)) ||		(cd2 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ))) {		blocked = true;		break;	}}if (blocked) count++;  채점    반성  왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지정신차려라 나야  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-05-30T05:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-05-30T05:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1076,18 +1076,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
       <span class="separator">/</span>
       
-      <a href="/board?path=random-solve%2FPython" class="category-link">
-        Python
+      <a href="/board?path=random-solve%2FJava" class="category-link">
+        Java
       </a>
       
     
   </div>
-  <a href="/board?path=random-solve%2FPython%2F" class="category-icon" title="리스트">
+  <a href="/board?path=random-solve%2FJava%2F" class="category-icon" title="리스트">
     <i class="fas fa-list-ul" aria-hidden="true"></i>
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">15654번 N과 M (5)
+            <h1 id="page-title" class="page__title" itemprop="headline">6862번 Tin Can Telephone
 </h1>
             
 
@@ -1101,54 +1101,142 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img01.jpg" alt="img01" /></p>
 
-<p><a href="https://www.acmicpc.net/problem/15654">15654번 N과 M (5) - 백준</a></p>
+<p><a href="https://www.acmicpc.net/problem/6862">6862번 Tin Can Telephone - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>깡통 전화라는 문제인데<br />
+한국인에겐 종이컵 전화가 더 익숙할 듯 하다.</p>
+
+<p>깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데<br />
+경로에 건물이 있거나 닿으면 안된다.</p>
+
+<p>입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오.<br />
+건물 모서리는 최대 32개다.</p>
 
 <blockquote>
   <h4 id="설계">설계</h4>
   <hr />
 </blockquote>
 
-<p>뭐야 드디어 번역이 필요없는 문제가…</p>
+<p>두 가지를 고려해 구현하면 될 것 같다.</p>
+<ul>
+  <li><span style="color: orange;"><strong>전화선이 건물의 변과 교차하는 경우</strong></span></li>
+  <li><span style="color: orange;"><strong>전화선이 건물의 꼭지점과 접촉하는 경우</strong></span></li>
+</ul>
 
-<p>N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다.<br />
-쉬어가는 문제로구나<br />
-백트래킹 ㄱㄱ</p>
+<p>꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다.</p>
 
 <blockquote>
   <h4 id="구현">구현</h4>
   <hr />
 </blockquote>
 
-<p>설명할게 없음</p>
+<h5 id="1-건물-꼭지점-클래스와-입력받기">1. 건물 꼭지점 클래스와 입력받기</h5>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+<p>건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데<br />
+막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다.</p>
 
-<span class="n">numbers</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-<span class="c1"># 오름차순
-</span><span class="n">numbers</span><span class="p">.</span><span class="nf">sort</span><span class="p">()</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">visited</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="p">[</span><span class="bp">False</span><span class="p">]</span>
+	<span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+		<span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">)))</span> <span class="o">{</span>
+		
+		<span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+		
+		<span class="kt">int</span> <span class="n">xR</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">yR</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">xJ</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">yJ</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		
+		<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+		
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+			<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+			<span class="nc">Vertex</span><span class="o">[]</span> <span class="n">vertexes</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Vertex</span><span class="o">[</span><span class="n">length</span><span class="o">];</span>
+			<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+			
+			<span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="o">{</span>
+				<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+				<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+				
+				<span class="n">vertexes</span><span class="o">[</span><span class="n">j</span><span class="o">++]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Vertex</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+			<span class="o">}</span>
+			
+		<span class="o">}</span>
+		
+		<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">count</span><span class="o">));</span>
+		<span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+		
+	<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
 
-<span class="k">def</span> <span class="nf">back_tracking</span><span class="p">(</span><span class="n">depth</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="n">M</span><span class="p">:</span>
-        <span class="c1"># M개 까지 출력
-</span>        <span class="nf">print</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="p">)</span>
-        <span class="k">return</span>
-    
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-            <span class="c1"># 방문 처리
-</span>            <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="n">result</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="nf">back_tracking</span><span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1">// 건물 꼭지점 클래스</span>
+<span class="kd">static</span> <span class="kd">class</span> <span class="nc">Vertex</span><span class="o">{</span>
+	<span class="kt">int</span> <span class="n">x</span><span class="o">;</span>
+	<span class="kt">int</span> <span class="n">y</span><span class="o">;</span>
+	
+	<span class="nc">Vertex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">){</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
-            <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+<h5 id="2-함수와-메인루프">2. 함수와 메인루프</h5>
 
-<span class="c1"># 재귀
-</span><span class="nf">back_tracking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<p><span style="color: orange;"><strong>세 점의 방향성을 계산</strong></span>하는 Counter ClockWise 함수와 <span style="color: orange;"><strong>점이 선분위에 있는지 판단</strong></span>하는 onSegment 함수를 작성.<br />
+이후 꼭지점 수만큼 계산한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Counter ClockWise</span>
+<span class="kd">static</span> <span class="kt">long</span> <span class="nf">counterClockWise</span><span class="o">(</span><span class="kt">int</span> <span class="n">x1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x3</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y3</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="o">(</span><span class="kt">long</span><span class="o">)(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="o">)</span> <span class="o">*</span> <span class="o">(</span><span class="n">y3</span> <span class="o">-</span> <span class="n">y1</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="kt">long</span><span class="o">)(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="o">)</span> <span class="o">*</span> <span class="o">(</span><span class="n">x3</span> <span class="o">-</span> <span class="n">x1</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 점이 선분위에 있는지 여부</span>
+<span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">onSegment</span><span class="o">(</span><span class="kt">int</span> <span class="n">x1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x3</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y3</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">x1</span><span class="o">,</span> <span class="n">x2</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">x3</span> <span class="o">&amp;&amp;</span> <span class="n">x3</span> <span class="o">&lt;=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">x1</span><span class="o">,</span> <span class="n">x2</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
+			<span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">y1</span><span class="o">,</span> <span class="n">y2</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">y3</span> <span class="o">&amp;&amp;</span> <span class="n">y3</span> <span class="o">&lt;=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">y1</span><span class="o">,</span> <span class="n">y2</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// ... 중략 ...</span>
+
+<span class="kt">boolean</span> <span class="n">blocked</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    			
+<span class="c1">// 메인루프</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">length</span> <span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
+	
+	<span class="c1">// 세 점의 방향성을 확인해 선분 교차 확인</span>
+	<span class="kt">long</span> <span class="n">ab1</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">);</span>
+	<span class="kt">long</span> <span class="n">ab2</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">);</span>
+	<span class="kt">long</span> <span class="n">cd1</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">);</span>
+	<span class="kt">long</span> <span class="n">cd2</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">);</span>
+	
+	<span class="k">if</span> <span class="o">(</span><span class="n">ab1</span> <span class="o">*</span> <span class="n">ab2</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">cd1</span> <span class="o">*</span> <span class="n">cd2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">blocked</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="k">break</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">// 꼭지점 접촉 확인</span>
+	<span class="k">if</span> <span class="o">((</span><span class="n">ab1</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">))</span> <span class="o">||</span>
+		<span class="o">(</span><span class="n">ab2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">))</span> <span class="o">||</span>
+		<span class="o">(</span><span class="n">cd1</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">))</span> <span class="o">||</span>
+		<span class="o">(</span><span class="n">cd2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">)))</span> <span class="o">{</span>
+		<span class="n">blocked</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="k">break</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">blocked</span><span class="o">)</span> <span class="n">count</span><span class="o">++;</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -1156,14 +1244,23 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지<br />
+정신차려라 나야</p>
 
 <blockquote>
   <h4 id="코드-확인">코드 확인</h4>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-30-15654.py">Link to GitHub</a></p>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-30-6862.java">Link to GitHub</a></p>
+
 
           
         </section>
@@ -1187,10 +1284,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "15654번 N과 M (5)",
-        url: "/random-solve/python/2025/05/30/15654.html",
+        title: "6862번 Tin Can Telephone",
+        url: "/random-solve/java/2025/05/30/6862.html",
         date: "2025-05-30",
-        categories: ["random-solve/Python/"]
+        categories: ["random-solve/Java/"]
       },
       allPosts: [
         

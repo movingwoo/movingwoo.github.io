@@ -1,4 +1,167 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-30T02:45:01+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">15654번 N과 M (5)</title><link href="https://movingwoo.com/random-solve/python/2025/05/30/15654.html" rel="alternate" type="text/html" title="15654번 N과 M (5)" /><published>2025-05-30T02:00:00+00:00</published><updated>2025-05-30T02:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/30/15654</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/30/15654.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-30T05:11:18+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">6862번 Tin Can Telephone</title><link href="https://movingwoo.com/random-solve/java/2025/05/30/6862.html" rel="alternate" type="text/html" title="6862번 Tin Can Telephone" /><published>2025-05-30T05:00:00+00:00</published><updated>2025-05-30T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/30/6862</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/30/6862.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/6862">6862번 Tin Can Telephone - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>깡통 전화라는 문제인데<br />
+한국인에겐 종이컵 전화가 더 익숙할 듯 하다.</p>
+
+<p>깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데<br />
+경로에 건물이 있거나 닿으면 안된다.</p>
+
+<p>입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오.<br />
+건물 모서리는 최대 32개다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>두 가지를 고려해 구현하면 될 것 같다.</p>
+<ul>
+  <li><span style="color: orange;"><strong>전화선이 건물의 변과 교차하는 경우</strong></span></li>
+  <li><span style="color: orange;"><strong>전화선이 건물의 꼭지점과 접촉하는 경우</strong></span></li>
+</ul>
+
+<p>꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-건물-꼭지점-클래스와-입력받기">1. 건물 꼭지점 클래스와 입력받기</h5>
+
+<p>건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데<br />
+막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+
+	<span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+		<span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">)))</span> <span class="o">{</span>
+		
+		<span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+		
+		<span class="kt">int</span> <span class="n">xR</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">yR</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">xJ</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">yJ</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		
+		<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+		
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+			<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+			<span class="nc">Vertex</span><span class="o">[]</span> <span class="n">vertexes</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Vertex</span><span class="o">[</span><span class="n">length</span><span class="o">];</span>
+			<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+			
+			<span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="o">{</span>
+				<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+				<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+				
+				<span class="n">vertexes</span><span class="o">[</span><span class="n">j</span><span class="o">++]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Vertex</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+			<span class="o">}</span>
+			
+		<span class="o">}</span>
+		
+		<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">count</span><span class="o">));</span>
+		<span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+		
+	<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 건물 꼭지점 클래스</span>
+<span class="kd">static</span> <span class="kd">class</span> <span class="nc">Vertex</span><span class="o">{</span>
+	<span class="kt">int</span> <span class="n">x</span><span class="o">;</span>
+	<span class="kt">int</span> <span class="n">y</span><span class="o">;</span>
+	
+	<span class="nc">Vertex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">){</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="2-함수와-메인루프">2. 함수와 메인루프</h5>
+
+<p><span style="color: orange;"><strong>세 점의 방향성을 계산</strong></span>하는 Counter ClockWise 함수와 <span style="color: orange;"><strong>점이 선분위에 있는지 판단</strong></span>하는 onSegment 함수를 작성.<br />
+이후 꼭지점 수만큼 계산한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Counter ClockWise</span>
+<span class="kd">static</span> <span class="kt">long</span> <span class="nf">counterClockWise</span><span class="o">(</span><span class="kt">int</span> <span class="n">x1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x3</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y3</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="o">(</span><span class="kt">long</span><span class="o">)(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="o">)</span> <span class="o">*</span> <span class="o">(</span><span class="n">y3</span> <span class="o">-</span> <span class="n">y1</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="kt">long</span><span class="o">)(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="o">)</span> <span class="o">*</span> <span class="o">(</span><span class="n">x3</span> <span class="o">-</span> <span class="n">x1</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 점이 선분위에 있는지 여부</span>
+<span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">onSegment</span><span class="o">(</span><span class="kt">int</span> <span class="n">x1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x3</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y3</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">x1</span><span class="o">,</span> <span class="n">x2</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">x3</span> <span class="o">&amp;&amp;</span> <span class="n">x3</span> <span class="o">&lt;=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">x1</span><span class="o">,</span> <span class="n">x2</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
+			<span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">y1</span><span class="o">,</span> <span class="n">y2</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">y3</span> <span class="o">&amp;&amp;</span> <span class="n">y3</span> <span class="o">&lt;=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">y1</span><span class="o">,</span> <span class="n">y2</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// ... 중략 ...</span>
+
+<span class="kt">boolean</span> <span class="n">blocked</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    			
+<span class="c1">// 메인루프</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">length</span> <span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
+	
+	<span class="c1">// 세 점의 방향성을 확인해 선분 교차 확인</span>
+	<span class="kt">long</span> <span class="n">ab1</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">);</span>
+	<span class="kt">long</span> <span class="n">ab2</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">);</span>
+	<span class="kt">long</span> <span class="n">cd1</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">);</span>
+	<span class="kt">long</span> <span class="n">cd2</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">);</span>
+	
+	<span class="k">if</span> <span class="o">(</span><span class="n">ab1</span> <span class="o">*</span> <span class="n">ab2</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">cd1</span> <span class="o">*</span> <span class="n">cd2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">blocked</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="k">break</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">// 꼭지점 접촉 확인</span>
+	<span class="k">if</span> <span class="o">((</span><span class="n">ab1</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">))</span> <span class="o">||</span>
+		<span class="o">(</span><span class="n">ab2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">))</span> <span class="o">||</span>
+		<span class="o">(</span><span class="n">cd1</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">))</span> <span class="o">||</span>
+		<span class="o">(</span><span class="n">cd2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">)))</span> <span class="o">{</span>
+		<span class="n">blocked</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="k">break</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">blocked</span><span class="o">)</span> <span class="n">count</span><span class="o">++;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지<br />
+정신차려라 나야</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-30-6862.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 6862번 Tin Can Telephone - 백준 번역 깡통 전화라는 문제인데 한국인에겐 종이컵 전화가 더 익숙할 듯 하다. 깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데 경로에 건물이 있거나 닿으면 안된다. 입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오. 건물 모서리는 최대 32개다. 설계 두 가지를 고려해 구현하면 될 것 같다. 전화선이 건물의 변과 교차하는 경우 전화선이 건물의 꼭지점과 접촉하는 경우 꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다. 구현 1. 건물 꼭지점 클래스와 입력받기 건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데 막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine()," "); int xR = Integer.parseInt(st.nextToken()); int yR = Integer.parseInt(st.nextToken()); int xJ = Integer.parseInt(st.nextToken()); int yJ = Integer.parseInt(st.nextToken()); int n = Integer.parseInt(br.readLine()); int count = 0; for (int i = 0 ; i &lt; n ; i++) { st = new StringTokenizer(br.readLine()," "); int length = Integer.parseInt(st.nextToken()); Vertex[] vertexes = new Vertex[length]; int j = 0; while(st.hasMoreTokens()) { int x = Integer.parseInt(st.nextToken()); int y = Integer.parseInt(st.nextToken()); vertexes[j++] = new Vertex(x, y); } } bw.write(String.valueOf(count)); bw.flush(); }catch(IOException e) { e.printStackTrace(); } } // 건물 꼭지점 클래스 static class Vertex{ int x; int y; Vertex(int x, int y){ this.x = x; this.y = y; } } 2. 함수와 메인루프 세 점의 방향성을 계산하는 Counter ClockWise 함수와 점이 선분위에 있는지 판단하는 onSegment 함수를 작성. 이후 꼭지점 수만큼 계산한다. // Counter ClockWise static long counterClockWise(int x1, int y1, int x2, int y2, int x3, int y3) { return (long)(x2 - x1) * (y3 - y1) - (long)(y2 - y1) * (x3 - x1); } // 점이 선분위에 있는지 여부 static boolean onSegment(int x1, int y1, int x2, int y2, int x3, int y3) { return Math.min(x1, x2) &lt;= x3 &amp;&amp; x3 &lt;= Math.max(x1, x2) &amp;&amp; Math.min(y1, y2) &lt;= y3 &amp;&amp; y3 &lt;= Math.max(y1, y2); } // ... 중략 ... boolean blocked = false; // 메인루프 for(int k = 0 ; k &lt; length ; k++) { // 세 점의 방향성을 확인해 선분 교차 확인 long ab1 = counterClockWise(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y); long ab2 = counterClockWise(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y); long cd1 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR); long cd2 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ); if (ab1 * ab2 &lt; 0 &amp;&amp; cd1 * cd2 &lt; 0) { blocked = true; break; } // 꼭지점 접촉 확인 if ((ab1 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y)) || (ab2 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y)) || (cd1 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR)) || (cd2 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ))) { blocked = true; break; } } if (blocked) count++; 채점 반성 왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지 정신차려라 나야 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">15654번 N과 M (5)</title><link href="https://movingwoo.com/random-solve/python/2025/05/30/15654.html" rel="alternate" type="text/html" title="15654번 N과 M (5)" /><published>2025-05-30T02:00:00+00:00</published><updated>2025-05-30T02:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/30/15654</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/30/15654.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -1905,418 +2068,4 @@ C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 �
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-23-27391.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 27391번 Platform Placing - 백준 설계 한글 문제 언제 나오나? 플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오. 대충 그리디 알고리즘 ㄱㄱ 당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다. 해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다. 구현 1. 입력 받기 제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine(), " "); int n = Integer.parseInt(st.nextToken()); int s = Integer.parseInt(st.nextToken()); int k = Integer.parseInt(st.nextToken()); int result = 0; int[] platforms = new int[n]; for(int i = 0 ; i &lt; n ; i++) { platforms[i] = Integer.parseInt(br.readLine()); } // 오름차순 Arrays.sort(platforms); int[] lengths = new int[n]; // 최대길이로 일단 채우고 시작 Arrays.fill(lengths, k); }catch(IOException e) { e.printStackTrace(); } } 2. 플랫폼 배열 탐색 플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다. for (int i = 1 ; i &lt; n ; i++) { int dist = platforms[i] - platforms[i - 1]; // 플랫폼이 양쪽으로 펼쳐짐 int max = 2 * dist; // 불가능한 경우 if (max &lt; 2 * s) { bw.write("-1"); return; } // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1])); // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i - 1] = Math.max(s, max - lengths[i]); } } } for (int length : lengths) result += length; bw.write(String.valueOf(result)); 채점 반성 기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">25245번 Amusement Arcade</title><link href="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html" rel="alternate" type="text/html" title="25245번 Amusement Arcade" /><published>2025-05-23T05:00:00+00:00</published><updated>2025-05-23T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/23/25245</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/23/25245.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-23-25245/img01.jpg" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/25245">25245번 Amusement Arcade - 백준</a></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>n개의 오락기가 있다.(n은 홀수)<br />
-사람이 앉아야하는데 반드시 오락기에 한 칸씩 비우고 앉아야한다.<br />
-도착하는 사람은 사람이 있는 곳에서 가장 멀리 떨어진 자리를 고르며, 여러개라면 무작위로 선택한다.</p>
-
-<p>이때 줄리아가 가장 먼저 앉을 적절한 위치를 고르시오.</p>
-
-<p>n은 반드시 홀수고 한 칸씩 비우면 최대 인원은 (n + 1) / 2 이다.<br />
-줄리아가 대충 n / 2 + 1 위치인 중앙에 앉으면 impossible이 나올 조건은 없어보이는데…<br />
-예제에서는 15를 넣을 시 impossible이 나온다.</p>
-
-<p><span style="color: orange;"><strong>사람에서 최대한 멀리 떨어진 곳에 앉으려는 좋지 않은 습성</strong></span> 때문인데…<br />
-실제 15를 받아 줄리아를 8번에 앉힐 경우<br />
-[1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1]
-이 상황에서 정확히 한 칸 조건이 깨져버린다!</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-시뮬레이션">1. 시뮬레이션</h5>
-
-<p>제한시간이 빡빡해서 단순 시뮬레이션은 아닌 것 같다.<br />
-일단 대충 코드짜서 순열 규칙 확인 ㄱㄱ</p>
-
-<p>줄리아의 자리는 모든 홀수 자리를 탐색해서 앉혀본다.<br />
-단순히 n / 2 + 1 에만 앉을 경우 7을 넣으면 4에 앉아야 하는데 그러면 오답이 나온다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;limits&gt;</span><span class="cp">
-</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">simulate</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">where</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">k</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">bool</span> <span class="n">result</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-
-        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">seats</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> 
-        <span class="c1">// 줄리아가 앉을 자리</span>
-        <span class="n">seats</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="kt">int</span> <span class="n">people</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-
-        <span class="k">while</span> <span class="p">(</span><span class="n">people</span> <span class="o">&lt;</span> <span class="n">max</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// 현재 가능한 자리들 중 가장 큰 최소 거리</span>
-            <span class="kt">int</span> <span class="n">max_dist</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-            <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">candidates</span><span class="p">;</span>
-
-            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">continue</span><span class="p">;</span>
-                <span class="p">}</span>
-
-                <span class="kt">int</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
-
-                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="n">seats</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                        <span class="c1">// 가장 가까운 사람과의 거리</span>
-                        <span class="n">dist</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">));</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-
-                <span class="c1">// 현재 자리가 이전보다 더 멀리 떨어져 있다면 새로운 후보, 같으면 추가</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">dist</span> <span class="o">&gt;</span> <span class="n">max_dist</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="n">max_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="p">;</span>
-                    <span class="n">candidates</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-                    <span class="n">candidates</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-                <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">dist</span> <span class="o">==</span> <span class="n">max_dist</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="n">candidates</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-
-            <span class="c1">// 후보자리가 없으면 끝</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">candidates</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-                <span class="k">break</span><span class="p">;</span>
-            <span class="p">}</span>
-
-            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">candidates</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="c1">// 홀수 자리에 앉지 못하면 의미 없음</span>
-                    <span class="k">continue</span><span class="p">;</span>
-                <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
-                    <span class="n">seats</span><span class="p">[</span><span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-            
-            <span class="n">people</span><span class="o">++</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="c1">// 최종 상태가 x . x . x ... 패턴인지 확인</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="n">result</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="n">result</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">where</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-            <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    
-    <span class="k">return</span> <span class="n">where</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-
-    <span class="kt">bool</span> <span class="n">result</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">31</span> <span class="p">;</span> <span class="n">i</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">" : "</span> <span class="o">&lt;&lt;</span> <span class="n">simulate</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>시뮬레이션 결과는 아래와 같다.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">n</th>
-      <th style="text-align: center">줄리아</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">1</td>
-      <td style="text-align: center">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">3</td>
-      <td style="text-align: center">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">5</td>
-      <td style="text-align: center">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">7</td>
-      <td style="text-align: center">3</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">9</td>
-      <td style="text-align: center">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">11</td>
-      <td style="text-align: center">3</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">13</td>
-      <td style="text-align: center">5</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">15</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">17</td>
-      <td style="text-align: center">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">19</td>
-      <td style="text-align: center">3</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">21</td>
-      <td style="text-align: center">5</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">23</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">25</td>
-      <td style="text-align: center">9</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">27</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">29</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">31</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>예제는 다 맞는다.</p>
-
-<h5 id="2-규칙-찾기">2. 규칙 찾기</h5>
-
-<p>가설 1: <span style="color: orange;"><strong>n = 2^k + 1 (k &gt; 0)</strong></span> 인 경우 답은 반드시 1이다.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">n</th>
-      <th style="text-align: center">줄리아</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">3</td>
-      <td style="text-align: center">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">5</td>
-      <td style="text-align: center">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">9</td>
-      <td style="text-align: center">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">17</td>
-      <td style="text-align: center">1</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>가설 2: <span style="color: orange;"><strong>n != 2^a + 2^b + 1</strong></span> 인 경우 배치가 불가능하다.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">n</th>
-      <th style="text-align: center">줄리아</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">15</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">23</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">27</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">29</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">31</td>
-      <td style="text-align: center">impossible</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>이부분은 <span style="color: orange;"><strong>n + 1의 이진수 1의 개수가 3 이상이면 불가능</strong></span>으로 처리할 수 있다.</p>
-
-<p>가설 3: 그 외의 경우는 시뮬레이션을 하되, 2^k + 1 인 자리만 대상으로 한다.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">n</th>
-      <th style="text-align: center">줄리아</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">7</td>
-      <td style="text-align: center">3</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">11</td>
-      <td style="text-align: center">3</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">13</td>
-      <td style="text-align: center">5</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">19</td>
-      <td style="text-align: center">3</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">21</td>
-      <td style="text-align: center">5</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">25</td>
-      <td style="text-align: center">9</td>
-    </tr>
-  </tbody>
-</table>
-
-<h5 id="2-구현">2. 구현</h5>
-
-<p>가설 1, 2를 넘었을 경우 시뮬레이션을 해야하는데<br />
-n이 10^18까지 있으므로 평범하게 하면 바로 시간초과다.<br />
-어차피 꽉 채워 앉으면 완전 이진트리 구조가 되므로 줄리아 배치 기준 양쪽을 반으로 계속 나눌 수 있는지만 확인하면 된다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 가설 1: n == 2^k + 1 이면 반드시 줄리아는 1번 자리에 앉으면 됨</span>
-<span class="kt">bool</span> <span class="nf">hypothesis_1</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// 가설 2: n == 2^a + 2^b + 1 형태인지 확인</span>
-<span class="c1">// n - 1 == 2^a + 2^b 라면 가능성 있음</span>
-<span class="kt">bool</span> <span class="nf">hypothesis_2</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int64_t</span> <span class="n">x</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="n">count</span><span class="o">++</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-        <span class="n">x</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">2</span><span class="p">;</span>
-<span class="p">}</span>
-
-
-<span class="c1">// 균등분할이 가능할지</span>
-<span class="kt">bool</span> <span class="nf">can_seat</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">len</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="k">return</span> <span class="n">can_seat</span><span class="p">((</span><span class="n">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">int64_t</span> <span class="nf">solve</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 짝수일 경우 패스</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 가설 1</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">hypothesis_1</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 가설 2</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">hypothesis_2</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 가설 3</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">64</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-        <span class="kt">int64_t</span> <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1LL</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">can_seat</span><span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">can_seat</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="n">pos</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-23-25245/img02.jpg" alt="img02" /></p>
-
-<p>허허 정답비율 나 혼자 다깎아먹었넹</p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>반복문 조건도 잘 못잡고 균등분할 조건도 잘 못잡고<br />
-제대로 했으면 덜 틀렸을걸 실컷 틀렸다.<br />
-아주 고봉밥이다 어우 배불러</p>
-
-<p>근데 분명 더 멋진 풀이가 있을거란 말이지<br />
-맞힌 사람 보면 코드 길이가 심상치가 않다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-23-25245.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 25245번 Amusement Arcade - 백준 설계 n개의 오락기가 있다.(n은 홀수) 사람이 앉아야하는데 반드시 오락기에 한 칸씩 비우고 앉아야한다. 도착하는 사람은 사람이 있는 곳에서 가장 멀리 떨어진 자리를 고르며, 여러개라면 무작위로 선택한다. 이때 줄리아가 가장 먼저 앉을 적절한 위치를 고르시오. n은 반드시 홀수고 한 칸씩 비우면 최대 인원은 (n + 1) / 2 이다. 줄리아가 대충 n / 2 + 1 위치인 중앙에 앉으면 impossible이 나올 조건은 없어보이는데… 예제에서는 15를 넣을 시 impossible이 나온다. 사람에서 최대한 멀리 떨어진 곳에 앉으려는 좋지 않은 습성 때문인데… 실제 15를 받아 줄리아를 8번에 앉힐 경우 [1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1] 이 상황에서 정확히 한 칸 조건이 깨져버린다! 구현 1. 시뮬레이션 제한시간이 빡빡해서 단순 시뮬레이션은 아닌 것 같다. 일단 대충 코드짜서 순열 규칙 확인 ㄱㄱ 줄리아의 자리는 모든 홀수 자리를 탐색해서 앉혀본다. 단순히 n / 2 + 1 에만 앉을 경우 7을 넣으면 4에 앉아야 하는데 그러면 오답이 나온다. #include &lt;iostream&gt; #include &lt;vector&gt; #include &lt;cmath&gt; #include &lt;limits&gt; using namespace std; int simulate(int n) { int max = (n + 1) / 2; int where = -1; for (int k = 0 ; k &lt; n ; k+=2) { bool result = true; vector&lt;int&gt; seats(n, 0); // 줄리아가 앉을 자리 seats[k] = 1; int people = 1; while (people &lt; max) { // 현재 가능한 자리들 중 가장 큰 최소 거리 int max_dist = -1; vector&lt;int&gt; candidates; for (int i = 0 ; i &lt; n ; i++) { if (seats[i] == 1) { continue; } int dist = numeric_limits&lt;int&gt;::max(); for (int j = 0 ; j &lt; n ; j++) { if (seats[j] == 1) { // 가장 가까운 사람과의 거리 dist = min(dist, abs(i - j)); } } // 현재 자리가 이전보다 더 멀리 떨어져 있다면 새로운 후보, 같으면 추가 if (dist &gt; max_dist) { max_dist = dist; candidates.clear(); candidates.push_back(i); } else if (dist == max_dist) { candidates.push_back(i); } } // 후보자리가 없으면 끝 if (candidates.empty()) { break; } for (int i = 0 ; i &lt; candidates.size() ; i++) { if (candidates[i] % 2 != 0) { // 홀수 자리에 앉지 못하면 의미 없음 continue; }else { seats[candidates[i]] = 1; break; } } people++; } // 최종 상태가 x . x . x ... 패턴인지 확인 for (int i = 0 ; i &lt; n ; i++) { if (i % 2 == 0) { if (seats[i] != 1) { result = false; break; } } else { if (seats[i] != 0) { result = false; break; } } } if (result) { where = k + 1; break; } } return where; } int main() { bool result = false; for (int i = 1 ; i &lt;= 31 ; i+=2) { cout &lt;&lt; i &lt;&lt; " : " &lt;&lt; simulate(i) &lt;&lt; endl; } return 0; } 시뮬레이션 결과는 아래와 같다. n 줄리아 1 1 3 1 5 1 7 3 9 1 11 3 13 5 15 impossible 17 1 19 3 21 5 23 impossible 25 9 27 impossible 29 impossible 31 impossible 예제는 다 맞는다. 2. 규칙 찾기 가설 1: n = 2^k + 1 (k &gt; 0) 인 경우 답은 반드시 1이다. n 줄리아 3 1 5 1 9 1 17 1 가설 2: n != 2^a + 2^b + 1 인 경우 배치가 불가능하다. n 줄리아 15 impossible 23 impossible 27 impossible 29 impossible 31 impossible 이부분은 n + 1의 이진수 1의 개수가 3 이상이면 불가능으로 처리할 수 있다. 가설 3: 그 외의 경우는 시뮬레이션을 하되, 2^k + 1 인 자리만 대상으로 한다. n 줄리아 7 3 11 3 13 5 19 3 21 5 25 9 2. 구현 가설 1, 2를 넘었을 경우 시뮬레이션을 해야하는데 n이 10^18까지 있으므로 평범하게 하면 바로 시간초과다. 어차피 꽉 채워 앉으면 완전 이진트리 구조가 되므로 줄리아 배치 기준 양쪽을 반으로 계속 나눌 수 있는지만 확인하면 된다. // 가설 1: n == 2^k + 1 이면 반드시 줄리아는 1번 자리에 앉으면 됨 bool hypothesis_1(int64_t n) { return (n &gt; 1) &amp;&amp; ((n - 1) &amp; (n - 2)) == 0; } // 가설 2: n == 2^a + 2^b + 1 형태인지 확인 // n - 1 == 2^a + 2^b 라면 가능성 있음 bool hypothesis_2(int64_t n) { int64_t x = n - 1; int count = 0; while (x &gt; 0) { if (x &amp; 1) count++; if (count &gt; 2) return false; x &gt;&gt;= 1; } return count == 2; } // 균등분할이 가능할지 bool can_seat(int64_t len) { if (len &lt; 2) return true; if (len % 2 == 0) return false; return can_seat((len - 1) / 2); } int64_t solve(int64_t n) { // 짝수일 경우 패스 if (n % 2 == 0) { return -1; } // 가설 1 if (hypothesis_1(n)) { return 1; } // 가설 2 if (!hypothesis_2(n)) { return -1; } // 가설 3 for (int i = 0 ; i &lt; 64 ; i++){ int64_t pos = (1LL &lt;&lt; i) + 1; if (pos &gt; n) { break; } if (can_seat(pos - 2) &amp;&amp; can_seat(n - pos - 1)) { return pos; } } return -1; } 채점 허허 정답비율 나 혼자 다깎아먹었넹 반성 반복문 조건도 잘 못잡고 균등분할 조건도 잘 못잡고 제대로 했으면 덜 틀렸을걸 실컷 틀렸다. 아주 고봉밥이다 어우 배불러 근데 분명 더 멋진 풀이가 있을거란 말이지 맞힌 사람 보면 코드 길이가 심상치가 않다. 코드 확인 Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-23-27391.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 27391번 Platform Placing - 백준 설계 한글 문제 언제 나오나? 플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오. 대충 그리디 알고리즘 ㄱㄱ 당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다. 해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다. 구현 1. 입력 받기 제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine(), " "); int n = Integer.parseInt(st.nextToken()); int s = Integer.parseInt(st.nextToken()); int k = Integer.parseInt(st.nextToken()); int result = 0; int[] platforms = new int[n]; for(int i = 0 ; i &lt; n ; i++) { platforms[i] = Integer.parseInt(br.readLine()); } // 오름차순 Arrays.sort(platforms); int[] lengths = new int[n]; // 최대길이로 일단 채우고 시작 Arrays.fill(lengths, k); }catch(IOException e) { e.printStackTrace(); } } 2. 플랫폼 배열 탐색 플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다. for (int i = 1 ; i &lt; n ; i++) { int dist = platforms[i] - platforms[i - 1]; // 플랫폼이 양쪽으로 펼쳐짐 int max = 2 * dist; // 불가능한 경우 if (max &lt; 2 * s) { bw.write("-1"); return; } // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1])); // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i - 1] = Math.max(s, max - lengths[i]); } } } for (int length : lengths) result += length; bw.write(String.valueOf(result)); 채점 반성 기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고 코드 확인 Link to GitHub]]></summary></entry></feed>
