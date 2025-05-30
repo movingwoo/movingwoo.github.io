@@ -172,4 +172,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/python/2025/05/30/21308.html",
         "teaser": null
+      },{
+        "title": "15654번 N과 M (5)",
+        "excerpt":"문제 15654번 N과 M (5) - 백준 설계 뭐야 드디어 번역이 필요없는 문제가… N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다. 쉬어가는 문제로구나 백트래킹 ㄱㄱ 구현 설명할게 없음 N, M = map(int, input().split()) numbers = list(map(int, input().split())) # 오름차순 numbers.sort() result = M * [0] visited = N * [False]...","categories": ["random-solve/Python/"],
+        "tags": [],
+        "url": "/random-solve/python/2025/05/30/15654.html",
+        "teaser": null
       }]
