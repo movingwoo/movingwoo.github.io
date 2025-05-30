@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>서버 관리 콘솔 - 뭐라도 하겠지</title>
-<meta name="description" content="탄생 비화      WSL 환경에서 tomcat과 jdk를 버전별로 올려 테스트 중 문제 발생 윈도우 IP로 접속 시 WSL과 바로 연결이 안됨 ㄴ 포트 매핑이 필요하다.  모든 톰캣의 포트를 일일이 매핑시키기 귀찮음 ㄴ nginx를 올려 443번만 뚫고 각 톰캣 http 포트로 매핑  설정 일일히 하기 귀찮아서 톰캣 8080 포트 통일 일일이 경로 찾아가서 끄고 키기 귀찮아짐 alternatives 로 jdk 버전 바꾸는 것도 귀찮음 ㄴ 그냥 간단한 shell script 작성해 때우자!     구현 포인트      1. 메뉴 틀 작성  # 메뉴가 계속 돌아야 하므로 반복문 안에 집어넣는다 while true; do   clear # 계속 쌓이므로 돌아올때 clear 	   # 숫자와 함께 메뉴 틀 작성   echo &quot;==========================&quot;   echo &quot;      Manage Console&quot;   echo &quot;--------------------------&quot;   echo &quot;00. Refresh&quot;   echo &quot;11. JDK&quot;   echo &quot;21. Nginx&quot;   echo &quot;... 중략 ...&quot;   echo &quot;Else. Exit&quot;   echo &quot;==========================&quot;   echo -n &quot;&gt;&gt; &quot;    read choice 	   # 입력 받아서 분기   case $choice in     00)       ;;     11)       ;;     21)       ;;     *)       exit 0       ;;   esac done   2. 기동 및 중단 완료 판단     docker            start 시 컨테이너 완전 기동 판단을 위해 docker compose 사용 등을 고려해야함 -&gt; 귀찮으니 그냥 start 후 기동 처리       stop 시 프로세스 사라지면 중단 처리           nginx            nginx 헬스체크 페이지를 만들어두고 curl 호출해서 200 성공 시 기동 처리       종료 시 프로세스 확인           tomcat            ROOT 페이지를 남겨두고 curl 호출해서 200 성공 시 기동 처리       종료 시 프로세스 확인           # 프로세스가 올라올 때까지 기다리는 함수 wait_service_process() {   while true; do     if ps -aux | grep -E &quot;grep 할 단어&quot; | grep -v grep &gt; /dev/null; then       return     else       sleep 1     fi   done }  # curl 성공할 때까지 기다리는 함수 wait_service_curl() {   if ps -aux | grep -E &quot;grep 할 단어&quot; | grep -v grep &gt; /dev/null; then     while true; do         # http status만 200인지 확인       http_status=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; -L -k --connect-timeout 5 --max-time 5 https://localhost:8080/) 			       if [ &quot;$http_status&quot; = &quot;200&quot; ]; then         return       else         sleep 1       fi     done   fi }   3. 로딩 처리  # 로딩 애니메이션 함수 loading_animation() {   frames=(&#39;-&#39; &#39;\&#39; &#39;|&#39; &#39;/&#39;) 	   while true; do     for frame in &quot;${frames[@]}&quot;; do       # 0.2초마다 노란색 프레임이 돌아간다       echo -ne &quot;\r\e[33mLoading... $frame \033[K\e[0m&quot;       sleep 0.2     done   done }  # 서비스 시작 시  start_service() {   # 로딩 중 입력을 막고 애니메이션을 시작한다.   stty -echo -icanon   loading_animation &amp;   animation_pid=$!    # ... 중략 ...    # 완료 후 애니메이션을 종료하고 입력버퍼를 비운다.   kill $animation_pid 2&gt;/dev/null   wait $animation_pid 2&gt;/dev/null   while read -t 0.1 -n 10000; do : ; done   stty echo icanon    # 서비스 종료도 마찬가지로 처리 }   4. jdk 변경 처리  # JDK 버전 변경 함수 switch_jdk_version() {   # ... 전략 ... 	   # 설치된 자바 목록은 alternatives로 가져와서 보여준다   JAVA_PATHS=($(alternatives --display java | grep -E &#39;^/usr&#39; | awk &#39;{print $1}&#39;))    i=1   for path in &quot;${JAVA_PATHS[@]}&quot;; do     echo &quot;$i. $path&quot;     ((i++))   done    # ... 중략 ... 	   # 버전마다 내부 경로가 다르다 (특히 1.8이 문제)   # jre 경로에서 javac을 찾는데 없을 경우 상위 bin 폴더에서 javac을 찾는다   SELECTED_PATH=&quot;${JAVA_PATHS[$((num-1))]}&quot;   SELECTED_DIR=$(dirname &quot;$SELECTED_PATH&quot;)   JAVAC_PATH=&quot;${SELECTED_DIR}/javac&quot; 	   if [ ! -f &quot;$JAVAC_PATH&quot; ]; then     PARENT_DIR=$(dirname &quot;$SELECTED_DIR&quot;)     GRAND_PARENT_DIR=$(dirname &quot;$PARENT_DIR&quot;)      JAVAC_PATH=&quot;${GRAND_PARENT_DIR}/bin/javac&quot;   fi    # ... 중략 ... 	   # alternatives를 이용해서 선택한 경로의 java와 javac으로 바꾼다   alternatives --set java &quot;$SELECTED_PATH&quot;   alternatives --set javac &quot;$JAVAC_PATH&quot; }   5. 변수 설정  # 가능한한 추후 쉽게 변동될만한 부분은 변수부로 뺀다 # NGINX ENV export NGINX_GREP=nginx: master export NGINX_PORT=443 export NGINX_URL=/health  # TOMCAT10 ENV export TOMCAT10_PATH=/app/tomcat10.1.9 export TOMCAT10_GREP=app/tomcat10.1.9 export TOMCAT10_PORT=8080 export TOMCAT10_URL= # ... 후략 ...      완성        각 프로세스 현 상황과 jdk 버전을 한 눈에 확인하기 위한 상태 확인 코드를 추가하고 기동 메뉴 별 번호를 입력시 기동/중단을 즉시 수행한다    메뉴 선택 시 로딩화면과 함께 기동/중단이 진행된다     반성      대충 뚝딱 만들었다보니 고칠 수 있는 부분이 많이 보인다          메뉴 선택 시 메뉴의 디자인을 단순하게 유지한다면 idx를 잡고 반복문을 돌리는 것으로 코드를 줄일 수 있다           기동/중단 시 메뉴 선택시 start / stop 을 넘기면 중복 코드를 제거할 수 있다           환경변수 배열로 설정하고 배열을 가져와서 빼 쓰면 코드를 많이 줄일 수 있다 1번 내용과 함께할 시 하드코딩된 부분을 상당수 제거 가능하다         코드 확인      Link to GitHub">
+<!-- begin _includes/seo.html --><title>7663번 Dreadful Deadlines - 뭐라도 하겠지</title>
+<meta name="description" content="문제        7663번 Dreadful Deadlines - 백준     번역      데이빗은 과제를 n개 해야한다. 한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다. 이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가?     설계      또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다? 우리에겐 그리디 알고리즘이 있으니까! 그리디… 그리디만 있다면…     구현      여러 케이스 들어오니 while문에 집어넣고 x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다.  while(true){     int n;     cin &gt;&gt; n;      if (n == 0) break;      vector&lt;int&gt; x(n);     vector&lt;int&gt; t(n);     vector&lt;tuple&lt;int, int&gt;&gt; assignments;      for (int i = 0 ; i &lt; n ; i++) {         cin &gt;&gt; x[i];     }      for (int i = 0 ; i &lt; n ; i++) {         cin &gt;&gt; t[i];     }      // 튜플로 만들어 넣기     for (int i = 0; i &lt; n; ++i) {         assignments.push_back(make_tuple(x[i], t[i]));     } }   놀다가 제일 늦게 하고싶기 때문에 마감시간이 제일 늦은 순서로 정렬 후 탐색한다. 시간이 모자라면 불가능 처리  // 늦게 시작하고 싶으니 마감시간이 제일 늦은 과제부터 거꾸로 확인 sort(assignments.begin(), assignments.end(), compare);  int time = INT_MAX;   // 과제 하나씩 체크 for (const auto&amp; assignment : assignments) {     int xi = get&lt;0&gt;(assignment);     int ti = get&lt;1&gt;(assignment);      time = min(time, ti);     time -= xi; }  // 시간이 부족하면 impossible if (time &lt; 0) cout &lt;&lt; &quot;impossible\n&quot;; else cout &lt;&lt; time &lt;&lt; &#39;\n&#39;;  // ... 중략 ...  // 커스텀 정렬 함수 bool compare(const tuple&lt;int, int&gt;&amp; a, const tuple&lt;int, int&gt;&amp; b) {     return get&lt;1&gt;(a) &gt; get&lt;1&gt;(b);  }      채점           반성      이번엔 climits 헤더 빼먹어서 컴파일 에러 발생 정신을 못차리니 오늘은 쉬어야지  java문제 풀고 c문제 푸니 느끼는데 진짜 입출력이 사기다. java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데     코드 확인      Link to GitHub">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="서버 관리 콘솔">
-<meta property="og:url" content="https://movingwoo.com/one-pan/shellscript/2025/04/28/Server-Manage-Console.html">
+<meta property="og:title" content="7663번 Dreadful Deadlines">
+<meta property="og:url" content="https://movingwoo.com/random-solve/c++/2025/05/30/7663.html">
 
 
-  <meta property="og:description" content="탄생 비화      WSL 환경에서 tomcat과 jdk를 버전별로 올려 테스트 중 문제 발생 윈도우 IP로 접속 시 WSL과 바로 연결이 안됨 ㄴ 포트 매핑이 필요하다.  모든 톰캣의 포트를 일일이 매핑시키기 귀찮음 ㄴ nginx를 올려 443번만 뚫고 각 톰캣 http 포트로 매핑  설정 일일히 하기 귀찮아서 톰캣 8080 포트 통일 일일이 경로 찾아가서 끄고 키기 귀찮아짐 alternatives 로 jdk 버전 바꾸는 것도 귀찮음 ㄴ 그냥 간단한 shell script 작성해 때우자!     구현 포인트      1. 메뉴 틀 작성  # 메뉴가 계속 돌아야 하므로 반복문 안에 집어넣는다 while true; do   clear # 계속 쌓이므로 돌아올때 clear 	   # 숫자와 함께 메뉴 틀 작성   echo &quot;==========================&quot;   echo &quot;      Manage Console&quot;   echo &quot;--------------------------&quot;   echo &quot;00. Refresh&quot;   echo &quot;11. JDK&quot;   echo &quot;21. Nginx&quot;   echo &quot;... 중략 ...&quot;   echo &quot;Else. Exit&quot;   echo &quot;==========================&quot;   echo -n &quot;&gt;&gt; &quot;    read choice 	   # 입력 받아서 분기   case $choice in     00)       ;;     11)       ;;     21)       ;;     *)       exit 0       ;;   esac done   2. 기동 및 중단 완료 판단     docker            start 시 컨테이너 완전 기동 판단을 위해 docker compose 사용 등을 고려해야함 -&gt; 귀찮으니 그냥 start 후 기동 처리       stop 시 프로세스 사라지면 중단 처리           nginx            nginx 헬스체크 페이지를 만들어두고 curl 호출해서 200 성공 시 기동 처리       종료 시 프로세스 확인           tomcat            ROOT 페이지를 남겨두고 curl 호출해서 200 성공 시 기동 처리       종료 시 프로세스 확인           # 프로세스가 올라올 때까지 기다리는 함수 wait_service_process() {   while true; do     if ps -aux | grep -E &quot;grep 할 단어&quot; | grep -v grep &gt; /dev/null; then       return     else       sleep 1     fi   done }  # curl 성공할 때까지 기다리는 함수 wait_service_curl() {   if ps -aux | grep -E &quot;grep 할 단어&quot; | grep -v grep &gt; /dev/null; then     while true; do         # http status만 200인지 확인       http_status=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; -L -k --connect-timeout 5 --max-time 5 https://localhost:8080/) 			       if [ &quot;$http_status&quot; = &quot;200&quot; ]; then         return       else         sleep 1       fi     done   fi }   3. 로딩 처리  # 로딩 애니메이션 함수 loading_animation() {   frames=(&#39;-&#39; &#39;\&#39; &#39;|&#39; &#39;/&#39;) 	   while true; do     for frame in &quot;${frames[@]}&quot;; do       # 0.2초마다 노란색 프레임이 돌아간다       echo -ne &quot;\r\e[33mLoading... $frame \033[K\e[0m&quot;       sleep 0.2     done   done }  # 서비스 시작 시  start_service() {   # 로딩 중 입력을 막고 애니메이션을 시작한다.   stty -echo -icanon   loading_animation &amp;   animation_pid=$!    # ... 중략 ...    # 완료 후 애니메이션을 종료하고 입력버퍼를 비운다.   kill $animation_pid 2&gt;/dev/null   wait $animation_pid 2&gt;/dev/null   while read -t 0.1 -n 10000; do : ; done   stty echo icanon    # 서비스 종료도 마찬가지로 처리 }   4. jdk 변경 처리  # JDK 버전 변경 함수 switch_jdk_version() {   # ... 전략 ... 	   # 설치된 자바 목록은 alternatives로 가져와서 보여준다   JAVA_PATHS=($(alternatives --display java | grep -E &#39;^/usr&#39; | awk &#39;{print $1}&#39;))    i=1   for path in &quot;${JAVA_PATHS[@]}&quot;; do     echo &quot;$i. $path&quot;     ((i++))   done    # ... 중략 ... 	   # 버전마다 내부 경로가 다르다 (특히 1.8이 문제)   # jre 경로에서 javac을 찾는데 없을 경우 상위 bin 폴더에서 javac을 찾는다   SELECTED_PATH=&quot;${JAVA_PATHS[$((num-1))]}&quot;   SELECTED_DIR=$(dirname &quot;$SELECTED_PATH&quot;)   JAVAC_PATH=&quot;${SELECTED_DIR}/javac&quot; 	   if [ ! -f &quot;$JAVAC_PATH&quot; ]; then     PARENT_DIR=$(dirname &quot;$SELECTED_DIR&quot;)     GRAND_PARENT_DIR=$(dirname &quot;$PARENT_DIR&quot;)      JAVAC_PATH=&quot;${GRAND_PARENT_DIR}/bin/javac&quot;   fi    # ... 중략 ... 	   # alternatives를 이용해서 선택한 경로의 java와 javac으로 바꾼다   alternatives --set java &quot;$SELECTED_PATH&quot;   alternatives --set javac &quot;$JAVAC_PATH&quot; }   5. 변수 설정  # 가능한한 추후 쉽게 변동될만한 부분은 변수부로 뺀다 # NGINX ENV export NGINX_GREP=nginx: master export NGINX_PORT=443 export NGINX_URL=/health  # TOMCAT10 ENV export TOMCAT10_PATH=/app/tomcat10.1.9 export TOMCAT10_GREP=app/tomcat10.1.9 export TOMCAT10_PORT=8080 export TOMCAT10_URL= # ... 후략 ...      완성        각 프로세스 현 상황과 jdk 버전을 한 눈에 확인하기 위한 상태 확인 코드를 추가하고 기동 메뉴 별 번호를 입력시 기동/중단을 즉시 수행한다    메뉴 선택 시 로딩화면과 함께 기동/중단이 진행된다     반성      대충 뚝딱 만들었다보니 고칠 수 있는 부분이 많이 보인다          메뉴 선택 시 메뉴의 디자인을 단순하게 유지한다면 idx를 잡고 반복문을 돌리는 것으로 코드를 줄일 수 있다           기동/중단 시 메뉴 선택시 start / stop 을 넘기면 중복 코드를 제거할 수 있다           환경변수 배열로 설정하고 배열을 가져와서 빼 쓰면 코드를 많이 줄일 수 있다 1번 내용과 함께할 시 하드코딩된 부분을 상당수 제거 가능하다         코드 확인      Link to GitHub">
-
-
-
+  <meta property="og:description" content="문제        7663번 Dreadful Deadlines - 백준     번역      데이빗은 과제를 n개 해야한다. 한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다. 이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가?     설계      또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다? 우리에겐 그리디 알고리즘이 있으니까! 그리디… 그리디만 있다면…     구현      여러 케이스 들어오니 while문에 집어넣고 x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다.  while(true){     int n;     cin &gt;&gt; n;      if (n == 0) break;      vector&lt;int&gt; x(n);     vector&lt;int&gt; t(n);     vector&lt;tuple&lt;int, int&gt;&gt; assignments;      for (int i = 0 ; i &lt; n ; i++) {         cin &gt;&gt; x[i];     }      for (int i = 0 ; i &lt; n ; i++) {         cin &gt;&gt; t[i];     }      // 튜플로 만들어 넣기     for (int i = 0; i &lt; n; ++i) {         assignments.push_back(make_tuple(x[i], t[i]));     } }   놀다가 제일 늦게 하고싶기 때문에 마감시간이 제일 늦은 순서로 정렬 후 탐색한다. 시간이 모자라면 불가능 처리  // 늦게 시작하고 싶으니 마감시간이 제일 늦은 과제부터 거꾸로 확인 sort(assignments.begin(), assignments.end(), compare);  int time = INT_MAX;   // 과제 하나씩 체크 for (const auto&amp; assignment : assignments) {     int xi = get&lt;0&gt;(assignment);     int ti = get&lt;1&gt;(assignment);      time = min(time, ti);     time -= xi; }  // 시간이 부족하면 impossible if (time &lt; 0) cout &lt;&lt; &quot;impossible\n&quot;; else cout &lt;&lt; time &lt;&lt; &#39;\n&#39;;  // ... 중략 ...  // 커스텀 정렬 함수 bool compare(const tuple&lt;int, int&gt;&amp; a, const tuple&lt;int, int&gt;&amp; b) {     return get&lt;1&gt;(a) &gt; get&lt;1&gt;(b);  }      채점           반성      이번엔 climits 헤더 빼먹어서 컴파일 에러 발생 정신을 못차리니 오늘은 쉬어야지  java문제 풀고 c문제 푸니 느끼는데 진짜 입출력이 사기다. java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데     코드 확인      Link to GitHub">
 
 
 
 
-  <meta property="article:published_time" content="2025-04-28T11:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-04-28T11:00:00+00:00">
+  <meta property="article:published_time" content="2025-05-30T06:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-05-30T06:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/one-pan/shellscript/2025/04/28/Server-Manage-Console.html">
+<link rel="canonical" href="https://movingwoo.com/random-solve/c++/2025/05/30/7663.html">
 
 
 
@@ -1052,10 +1052,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="서버 관리 콘솔">
-      <meta itemprop="description" content="  탄생 비화  WSL 환경에서 tomcat과 jdk를 버전별로 올려 테스트 중 문제 발생윈도우 IP로 접속 시 WSL과 바로 연결이 안됨ㄴ 포트 매핑이 필요하다.모든 톰캣의 포트를 일일이 매핑시키기 귀찮음ㄴ nginx를 올려 443번만 뚫고 각 톰캣 http 포트로 매핑설정 일일히 하기 귀찮아서 톰캣 8080 포트 통일일일이 경로 찾아가서 끄고 키기 귀찮아짐alternatives 로 jdk 버전 바꾸는 것도 귀찮음ㄴ 그냥 간단한 shell script 작성해 때우자!  구현 포인트  1. 메뉴 틀 작성# 메뉴가 계속 돌아야 하므로 반복문 안에 집어넣는다while true; do  clear # 계속 쌓이므로 돌아올때 clear	  # 숫자와 함께 메뉴 틀 작성  echo &quot;==========================&quot;  echo &quot;      Manage Console&quot;  echo &quot;--------------------------&quot;  echo &quot;00. Refresh&quot;  echo &quot;11. JDK&quot;  echo &quot;21. Nginx&quot;  echo &quot;... 중략 ...&quot;  echo &quot;Else. Exit&quot;  echo &quot;==========================&quot;  echo -n &quot;&gt;&gt; &quot;  read choice	  # 입력 받아서 분기  case $choice in    00)      ;;    11)      ;;    21)      ;;    *)      exit 0      ;;  esacdone2. 기동 및 중단 완료 판단  docker          start 시 컨테이너 완전 기동 판단을 위해 docker compose 사용 등을 고려해야함 -&gt; 귀찮으니 그냥 start 후 기동 처리      stop 시 프로세스 사라지면 중단 처리        nginx          nginx 헬스체크 페이지를 만들어두고 curl 호출해서 200 성공 시 기동 처리      종료 시 프로세스 확인        tomcat          ROOT 페이지를 남겨두고 curl 호출해서 200 성공 시 기동 처리      종료 시 프로세스 확인      # 프로세스가 올라올 때까지 기다리는 함수wait_service_process() {  while true; do    if ps -aux | grep -E &quot;grep 할 단어&quot; | grep -v grep &gt; /dev/null; then      return    else      sleep 1    fi  done}# curl 성공할 때까지 기다리는 함수wait_service_curl() {  if ps -aux | grep -E &quot;grep 할 단어&quot; | grep -v grep &gt; /dev/null; then    while true; do        # http status만 200인지 확인      http_status=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; -L -k --connect-timeout 5 --max-time 5 https://localhost:8080/)			      if [ &quot;$http_status&quot; = &quot;200&quot; ]; then        return      else        sleep 1      fi    done  fi}3. 로딩 처리# 로딩 애니메이션 함수loading_animation() {  frames=(&#39;-&#39; &#39;\&#39; &#39;|&#39; &#39;/&#39;)	  while true; do    for frame in &quot;${frames[@]}&quot;; do      # 0.2초마다 노란색 프레임이 돌아간다      echo -ne &quot;\r\e[33mLoading... $frame \033[K\e[0m&quot;      sleep 0.2    done  done}# 서비스 시작 시 start_service() {  # 로딩 중 입력을 막고 애니메이션을 시작한다.  stty -echo -icanon  loading_animation &amp;  animation_pid=$!  # ... 중략 ...  # 완료 후 애니메이션을 종료하고 입력버퍼를 비운다.  kill $animation_pid 2&gt;/dev/null  wait $animation_pid 2&gt;/dev/null  while read -t 0.1 -n 10000; do : ; done  stty echo icanon  # 서비스 종료도 마찬가지로 처리}4. jdk 변경 처리# JDK 버전 변경 함수switch_jdk_version() {  # ... 전략 ...	  # 설치된 자바 목록은 alternatives로 가져와서 보여준다  JAVA_PATHS=($(alternatives --display java | grep -E &#39;^/usr&#39; | awk &#39;{print $1}&#39;))  i=1  for path in &quot;${JAVA_PATHS[@]}&quot;; do    echo &quot;$i. $path&quot;    ((i++))  done  # ... 중략 ...	  # 버전마다 내부 경로가 다르다 (특히 1.8이 문제)  # jre 경로에서 javac을 찾는데 없을 경우 상위 bin 폴더에서 javac을 찾는다  SELECTED_PATH=&quot;${JAVA_PATHS[$((num-1))]}&quot;  SELECTED_DIR=$(dirname &quot;$SELECTED_PATH&quot;)  JAVAC_PATH=&quot;${SELECTED_DIR}/javac&quot;	  if [ ! -f &quot;$JAVAC_PATH&quot; ]; then    PARENT_DIR=$(dirname &quot;$SELECTED_DIR&quot;)    GRAND_PARENT_DIR=$(dirname &quot;$PARENT_DIR&quot;)     JAVAC_PATH=&quot;${GRAND_PARENT_DIR}/bin/javac&quot;  fi  # ... 중략 ...	  # alternatives를 이용해서 선택한 경로의 java와 javac으로 바꾼다  alternatives --set java &quot;$SELECTED_PATH&quot;  alternatives --set javac &quot;$JAVAC_PATH&quot;}5. 변수 설정# 가능한한 추후 쉽게 변동될만한 부분은 변수부로 뺀다# NGINX ENVexport NGINX_GREP=nginx: masterexport NGINX_PORT=443export NGINX_URL=/health# TOMCAT10 ENVexport TOMCAT10_PATH=/app/tomcat10.1.9export TOMCAT10_GREP=app/tomcat10.1.9export TOMCAT10_PORT=8080export TOMCAT10_URL=# ... 후략 ...  완성  각 프로세스 현 상황과 jdk 버전을 한 눈에 확인하기 위한 상태 확인 코드를 추가하고 기동메뉴 별 번호를 입력시 기동/중단을 즉시 수행한다메뉴 선택 시 로딩화면과 함께 기동/중단이 진행된다  반성  대충 뚝딱 만들었다보니 고칠 수 있는 부분이 많이 보인다      메뉴 선택 시메뉴의 디자인을 단순하게 유지한다면 idx를 잡고 반복문을 돌리는 것으로 코드를 줄일 수 있다        기동/중단 시메뉴 선택시 start / stop 을 넘기면 중복 코드를 제거할 수 있다        환경변수배열로 설정하고 배열을 가져와서 빼 쓰면 코드를 많이 줄일 수 있다1번 내용과 함께할 시 하드코딩된 부분을 상당수 제거 가능하다    코드 확인  Link to GitHub">
-      <meta itemprop="datePublished" content="2025-04-28T11:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-04-28T11:00:00+00:00">
+      <meta itemprop="headline" content="7663번 Dreadful Deadlines">
+      <meta itemprop="description" content="  문제  7663번 Dreadful Deadlines - 백준  번역  데이빗은 과제를 n개 해야한다.한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다.이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가?  설계  또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다?우리에겐 그리디 알고리즘이 있으니까!그리디… 그리디만 있다면…  구현  여러 케이스 들어오니 while문에 집어넣고x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다.while(true){    int n;    cin &gt;&gt; n;    if (n == 0) break;    vector&lt;int&gt; x(n);    vector&lt;int&gt; t(n);    vector&lt;tuple&lt;int, int&gt;&gt; assignments;    for (int i = 0 ; i &lt; n ; i++) {        cin &gt;&gt; x[i];    }    for (int i = 0 ; i &lt; n ; i++) {        cin &gt;&gt; t[i];    }    // 튜플로 만들어 넣기    for (int i = 0; i &lt; n; ++i) {        assignments.push_back(make_tuple(x[i], t[i]));    }}놀다가 제일 늦게 하고싶기 때문에 마감시간이 제일 늦은 순서로 정렬 후 탐색한다.시간이 모자라면 불가능 처리// 늦게 시작하고 싶으니 마감시간이 제일 늦은 과제부터 거꾸로 확인sort(assignments.begin(), assignments.end(), compare);int time = INT_MAX; // 과제 하나씩 체크for (const auto&amp; assignment : assignments) {    int xi = get&lt;0&gt;(assignment);    int ti = get&lt;1&gt;(assignment);    time = min(time, ti);    time -= xi;}// 시간이 부족하면 impossibleif (time &lt; 0) cout &lt;&lt; &quot;impossible\n&quot;;else cout &lt;&lt; time &lt;&lt; &#39;\n&#39;;// ... 중략 ...// 커스텀 정렬 함수bool compare(const tuple&lt;int, int&gt;&amp; a, const tuple&lt;int, int&gt;&amp; b) {    return get&lt;1&gt;(a) &gt; get&lt;1&gt;(b); }  채점    반성  이번엔 climits 헤더 빼먹어서 컴파일 에러 발생정신을 못차리니 오늘은 쉬어야지java문제 풀고 c문제 푸니 느끼는데 진짜 입출력이 사기다.java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-05-30T06:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-05-30T06:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1069,25 +1069,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
       <span class="separator">/</span>
       
-      <a href="/board?path=one-pan" class="category-link">
-        one-pan
+      <a href="/board?path=random-solve" class="category-link">
+        random-solve
       </a>
       
     
       <span class="separator">/</span>
       
-      <a href="/board?path=one-pan%2FShellScript" class="category-link">
-        ShellScript
+      <a href="/board?path=random-solve%2FC%2B%2B" class="category-link">
+        C++
       </a>
       
     
   </div>
-  <a href="/board?path=one-pan%2FShellScript%2F" class="category-icon" title="리스트">
+  <a href="/board?path=random-solve%2FC%2B%2B%2F" class="category-icon" title="리스트">
     <i class="fas fa-list-ul" aria-hidden="true"></i>
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">서버 관리 콘솔
+            <h1 id="page-title" class="page__title" itemprop="headline">7663번 Dreadful Deadlines
 </h1>
             
 
@@ -1097,243 +1097,118 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <section class="page__content" itemprop="text">
           <blockquote>
-  <h4 id="탄생-비화">탄생 비화</h4>
+  <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
 
-<p>WSL 환경에서 tomcat과 jdk를 버전별로 올려 테스트 중 문제 발생<br />
-윈도우 IP로 접속 시 WSL과 바로 연결이 안됨<br />
-<span style="color: orange;">ㄴ <strong>포트 매핑이 필요하다.</strong></span></p>
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-30-7663/img01.jpg" alt="img01" /></p>
 
-<p>모든 톰캣의 포트를 일일이 매핑시키기 귀찮음<br />
-<span style="color: orange;">ㄴ <strong>nginx를 올려 443번만 뚫고 각 톰캣 http 포트로 매핑</strong></span></p>
-
-<p>설정 일일히 하기 귀찮아서 톰캣 8080 포트 통일<br />
-일일이 경로 찾아가서 끄고 키기 귀찮아짐<br />
-alternatives 로 jdk 버전 바꾸는 것도 귀찮음<br />
-<span style="color: orange;">ㄴ <strong>그냥 간단한 shell script 작성해 때우자!</strong></span></p>
+<p><a href="https://www.acmicpc.net/problem/7663">7663번 Dreadful Deadlines - 백준</a></p>
 
 <blockquote>
-  <h4 id="구현-포인트">구현 포인트</h4>
+  <h4 id="번역">번역</h4>
   <hr />
 </blockquote>
 
-<h5 id="1-메뉴-틀-작성">1. 메뉴 틀 작성</h5>
+<p>데이빗은 과제를 n개 해야한다.<br />
+한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다.<br />
+이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가?</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 메뉴가 계속 돌아야 하므로 반복문 안에 집어넣는다</span>
-<span class="k">while </span><span class="nb">true</span><span class="p">;</span> <span class="k">do
-  </span>clear <span class="c"># 계속 쌓이므로 돌아올때 clear</span>
-	
-  <span class="c"># 숫자와 함께 메뉴 틀 작성</span>
-  <span class="nb">echo</span> <span class="s2">"=========================="</span>
-  <span class="nb">echo</span> <span class="s2">"      Manage Console"</span>
-  <span class="nb">echo</span> <span class="s2">"--------------------------"</span>
-  <span class="nb">echo</span> <span class="s2">"00. Refresh"</span>
-  <span class="nb">echo</span> <span class="s2">"11. JDK"</span>
-  <span class="nb">echo</span> <span class="s2">"21. Nginx"</span>
-  <span class="nb">echo</span> <span class="s2">"... 중략 ..."</span>
-  <span class="nb">echo</span> <span class="s2">"Else. Exit"</span>
-  <span class="nb">echo</span> <span class="s2">"=========================="</span>
-  <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"&gt;&gt; "</span>
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
 
-  <span class="nb">read </span>choice
-	
-  <span class="c"># 입력 받아서 분기</span>
-  <span class="k">case</span> <span class="nv">$choice</span> <span class="k">in
-    </span>00<span class="p">)</span>
-      <span class="p">;;</span>
-    11<span class="p">)</span>
-      <span class="p">;;</span>
-    21<span class="p">)</span>
-      <span class="p">;;</span>
-    <span class="k">*</span><span class="p">)</span>
-      <span class="nb">exit </span>0
-      <span class="p">;;</span>
-  <span class="k">esac</span>
-<span class="k">done</span>
+<p>또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다?<br />
+우리에겐 그리디 알고리즘이 있으니까!<br />
+그리디… 그리디만 있다면…</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>여러 케이스 들어오니 while문에 집어넣고<br />
+x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">assignments</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 튜플로 만들어 넣기</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">assignments</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div></div>
 
-<h5 id="2-기동-및-중단-완료-판단">2. 기동 및 중단 완료 판단</h5>
+<p>놀다가 제일 늦게 하고싶기 때문에 <span style="color: orange;"><strong>마감시간이 제일 늦은 순서로 정렬 후 탐색</strong></span>한다.<br />
+시간이 모자라면 불가능 처리</p>
 
-<ul>
-  <li>docker
-    <ul>
-      <li>start 시 컨테이너 완전 기동 판단을 위해 docker compose 사용 등을 고려해야함 -&gt; 귀찮으니 그냥 start 후 기동 처리</li>
-      <li>stop 시 프로세스 사라지면 중단 처리</li>
-    </ul>
-  </li>
-  <li>nginx
-    <ul>
-      <li>nginx 헬스체크 페이지를 만들어두고 curl 호출해서 200 성공 시 기동 처리</li>
-      <li>종료 시 프로세스 확인</li>
-    </ul>
-  </li>
-  <li>tomcat
-    <ul>
-      <li>ROOT 페이지를 남겨두고 curl 호출해서 200 성공 시 기동 처리</li>
-      <li>종료 시 프로세스 확인</li>
-    </ul>
-  </li>
-</ul>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 늦게 시작하고 싶으니 마감시간이 제일 늦은 과제부터 거꾸로 확인</span>
+<span class="n">sort</span><span class="p">(</span><span class="n">assignments</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">assignments</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 프로세스가 올라올 때까지 기다리는 함수</span>
-wait_service_process<span class="o">()</span> <span class="o">{</span>
-  <span class="k">while </span><span class="nb">true</span><span class="p">;</span> <span class="k">do
-    if </span>ps <span class="nt">-aux</span> | <span class="nb">grep</span> <span class="nt">-E</span> <span class="s2">"grep 할 단어"</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="nb">grep</span> <span class="o">&gt;</span> /dev/null<span class="p">;</span> <span class="k">then
-      return
-    else
-      </span><span class="nb">sleep </span>1
-    <span class="k">fi
-  done</span>
-<span class="o">}</span>
+<span class="kt">int</span> <span class="n">time</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span> 
 
-<span class="c"># curl 성공할 때까지 기다리는 함수</span>
-wait_service_curl<span class="o">()</span> <span class="o">{</span>
-  <span class="k">if </span>ps <span class="nt">-aux</span> | <span class="nb">grep</span> <span class="nt">-E</span> <span class="s2">"grep 할 단어"</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="nb">grep</span> <span class="o">&gt;</span> /dev/null<span class="p">;</span> <span class="k">then
-    while </span><span class="nb">true</span><span class="p">;</span> <span class="k">do</span>  
-      <span class="c"># http status만 200인지 확인</span>
-      <span class="nv">http_status</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-s</span> <span class="nt">-o</span> /dev/null <span class="nt">-w</span> <span class="s2">"%{http_code}"</span> <span class="nt">-L</span> <span class="nt">-k</span> <span class="nt">--connect-timeout</span> 5 <span class="nt">--max-time</span> 5 https://localhost:8080/<span class="si">)</span>
-			
-      <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$http_status</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">"200"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-        return
-      else
-        </span><span class="nb">sleep </span>1
-      <span class="k">fi
-    done
-  fi</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<span class="c1">// 과제 하나씩 체크</span>
+<span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">assignment</span> <span class="o">:</span> <span class="n">assignments</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">xi</span> <span class="o">=</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">assignment</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">assignment</span><span class="p">);</span>
 
-<h5 id="3-로딩-처리">3. 로딩 처리</h5>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">ti</span><span class="p">);</span>
+    <span class="n">time</span> <span class="o">-=</span> <span class="n">xi</span><span class="p">;</span>
+<span class="p">}</span>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 로딩 애니메이션 함수</span>
-loading_animation<span class="o">()</span> <span class="o">{</span>
-  <span class="nv">frames</span><span class="o">=(</span><span class="s1">'-'</span> <span class="s1">'\'</span> <span class="s1">'|'</span> <span class="s1">'/'</span><span class="o">)</span>
-	
-  <span class="k">while </span><span class="nb">true</span><span class="p">;</span> <span class="k">do
-    for </span>frame <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">frames</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do</span>
-      <span class="c"># 0.2초마다 노란색 프레임이 돌아간다</span>
-      <span class="nb">echo</span> <span class="nt">-ne</span> <span class="s2">"</span><span class="se">\r\e</span><span class="s2">[33mLoading... </span><span class="nv">$frame</span><span class="s2"> </span><span class="se">\0</span><span class="s2">33[K</span><span class="se">\e</span><span class="s2">[0m"</span>
-      <span class="nb">sleep </span>0.2
-    <span class="k">done
-  done</span>
-<span class="o">}</span>
+<span class="c1">// 시간이 부족하면 impossible</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"impossible</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="k">else</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">time</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
 
-<span class="c"># 서비스 시작 시 </span>
-start_service<span class="o">()</span> <span class="o">{</span>
-  <span class="c"># 로딩 중 입력을 막고 애니메이션을 시작한다.</span>
-  <span class="nb">stty</span> <span class="nt">-echo</span> <span class="nt">-icanon</span>
-  loading_animation &amp;
-  <span class="nv">animation_pid</span><span class="o">=</span><span class="nv">$!</span>
+<span class="c1">// ... 중략 ...</span>
 
-  <span class="c"># ... 중략 ...</span>
-
-  <span class="c"># 완료 후 애니메이션을 종료하고 입력버퍼를 비운다.</span>
-  <span class="nb">kill</span> <span class="nv">$animation_pid</span> 2&gt;/dev/null
-  <span class="nb">wait</span> <span class="nv">$animation_pid</span> 2&gt;/dev/null
-  <span class="k">while </span><span class="nb">read</span> <span class="nt">-t</span> 0.1 <span class="nt">-n</span> 10000<span class="p">;</span> <span class="k">do</span> : <span class="p">;</span> <span class="k">done
-  </span><span class="nb">stty echo </span>icanon
-
-  <span class="c"># 서비스 종료도 마찬가지로 처리</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h5 id="4-jdk-변경-처리">4. jdk 변경 처리</h5>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># JDK 버전 변경 함수</span>
-switch_jdk_version<span class="o">()</span> <span class="o">{</span>
-  <span class="c"># ... 전략 ...</span>
-	
-  <span class="c"># 설치된 자바 목록은 alternatives로 가져와서 보여준다</span>
-  <span class="nv">JAVA_PATHS</span><span class="o">=(</span><span class="si">$(</span>alternatives <span class="nt">--display</span> java | <span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'^/usr'</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="si">)</span><span class="o">)</span>
-
-  <span class="nv">i</span><span class="o">=</span>1
-  <span class="k">for </span>path <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">JAVA_PATHS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
-    </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$i</span><span class="s2">. </span><span class="nv">$path</span><span class="s2">"</span>
-    <span class="o">((</span>i++<span class="o">))</span>
-  <span class="k">done</span>
-
-  <span class="c"># ... 중략 ...</span>
-	
-  <span class="c"># 버전마다 내부 경로가 다르다 (특히 1.8이 문제)</span>
-  <span class="c"># jre 경로에서 javac을 찾는데 없을 경우 상위 bin 폴더에서 javac을 찾는다</span>
-  <span class="nv">SELECTED_PATH</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">JAVA_PATHS</span><span class="p">[</span><span class="k">$((</span>num-1<span class="k">))</span><span class="p">]</span><span class="k">}</span><span class="s2">"</span>
-  <span class="nv">SELECTED_DIR</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$SELECTED_PATH</span><span class="s2">"</span><span class="si">)</span>
-  <span class="nv">JAVAC_PATH</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">SELECTED_DIR</span><span class="k">}</span><span class="s2">/javac"</span>
-	
-  <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$JAVAC_PATH</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-    </span><span class="nv">PARENT_DIR</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$SELECTED_DIR</span><span class="s2">"</span><span class="si">)</span>
-    <span class="nv">GRAND_PARENT_DIR</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$PARENT_DIR</span><span class="s2">"</span><span class="si">)</span> 
-    <span class="nv">JAVAC_PATH</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">GRAND_PARENT_DIR</span><span class="k">}</span><span class="s2">/bin/javac"</span>
-  <span class="k">fi</span>
-
-  <span class="c"># ... 중략 ...</span>
-	
-  <span class="c"># alternatives를 이용해서 선택한 경로의 java와 javac으로 바꾼다</span>
-  alternatives <span class="nt">--set</span> java <span class="s2">"</span><span class="nv">$SELECTED_PATH</span><span class="s2">"</span>
-  alternatives <span class="nt">--set</span> javac <span class="s2">"</span><span class="nv">$JAVAC_PATH</span><span class="s2">"</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h5 id="5-변수-설정">5. 변수 설정</h5>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 가능한한 추후 쉽게 변동될만한 부분은 변수부로 뺀다</span>
-<span class="c"># NGINX ENV</span>
-<span class="nb">export </span><span class="nv">NGINX_GREP</span><span class="o">=</span>nginx: master
-<span class="nb">export </span><span class="nv">NGINX_PORT</span><span class="o">=</span>443
-<span class="nb">export </span><span class="nv">NGINX_URL</span><span class="o">=</span>/health
-
-<span class="c"># TOMCAT10 ENV</span>
-<span class="nb">export </span><span class="nv">TOMCAT10_PATH</span><span class="o">=</span>/app/tomcat10.1.9
-<span class="nb">export </span><span class="nv">TOMCAT10_GREP</span><span class="o">=</span>app/tomcat10.1.9
-<span class="nb">export </span><span class="nv">TOMCAT10_PORT</span><span class="o">=</span>8080
-<span class="nb">export </span><span class="nv">TOMCAT10_URL</span><span class="o">=</span>
-<span class="c"># ... 후략 ...</span>
+<span class="c1">// 커스텀 정렬 함수</span>
+<span class="kt">bool</span> <span class="nf">compare</span><span class="p">(</span><span class="k">const</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> 
+<span class="p">}</span>
 </code></pre></div></div>
 
 <blockquote>
-  <h4 id="완성">완성</h4>
+  <h4 id="채점">채점</h4>
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/one-pan/ShellScript/2025-04-28-Server Manage Console/img01.jpg" alt="img01" /></p>
-
-<p>각 프로세스 현 상황과 jdk 버전을 한 눈에 확인하기 위한 상태 확인 코드를 추가하고 기동<br />
-메뉴 별 번호를 입력시 기동/중단을 즉시 수행한다</p>
-
-<p><img src="/assets/images/posts/one-pan/ShellScript/2025-04-28-Server Manage Console/img02.jpg" alt="img02" /></p>
-
-<p>메뉴 선택 시 로딩화면과 함께 기동/중단이 진행된다</p>
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-30-7663/img02.jpg" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
   <hr />
 </blockquote>
 
-<p>대충 뚝딱 만들었다보니 고칠 수 있는 부분이 많이 보인다</p>
+<p>이번엔 climits 헤더 빼먹어서 컴파일 에러 발생<br />
+정신을 못차리니 오늘은 쉬어야지</p>
 
-<ol>
-  <li>
-    <p>메뉴 선택 시<br />
-메뉴의 디자인을 단순하게 유지한다면 <strong>idx를 잡고 반복문</strong>을 돌리는 것으로 코드를 줄일 수 있다</p>
-  </li>
-  <li>
-    <p>기동/중단 시<br />
-<strong>메뉴 선택시 start / stop</strong> 을 넘기면 중복 코드를 제거할 수 있다</p>
-  </li>
-  <li>
-    <p>환경변수<br />
-<strong>배열로 설정</strong>하고 배열을 가져와서 빼 쓰면 코드를 많이 줄일 수 있다<br />
-1번 내용과 함께할 시 하드코딩된 부분을 상당수 제거 가능하다</p>
-  </li>
-</ol>
+<p>java문제 풀고 c문제 푸니 느끼는데 진짜 입출력이 사기다.<br />
+java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데</p>
 
 <blockquote>
   <h4 id="코드-확인">코드 확인</h4>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/ShellScript/2025-04-28-Server%20Manage%20Console.sh">Link to GitHub</a></p>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-30-7663.cpp">Link to GitHub</a></p>
 
 
           
@@ -1343,7 +1218,7 @@ switch_jdk_version<span class="o">()</span> <span class="o">{</span>
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-04-28">April 28, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-30">May 30, 2025</time></p>
 
 
         </footer>
@@ -1358,10 +1233,10 @@ switch_jdk_version<span class="o">()</span> <span class="o">{</span>
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "서버 관리 콘솔",
-        url: "/one-pan/shellscript/2025/04/28/Server-Manage-Console.html",
-        date: "2025-04-28",
-        categories: ["one-pan/ShellScript/"]
+        title: "7663번 Dreadful Deadlines",
+        url: "/random-solve/c++/2025/05/30/7663.html",
+        date: "2025-05-30",
+        categories: ["random-solve/C++/"]
       },
       allPosts: [
         

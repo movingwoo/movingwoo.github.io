@@ -184,4 +184,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/java/2025/05/30/6862.html",
         "teaser": null
+      },{
+        "title": "7663번 Dreadful Deadlines",
+        "excerpt":"문제 7663번 Dreadful Deadlines - 백준 번역 데이빗은 과제를 n개 해야한다. 한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다. 이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가? 설계 또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다? 우리에겐...","categories": ["random-solve/C++/"],
+        "tags": [],
+        "url": "/random-solve/c++/2025/05/30/7663.html",
+        "teaser": null
       }]

@@ -1,4 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-30T05:11:18+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">6862번 Tin Can Telephone</title><link href="https://movingwoo.com/random-solve/java/2025/05/30/6862.html" rel="alternate" type="text/html" title="6862번 Tin Can Telephone" /><published>2025-05-30T05:00:00+00:00</published><updated>2025-05-30T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/30/6862</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/30/6862.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-30T06:53:32+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">7663번 Dreadful Deadlines</title><link href="https://movingwoo.com/random-solve/c++/2025/05/30/7663.html" rel="alternate" type="text/html" title="7663번 Dreadful Deadlines" /><published>2025-05-30T06:00:00+00:00</published><updated>2025-05-30T06:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/30/7663</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/30/7663.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-30-7663/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/7663">7663번 Dreadful Deadlines - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>데이빗은 과제를 n개 해야한다.<br />
+한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다.<br />
+이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가?</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다?<br />
+우리에겐 그리디 알고리즘이 있으니까!<br />
+그리디… 그리디만 있다면…</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>여러 케이스 들어오니 while문에 집어넣고<br />
+x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">assignments</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 튜플로 만들어 넣기</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">assignments</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>놀다가 제일 늦게 하고싶기 때문에 <span style="color: orange;"><strong>마감시간이 제일 늦은 순서로 정렬 후 탐색</strong></span>한다.<br />
+시간이 모자라면 불가능 처리</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 늦게 시작하고 싶으니 마감시간이 제일 늦은 과제부터 거꾸로 확인</span>
+<span class="n">sort</span><span class="p">(</span><span class="n">assignments</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">assignments</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="n">time</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span> 
+
+<span class="c1">// 과제 하나씩 체크</span>
+<span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">assignment</span> <span class="o">:</span> <span class="n">assignments</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">xi</span> <span class="o">=</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">assignment</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">assignment</span><span class="p">);</span>
+
+    <span class="n">time</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">ti</span><span class="p">);</span>
+    <span class="n">time</span> <span class="o">-=</span> <span class="n">xi</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 시간이 부족하면 impossible</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"impossible</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="k">else</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">time</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+
+<span class="c1">// ... 중략 ...</span>
+
+<span class="c1">// 커스텀 정렬 함수</span>
+<span class="kt">bool</span> <span class="nf">compare</span><span class="p">(</span><span class="k">const</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-30-7663/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>이번엔 climits 헤더 빼먹어서 컴파일 에러 발생<br />
+정신을 못차리니 오늘은 쉬어야지</p>
+
+<p>java문제 풀고 c문제 푸니 느끼는데 진짜 입출력이 사기다.<br />
+java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-30-7663.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 7663번 Dreadful Deadlines - 백준 번역 데이빗은 과제를 n개 해야한다. 한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다. 이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가? 설계 또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다? 우리에겐 그리디 알고리즘이 있으니까! 그리디… 그리디만 있다면… 구현 여러 케이스 들어오니 while문에 집어넣고 x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다. while(true){ int n; cin &gt;&gt; n; if (n == 0) break; vector&lt;int&gt; x(n); vector&lt;int&gt; t(n); vector&lt;tuple&lt;int, int&gt;&gt; assignments; for (int i = 0 ; i &lt; n ; i++) { cin &gt;&gt; x[i]; } for (int i = 0 ; i &lt; n ; i++) { cin &gt;&gt; t[i]; } // 튜플로 만들어 넣기 for (int i = 0; i &lt; n; ++i) { assignments.push_back(make_tuple(x[i], t[i])); } } 놀다가 제일 늦게 하고싶기 때문에 마감시간이 제일 늦은 순서로 정렬 후 탐색한다. 시간이 모자라면 불가능 처리 // 늦게 시작하고 싶으니 마감시간이 제일 늦은 과제부터 거꾸로 확인 sort(assignments.begin(), assignments.end(), compare); int time = INT_MAX; // 과제 하나씩 체크 for (const auto&amp; assignment : assignments) { int xi = get&lt;0&gt;(assignment); int ti = get&lt;1&gt;(assignment); time = min(time, ti); time -= xi; } // 시간이 부족하면 impossible if (time &lt; 0) cout &lt;&lt; "impossible\n"; else cout &lt;&lt; time &lt;&lt; '\n'; // ... 중략 ... // 커스텀 정렬 함수 bool compare(const tuple&lt;int, int&gt;&amp; a, const tuple&lt;int, int&gt;&amp; b) { return get&lt;1&gt;(a) &gt; get&lt;1&gt;(b); } 채점 반성 이번엔 climits 헤더 빼먹어서 컴파일 에러 발생 정신을 못차리니 오늘은 쉬어야지 java문제 풀고 c문제 푸니 느끼는데 진짜 입출력이 사기다. java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">6862번 Tin Can Telephone</title><link href="https://movingwoo.com/random-solve/java/2025/05/30/6862.html" rel="alternate" type="text/html" title="6862번 Tin Can Telephone" /><published>2025-05-30T05:00:00+00:00</published><updated>2025-05-30T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/30/6862</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/30/6862.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -1948,124 +2060,4 @@ WFC에서의 <span style="color: orange;"><strong>엔트로피는 셀의 불확�
 이것도 일종의 탄소 과잉배출로 볼 수 있지 않나?</p>
 
 <p>앞으로 랜덤백준디펜스의 브론즈 문제가 걸리면 다 거르는 것으로 해야겠다.<br />
-이건 뭐 깃에 코드 올리기도 뭐하고</p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 5101번 Sequences - 백준 설계 음 쉬운 문제 하루의 마무리로 딱이다. 시작 숫자와 차이가 주어지고 다음 숫자가 수열의 항인지 판단하는 문제이다. 구현 단순 덧셈 반복해도 문제없지만 조금 더 스마트하게 해봐야지. while True: a, b, c = map(int, input().split()); if a == 0 and b == 0 and c == 0: break # b가 0이면 예외처리 if b == 0: if a == c: print(1) else: print("X") # 음수 고려 elif (c - a) % b == 0 and (c - a) // b &gt;= 0: print((c - a) // b + 1) else: print("X") 채점 반성 아무래도 랜덤 돌려서 브론즈 문제 나오면 좀 거르는게 좋겠다. 이것도 일종의 탄소 과잉배출로 볼 수 있지 않나? 앞으로 랜덤백준디펜스의 브론즈 문제가 걸리면 다 거르는 것으로 해야겠다. 이건 뭐 깃에 코드 올리기도 뭐하고]]></summary></entry><entry><title type="html">27391번 Platform Placing</title><link href="https://movingwoo.com/random-solve/java/2025/05/23/27391.html" rel="alternate" type="text/html" title="27391번 Platform Placing" /><published>2025-05-23T06:00:00+00:00</published><updated>2025-05-23T06:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/23/27391</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/23/27391.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-23-27391/img01.jpg" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/27391">27391번 Platform Placing - 백준</a></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>한글 문제 언제 나오나?</p>
-
-<p>플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다.<br />
-양쪽으로 펼쳐진다는 뜻.<br />
-최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다.<br />
-모든 고정지점마다 플랫폼 하나 설치가 가능하다.<br />
-이때 플랫폼 길이의 총합이 최대가 되도록 하시오.</p>
-
-<p>대충 그리디 알고리즘 ㄱㄱ</p>
-
-<p>당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다.<br />
-고정 지점들을 정렬해 순차적으로 길이를 할당하되<br />
-이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다.</p>
-
-<p>해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-입력-받기">1. 입력 받기</h5>
-
-<p>제한시간은 항상 두려우니 버퍼로 입력받고<br />
-플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-    	
-    	<span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
-	        <span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">)))</span> <span class="o">{</span>
-	        
-	        <span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span> <span class="s">" "</span><span class="o">);</span>
-	        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	        <span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-	        
-	        <span class="kt">int</span><span class="o">[]</span> <span class="n">platforms</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
-	        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-	        	<span class="n">platforms</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-	        <span class="o">}</span>
-	        <span class="c1">// 오름차순</span>
-	        <span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">platforms</span><span class="o">);</span>
-	        
-	        <span class="kt">int</span><span class="o">[]</span> <span class="n">lengths</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
-	        <span class="c1">// 최대길이로 일단 채우고 시작</span>
-	        <span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">lengths</span><span class="o">,</span> <span class="n">k</span><span class="o">);</span>
-	        
-	    <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-	        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-	    <span class="o">}</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-
-<h5 id="2-플랫폼-배열-탐색">2. 플랫폼 배열 탐색</h5>
-
-<p>플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다.<br />
-배치 불가능하면 -1을 즉시 출력하고<br />
-가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-    <span class="kt">int</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">platforms</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">platforms</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
-    <span class="c1">// 플랫폼이 양쪽으로 펼쳐짐</span>
-    <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dist</span><span class="o">;</span>
-
-    <span class="c1">// 불가능한 경우</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">max</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"-1"</span><span class="o">);</span>
-        <span class="k">return</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="c1">// 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">max</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">max</span> <span class="o">-</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]));</span>
-
-        <span class="c1">// 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">max</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="n">max</span> <span class="o">-</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">length</span> <span class="o">:</span> <span class="n">lengths</span><span class="o">)</span> <span class="n">result</span> <span class="o">+=</span> <span class="n">length</span><span class="o">;</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">result</span><span class="o">));</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-23-27391/img02.jpg" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>기분좋게 잘 해결되었다.<br />
-C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-23-27391.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 27391번 Platform Placing - 백준 설계 한글 문제 언제 나오나? 플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오. 대충 그리디 알고리즘 ㄱㄱ 당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다. 해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다. 구현 1. 입력 받기 제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine(), " "); int n = Integer.parseInt(st.nextToken()); int s = Integer.parseInt(st.nextToken()); int k = Integer.parseInt(st.nextToken()); int result = 0; int[] platforms = new int[n]; for(int i = 0 ; i &lt; n ; i++) { platforms[i] = Integer.parseInt(br.readLine()); } // 오름차순 Arrays.sort(platforms); int[] lengths = new int[n]; // 최대길이로 일단 채우고 시작 Arrays.fill(lengths, k); }catch(IOException e) { e.printStackTrace(); } } 2. 플랫폼 배열 탐색 플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다. for (int i = 1 ; i &lt; n ; i++) { int dist = platforms[i] - platforms[i - 1]; // 플랫폼이 양쪽으로 펼쳐짐 int max = 2 * dist; // 불가능한 경우 if (max &lt; 2 * s) { bw.write("-1"); return; } // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1])); // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함 if (lengths[i - 1] + lengths[i] &gt; max) { lengths[i - 1] = Math.max(s, max - lengths[i]); } } } for (int length : lengths) result += length; bw.write(String.valueOf(result)); 채점 반성 기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고 코드 확인 Link to GitHub]]></summary></entry></feed>
+이건 뭐 깃에 코드 올리기도 뭐하고</p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 5101번 Sequences - 백준 설계 음 쉬운 문제 하루의 마무리로 딱이다. 시작 숫자와 차이가 주어지고 다음 숫자가 수열의 항인지 판단하는 문제이다. 구현 단순 덧셈 반복해도 문제없지만 조금 더 스마트하게 해봐야지. while True: a, b, c = map(int, input().split()); if a == 0 and b == 0 and c == 0: break # b가 0이면 예외처리 if b == 0: if a == c: print(1) else: print("X") # 음수 고려 elif (c - a) % b == 0 and (c - a) // b &gt;= 0: print((c - a) // b + 1) else: print("X") 채점 반성 아무래도 랜덤 돌려서 브론즈 문제 나오면 좀 거르는게 좋겠다. 이것도 일종의 탄소 과잉배출로 볼 수 있지 않나? 앞으로 랜덤백준디펜스의 브론즈 문제가 걸리면 다 거르는 것으로 해야겠다. 이건 뭐 깃에 코드 올리기도 뭐하고]]></summary></entry></feed>
