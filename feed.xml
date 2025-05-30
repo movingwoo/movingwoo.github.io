@@ -1,4 +1,380 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-28T08:28:41+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">11982번 Angry Cows (Gold)</title><link href="https://movingwoo.com/random-solve/java/2025/05/28/11982.html" rel="alternate" type="text/html" title="11982번 Angry Cows (Gold)" /><published>2025-05-28T08:00:00+00:00</published><updated>2025-05-28T08:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/28/11982</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/28/11982.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-30T01:02:48+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">21308번 Ternary Machine</title><link href="https://movingwoo.com/random-solve/python/2025/05/30/21308.html" rel="alternate" type="text/html" title="21308번 Ternary Machine" /><published>2025-05-30T01:00:00+00:00</published><updated>2025-05-30T01:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/30/21308</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/30/21308.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-21308/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/21308">21308번 Ternary Machine - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>롱——문제</p>
+
+<p>3진수 프로그램을 해석하고 실행하는 인터프리터를 구현해야한다.</p>
+
+<p>명령어는 고정된 형식이 존재하며 표를 참조한다.<br />
+올바르지 않은 입력에 대해서는 런타임에러를 출력하는데, 실행되지 않는 오류는 무시한다.</p>
+
+<p>프로그램은 최대 8192자이며 입력이 필요한 경우 충분한 입력이 반드시 주어진다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>구현문제로 보이는데 생각할 부분이 다소 많아보인다.<br />
+명령어 해석을 빠르게 처리해야하고<br />
+스택과 힙을 구현해야하겠고<br />
+예외처리도 해야하고…</p>
+
+<p>주어진 것부터 묵묵히 하다보면 풀리겠지??</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-입출력과-기본함수">1. 입출력과 기본함수</h5>
+
+<p>입력은 한번에 받아서 버퍼로 저장해둔다.<br />
+필요하면 버퍼에 하나씩 꺼내 쓰도록 하고<br />
+출력은 모아뒀다가 한번에 한다.</p>
+
+<p><span style="color: orange;"><strong>오류 출력시에는 기존 프로그램이 생성한 출력은 먼저 출력</strong></span>해야하는 것에 주의</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">isError</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="c1"># 입력 버퍼 탐색 인덱스
+</span><span class="n">buffer_index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># 프로그램 탐색 인덱스
+</span><span class="n">program_index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># 명령어 사전
+</span><span class="n">opcodes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># 4자리 명령부터 판단
+</span>    <span class="c1"># CODE | PARAM | DESCRIPTION
+</span>    <span class="p">(</span><span class="sh">"</span><span class="s">1000</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">ADD</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">1001</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">SUB</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">1002</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">MUL</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">1010</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">DIV</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">1011</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">MOD</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">1200</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">PRINT_CHAR</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">1201</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">PRINT_NUM</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">1210</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">READ_CHAR</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">1211</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">READ_NUM</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">000</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">number</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">PUSH_POS</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">001</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">number</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">PUSH_NEG</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">020</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">DUP</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">021</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">SWAP</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">022</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">DROP</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">110</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">STORE</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">111</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">LOAD</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">200</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">label</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">LABEL</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">201</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">label</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">CALL</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">202</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">label</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">JUMP</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">210</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">label</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">JUMP_IF_ZERO</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">211</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">label</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">JUMP_IF_NEG</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">212</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">RETURN</span><span class="sh">"</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">"</span><span class="s">222</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="sh">"</span><span class="s">HALT</span><span class="sh">"</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">heap</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1"># 복귀 주소 스택
+</span><span class="n">call_stack</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># CALL, JUMP 등을 처리하기 위해 label 위치를 미리 매핑해야함
+</span><span class="n">labels</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1"># 출력은 리스트에 모아두었다가 한 번에 출력
+</span><span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">''</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="sh">''</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">isError</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">RUN-TIME ERROR</span><span class="sh">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sh">''</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>한자리 숫자, 문자를 읽는 함수, 라벨을 읽는 함수, 프로그램 내 숫자를 읽는 함수가 필요하다.<br />
+스택에 넣는 부분이 많아서 그부분도 따로 함수로 뺀다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 버퍼에서 숫자 하나 읽어오는 함수
+</span><span class="k">def</span> <span class="nf">read_number</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">buffer_index</span><span class="p">,</span> <span class="n">isError</span>
+
+    <span class="c1"># 입력에 공백이 주어지나??
+</span>    <span class="k">while</span> <span class="n">buffer_index</span> <span class="o">&lt;</span> <span class="nf">len</span><span class="p">(</span><span class="n">input_buffer</span><span class="p">)</span> <span class="ow">and</span> <span class="n">input_buffer</span><span class="p">[</span><span class="n">buffer_index</span><span class="p">].</span><span class="nf">isspace</span><span class="p">():</span>
+        <span class="n">buffer_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">buffer_index</span> <span class="o">&gt;=</span> <span class="nf">len</span><span class="p">(</span><span class="n">input_buffer</span><span class="p">):</span>
+        <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    
+    <span class="n">start</span> <span class="o">=</span> <span class="n">buffer_index</span>
+    <span class="c1"># 입력 값이 음수일 수 있음
+</span>    <span class="k">if</span> <span class="n">input_buffer</span><span class="p">[</span><span class="n">buffer_index</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">-</span><span class="sh">'</span><span class="p">:</span>
+        <span class="n">buffer_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">while</span> <span class="n">buffer_index</span> <span class="o">&lt;</span> <span class="nf">len</span><span class="p">(</span><span class="n">input_buffer</span><span class="p">)</span> <span class="ow">and</span> <span class="n">input_buffer</span><span class="p">[</span><span class="n">buffer_index</span><span class="p">].</span><span class="nf">isdigit</span><span class="p">():</span>
+        <span class="n">buffer_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="n">buffer_index</span> <span class="ow">or</span> <span class="p">(</span><span class="n">input_buffer</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">-</span><span class="sh">'</span> <span class="ow">and</span> <span class="n">buffer_index</span> <span class="o">==</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="nf">int</span><span class="p">(</span><span class="sh">''</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">input_buffer</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">buffer_index</span><span class="p">]))</span>
+
+<span class="c1"># 버퍼에서 문자 하나 읽어오는 함수
+</span><span class="k">def</span> <span class="nf">read_char</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">buffer_index</span><span class="p">,</span> <span class="n">isError</span>
+
+    <span class="k">if</span> <span class="n">buffer_index</span> <span class="o">&gt;=</span> <span class="nf">len</span><span class="p">(</span><span class="n">input_buffer</span><span class="p">):</span>
+        <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    
+    <span class="n">ch</span> <span class="o">=</span> <span class="n">input_buffer</span><span class="p">[</span><span class="n">buffer_index</span><span class="p">]</span>
+    <span class="n">buffer_index</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nf">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
+<span class="c1"># 프로그램에서 2로 끝나는 레이블을 읽어오는 함수
+</span><span class="k">def</span> <span class="nf">read_label</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">program_index</span><span class="p">,</span> <span class="n">isError</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">program_index</span>
+
+    <span class="k">while</span> <span class="n">program_index</span> <span class="o">&lt;</span> <span class="nf">len</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+        <span class="n">trit</span> <span class="o">=</span> <span class="n">program</span><span class="p">[</span><span class="n">program_index</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">trit</span> <span class="o">==</span> <span class="sh">'</span><span class="s">2</span><span class="sh">'</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">program</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">program_index</span><span class="p">]</span>
+            <span class="n">program_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">label</span>
+        
+        <span class="k">elif</span> <span class="n">trit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">01</span><span class="sh">'</span><span class="p">:</span>
+            <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        
+        <span class="n">program_index</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+    <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c1"># 프로그램 내의 숫자 파싱하는 함수
+</span><span class="k">def</span> <span class="nf">parse_number_program</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">program_index</span><span class="p">,</span> <span class="n">isError</span>
+    <span class="n">bits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">while</span> <span class="n">program_index</span> <span class="o">&lt;</span> <span class="nf">len</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+        <span class="n">trit</span> <span class="o">=</span> <span class="n">program</span><span class="p">[</span><span class="n">program_index</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">trit</span> <span class="o">==</span> <span class="sh">'</span><span class="s">0</span><span class="sh">'</span> <span class="ow">or</span> <span class="n">trit</span> <span class="o">==</span> <span class="sh">'</span><span class="s">1</span><span class="sh">'</span><span class="p">:</span>
+            <span class="n">bits</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">trit</span><span class="p">)</span>
+            <span class="n">program_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">31</span><span class="p">:</span>
+                <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            
+        <span class="k">elif</span> <span class="n">trit</span> <span class="o">==</span> <span class="sh">'</span><span class="s">2</span><span class="sh">'</span><span class="p">:</span>
+            <span class="n">program_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">bits</span><span class="p">:</span>
+                <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            
+            <span class="k">return</span> <span class="nf">int</span><span class="p">(</span><span class="sh">''</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">bits</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="mi">0</span>
+
+<span class="c1"># 스택에 넣는 함수
+</span><span class="k">def</span> <span class="nf">push_stack</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">stack</span><span class="p">,</span> <span class="n">isError</span>
+
+    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1024</span><span class="p">:</span>
+        <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span>
+    <span class="n">stack</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<span class="c1"># 콜스택에 넣는 함수
+</span><span class="k">def</span> <span class="nf">push_call_stack</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">call_stack</span><span class="p">,</span> <span class="n">isError</span>
+
+    <span class="c1"># 서브루틴도 1024 체크 필요
+</span>    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">call_stack</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1024</span><span class="p">:</span>
+        <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span>
+    <span class="n">call_stack</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h5 id="2-레이블-스캔-함수">2. 레이블 스캔 함수</h5>
+
+<p>CALL이나 JUMP 명령 시 어디로 가야하는가?<br />
+그것을 미리 알기위해 <span style="color: orange;"><strong>레이블 스캔을 미리 진행</strong></span>한다.<br />
+실행 시 찾으려면 비효율적일 것 같아서리</p>
+
+<p>섣불리 에러처리 해버리면 에러 전까지의 프로그램 아웃풋이 없으므로 주의해야한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># label 스캔하는 함수
+</span><span class="k">def</span> <span class="nf">scan_labels</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">labels</span><span class="p">,</span> <span class="n">isError</span>
+    <span class="n">scan_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+    <span class="k">while</span> <span class="n">scan_index</span> <span class="o">&lt;</span> <span class="nf">len</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+
+        <span class="c1"># 트릿이 아니면 스캔 종료
+</span>        <span class="k">if</span> <span class="n">program</span><span class="p">[</span><span class="n">scan_index</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">012</span><span class="sh">'</span><span class="p">:</span>
+            <span class="k">break</span>
+            
+        <span class="n">matched</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="k">for</span> <span class="n">code</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">description</span> <span class="ow">in</span> <span class="n">opcodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">program</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">scan_index</span><span class="p">):</span>
+                <span class="n">scan_index</span> <span class="o">+=</span> <span class="nf">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+                <span class="n">matched</span> <span class="o">=</span> <span class="bp">True</span>
+
+                <span class="c1"># HALT 이후까지 스캔하면 불필요한 오류 발생 가능
+</span>                <span class="k">if</span> <span class="n">description</span> <span class="o">==</span> <span class="sh">"</span><span class="s">HALT</span><span class="sh">"</span><span class="p">:</span>
+                    <span class="c1"># return 해버리니 뒤쪽 레이블이 등록안됨...
+</span>                    <span class="k">break</span>
+                
+                <span class="k">elif</span> <span class="n">description</span> <span class="o">==</span> <span class="sh">"</span><span class="s">LABEL</span><span class="sh">"</span><span class="p">:</span>
+                    <span class="c1"># label 읽기
+</span>                    <span class="n">start</span> <span class="o">=</span> <span class="n">scan_index</span>
+
+                    <span class="k">while</span> <span class="n">scan_index</span> <span class="o">&lt;</span> <span class="nf">len</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+                        <span class="n">trit</span> <span class="o">=</span> <span class="n">program</span><span class="p">[</span><span class="n">scan_index</span><span class="p">]</span>
+
+                        <span class="k">if</span> <span class="n">trit</span> <span class="o">==</span> <span class="sh">'</span><span class="s">2</span><span class="sh">'</span><span class="p">:</span>
+                            <span class="n">label</span> <span class="o">=</span> <span class="n">program</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">scan_index</span><span class="p">]</span>
+                            <span class="n">scan_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">label</span> <span class="ow">or</span> <span class="nf">any</span><span class="p">(</span><span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">01</span><span class="sh">'</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">label</span><span class="p">):</span>
+                                <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+                                <span class="k">return</span>
+                            
+                            <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+                                <span class="c1"># 같은 위치에 중복된 레이블이면 허용
+</span>                                <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">!=</span> <span class="n">scan_index</span><span class="p">:</span>
+                                    <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+                                    <span class="k">return</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="c1"># label 다음 위치
+</span>                                <span class="n">labels</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_index</span>
+                            <span class="k">break</span>
+
+                        <span class="k">elif</span> <span class="n">trit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">01</span><span class="sh">'</span><span class="p">:</span>
+                            <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+                            <span class="k">return</span>
+                        <span class="n">scan_index</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># 끝까지 2를 못 만남
+</span>                        <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="k">return</span>
+
+                <span class="c1"># 숫자 건너뛰기
+</span>                <span class="k">elif</span> <span class="n">param</span> <span class="o">==</span> <span class="sh">"</span><span class="s">number</span><span class="sh">"</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+                    <span class="k">while</span> <span class="n">scan_index</span> <span class="o">&lt;</span> <span class="nf">len</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+                        <span class="n">trit</span> <span class="o">=</span> <span class="n">program</span><span class="p">[</span><span class="n">scan_index</span><span class="p">]</span>
+                        <span class="n">scan_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                        <span class="k">if</span> <span class="n">trit</span> <span class="o">==</span> <span class="sh">'</span><span class="s">2</span><span class="sh">'</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="k">elif</span> <span class="n">trit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">01</span><span class="sh">'</span><span class="p">:</span>
+                            <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+                            <span class="k">return</span>
+                        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                        <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">31</span><span class="p">:</span>
+                            <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+                            <span class="k">return</span>
+
+                <span class="c1"># 레이블 건너뛰기
+</span>                <span class="k">elif</span> <span class="n">param</span> <span class="o">==</span> <span class="sh">"</span><span class="s">label</span><span class="sh">"</span><span class="p">:</span>
+                    
+                    <span class="k">while</span> <span class="n">scan_index</span> <span class="o">&lt;</span> <span class="nf">len</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+                        <span class="n">trit</span> <span class="o">=</span> <span class="n">program</span><span class="p">[</span><span class="n">scan_index</span><span class="p">]</span>
+                        <span class="n">scan_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                        <span class="k">if</span> <span class="n">trit</span> <span class="o">==</span> <span class="sh">'</span><span class="s">2</span><span class="sh">'</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="k">elif</span> <span class="n">trit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">01</span><span class="sh">'</span><span class="p">:</span>
+                            <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+                            <span class="k">return</span>
+
+                <span class="c1"># param 없는 경우
+</span>                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">matched</span><span class="p">:</span>
+            <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span>
+</code></pre></div></div>
+
+<h5 id="3-메인-루프">3. 메인 루프</h5>
+
+<p>명령어 조건에 맞춰 메인 루프 작성<br />
+가장 단순하고 가장 별거없고 가장 노가다 구간</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 본 로직
+</span><span class="k">while</span> <span class="n">program_index</span> <span class="o">&lt;</span> <span class="nf">len</span><span class="p">(</span><span class="n">program</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">isError</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">halted</span><span class="p">:</span>
+
+    <span class="n">matched</span> <span class="o">=</span> <span class="bp">False</span>
+    
+    <span class="k">for</span> <span class="n">code</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">description</span> <span class="ow">in</span> <span class="n">opcodes</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">program</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">program_index</span><span class="p">):</span>
+            <span class="n">program_index</span> <span class="o">+=</span> <span class="nf">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+            <span class="n">matched</span> <span class="o">=</span> <span class="bp">True</span>
+
+            <span class="c1"># 분기 시작
+</span>
+            <span class="c1"># ... 중략 ...
+</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">matched</span><span class="p">:</span>
+        <span class="c1"># 남은 코드가 공백이거나 무의미하면 무시하고 종료
+</span>        <span class="k">if</span> <span class="n">program_index</span> <span class="o">&gt;=</span> <span class="nf">len</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">isError</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">break</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-21308/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>하필 또 파이썬이라 푸는데 엄청 오래 걸린 문제</p>
+
+<p>구현만 잘하면 문제없을 줄 알았는데 생각보다 오류가 엄청났다.<br />
+레이블 스캔하는 부분에서 뜻대로 잘 동작하지 않아서 결과가 자꾸 틀어짐…</p>
+
+<p>PyPy는 JIT 컴파일러가 있어서 더 빠르다고해서 Python3와 PyPy3 두개로 제출했다.<br />
+생각보다 시간 차이가 안나는데, 메모리는 당연히 PyPy3가 많이 쓸거고<br />
+속도는 연산자체가 그리 많은 문제가 아니라 큰 차이 안나는 것으로 보인다.</p>
+
+<p>제한시간 빡빡한 문제에서 다시 한 번 비교해봐야할 듯</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-30-21308.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 21308번 Ternary Machine - 백준 번역 롱——문제 3진수 프로그램을 해석하고 실행하는 인터프리터를 구현해야한다. 명령어는 고정된 형식이 존재하며 표를 참조한다. 올바르지 않은 입력에 대해서는 런타임에러를 출력하는데, 실행되지 않는 오류는 무시한다. 프로그램은 최대 8192자이며 입력이 필요한 경우 충분한 입력이 반드시 주어진다. 설계 구현문제로 보이는데 생각할 부분이 다소 많아보인다. 명령어 해석을 빠르게 처리해야하고 스택과 힙을 구현해야하겠고 예외처리도 해야하고… 주어진 것부터 묵묵히 하다보면 풀리겠지?? 구현 1. 입출력과 기본함수 입력은 한번에 받아서 버퍼로 저장해둔다. 필요하면 버퍼에 하나씩 꺼내 쓰도록 하고 출력은 모아뒀다가 한번에 한다. 오류 출력시에는 기존 프로그램이 생성한 출력은 먼저 출력해야하는 것에 주의 isError = False # 입력 버퍼 탐색 인덱스 buffer_index = 0 # 프로그램 탐색 인덱스 program_index = 0 # 명령어 사전 opcodes = [ # 4자리 명령부터 판단 # CODE | PARAM | DESCRIPTION ("1000", None, "ADD"), ("1001", None, "SUB"), ("1002", None, "MUL"), ("1010", None, "DIV"), ("1011", None, "MOD"), ("1200", None, "PRINT_CHAR"), ("1201", None, "PRINT_NUM"), ("1210", None, "READ_CHAR"), ("1211", None, "READ_NUM"), ("000", "number", "PUSH_POS"), ("001", "number", "PUSH_NEG"), ("020", None, "DUP"), ("021", None, "SWAP"), ("022", None, "DROP"), ("110", None, "STORE"), ("111", None, "LOAD"), ("200", "label", "LABEL"), ("201", "label", "CALL"), ("202", "label", "JUMP"), ("210", "label", "JUMP_IF_ZERO"), ("211", "label", "JUMP_IF_NEG"), ("212", None, "RETURN"), ("222", None, "HALT"), ] stack = [] heap = {} # 복귀 주소 스택 call_stack = [] # CALL, JUMP 등을 처리하기 위해 label 위치를 미리 매핑해야함 labels = {} # 출력은 리스트에 모아두었다가 한 번에 출력 output = [] print(''.join(output), end='') if isError: print("RUN-TIME ERROR", end='') 한자리 숫자, 문자를 읽는 함수, 라벨을 읽는 함수, 프로그램 내 숫자를 읽는 함수가 필요하다. 스택에 넣는 부분이 많아서 그부분도 따로 함수로 뺀다. # 버퍼에서 숫자 하나 읽어오는 함수 def read_number(): global buffer_index, isError # 입력에 공백이 주어지나?? while buffer_index &lt; len(input_buffer) and input_buffer[buffer_index].isspace(): buffer_index += 1 if buffer_index &gt;= len(input_buffer): isError = True return 0 start = buffer_index # 입력 값이 음수일 수 있음 if input_buffer[buffer_index] == '-': buffer_index += 1 while buffer_index &lt; len(input_buffer) and input_buffer[buffer_index].isdigit(): buffer_index += 1 if start == buffer_index or (input_buffer[start] == '-' and buffer_index == start + 1): isError = True return 0 return int(''.join(input_buffer[start:buffer_index])) # 버퍼에서 문자 하나 읽어오는 함수 def read_char(): global buffer_index, isError if buffer_index &gt;= len(input_buffer): isError = True return 0 ch = input_buffer[buffer_index] buffer_index += 1 return ord(ch) # 프로그램에서 2로 끝나는 레이블을 읽어오는 함수 def read_label(): global program_index, isError start = program_index while program_index &lt; len(program): trit = program[program_index] if trit == '2': label = program[start:program_index] program_index += 1 return label elif trit not in '01': isError = True return None program_index += 1 isError = True return None # 프로그램 내의 숫자 파싱하는 함수 def parse_number_program(): global program_index, isError bits = [] count = 0 while program_index &lt; len(program): trit = program[program_index] if trit == '0' or trit == '1': bits.append(trit) program_index += 1 count += 1 if count &gt; 31: isError = True return 0 elif trit == '2': program_index += 1 if not bits: isError = True return 0 return int(''.join(bits), 2) else: isError = True return 0 isError = True return 0 # 스택에 넣는 함수 def push_stack(value): global stack, isError if len(stack) &gt;= 1024: isError = True return stack.append(value) # 콜스택에 넣는 함수 def push_call_stack(value): global call_stack, isError # 서브루틴도 1024 체크 필요 if len(call_stack) &gt;= 1024: isError = True return call_stack.append(value) 2. 레이블 스캔 함수 CALL이나 JUMP 명령 시 어디로 가야하는가? 그것을 미리 알기위해 레이블 스캔을 미리 진행한다. 실행 시 찾으려면 비효율적일 것 같아서리 섣불리 에러처리 해버리면 에러 전까지의 프로그램 아웃풋이 없으므로 주의해야한다. # label 스캔하는 함수 def scan_labels(): global labels, isError scan_index = 0 while scan_index &lt; len(program): # 트릿이 아니면 스캔 종료 if program[scan_index] not in '012': break matched = False for code, param, description in opcodes: if program.startswith(code, scan_index): scan_index += len(code) matched = True # HALT 이후까지 스캔하면 불필요한 오류 발생 가능 if description == "HALT": # return 해버리니 뒤쪽 레이블이 등록안됨... break elif description == "LABEL": # label 읽기 start = scan_index while scan_index &lt; len(program): trit = program[scan_index] if trit == '2': label = program[start:scan_index] scan_index += 1 if not label or any(c not in '01' for c in label): isError = True return if label in labels: # 같은 위치에 중복된 레이블이면 허용 if labels[label] != scan_index: isError = True return else: # label 다음 위치 labels[label] = scan_index break elif trit not in '01': isError = True return scan_index += 1 else: # 끝까지 2를 못 만남 isError = True return # 숫자 건너뛰기 elif param == "number": count = 0 while scan_index &lt; len(program): trit = program[scan_index] scan_index += 1 if trit == '2': break elif trit not in '01': isError = True return count += 1 if count &gt; 31: isError = True return # 레이블 건너뛰기 elif param == "label": while scan_index &lt; len(program): trit = program[scan_index] scan_index += 1 if trit == '2': break elif trit not in '01': isError = True return # param 없는 경우 break if not matched: isError = True break return 3. 메인 루프 명령어 조건에 맞춰 메인 루프 작성 가장 단순하고 가장 별거없고 가장 노가다 구간 # 본 로직 while program_index &lt; len(program) and not isError and not halted: matched = False for code, param, description in opcodes: if program.startswith(code, program_index): program_index += len(code) matched = True # 분기 시작 # ... 중략 ... if not matched: # 남은 코드가 공백이거나 무의미하면 무시하고 종료 if program_index &gt;= len(program): break else: isError = True break 채점 반성 하필 또 파이썬이라 푸는데 엄청 오래 걸린 문제 구현만 잘하면 문제없을 줄 알았는데 생각보다 오류가 엄청났다. 레이블 스캔하는 부분에서 뜻대로 잘 동작하지 않아서 결과가 자꾸 틀어짐… PyPy는 JIT 컴파일러가 있어서 더 빠르다고해서 Python3와 PyPy3 두개로 제출했다. 생각보다 시간 차이가 안나는데, 메모리는 당연히 PyPy3가 많이 쓸거고 속도는 연산자체가 그리 많은 문제가 아니라 큰 차이 안나는 것으로 보인다. 제한시간 빡빡한 문제에서 다시 한 번 비교해봐야할 듯 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">11982번 Angry Cows (Gold)</title><link href="https://movingwoo.com/random-solve/java/2025/05/28/11982.html" rel="alternate" type="text/html" title="11982번 Angry Cows (Gold)" /><published>2025-05-28T08:00:00+00:00</published><updated>2025-05-28T08:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/28/11982</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/28/11982.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -2279,99 +2655,4 @@ n이 10^18까지 있으므로 평범하게 하면 바로 시간초과다.<br />
 <a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-23-RecursiveDivision.js">Link to GitHub</a></p>
 
 <p>Eller’s<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-23-Eller.js">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 남은 알고리즘 미로 추가하여 미로 생성기 완성하기. 구현 시작 전에 길찾고 그리는 부분이 중복되기 때문에 공통 함수로 옮겨줬다. 1. Binary Tree 알고리즘과 Sidewinder 알고리즘 두 알고리즘의 미로 생성 과정이나 결과물은 상당히 유사해보인다. 셀에서 방향을 무작위로 선택해 벽을 제거하고 나아가는 방식이다. 차이점을 정리해보면 Binary Tree 각 셀마다 독립적으로 결정을 내림 대각선 방향의 경향 Sidewinder 연속된 동쪽 경로인 run이라는 개념을 활용, 동쪽으로 진행 현재 run에서 무작위 셀을 남쪽으로 연결하며 run 종료 이전 셀들의 선택이 다음 셀 선택에 영향을 줌 수평 방향의 경향 실제 입구 출구를 이어보면 이는 더 명확하게 드러난다. 전통적인 Sidewinder 알고리즘 사용시 동쪽과 북쪽을 선택하는데 시작 좌표를 [0, 0] 으로 잡기 때문에 동쪽과 남쪽으로 진행하게 방향을 잡았다. // Binary Tree 알고리즘 async function generateBinaryTree() { // 모든 셀을 벽으로 초기화 for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { maze[y][x] = 1; drawCell(x, y, 'black'); } } // 각 셀에 대해 for (let y = 0; y &lt; rows; y += 2) { for (let x = 0; x &lt; cols; x += 2) { // 현재 셀을 통로로 만들기 maze[y][x] = 0; drawCell(x, y, 'white'); // 동쪽과 남쪽 중 하나를 무작위로 선택 const canGoEast = x + 2 &lt; cols; const canGoSouth = y + 2 &lt; rows; if (canGoEast &amp;&amp; canGoSouth) { // 둘 다 가능하면 무작위로 선택 if (Math.random() &lt; 0.5) { // 동쪽으로 maze[y][x + 1] = 0; drawCell(x + 1, y, 'white'); } else { // 남쪽으로 maze[y + 1][x] = 0; drawCell(x, y + 1, 'white'); } } else if (canGoEast) { // 동쪽만 가능 maze[y][x + 1] = 0; drawCell(x + 1, y, 'white'); } else if (canGoSouth) { // 남쪽만 가능 maze[y + 1][x] = 0; drawCell(x, y + 1, 'white'); } await sleep(5); } } } // Sidewinder 알고리즘 // 전통적인 Sidewinder 알고리즘은 북쪽으로 길을 파는데 입구가 0,0이라 남쪽으로 파는 것으로 변경 async function generateSidewinder() { // 모든 셀을 벽으로 초기화 for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { maze[y][x] = 1; drawCell(x, y, 'black'); } } // 각 행을 처리 for (let y = 0; y &lt; rows; y += 2) { let run = []; // 현재 실행 중인 경로 (연속된 동쪽 경로) for (let x = 0; x &lt; cols; x += 2) { // 현재 셀을 통로로 만들기 maze[y][x] = 0; drawCell(x, y, 'white'); run.push([x, y]); // 현재 셀을 run에 추가 // 동쪽으로 갈 수 있는지 확인 const canGoEast = x + 2 &lt; cols; // 남쪽으로 갈 수 있는지 확인 const canGoSouth = y + 2 &lt; rows; // 동쪽으로 계속 진행할지, 남쪽으로 연결할지 결정 // 1. 동쪽으로 갈 수 없거나 // 2. 남쪽으로 갈 수 있고 50% 확률로 run을 종료 const shouldCloseOut = !canGoEast || (canGoSouth &amp;&amp; Math.random() &lt; 0.5); if (shouldCloseOut) { // 현재 run에서 무작위로 선택된 셀을 남쪽과 연결 const [rx, ry] = run[Math.floor(Math.random() * run.length)]; if (canGoSouth) { maze[ry + 1][rx] = 0; drawCell(rx, ry + 1, 'white'); } run = []; // run 초기화 } else { // 동쪽으로 계속 진행 (run 확장) maze[y][x + 1] = 0; drawCell(x + 1, y, 'white'); } await sleep(5); } } } 2. Recursive Division 알고리즘 Resursive Division 알고리즘으로 생성된 미로를 보면 다른 미로들과 비교해 상당히 이질적이다. 마치 던전 맵 같은 방 구조로 되어있으며 접근할 수 없는 갇힌 방도 만들어진다. 공간을 분할하며 한 줄짜리 벽을 만들고 벽에 단 하나의 통로만 뚫는다. 이 과정이 반복되며 어떤 영역은 한 통로만 생기고 나머지는 벽으로 막혀버릴 수 있다. 모든 칸이 연결된 완전 미로를 만들기 위해 코드를 약간 수정했다. 벽을 만들 때 이미 통로가 있는지 확인하고 막히게 된다면 추가로 통로를 더 뚫어주는 로직을 넣어주었다. 그래도 막힌 방이 생성됨… 좀 벽을 더 뚫어줘야할 것 같다. // Recursive Division 알고리즘 // 완전 미로를 만들기 위한 커스텀 // 분할선 크기 조정 시 방 크기 조정 async function generateRecursiveDivision(x1, y1, x2, y2, orientation) { // 방이 너무 작으면 중단 if (x2 - x1 &lt; 2 || y2 - y1 &lt; 2) { return; } // 수평 if (orientation === 'horizontal') { // 분할선 후보(짝수) const possibleYs = []; for (let y = y1 + 2; y &lt; y2; y += 2) { possibleYs.push(y); } if (possibleYs.length === 0) { // 분할선 후보가 없으면 중단 return; } const y = possibleYs[Math.floor(Math.random() * possibleYs.length)]; // 통로 후보(홀수) const possiblePassages = []; for (let x = x1 + 1; x &lt; x2; x += 2) { possiblePassages.push(x); } if (possiblePassages.length === 0) { // 통로 후보가 없으면 중단 return; } // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여 const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3)); const passages = []; const passageCandidates = [...possiblePassages]; while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) { const idx = Math.floor(Math.random() * passageCandidates.length); const px = passageCandidates.splice(idx, 1)[0]; passages.push(px); } // 벽 생성 (통로 제외) for (let x = x1; x &lt;= x2; x++) { if (!passages.includes(x)) { maze[y][x] = 1; drawCell(x, y, 'black'); } } await sleep(5); // 위/아래 영역 재귀 호출 await generateRecursiveDivision(x1, y1, x2, y - 1, 'vertical'); await generateRecursiveDivision(x1, y + 1, x2, y2, 'vertical'); } else { // 수직 // 분할선 후보(짝수) const possibleXs = []; for (let x = x1 + 2; x &lt; x2; x += 2) { possibleXs.push(x); } if (possibleXs.length === 0) { // 분할선 후보가 없으면 중단 return; } const x = possibleXs[Math.floor(Math.random() * possibleXs.length)]; // 통로 후보(홀수) const possiblePassages = []; for (let y = y1 + 1; y &lt; y2; y += 2) { possiblePassages.push(y); } if (possiblePassages.length === 0) { // 통로 후보가 없으면 중단 return; } // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여 const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3)); const passages = []; const passageCandidates = [...possiblePassages]; while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) { const idx = Math.floor(Math.random() * passageCandidates.length); const py = passageCandidates.splice(idx, 1)[0]; passages.push(py); } // 벽 생성 (통로 제외) for (let y = y1; y &lt;= y2; y++) { if (!passages.includes(y)) { maze[y][x] = 1; drawCell(x, y, 'black'); } } await sleep(5); // 좌/우 영역 재귀 호출 await generateRecursiveDivision(x1, y1, x - 1, y2, 'horizontal'); await generateRecursiveDivision(x + 1, y1, x2, y2, 'horizontal'); } } 3. Eller’s 알고리즘 Eller’s 알고리즘은 각 행마다 집합을 관리하며 벽을 뚫을 때 집합을 병합하거나 새로 부여한다. 한 줄씩 처리하며 집합 연산과 벽 뚫기만 하고 복잡한 경로 탐색이 없어서 메모리 접근이 효율적이고 엄청나게 빠르다. 실제로 시뮬레이션 돌리면 혼자서 미로를 호다닥 생성해버린다. 엄청나게 빠른게 장점이라면 단점으로는 무작위성이 떨어지며 수평으로 편향되어 있다는 점 정도? 좀 숭숭 뚫려있는 느낌도 받는다. 수직으로 한 칸 짜리 벽 생성을 지양해야하는데 수평으로 한 줄씩 처리하기 때문에 수직 처리하기 곤란하다. // Eller's Algorithm 미로 생성 async function generateEller() { // 모든 셀을 벽으로 초기화 for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { maze[y][x] = 1; drawCell(x, y, 'black'); } } // 각 셀의 집합 번호를 저장할 배열 let sets = []; let nextSet = 1; // 첫 번째 행 초기화 for (let x = 0; x &lt; cols; x += 2) { sets[x] = nextSet++; maze[0][x] = 0; drawCell(x, 0, 'white'); } // 각 행을 처리 for (let y = 0; y &lt; rows; y += 2) { // 1. 오른쪽으로 벽을 뚫을지 결정 for (let x = 0; x &lt; cols - 2; x += 2) { // 같은 집합이 아니고, 랜덤하게 벽을 뚫기로 결정하면 if (sets[x] !== sets[x + 2] &amp;&amp; Math.random() &lt; 0.5) { // 벽 뚫기 maze[y][x + 1] = 0; drawCell(x + 1, y, 'white'); // 집합 병합 const oldSet = sets[x + 2]; const newSet = sets[x]; for (let i = 0; i &lt; cols; i += 2) { if (sets[i] === oldSet) sets[i] = newSet; } } } // 마지막 행이 아니면 아래로 벽을 뚫기 if (y + 2 &lt; rows) { // 각 집합별로 아래로 연결할 셀을 최소 1개 이상 선택 const setCells = {}; for (let x = 0; x &lt; cols; x += 2) { if (!setCells[sets[x]]) setCells[sets[x]] = []; setCells[sets[x]].push(x); } // 아래로 연결 let newSets = []; for (const set in setCells) { // 반드시 하나는 아래로 연결 const cells = setCells[set]; const shuffled = cells.slice().sort(() =&gt; Math.random() - 0.5); const downCount = 1 + Math.floor(Math.random() * cells.length); for (let i = 0; i &lt; downCount; i++) { const x = shuffled[i]; maze[y + 1][x] = 0; drawCell(x, y + 1, 'white'); maze[y + 2][x] = 0; drawCell(x, y + 2, 'white'); newSets[x] = nextSet++; } } // 나머지 셀은 새로운 집합 번호 부여 for (let x = 0; x &lt; cols; x += 2) { if (!newSets[x]) { maze[y + 2][x] = 0; drawCell(x, y + 2, 'white'); newSets[x] = nextSet++; } } sets = newSets; } await sleep(10); } } 완성 Binary Tree 알고리즘 미로 Sidewinder 알고리즘 미로 Recursive Division 알고리즘 미로 Eller’s 알고리즘 미로 반성 7종 알고리즘 미로를 완성했다. 그 외 몇가지 알고리즘이 더 있긴한데, 대표적으로 이 7종이면 더 맛 볼 필요는 없다고 한다. 그리고 미로 알고리즘 짜다가 알게 되었는데 던전 맵 만드는 알고리즘과 미로 알고리즘은 또 다르다고 한다… 정리 되면 던전 맵 시뮬레이터도 만들어봐야겠다. 코드 확인 직접 해보기 Binary Tree Link to GitHub Sidewinder Link to GitHub Recursive Division Link to GitHub Eller’s Link to GitHub]]></summary></entry><entry><title type="html">26489번 Gum Gum for Jay Jay</title><link href="https://movingwoo.com/random-solve/python/2025/05/22/26489.html" rel="alternate" type="text/html" title="26489번 Gum Gum for Jay Jay" /><published>2025-05-22T02:00:00+00:00</published><updated>2025-05-22T02:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/22/26489</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/22/26489.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-22-26489/img01.jpg" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/26489">26489번 Gum Gum for Jay Jay - 백준</a></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ<br />
-좋아좋아 이런 날도 있어야지.</p>
-
-<p>입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="nf">input</span><span class="p">()</span>
-        <span class="n">n</span><span class="o">+=</span><span class="mi">1</span>
-<span class="k">except</span> <span class="nb">EOFError</span><span class="p">:</span>
-    <span class="k">pass</span> 
-
-<span class="nf">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>끝이다.<br />
-<span style="color: red;"><strong>아니 내 컨텐츠가!!!!!!!</strong></span><br />
-너무 쉬운 문제는 이런게 문제구나.</p>
-
-<p>이왕 이렇게 된 것, C++과 Java로도 처리하자.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
-</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">string</span> <span class="n">s</span><span class="p">;</span>
-    
-    <span class="k">while</span> <span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span> <span class="p">{</span>
-        <span class="o">++</span><span class="n">n</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">;</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>자바는 스캐너로 EOF 판단하는게 낫다.<br />
-어차피 속도가 중요한 문제도 아니니</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
-	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-		<span class="nc">Scanner</span> <span class="n">sc</span><span class="o">=</span><span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
-		<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-
-		<span class="k">while</span><span class="o">(</span><span class="n">sc</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">())</span> <span class="o">{</span>
-			<span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
-			<span class="n">n</span><span class="o">++;</span>
-		<span class="o">}</span>
-
-		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">n</span><span class="o">);</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-22-26489/img02.jpg" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p><span style="color: red;"><strong>뭐???? 파이썬에서 틀렸습니다가 발생했다고???????</strong></span><br />
-파이썬은 ++n이 없고 n+=1을 해야하는데 자연스럽게 ++n한 나의 실수다.<br />
-이렇게 개꿀문제에서도 반성할 점은 있는 법.</p>
-
-<p>날먹 날먹 신나는 날먹</p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 26489번 Gum Gum for Jay Jay - 백준 설계 엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ 좋아좋아 이런 날도 있어야지. 입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다. 구현 n = 0 try: while True: input() n+=1 except EOFError: pass print(n) 끝이다. 아니 내 컨텐츠가!!!!!!! 너무 쉬운 문제는 이런게 문제구나. 이왕 이렇게 된 것, C++과 Java로도 처리하자. #include &lt;iostream&gt; #include &lt;string&gt; using namespace std; int main() { int n = 0; string s; while (getline(cin, s)) { ++n; } cout &lt;&lt; n; return 0; } 자바는 스캐너로 EOF 판단하는게 낫다. 어차피 속도가 중요한 문제도 아니니 import java.util.*; public class Main { public static void main(String[] args) { Scanner sc=new Scanner(System.in); int n=0; while(sc.hasNextLine()) { sc.nextLine(); n++; } System.out.print(n); } } 채점 반성 뭐???? 파이썬에서 틀렸습니다가 발생했다고??????? 파이썬은 ++n이 없고 n+=1을 해야하는데 자연스럽게 ++n한 나의 실수다. 이렇게 개꿀문제에서도 반성할 점은 있는 법. 날먹 날먹 신나는 날먹]]></summary></entry></feed>
+<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-23-Eller.js">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 남은 알고리즘 미로 추가하여 미로 생성기 완성하기. 구현 시작 전에 길찾고 그리는 부분이 중복되기 때문에 공통 함수로 옮겨줬다. 1. Binary Tree 알고리즘과 Sidewinder 알고리즘 두 알고리즘의 미로 생성 과정이나 결과물은 상당히 유사해보인다. 셀에서 방향을 무작위로 선택해 벽을 제거하고 나아가는 방식이다. 차이점을 정리해보면 Binary Tree 각 셀마다 독립적으로 결정을 내림 대각선 방향의 경향 Sidewinder 연속된 동쪽 경로인 run이라는 개념을 활용, 동쪽으로 진행 현재 run에서 무작위 셀을 남쪽으로 연결하며 run 종료 이전 셀들의 선택이 다음 셀 선택에 영향을 줌 수평 방향의 경향 실제 입구 출구를 이어보면 이는 더 명확하게 드러난다. 전통적인 Sidewinder 알고리즘 사용시 동쪽과 북쪽을 선택하는데 시작 좌표를 [0, 0] 으로 잡기 때문에 동쪽과 남쪽으로 진행하게 방향을 잡았다. // Binary Tree 알고리즘 async function generateBinaryTree() { // 모든 셀을 벽으로 초기화 for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { maze[y][x] = 1; drawCell(x, y, 'black'); } } // 각 셀에 대해 for (let y = 0; y &lt; rows; y += 2) { for (let x = 0; x &lt; cols; x += 2) { // 현재 셀을 통로로 만들기 maze[y][x] = 0; drawCell(x, y, 'white'); // 동쪽과 남쪽 중 하나를 무작위로 선택 const canGoEast = x + 2 &lt; cols; const canGoSouth = y + 2 &lt; rows; if (canGoEast &amp;&amp; canGoSouth) { // 둘 다 가능하면 무작위로 선택 if (Math.random() &lt; 0.5) { // 동쪽으로 maze[y][x + 1] = 0; drawCell(x + 1, y, 'white'); } else { // 남쪽으로 maze[y + 1][x] = 0; drawCell(x, y + 1, 'white'); } } else if (canGoEast) { // 동쪽만 가능 maze[y][x + 1] = 0; drawCell(x + 1, y, 'white'); } else if (canGoSouth) { // 남쪽만 가능 maze[y + 1][x] = 0; drawCell(x, y + 1, 'white'); } await sleep(5); } } } // Sidewinder 알고리즘 // 전통적인 Sidewinder 알고리즘은 북쪽으로 길을 파는데 입구가 0,0이라 남쪽으로 파는 것으로 변경 async function generateSidewinder() { // 모든 셀을 벽으로 초기화 for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { maze[y][x] = 1; drawCell(x, y, 'black'); } } // 각 행을 처리 for (let y = 0; y &lt; rows; y += 2) { let run = []; // 현재 실행 중인 경로 (연속된 동쪽 경로) for (let x = 0; x &lt; cols; x += 2) { // 현재 셀을 통로로 만들기 maze[y][x] = 0; drawCell(x, y, 'white'); run.push([x, y]); // 현재 셀을 run에 추가 // 동쪽으로 갈 수 있는지 확인 const canGoEast = x + 2 &lt; cols; // 남쪽으로 갈 수 있는지 확인 const canGoSouth = y + 2 &lt; rows; // 동쪽으로 계속 진행할지, 남쪽으로 연결할지 결정 // 1. 동쪽으로 갈 수 없거나 // 2. 남쪽으로 갈 수 있고 50% 확률로 run을 종료 const shouldCloseOut = !canGoEast || (canGoSouth &amp;&amp; Math.random() &lt; 0.5); if (shouldCloseOut) { // 현재 run에서 무작위로 선택된 셀을 남쪽과 연결 const [rx, ry] = run[Math.floor(Math.random() * run.length)]; if (canGoSouth) { maze[ry + 1][rx] = 0; drawCell(rx, ry + 1, 'white'); } run = []; // run 초기화 } else { // 동쪽으로 계속 진행 (run 확장) maze[y][x + 1] = 0; drawCell(x + 1, y, 'white'); } await sleep(5); } } } 2. Recursive Division 알고리즘 Resursive Division 알고리즘으로 생성된 미로를 보면 다른 미로들과 비교해 상당히 이질적이다. 마치 던전 맵 같은 방 구조로 되어있으며 접근할 수 없는 갇힌 방도 만들어진다. 공간을 분할하며 한 줄짜리 벽을 만들고 벽에 단 하나의 통로만 뚫는다. 이 과정이 반복되며 어떤 영역은 한 통로만 생기고 나머지는 벽으로 막혀버릴 수 있다. 모든 칸이 연결된 완전 미로를 만들기 위해 코드를 약간 수정했다. 벽을 만들 때 이미 통로가 있는지 확인하고 막히게 된다면 추가로 통로를 더 뚫어주는 로직을 넣어주었다. 그래도 막힌 방이 생성됨… 좀 벽을 더 뚫어줘야할 것 같다. // Recursive Division 알고리즘 // 완전 미로를 만들기 위한 커스텀 // 분할선 크기 조정 시 방 크기 조정 async function generateRecursiveDivision(x1, y1, x2, y2, orientation) { // 방이 너무 작으면 중단 if (x2 - x1 &lt; 2 || y2 - y1 &lt; 2) { return; } // 수평 if (orientation === 'horizontal') { // 분할선 후보(짝수) const possibleYs = []; for (let y = y1 + 2; y &lt; y2; y += 2) { possibleYs.push(y); } if (possibleYs.length === 0) { // 분할선 후보가 없으면 중단 return; } const y = possibleYs[Math.floor(Math.random() * possibleYs.length)]; // 통로 후보(홀수) const possiblePassages = []; for (let x = x1 + 1; x &lt; x2; x += 2) { possiblePassages.push(x); } if (possiblePassages.length === 0) { // 통로 후보가 없으면 중단 return; } // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여 const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3)); const passages = []; const passageCandidates = [...possiblePassages]; while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) { const idx = Math.floor(Math.random() * passageCandidates.length); const px = passageCandidates.splice(idx, 1)[0]; passages.push(px); } // 벽 생성 (통로 제외) for (let x = x1; x &lt;= x2; x++) { if (!passages.includes(x)) { maze[y][x] = 1; drawCell(x, y, 'black'); } } await sleep(5); // 위/아래 영역 재귀 호출 await generateRecursiveDivision(x1, y1, x2, y - 1, 'vertical'); await generateRecursiveDivision(x1, y + 1, x2, y2, 'vertical'); } else { // 수직 // 분할선 후보(짝수) const possibleXs = []; for (let x = x1 + 2; x &lt; x2; x += 2) { possibleXs.push(x); } if (possibleXs.length === 0) { // 분할선 후보가 없으면 중단 return; } const x = possibleXs[Math.floor(Math.random() * possibleXs.length)]; // 통로 후보(홀수) const possiblePassages = []; for (let y = y1 + 1; y &lt; y2; y += 2) { possiblePassages.push(y); } if (possiblePassages.length === 0) { // 통로 후보가 없으면 중단 return; } // 반드시 하나는 통로로 만들고, 추가로 통로를 더 만들 확률도 부여 const passageCount = 1 + Math.floor(Math.random() * Math.max(1, possiblePassages.length / 3)); const passages = []; const passageCandidates = [...possiblePassages]; while (passages.length &lt; passageCount &amp;&amp; passageCandidates.length &gt; 0) { const idx = Math.floor(Math.random() * passageCandidates.length); const py = passageCandidates.splice(idx, 1)[0]; passages.push(py); } // 벽 생성 (통로 제외) for (let y = y1; y &lt;= y2; y++) { if (!passages.includes(y)) { maze[y][x] = 1; drawCell(x, y, 'black'); } } await sleep(5); // 좌/우 영역 재귀 호출 await generateRecursiveDivision(x1, y1, x - 1, y2, 'horizontal'); await generateRecursiveDivision(x + 1, y1, x2, y2, 'horizontal'); } } 3. Eller’s 알고리즘 Eller’s 알고리즘은 각 행마다 집합을 관리하며 벽을 뚫을 때 집합을 병합하거나 새로 부여한다. 한 줄씩 처리하며 집합 연산과 벽 뚫기만 하고 복잡한 경로 탐색이 없어서 메모리 접근이 효율적이고 엄청나게 빠르다. 실제로 시뮬레이션 돌리면 혼자서 미로를 호다닥 생성해버린다. 엄청나게 빠른게 장점이라면 단점으로는 무작위성이 떨어지며 수평으로 편향되어 있다는 점 정도? 좀 숭숭 뚫려있는 느낌도 받는다. 수직으로 한 칸 짜리 벽 생성을 지양해야하는데 수평으로 한 줄씩 처리하기 때문에 수직 처리하기 곤란하다. // Eller's Algorithm 미로 생성 async function generateEller() { // 모든 셀을 벽으로 초기화 for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { maze[y][x] = 1; drawCell(x, y, 'black'); } } // 각 셀의 집합 번호를 저장할 배열 let sets = []; let nextSet = 1; // 첫 번째 행 초기화 for (let x = 0; x &lt; cols; x += 2) { sets[x] = nextSet++; maze[0][x] = 0; drawCell(x, 0, 'white'); } // 각 행을 처리 for (let y = 0; y &lt; rows; y += 2) { // 1. 오른쪽으로 벽을 뚫을지 결정 for (let x = 0; x &lt; cols - 2; x += 2) { // 같은 집합이 아니고, 랜덤하게 벽을 뚫기로 결정하면 if (sets[x] !== sets[x + 2] &amp;&amp; Math.random() &lt; 0.5) { // 벽 뚫기 maze[y][x + 1] = 0; drawCell(x + 1, y, 'white'); // 집합 병합 const oldSet = sets[x + 2]; const newSet = sets[x]; for (let i = 0; i &lt; cols; i += 2) { if (sets[i] === oldSet) sets[i] = newSet; } } } // 마지막 행이 아니면 아래로 벽을 뚫기 if (y + 2 &lt; rows) { // 각 집합별로 아래로 연결할 셀을 최소 1개 이상 선택 const setCells = {}; for (let x = 0; x &lt; cols; x += 2) { if (!setCells[sets[x]]) setCells[sets[x]] = []; setCells[sets[x]].push(x); } // 아래로 연결 let newSets = []; for (const set in setCells) { // 반드시 하나는 아래로 연결 const cells = setCells[set]; const shuffled = cells.slice().sort(() =&gt; Math.random() - 0.5); const downCount = 1 + Math.floor(Math.random() * cells.length); for (let i = 0; i &lt; downCount; i++) { const x = shuffled[i]; maze[y + 1][x] = 0; drawCell(x, y + 1, 'white'); maze[y + 2][x] = 0; drawCell(x, y + 2, 'white'); newSets[x] = nextSet++; } } // 나머지 셀은 새로운 집합 번호 부여 for (let x = 0; x &lt; cols; x += 2) { if (!newSets[x]) { maze[y + 2][x] = 0; drawCell(x, y + 2, 'white'); newSets[x] = nextSet++; } } sets = newSets; } await sleep(10); } } 완성 Binary Tree 알고리즘 미로 Sidewinder 알고리즘 미로 Recursive Division 알고리즘 미로 Eller’s 알고리즘 미로 반성 7종 알고리즘 미로를 완성했다. 그 외 몇가지 알고리즘이 더 있긴한데, 대표적으로 이 7종이면 더 맛 볼 필요는 없다고 한다. 그리고 미로 알고리즘 짜다가 알게 되었는데 던전 맵 만드는 알고리즘과 미로 알고리즘은 또 다르다고 한다… 정리 되면 던전 맵 시뮬레이터도 만들어봐야겠다. 코드 확인 직접 해보기 Binary Tree Link to GitHub Sidewinder Link to GitHub Recursive Division Link to GitHub Eller’s Link to GitHub]]></summary></entry></feed>

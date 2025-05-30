@@ -166,4 +166,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/java/2025/05/28/11982.html",
         "teaser": null
+      },{
+        "title": "21308번 Ternary Machine",
+        "excerpt":"문제 21308번 Ternary Machine - 백준 번역 롱——문제 3진수 프로그램을 해석하고 실행하는 인터프리터를 구현해야한다. 명령어는 고정된 형식이 존재하며 표를 참조한다. 올바르지 않은 입력에 대해서는 런타임에러를 출력하는데, 실행되지 않는 오류는 무시한다. 프로그램은 최대 8192자이며 입력이 필요한 경우 충분한 입력이 반드시 주어진다. 설계 구현문제로 보이는데 생각할 부분이 다소 많아보인다. 명령어 해석을 빠르게...","categories": ["random-solve/Python/"],
+        "tags": [],
+        "url": "/random-solve/python/2025/05/30/21308.html",
+        "teaser": null
       }]
