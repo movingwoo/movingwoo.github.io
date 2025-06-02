@@ -202,4 +202,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/java/2025/06/02/1148.html",
         "teaser": null
+      },{
+        "title": "마법의 소라고둥",
+        "excerpt":"개요 심심하면 아이폰 단축어로 이것저것 만드는데 제법 재밌다 오늘은 스폰지밥 에피소드 중 하나인 마법의 소라고둥을 따라서 질문에 랜덤으로 소라고둥이 답해주는걸 만들거다. 그런데 소라고동임 소라고둥임? 애니메이션은 소라고동이라고 하고 표준어는 소라고둥이다. 고민 끝에 표준어로 간다. 구현 1. 사진 준비 뭐 외부 API 쓸 거 아니면 단축어 만드는 법은 상당히 단순한 편이다. 조건문...","categories": ["one-pan/Shortcuts/"],
+        "tags": [],
+        "url": "/one-pan/shortcuts/2025/06/02/Magic-Conch-Shell.html",
+        "teaser": null
       }]
