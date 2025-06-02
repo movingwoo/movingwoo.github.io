@@ -1,4 +1,175 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-02T03:01:42+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">11761번 Shuffling Along</title><link href="https://movingwoo.com/random-solve/python/2025/06/02/11761.html" rel="alternate" type="text/html" title="11761번 Shuffling Along" /><published>2025-06-02T03:00:00+00:00</published><updated>2025-06-02T03:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/06/02/11761</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/06/02/11761.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-02T05:22:33+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">1148번 단어 만들기</title><link href="https://movingwoo.com/random-solve/java/2025/06/02/1148.html" rel="alternate" type="text/html" title="1148번 단어 만들기" /><published>2025-06-02T05:00:00+00:00</published><updated>2025-06-02T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/06/02/1148</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/06/02/1148.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/1148">1148번 단어 만들기 - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p><span style="color: orange;"><strong>20만개</strong></span>의 사전 단어…<br />
+이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다?<br />
+이게 되남??</p>
+
+<p>믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다.<br />
+아니 또 시간이 문제가 아니라 메모리가 문제였네!<br />
+맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에</p>
+
+<p><span style="color: orange;"><strong>비트마스크 ㄱㄱ</strong></span></p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-단어와-사전">1. 단어와 사전</h5>
+
+<p>단어 클래스를 구현해 사전에 넣는다.<br />
+단어는 비트마스크와 문자 수를 가진다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    	
+	<span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+		<span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">))){</span>
+		
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Word</span><span class="o">&gt;</span> <span class="n">dictionary</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+		
+		<span class="c1">// 사전 채우기</span>
+		<span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nc">String</span> <span class="n">word</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">word</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'-'</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+
+			<span class="n">dictionary</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">Word</span><span class="o">(</span><span class="n">word</span><span class="o">));</span>
+		<span class="o">}</span>
+		
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
+<span class="o">}</span>
+
+<span class="c1">// Word class</span>
+<span class="kd">static</span> <span class="kd">class</span> <span class="nc">Word</span> <span class="o">{</span>
+	<span class="kt">int</span> <span class="n">mask</span><span class="o">;</span>
+	<span class="kt">int</span><span class="o">[]</span> <span class="n">count</span><span class="o">;</span>
+
+	<span class="nc">Word</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">count</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">26</span><span class="o">];</span>
+	<span class="o">}</span>
+
+	<span class="nc">Word</span><span class="o">(</span><span class="nc">String</span> <span class="n">word</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">();</span>
+		
+		<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">word</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+			<span class="c1">// 무조건 대문자로 들어옴</span>
+			<span class="n">count</span><span class="o">[</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">]++;</span>
+			<span class="n">mask</span> <span class="o">|=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">));</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="2-메인-루프">2. 메인 루프</h5>
+
+<p>퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다.<br />
+분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+	<span class="nc">String</span> <span class="n">puzzle</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">puzzle</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'#'</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+
+	<span class="c1">// 퍼즐판 비트마스크 변환</span>
+	<span class="kt">int</span><span class="o">[]</span> <span class="n">puzzleCount</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">26</span><span class="o">];</span>
+	<span class="kt">int</span> <span class="n">puzzleMask</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	
+	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">puzzle</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+		<span class="n">puzzleCount</span><span class="o">[</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">]++;</span>
+		<span class="n">puzzleMask</span> <span class="o">|=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">));</span>
+	<span class="o">}</span>
+
+	<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">center</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+	<span class="c1">// 중심글자 하나씩 넣어보기</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">puzzle</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">centerMask</span> <span class="o">=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">));</span>
+		<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+		<span class="k">for</span> <span class="o">(</span><span class="nc">Word</span> <span class="n">w</span> <span class="o">:</span> <span class="n">dictionary</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// 알파벳 체크</span>
+			<span class="k">if</span> <span class="o">((</span><span class="n">w</span><span class="o">.</span><span class="na">mask</span> <span class="o">&amp;</span> <span class="n">puzzleMask</span><span class="o">)</span> <span class="o">!=</span> <span class="n">w</span><span class="o">.</span><span class="na">mask</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+			<span class="c1">// 중심글자 체크</span>
+			<span class="k">if</span> <span class="o">((</span><span class="n">w</span><span class="o">.</span><span class="na">mask</span> <span class="o">&amp;</span> <span class="n">centerMask</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+
+			<span class="kt">boolean</span> <span class="n">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="c1">// 개수 체크</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">w</span><span class="o">.</span><span class="na">count</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">puzzleCount</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">{</span>
+					<span class="n">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+					<span class="k">break</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+
+			<span class="k">if</span> <span class="o">(</span><span class="n">valid</span><span class="o">)</span> <span class="n">count</span><span class="o">++;</span>
+		<span class="o">}</span>
+
+		<span class="n">center</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="n">count</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 최소값 최대값 찾기</span>
+	<span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">center</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
+	<span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">center</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
+
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">&gt;</span> <span class="n">minLetters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">&gt;</span> <span class="n">maxLetters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+	<span class="k">for</span> <span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">e</span> <span class="o">:</span> <span class="n">center</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">==</span> <span class="n">min</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">minLetters</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">()))</span> <span class="o">{</span>
+			<span class="n">minLetters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">());</span>
+		<span class="o">}</span>
+
+		<span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">==</span> <span class="n">max</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">maxLetters</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">()))</span> <span class="o">{</span>
+			<span class="n">maxLetters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">());</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 알파벳 순 정렬</span>
+	<span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">minLetters</span><span class="o">);</span>
+	<span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">maxLetters</span><span class="o">);</span>
+
+	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">minLetters</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ch</span><span class="o">);</span>
+	<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">min</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">maxLetters</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ch</span><span class="o">);</span>
+	<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">max</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가<br />
+전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다.<br />
+어쨌든 20만개를 저장해서 순회하는 식이니 말이다.</p>
+
+<p>좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯?<br />
+하지만 어쨌든 풀었으니 그만둬야지</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-02-1148.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 1148번 단어 만들기 - 백준 설계 20만개의 사전 단어… 이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다? 이게 되남?? 믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다. 아니 또 시간이 문제가 아니라 메모리가 문제였네! 맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에 비트마스크 ㄱㄱ 구현 1. 단어와 사전 단어 클래스를 구현해 사전에 넣는다. 단어는 비트마스크와 문자 수를 가진다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))){ List&lt;Word&gt; dictionary = new ArrayList&lt;&gt;(); // 사전 채우기 while (true) { String word = br.readLine(); if (word.charAt(0) == '-') break; dictionary.add(new Word(word)); } } catch (IOException e) {} } // Word class static class Word { int mask; int[] count; Word() { this.count = new int[26]; } Word(String word) { this(); for (char c : word.toCharArray()) { // 무조건 대문자로 들어옴 count[c - 'A']++; mask |= (1 &lt;&lt; (c - 'A')); } } } 2. 메인 루프 퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다. 분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다. while (true) { String puzzle = br.readLine(); if (puzzle.charAt(0) == '#') break; // 퍼즐판 비트마스크 변환 int[] puzzleCount = new int[26]; int puzzleMask = 0; for (char c : puzzle.toCharArray()) { puzzleCount[c - 'A']++; puzzleMask |= (1 &lt;&lt; (c - 'A')); } Map&lt;Character, Integer&gt; center = new HashMap&lt;&gt;(); // 중심글자 하나씩 넣어보기 for (char c : puzzle.toCharArray()) { int centerMask = (1 &lt;&lt; (c - 'A')); int count = 0; for (Word w : dictionary) { // 알파벳 체크 if ((w.mask &amp; puzzleMask) != w.mask) continue; // 중심글자 체크 if ((w.mask &amp; centerMask) == 0) continue; boolean valid = true; // 개수 체크 for (int i = 0; i &lt; 26; i++) { if (w.count[i] &gt; puzzleCount[i]) { valid = false; break; } } if (valid) count++; } center.put(c, count); } // 최소값 최대값 찾기 int min = Collections.min(center.values()); int max = Collections.max(center.values()); List&lt;Character&gt; minLetters = new ArrayList&lt;&gt;(); List&lt;Character&gt; maxLetters = new ArrayList&lt;&gt;(); for (Map.Entry&lt;Character, Integer&gt; e : center.entrySet()) { if (e.getValue() == min &amp;&amp; !minLetters.contains(e.getKey())) { minLetters.add(e.getKey()); } if (e.getValue() == max &amp;&amp; !maxLetters.contains(e.getKey())) { maxLetters.add(e.getKey()); } } // 알파벳 순 정렬 Collections.sort(minLetters); Collections.sort(maxLetters); for (char ch : minLetters) sb.append(ch); sb.append(" ").append(min).append(" "); for (char ch : maxLetters) sb.append(ch); sb.append(" ").append(max).append("\n"); } 채점 반성 처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가 전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다. 어쨌든 20만개를 저장해서 순회하는 식이니 말이다. 좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯? 하지만 어쨌든 풀었으니 그만둬야지 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">11761번 Shuffling Along</title><link href="https://movingwoo.com/random-solve/python/2025/06/02/11761.html" rel="alternate" type="text/html" title="11761번 Shuffling Along" /><published>2025-06-02T03:00:00+00:00</published><updated>2025-06-02T03:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/06/02/11761</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/06/02/11761.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -1726,394 +1897,4 @@ WFC에서의 <span style="color: orange;"><strong>엔트로피는 셀의 불확�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-27-7106.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 7106번 Wonderful Fours - 백준 번역 브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제. 내 그지같은 파이썬 실력에 알맞은 난이도다. 찬찬히 해석해보면… 십진수 숫자 5개를 K5라 부른다. 모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다. 그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다. 4개의 5자리 자연수가 모두 적절하게 만들어짐 4개의 5자리 자연수는 모두 다른 숫자 s1 + s2 + s3 = s4 여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오. 설계 뭐 방법이 있나? 숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다. 중복 제거에만 신경쓰면 될 듯 구현 중복 제거를 고민해봤는데 처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다. 1. 입력받아 ‘적절한’ 숫자 만들기 더 똑똑하게 할 수 있지만 겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다. 중복 거르고 정렬. K5 = input().split() r = 0 # 적절한 숫자 생성(중복제외) all_num = set() # 몇개 안되고 귀찮으니 5중반복문 for i in range(5): for j in range(5): if j == i: continue for k in range(5): if k == i or k == j: continue for l in range(5): if l == i or l == j or l == k: continue for m in range(5): if m == i or m == j or m == k or m == l: continue num_str = K5[i] + K5[j] + K5[k] + K5[l] + K5[m] if num_str[0] != '0': all_num.add(int(num_str)) all_num = list(all_num) all_num.sort() 2. 완다풀 포 구하기 미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고 리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다. length = len(all_num) max = all_num[length-1] # list 순회하며 s1 + s2 + s3 = s4 조건 확인 if length &gt;= 4: for i in range(length): for j in range(i + 1, length): for k in range(j + 1, length): s1, s2, s3 = all_num[i], all_num[j], all_num[k] s4 = s1 + s2 + s3 if s4 &gt; max: # 최대 숫자보다 크면 탈출 break if s4 in all_num: r+=1 print(r) 채점 반성 머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다. 이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다. 휴식이 필요한 하루다… 얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">던전 생성기 01</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/27/Dungeon-Generator-01.html" rel="alternate" type="text/html" title="던전 생성기 01" /><published>2025-05-27T02:00:00+00:00</published><updated>2025-05-27T02:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/27/Dungeon%20Generator%2001</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/27/Dungeon-Generator-01.html"><![CDATA[<blockquote>
-  <h4 id="개요">개요</h4>
-  <hr />
-</blockquote>
-
-<p>신나는 던전 맵 생성기<br />
-5종 알고리즘과 함께</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-설계">1. 설계</h5>
-
-<p>던전 맵 생성 관련 대표 알고리즘에 대해 찾아보았다.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">알고리즘</th>
-      <th style="text-align: left">스타일</th>
-      <th style="text-align: left">특징</th>
-      <th style="text-align: left">용도</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">BSP (Binary Space Partitioning)</td>
-      <td style="text-align: left">직사각형 방 + 복도</td>
-      <td style="text-align: left">공간을 재귀적으로 분할, 각 방을 연결</td>
-      <td style="text-align: left">방 중심의 던전, 구조적 배치</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Random Walk (Drunkard’s Walk)</td>
-      <td style="text-align: left">유기적 경로, 비정형</td>
-      <td style="text-align: left">무작위 방향 이동, 비선형 구조</td>
-      <td style="text-align: left">자연 동굴, 탐험 중심 던전</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Cellular Automata</td>
-      <td style="text-align: left">자연 동굴 형태, 굴곡 많음</td>
-      <td style="text-align: left">셀 규칙 반복으로 패턴 정제</td>
-      <td style="text-align: left">동굴 스타일 던전, 유기적 형태</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Delaunay Triangulation + MST</td>
-      <td style="text-align: left">방 중심 + 경로 연결</td>
-      <td style="text-align: left">무작위 방 &gt; 삼각분할 &gt; 최소 연결</td>
-      <td style="text-align: left">모든 방 연결 보장, 전략적 맵</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Wave Function Collapse (WFC)</td>
-      <td style="text-align: left">타일 기반, 정교한 제약</td>
-      <td style="text-align: left">타일 제약 기반 패턴 구성</td>
-      <td style="text-align: left">정교한 던전, 룰 기반 구조</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>맵을 그릴 캔버스가 있는 html은 이전 미로 생성기의 것을 그대로 가져와서 사용한다.</p>
-
-<h5 id="2-bsp-알고리즘">2. BSP 알고리즘</h5>
-
-<p>BSP 알고리즘을 공간을 재귀적으로 분할한다.<br />
-분할 과정이 이진트리 형태로 표현되며 방 설정을 통해 크기와 개수를 쉽게 조절 가능하다.<br />
-통로는 각 방의 중심을 직선 또는 L자로 적당히 연결한다.</p>
-
-<p>방이 완전히 랜덤한 위치에 생성되기 때문에 방의 중심을 연결하는 통로의 특성 상<br />
-<span style="color: orange;"><strong>통로가 겹치기도 하고 두껍게 이어지기도 한다.</strong></span></p>
-
-<p>또 현재 입구 생성을 [0, 0]에서 가장 가까운 셀로 해두었는데<br />
-랜덤하게 생성되어 이어지는 구조 특성 상 통로가 가장 가까운 경우 통로에 입구가 생길 수도 있다.<br />
-강제로 가까운 셀을 껴서 생성시키기에는 BSP의 취지에 맞지 않은 것 같고<br />
-방과 통로를 구분할 수 있게 방 데이터를 가져오려면 공통함수로 쓰기 애매하다.<br />
-그냥 복도에 입구가 생기면 운이 나쁜걸로…</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 방 클래스 정의</span>
-<span class="kd">class</span> <span class="nc">Room</span> <span class="p">{</span>
-  <span class="nf">constructor</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">w</span> <span class="o">=</span> <span class="nx">w</span><span class="p">;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">h</span> <span class="o">=</span> <span class="nx">h</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="c1">// 방의 중심 좌표</span>
-  <span class="nf">center</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="p">[</span>
-      <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
-      <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="p">];</span>
-  <span class="p">}</span>
-
-  <span class="c1">// 다른 방과 겹치는지 판정</span>
-  <span class="nf">intersects</span><span class="p">(</span><span class="nx">other</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return </span><span class="p">(</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">other</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">other</span><span class="p">.</span><span class="nx">w</span> <span class="o">&amp;&amp;</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">w</span> <span class="o">&gt;</span> <span class="nx">other</span><span class="p">.</span><span class="nx">x</span> <span class="o">&amp;&amp;</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">other</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">other</span><span class="p">.</span><span class="nx">h</span> <span class="o">&amp;&amp;</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">h</span> <span class="o">&gt;</span> <span class="nx">other</span><span class="p">.</span><span class="nx">y</span>
-    <span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-  
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">startBSP</span><span class="p">()</span> <span class="p">{</span>
-
-  <span class="kd">const</span> <span class="nx">MIN_SIZE</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">// 방 최소 크기</span>
-  <span class="kd">const</span> <span class="nx">MAX_SIZE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">// 방 최대 크기</span>
-  <span class="kd">const</span> <span class="nx">partitions</span> <span class="o">=</span> <span class="p">[{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">w</span><span class="p">:</span> <span class="nx">cols</span><span class="p">,</span> <span class="na">h</span><span class="p">:</span> <span class="nx">rows</span> <span class="p">}];</span>
-  <span class="kd">const</span> <span class="nx">rooms</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 생성된 방 목록</span>
-
-  <span class="c1">// 공간을 재귀적으로 분할</span>
-  <span class="k">async</span> <span class="kd">function</span> <span class="nf">splitSpace</span><span class="p">(</span><span class="nx">space</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="p">{</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">space</span><span class="p">;</span>
-    <span class="kd">const</span> <span class="nx">horizontal</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">;</span> <span class="c1">// 분할 방향 랜덤(수평/수직)</span>
-
-    <span class="c1">// 더 이상 분할이 불가능할 때(최소 크기 이하)</span>
-    <span class="k">if </span><span class="p">((</span><span class="nx">horizontal</span> <span class="o">&amp;&amp;</span> <span class="nx">h</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nx">MIN_SIZE</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="o">!</span><span class="nx">horizontal</span> <span class="o">&amp;&amp;</span> <span class="nx">w</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nx">MIN_SIZE</span><span class="p">))</span> <span class="p">{</span>
-      <span class="c1">// 방 생성 시도 (겹쳐서 실패할 경우 10회까지 재시도)</span>
-      <span class="kd">let</span> <span class="nx">tryCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="kd">let</span> <span class="nx">room</span><span class="p">;</span>
-      <span class="kd">let</span> <span class="nx">overlapped</span><span class="p">;</span>
-      <span class="k">do</span> <span class="p">{</span>
-        <span class="k">if </span><span class="p">(</span><span class="nx">w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nx">MIN_SIZE</span> <span class="o">||</span> <span class="nx">h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nx">MIN_SIZE</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span> <span class="c1">// 공간이 너무 작으면 중단</span>
-
-        <span class="c1">// 방 크기 랜덤 (MIN_SIZE~MAX_SIZE), 위치도 랜덤(테두리와 1칸 이상 띄움)</span>
-        <span class="kd">const</span> <span class="nx">rw</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span>
-          <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="nx">MIN_SIZE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nx">MIN_SIZE</span><span class="p">,</span>
-          <span class="nx">MAX_SIZE</span>
-        <span class="p">);</span>
-        <span class="kd">const</span> <span class="nx">rh</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span>
-          <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="nx">MIN_SIZE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nx">MIN_SIZE</span><span class="p">,</span>
-          <span class="nx">MAX_SIZE</span>
-        <span class="p">);</span>
-        <span class="kd">const</span> <span class="nx">rx</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="nx">rw</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="kd">const</span> <span class="nx">ry</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="nx">rh</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="nx">room</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Room</span><span class="p">(</span><span class="nx">rx</span><span class="p">,</span> <span class="nx">ry</span><span class="p">,</span> <span class="nx">rw</span><span class="p">,</span> <span class="nx">rh</span><span class="p">);</span>
-        <span class="nx">overlapped</span> <span class="o">=</span> <span class="nx">rooms</span><span class="p">.</span><span class="nf">some</span><span class="p">(</span><span class="nx">r</span> <span class="o">=&gt;</span> <span class="nx">room</span><span class="p">.</span><span class="nf">intersects</span><span class="p">(</span><span class="nx">r</span><span class="p">));</span>
-        <span class="nx">tryCount</span><span class="o">++</span><span class="p">;</span>
-      <span class="p">}</span> <span class="k">while </span><span class="p">(</span><span class="nx">overlapped</span> <span class="o">&amp;&amp;</span> <span class="nx">tryCount</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">);</span>
-
-      <span class="c1">// 겹치지 않는 방만 생성</span>
-      <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">overlapped</span> <span class="o">&amp;&amp;</span> <span class="nx">room</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">rooms</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">room</span><span class="p">);</span>
-        <span class="c1">// 방 내부를 흰색칠</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">room</span><span class="p">.</span><span class="nx">y</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">room</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">room</span><span class="p">.</span><span class="nx">h</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">room</span><span class="p">.</span><span class="nx">x</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">room</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">room</span><span class="p">.</span><span class="nx">w</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">map</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-            <span class="nf">drawCell</span><span class="p">(</span><span class="nx">j</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-            <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 분할: 수평 또는 수직으로 영역을 나눔</span>
-    <span class="k">if </span><span class="p">(</span><span class="nx">horizontal</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// 수평 분할</span>
-      <span class="kd">const</span> <span class="nx">split</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">h</span> <span class="o">-</span> <span class="nx">MIN_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nx">MIN_SIZE</span><span class="p">);</span>
-      <span class="kd">const</span> <span class="nx">top</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="na">h</span><span class="p">:</span> <span class="nx">split</span> <span class="p">};</span>
-      <span class="kd">const</span> <span class="nx">bottom</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">split</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="na">h</span><span class="p">:</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">split</span> <span class="p">};</span>
-      <span class="k">await</span> <span class="nf">splitSpace</span><span class="p">(</span><span class="nx">top</span><span class="p">);</span>
-      <span class="k">await</span> <span class="nf">splitSpace</span><span class="p">(</span><span class="nx">bottom</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="c1">// 수직 분할</span>
-      <span class="kd">const</span> <span class="nx">split</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">-</span> <span class="nx">MIN_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nx">MIN_SIZE</span><span class="p">);</span>
-      <span class="kd">const</span> <span class="nx">left</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="na">w</span><span class="p">:</span> <span class="nx">split</span><span class="p">,</span> <span class="nx">h</span> <span class="p">};</span>
-      <span class="kd">const</span> <span class="nx">right</span> <span class="o">=</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">split</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="na">w</span><span class="p">:</span> <span class="nx">w</span> <span class="o">-</span> <span class="nx">split</span><span class="p">,</span> <span class="nx">h</span> <span class="p">};</span>
-      <span class="k">await</span> <span class="nf">splitSpace</span><span class="p">(</span><span class="nx">left</span><span class="p">);</span>
-      <span class="k">await</span> <span class="nf">splitSpace</span><span class="p">(</span><span class="nx">right</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="c1">// 터널 뚫는 함수</span>
-  <span class="k">async</span> <span class="kd">function</span> <span class="nf">tunneling</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">dx</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sign</span><span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">);</span>
-    <span class="kd">const</span> <span class="nx">dy</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sign</span><span class="p">(</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">);</span>
-    <span class="c1">// x축 방향으로 먼저 이동</span>
-    <span class="k">while </span><span class="p">(</span><span class="nx">x1</span> <span class="o">!==</span> <span class="nx">x2</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">map</span><span class="p">[</span><span class="nx">y1</span><span class="p">][</span><span class="nx">x1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-      <span class="nx">x1</span> <span class="o">+=</span> <span class="nx">dx</span><span class="p">;</span>
-      <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="c1">// y축 방향으로 이동</span>
-    <span class="k">while </span><span class="p">(</span><span class="nx">y1</span> <span class="o">!==</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">map</span><span class="p">[</span><span class="nx">y1</span><span class="p">][</span><span class="nx">x1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-      <span class="nx">y1</span> <span class="o">+=</span> <span class="nx">dy</span><span class="p">;</span>
-      <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="k">await</span> <span class="nf">splitSpace</span><span class="p">(</span><span class="nx">partitions</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-
-  <span class="c1">// 생성된 방들의 중심을 순서대로 복도로 연결</span>
-  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">rooms</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="p">[</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">rooms</span><span class="p">[</span><span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="nf">center</span><span class="p">();</span>
-    <span class="kd">const</span> <span class="p">[</span><span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">]</span> <span class="o">=</span> <span class="nx">rooms</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nf">center</span><span class="p">();</span>
-
-    <span class="k">if </span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">await</span> <span class="nf">tunneling</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y1</span><span class="p">);</span>
-      <span class="k">await</span> <span class="nf">tunneling</span><span class="p">(</span><span class="nx">x2</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="k">await</span> <span class="nf">tunneling</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x1</span><span class="p">,</span> <span class="nx">y2</span><span class="p">);</span>
-      <span class="k">await</span> <span class="nf">tunneling</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y2</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="c1">// 입출구 생성</span>
-  <span class="nf">generateEntrance</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="3-random-walk-알고리즘">3. Random Walk 알고리즘</h5>
-
-<p>굉장히 간단한 알고리즘이다.<br />
-이름에서 볼 수 있듯 방향을 랜덤으로 움직이며 길을 채우고<br />
-정해둔 만큼 맵을 채우면 종료한다.</p>
-
-<p>통로나 방이 곡선형으로 잘 생성되는데 랜덤으로 여기저기 쑤시다보니<br />
-통로가 너무 좁을 수 있고 전체적인 구조를 제어하기 힙들다.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nf">startRandomWalk</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nf">initMap</span><span class="p">();</span>
-  
-  <span class="c1">// 시작점 (중앙)</span>
-  <span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nx">cols</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
-  <span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nx">rows</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
-  
-  <span class="c1">// 방문한 셀 수를 추적</span>
-  <span class="kd">let</span> <span class="nx">visitedCells</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">targetCells</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">((</span><span class="nx">cols</span> <span class="o">*</span> <span class="nx">rows</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">);</span> <span class="c1">// 전체 셀의 40% 채우면 종료</span>
-  
-  <span class="c1">// 4방향 이동 </span>
-  <span class="kd">const</span> <span class="nx">directions</span> <span class="o">=</span> <span class="p">[</span>
-      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-      <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-  <span class="p">];</span>
-  
-  <span class="c1">// 현재 위치를 통로로 만들고 방문 표시</span>
-  <span class="nx">map</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-  <span class="nx">visitedCells</span><span class="o">++</span><span class="p">;</span>
-  
-  <span class="k">while </span><span class="p">(</span><span class="nx">visitedCells</span> <span class="o">&lt;</span> <span class="nx">targetCells</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// 랜덤한 방향 선택</span>
-      <span class="kd">const</span> <span class="p">[</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">]</span> <span class="o">=</span> <span class="nx">directions</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)];</span>
-      <span class="kd">const</span> <span class="nx">newX</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">;</span>
-      <span class="kd">const</span> <span class="nx">newY</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
-      
-      <span class="c1">// 경계 체크</span>
-      <span class="k">if </span><span class="p">(</span><span class="nx">newX</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">newX</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">newY</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">newY</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">)</span> <span class="p">{</span>
-          <span class="c1">// 새로운 위치가 벽이면 통로로 만들기</span>
-          <span class="k">if </span><span class="p">(</span><span class="nx">map</span><span class="p">[</span><span class="nx">newY</span><span class="p">][</span><span class="nx">newX</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-              <span class="nx">map</span><span class="p">[</span><span class="nx">newY</span><span class="p">][</span><span class="nx">newX</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-              <span class="nf">drawCell</span><span class="p">(</span><span class="nx">newX</span><span class="p">,</span> <span class="nx">newY</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-              <span class="nx">visitedCells</span><span class="o">++</span><span class="p">;</span>
-          <span class="p">}</span>
-          <span class="nx">x</span> <span class="o">=</span> <span class="nx">newX</span><span class="p">;</span>
-          <span class="nx">y</span> <span class="o">=</span> <span class="nx">newY</span><span class="p">;</span>
-      <span class="p">}</span>
-      
-      <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  <span class="p">}</span>
-  
-  <span class="nf">generateEntrance</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="4-cellular-automata-알고리즘">4. Cellular Automata 알고리즘</h5>
-
-<p><span style="color: orange;"><strong>셀의 상태를 바탕으로 다음 상태를 결정해 갱신</strong></span>하는 알고리즘이다.</p>
-
-<p>규칙은 어떻게 정하느냐에 따라 다르겠지마는<br />
-초기에 랜덤하게 벽을 뚫어두고 4번에 거쳐 다듬어나간다.<br />
-규칙은 아래와 같이 정했다.</p>
-<ul>
-  <li>현재 셀이 벽인데 주변 벽이 4개 이상이면 벽 유지, 그렇지 않으면 통로로 변경</li>
-  <li>현재 셀이 통로인데 주변 벽이 5개 이상이변 벽으로 변경, 그렇지 않으면 통로 유지</li>
-</ul>
-
-<p>위 과정을 거쳐 자연스러운 동굴 형태의 맵이 완성된다.<br />
-엄격한 규칙을 기반으로 다듬어나가기 때문에 뭔가 틀에 박힌 BSP와 자유롭게 칠렐레 팔렐레 뻗은 Random Walk보다 보기 좋다.</p>
-
-<p>이 알고리즘도 고립된 공간이 생길 수 있는데 이는 추가적인 알고리즘을 통해 고립된 방과 통로로 연결하거나 제거하면 된다.<br />
-하지만 이번 구현에서 그 부분은 패스.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nf">startCellularAutomata</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nf">initMap</span><span class="p">();</span>
-  
-  <span class="c1">// 초기 랜덤 상태 생성 (약 45%의 벽)</span>
-  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-          <span class="c1">// 테두리는 벽으로 설정</span>
-          <span class="k">if </span><span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">x</span> <span class="o">===</span> <span class="nx">cols</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">y</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">y</span> <span class="o">===</span> <span class="nx">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-              <span class="nx">map</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-              <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">);</span>
-          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-              <span class="nx">map</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.45</span> <span class="p">?</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
-              <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">map</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-          <span class="p">}</span>
-          <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-      <span class="p">}</span>
-  <span class="p">}</span>
-  
-  <span class="c1">// Cellular Automata 규칙 적용 (4회 반복)</span>
-  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">generation</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">generation</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="nx">generation</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">const</span> <span class="nx">newMap</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">({</span> <span class="na">length</span><span class="p">:</span> <span class="nx">rows</span> <span class="p">},</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nc">Array</span><span class="p">(</span><span class="nx">cols</span><span class="p">).</span><span class="nf">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
-      
-      <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-              <span class="c1">// 테두리는 벽 유지</span>
-              <span class="k">if </span><span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">x</span> <span class="o">===</span> <span class="nx">cols</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">y</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">y</span> <span class="o">===</span> <span class="nx">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                  <span class="nx">newMap</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-                  <span class="k">continue</span><span class="p">;</span>
-              <span class="p">}</span>
-              
-              <span class="c1">// 주변 8칸의 벽 개수 세기</span>
-              <span class="kd">let</span> <span class="nx">wallCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-              <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="nx">dy</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">dy</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">dx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="nx">dx</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">dx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                      <span class="k">if </span><span class="p">(</span><span class="nx">dx</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">dy</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
-                      <span class="k">if </span><span class="p">(</span><span class="nx">map</span><span class="p">[</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">][</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="nx">wallCount</span><span class="o">++</span><span class="p">;</span>
-                  <span class="p">}</span>
-              <span class="p">}</span>
-              
-              <span class="c1">//현재 셀이 벽인데 주변 벽이 4개 이상이면 벽 유지, 그렇지 않으면 통로로 변경</span>
-              <span class="c1">//현재 셀이 통로인데 주변 벽이 5개 이상이변 벽으로 변경, 그렇지 않으면 통로 유지</span>
-              <span class="k">if </span><span class="p">(</span><span class="nx">map</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                  <span class="nx">newMap</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="nx">wallCount</span> <span class="o">&gt;=</span> <span class="mi">4</span> <span class="p">?</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
-              <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                  <span class="nx">newMap</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="nx">wallCount</span> <span class="o">&gt;=</span> <span class="mi">5</span> <span class="p">?</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
-              <span class="p">}</span>
-              
-              <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">newMap</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-              <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-          <span class="p">}</span>
-      <span class="p">}</span>
-      
-      <span class="nx">map</span> <span class="o">=</span> <span class="nx">newMap</span><span class="p">;</span>
-  <span class="p">}</span>
-  
-  <span class="nf">generateEntrance</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="완성">완성</h4>
-  <hr />
-</blockquote>
-
-<p>BSP<br />
-<img src="/assets/images/posts/one-pan/JavaScript/2025-05-27-Dungeon Generator 01/img01.gif" alt="img01" /></p>
-
-<p>Random Walk<br />
-<img src="/assets/images/posts/one-pan/JavaScript/2025-05-27-Dungeon Generator 01/img02.gif" alt="img02" /></p>
-
-<p>Cellular Automata<br />
-<img src="/assets/images/posts/one-pan/JavaScript/2025-05-27-Dungeon Generator 01/img03.gif" alt="img03" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>Random Walk 알고리즘과 Cellular Automata 알고리즘을 구현하며 즐거워졌다.<br />
-오래된 피쳐폰게임의 작은 미니맵을 보는 기분이다.<br />
-아 마음이 충만해진다…</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="/play/Dungeon%20Generator.html" target="_blank" rel="noopener noreferrer">
-  직접 해보기
-</a></p>
-
-<p>BSP<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-27-BSP.js">Link to GitHub</a></p>
-
-<p>Random Walk<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-27-RandomWalk.js">Link to GitHub</a></p>
-
-<p>Cellular Automata<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-27-CellularAutomata.js">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 신나는 던전 맵 생성기 5종 알고리즘과 함께 구현 1. 설계 던전 맵 생성 관련 대표 알고리즘에 대해 찾아보았다. 알고리즘 스타일 특징 용도 BSP (Binary Space Partitioning) 직사각형 방 + 복도 공간을 재귀적으로 분할, 각 방을 연결 방 중심의 던전, 구조적 배치 Random Walk (Drunkard’s Walk) 유기적 경로, 비정형 무작위 방향 이동, 비선형 구조 자연 동굴, 탐험 중심 던전 Cellular Automata 자연 동굴 형태, 굴곡 많음 셀 규칙 반복으로 패턴 정제 동굴 스타일 던전, 유기적 형태 Delaunay Triangulation + MST 방 중심 + 경로 연결 무작위 방 &gt; 삼각분할 &gt; 최소 연결 모든 방 연결 보장, 전략적 맵 Wave Function Collapse (WFC) 타일 기반, 정교한 제약 타일 제약 기반 패턴 구성 정교한 던전, 룰 기반 구조 맵을 그릴 캔버스가 있는 html은 이전 미로 생성기의 것을 그대로 가져와서 사용한다. 2. BSP 알고리즘 BSP 알고리즘을 공간을 재귀적으로 분할한다. 분할 과정이 이진트리 형태로 표현되며 방 설정을 통해 크기와 개수를 쉽게 조절 가능하다. 통로는 각 방의 중심을 직선 또는 L자로 적당히 연결한다. 방이 완전히 랜덤한 위치에 생성되기 때문에 방의 중심을 연결하는 통로의 특성 상 통로가 겹치기도 하고 두껍게 이어지기도 한다. 또 현재 입구 생성을 [0, 0]에서 가장 가까운 셀로 해두었는데 랜덤하게 생성되어 이어지는 구조 특성 상 통로가 가장 가까운 경우 통로에 입구가 생길 수도 있다. 강제로 가까운 셀을 껴서 생성시키기에는 BSP의 취지에 맞지 않은 것 같고 방과 통로를 구분할 수 있게 방 데이터를 가져오려면 공통함수로 쓰기 애매하다. 그냥 복도에 입구가 생기면 운이 나쁜걸로… // 방 클래스 정의 class Room { constructor(x, y, w, h) { this.x = x; this.y = y; this.w = w; this.h = h; } // 방의 중심 좌표 center() { return [ Math.floor(this.x + this.w / 2), Math.floor(this.y + this.h / 2) ]; } // 다른 방과 겹치는지 판정 intersects(other) { return ( this.x &lt; other.x + other.w &amp;&amp; this.x + this.w &gt; other.x &amp;&amp; this.y &lt; other.y + other.h &amp;&amp; this.y + this.h &gt; other.y ); } } async function startBSP() { const MIN_SIZE = 4; // 방 최소 크기 const MAX_SIZE = 6; // 방 최대 크기 const partitions = [{ x: 0, y: 0, w: cols, h: rows }]; const rooms = []; // 생성된 방 목록 // 공간을 재귀적으로 분할 async function splitSpace(space) { const { x, y, w, h } = space; const horizontal = Math.random() &lt; 0.5; // 분할 방향 랜덤(수평/수직) // 더 이상 분할이 불가능할 때(최소 크기 이하) if ((horizontal &amp;&amp; h &lt;= 2 * MIN_SIZE) || (!horizontal &amp;&amp; w &lt;= 2 * MIN_SIZE)) { // 방 생성 시도 (겹쳐서 실패할 경우 10회까지 재시도) let tryCount = 0; let room; let overlapped; do { if (w - 2 &lt; MIN_SIZE || h - 2 &lt; MIN_SIZE) break; // 공간이 너무 작으면 중단 // 방 크기 랜덤 (MIN_SIZE~MAX_SIZE), 위치도 랜덤(테두리와 1칸 이상 띄움) const rw = Math.min( Math.floor(Math.random() * (w - 2 - MIN_SIZE + 1)) + MIN_SIZE, MAX_SIZE ); const rh = Math.min( Math.floor(Math.random() * (h - 2 - MIN_SIZE + 1)) + MIN_SIZE, MAX_SIZE ); const rx = Math.floor(Math.random() * (w - 2 - rw + 1)) + x + 1; const ry = Math.floor(Math.random() * (h - 2 - rh + 1)) + y + 1; room = new Room(rx, ry, rw, rh); overlapped = rooms.some(r =&gt; room.intersects(r)); tryCount++; } while (overlapped &amp;&amp; tryCount &lt; 10); // 겹치지 않는 방만 생성 if (!overlapped &amp;&amp; room) { rooms.push(room); // 방 내부를 흰색칠 for (let i = room.y; i &lt; room.y + room.h; i++) { for (let j = room.x; j &lt; room.x + room.w; j++) { map[i][j] = 0; drawCell(j, i, 'white'); await sleep(1); } } } return; } // 분할: 수평 또는 수직으로 영역을 나눔 if (horizontal) { // 수평 분할 const split = Math.floor(Math.random() * (h - MIN_SIZE * 2) + MIN_SIZE); const top = { x, y, w, h: split }; const bottom = { x, y: y + split, w, h: h - split }; await splitSpace(top); await splitSpace(bottom); } else { // 수직 분할 const split = Math.floor(Math.random() * (w - MIN_SIZE * 2) + MIN_SIZE); const left = { x, y, w: split, h }; const right = { x: x + split, y, w: w - split, h }; await splitSpace(left); await splitSpace(right); } } // 터널 뚫는 함수 async function tunneling(x1, y1, x2, y2) { const dx = Math.sign(x2 - x1); const dy = Math.sign(y2 - y1); // x축 방향으로 먼저 이동 while (x1 !== x2) { map[y1][x1] = 0; drawCell(x1, y1, 'white'); x1 += dx; await sleep(1); } // y축 방향으로 이동 while (y1 !== y2) { map[y1][x1] = 0; drawCell(x1, y1, 'white'); y1 += dy; await sleep(1); } } await splitSpace(partitions[0]); // 생성된 방들의 중심을 순서대로 복도로 연결 for (let i = 1; i &lt; rooms.length; i++) { const [x1, y1] = rooms[i - 1].center(); const [x2, y2] = rooms[i].center(); if (Math.random() &lt; 0.5) { await tunneling(x1, y1, x2, y1); await tunneling(x2, y1, x2, y2); } else { await tunneling(x1, y1, x1, y2); await tunneling(x1, y2, x2, y2); } } // 입출구 생성 generateEntrance(); } 3. Random Walk 알고리즘 굉장히 간단한 알고리즘이다. 이름에서 볼 수 있듯 방향을 랜덤으로 움직이며 길을 채우고 정해둔 만큼 맵을 채우면 종료한다. 통로나 방이 곡선형으로 잘 생성되는데 랜덤으로 여기저기 쑤시다보니 통로가 너무 좁을 수 있고 전체적인 구조를 제어하기 힙들다. async function startRandomWalk() { initMap(); // 시작점 (중앙) let x = Math.floor(cols / 2); let y = Math.floor(rows / 2); // 방문한 셀 수를 추적 let visitedCells = 0; const targetCells = Math.floor((cols * rows) * 0.4); // 전체 셀의 40% 채우면 종료 // 4방향 이동 const directions = [ [0, -1], [1, 0], [0, 1], [-1, 0] ]; // 현재 위치를 통로로 만들고 방문 표시 map[y][x] = 0; drawCell(x, y, 'white'); visitedCells++; while (visitedCells &lt; targetCells) { // 랜덤한 방향 선택 const [dx, dy] = directions[Math.floor(Math.random() * 4)]; const newX = x + dx; const newY = y + dy; // 경계 체크 if (newX &gt;= 0 &amp;&amp; newX &lt; cols &amp;&amp; newY &gt;= 0 &amp;&amp; newY &lt; rows) { // 새로운 위치가 벽이면 통로로 만들기 if (map[newY][newX] === 1) { map[newY][newX] = 0; drawCell(newX, newY, 'white'); visitedCells++; } x = newX; y = newY; } await sleep(1); } generateEntrance(); } 4. Cellular Automata 알고리즘 셀의 상태를 바탕으로 다음 상태를 결정해 갱신하는 알고리즘이다. 규칙은 어떻게 정하느냐에 따라 다르겠지마는 초기에 랜덤하게 벽을 뚫어두고 4번에 거쳐 다듬어나간다. 규칙은 아래와 같이 정했다. 현재 셀이 벽인데 주변 벽이 4개 이상이면 벽 유지, 그렇지 않으면 통로로 변경 현재 셀이 통로인데 주변 벽이 5개 이상이변 벽으로 변경, 그렇지 않으면 통로 유지 위 과정을 거쳐 자연스러운 동굴 형태의 맵이 완성된다. 엄격한 규칙을 기반으로 다듬어나가기 때문에 뭔가 틀에 박힌 BSP와 자유롭게 칠렐레 팔렐레 뻗은 Random Walk보다 보기 좋다. 이 알고리즘도 고립된 공간이 생길 수 있는데 이는 추가적인 알고리즘을 통해 고립된 방과 통로로 연결하거나 제거하면 된다. 하지만 이번 구현에서 그 부분은 패스. async function startCellularAutomata() { initMap(); // 초기 랜덤 상태 생성 (약 45%의 벽) for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { // 테두리는 벽으로 설정 if (x === 0 || x === cols - 1 || y === 0 || y === rows - 1) { map[y][x] = 1; drawCell(x, y, 'black'); } else { map[y][x] = Math.random() &lt; 0.45 ? 1 : 0; drawCell(x, y, map[y][x] === 1 ? 'black' : 'white'); } await sleep(1); } } // Cellular Automata 규칙 적용 (4회 반복) for (let generation = 0; generation &lt; 4; generation++) { const newMap = Array.from({ length: rows }, () =&gt; Array(cols).fill(0)); for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { // 테두리는 벽 유지 if (x === 0 || x === cols - 1 || y === 0 || y === rows - 1) { newMap[y][x] = 1; continue; } // 주변 8칸의 벽 개수 세기 let wallCount = 0; for (let dy = -1; dy &lt;= 1; dy++) { for (let dx = -1; dx &lt;= 1; dx++) { if (dx === 0 &amp;&amp; dy === 0) continue; if (map[y + dy][x + dx] === 1) wallCount++; } } //현재 셀이 벽인데 주변 벽이 4개 이상이면 벽 유지, 그렇지 않으면 통로로 변경 //현재 셀이 통로인데 주변 벽이 5개 이상이변 벽으로 변경, 그렇지 않으면 통로 유지 if (map[y][x] === 1) { newMap[y][x] = wallCount &gt;= 4 ? 1 : 0; } else { newMap[y][x] = wallCount &gt;= 5 ? 1 : 0; } drawCell(x, y, newMap[y][x] === 1 ? 'black' : 'white'); await sleep(1); } } map = newMap; } generateEntrance(); } 완성 BSP Random Walk Cellular Automata 반성 Random Walk 알고리즘과 Cellular Automata 알고리즘을 구현하며 즐거워졌다. 오래된 피쳐폰게임의 작은 미니맵을 보는 기분이다. 아 마음이 충만해진다… 코드 확인 직접 해보기 BSP Link to GitHub Random Walk Link to GitHub Cellular Automata Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-27-7106.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 7106번 Wonderful Fours - 백준 번역 브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제. 내 그지같은 파이썬 실력에 알맞은 난이도다. 찬찬히 해석해보면… 십진수 숫자 5개를 K5라 부른다. 모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다. 그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다. 4개의 5자리 자연수가 모두 적절하게 만들어짐 4개의 5자리 자연수는 모두 다른 숫자 s1 + s2 + s3 = s4 여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오. 설계 뭐 방법이 있나? 숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다. 중복 제거에만 신경쓰면 될 듯 구현 중복 제거를 고민해봤는데 처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다. 1. 입력받아 ‘적절한’ 숫자 만들기 더 똑똑하게 할 수 있지만 겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다. 중복 거르고 정렬. K5 = input().split() r = 0 # 적절한 숫자 생성(중복제외) all_num = set() # 몇개 안되고 귀찮으니 5중반복문 for i in range(5): for j in range(5): if j == i: continue for k in range(5): if k == i or k == j: continue for l in range(5): if l == i or l == j or l == k: continue for m in range(5): if m == i or m == j or m == k or m == l: continue num_str = K5[i] + K5[j] + K5[k] + K5[l] + K5[m] if num_str[0] != '0': all_num.add(int(num_str)) all_num = list(all_num) all_num.sort() 2. 완다풀 포 구하기 미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고 리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다. length = len(all_num) max = all_num[length-1] # list 순회하며 s1 + s2 + s3 = s4 조건 확인 if length &gt;= 4: for i in range(length): for j in range(i + 1, length): for k in range(j + 1, length): s1, s2, s3 = all_num[i], all_num[j], all_num[k] s4 = s1 + s2 + s3 if s4 &gt; max: # 최대 숫자보다 크면 탈출 break if s4 in all_num: r+=1 print(r) 채점 반성 머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다. 이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다. 휴식이 필요한 하루다… 얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남 코드 확인 Link to GitHub]]></summary></entry></feed>

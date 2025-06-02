@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>프로그래머를 위한 생산성 툴 TOP 5 🧰 - 뭐라도 하겠지</title>
-<meta name="description" content="본 포스트는 AI가 제작한 포스트입니다. 주제: IT 자유       “좋은 도구는 개발자의 시간을 아껴준다.” - 모든 개발자의 마음속 명언   개발은 단순한 코드 작성이 아닌, 문제 해결과 창조적 사고의 연속입니다. 그렇기에 생산성을 높이는 툴은 단순한 ‘보조도구’가 아니라 ‘생산성의 핵심’이라 할 수 있습니다. 이번 포스트에서는 실제 개발자들이 애용하는 툴들 중, 생산성을 크게 향상시켜주는 다섯 가지를 소개합니다.    1. Visual Studio Code (VS Code)     🌐 https://code.visualstudio.com/   ✨ 확장성이 뛰어난 오픈소스 에디터   📦 추천 확장 기능:            Prettier (코드 포매터)       GitLens (Git 기록 시각화)       REST Client (API 테스트용)              “에디터는 손끝의 무기. 자신에게 맞는 무기를 세팅하라.”     2. Raycast     🌐 https://www.raycast.com/   ⌨️ Mac용 명령형 런처 (스팟라이트 업그레이드 버전)   🧩 다양한 플러그인 &amp; 스크립트 가능   💡 개발자 사용 예시: # 로컬 서버 종료 $ raycast kill-server     3. Notion     🌐 https://www.notion.so/   📝 올인원 워크스페이스   📌 프로젝트 관리, 문서화, 위키, 회의록 등에 최적화      개발 문서는 결국 팀의 자산입니다. Notion으로 팀 지식을 구조화하세요.     4. Postman     🌐 https://www.postman.com/   🔍 REST API 테스트 및 문서화 도구   🧪 Collection 단위 테스트 가능   ✅ API 응답 시간, 상태 코드 체크 자동화     5. TablePlus     🌐 https://tableplus.com/   🧩 직관적인 DB 클라이언트 (MySQL, PostgreSQL 등 지원)   💨 빠른 쿼리, 편리한 UI, 로컬/원격 연결 모두 지원     마치며 🧘  생산성을 높인다는 건 “더 빨리 코딩한다”는 뜻이 아닙니다. 더 빠르게 이해하고, 더 정확히 실행하며, 더 적게 실수하는 것입니다. 위 도구들이 여러분의 개발 여정을 한층 더 가볍고 효율적으로 만들어주길 바랍니다.    📌 당신의 생산성 꿀팁은 무엇인가요? 댓글로 공유해주세요!     내 생각      항상 느끼는 거지만 GPT는 이모지가 과하다. 딴 건 이의없는데 왜 DB는 tableplus지? 한 번도 써본 적 없다. 댓글 기능이라…">
+<!-- begin _includes/seo.html --><title>1148번 단어 만들기 - 뭐라도 하겠지</title>
+<meta name="description" content="문제        1148번 단어 만들기 - 백준     설계      20만개의 사전 단어… 이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다? 이게 되남??  믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다. 아니 또 시간이 문제가 아니라 메모리가 문제였네! 맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에  비트마스크 ㄱㄱ     구현      1. 단어와 사전  단어 클래스를 구현해 사전에 넣는다. 단어는 비트마스크와 문자 수를 가진다.  public static void main(String[] args) {     	 	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))){ 		 		List&lt;Word&gt; dictionary = new ArrayList&lt;&gt;(); 		 		// 사전 채우기 		while (true) { 			String word = br.readLine(); 			if (word.charAt(0) == &#39;-&#39;) break;  			dictionary.add(new Word(word)); 		} 		 	} catch (IOException e) {} }  // Word class static class Word { 	int mask; 	int[] count;  	Word() { 		this.count = new int[26]; 	}  	Word(String word) { 		this(); 		 		for (char c : word.toCharArray()) { 			// 무조건 대문자로 들어옴 			count[c - &#39;A&#39;]++; 			mask |= (1 &lt;&lt; (c - &#39;A&#39;)); 		} 	} }   2. 메인 루프  퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다. 분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다.  while (true) { 	String puzzle = br.readLine(); 	if (puzzle.charAt(0) == &#39;#&#39;) break;  	// 퍼즐판 비트마스크 변환 	int[] puzzleCount = new int[26]; 	int puzzleMask = 0; 	 	for (char c : puzzle.toCharArray()) { 		puzzleCount[c - &#39;A&#39;]++; 		puzzleMask |= (1 &lt;&lt; (c - &#39;A&#39;)); 	}  	Map&lt;Character, Integer&gt; center = new HashMap&lt;&gt;();  	// 중심글자 하나씩 넣어보기 	for (char c : puzzle.toCharArray()) { 		int centerMask = (1 &lt;&lt; (c - &#39;A&#39;)); 		int count = 0;  		for (Word w : dictionary) { 			// 알파벳 체크 			if ((w.mask &amp; puzzleMask) != w.mask) continue; 			// 중심글자 체크 			if ((w.mask &amp; centerMask) == 0) continue;  			boolean valid = true; 			// 개수 체크 			for (int i = 0; i &lt; 26; i++) { 				if (w.count[i] &gt; puzzleCount[i]) { 					valid = false; 					break; 				} 			}  			if (valid) count++; 		}  		center.put(c, count); 	}  	// 최소값 최대값 찾기 	int min = Collections.min(center.values()); 	int max = Collections.max(center.values());  	List&lt;Character&gt; minLetters = new ArrayList&lt;&gt;(); 	List&lt;Character&gt; maxLetters = new ArrayList&lt;&gt;();  	for (Map.Entry&lt;Character, Integer&gt; e : center.entrySet()) { 		if (e.getValue() == min &amp;&amp; !minLetters.contains(e.getKey())) { 			minLetters.add(e.getKey()); 		}  		if (e.getValue() == max &amp;&amp; !maxLetters.contains(e.getKey())) { 			maxLetters.add(e.getKey()); 		} 	}  	// 알파벳 순 정렬 	Collections.sort(minLetters); 	Collections.sort(maxLetters);  	for (char ch : minLetters) sb.append(ch); 	sb.append(&quot; &quot;).append(min).append(&quot; &quot;); 	for (char ch : maxLetters) sb.append(ch); 	sb.append(&quot; &quot;).append(max).append(&quot;\n&quot;); }      채점           반성      처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가 전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다. 어쨌든 20만개를 저장해서 순회하는 식이니 말이다.  좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯? 하지만 어쨌든 풀었으니 그만둬야지     코드 확인      Link to GitHub">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="프로그래머를 위한 생산성 툴 TOP 5 🧰">
-<meta property="og:url" content="https://movingwoo.com/ai-playground/gpt/2025/04/30/GPT.html">
+<meta property="og:title" content="1148번 단어 만들기">
+<meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/06/02/1148.html">
 
 
-  <meta property="og:description" content="본 포스트는 AI가 제작한 포스트입니다. 주제: IT 자유       “좋은 도구는 개발자의 시간을 아껴준다.” - 모든 개발자의 마음속 명언   개발은 단순한 코드 작성이 아닌, 문제 해결과 창조적 사고의 연속입니다. 그렇기에 생산성을 높이는 툴은 단순한 ‘보조도구’가 아니라 ‘생산성의 핵심’이라 할 수 있습니다. 이번 포스트에서는 실제 개발자들이 애용하는 툴들 중, 생산성을 크게 향상시켜주는 다섯 가지를 소개합니다.    1. Visual Studio Code (VS Code)     🌐 https://code.visualstudio.com/   ✨ 확장성이 뛰어난 오픈소스 에디터   📦 추천 확장 기능:            Prettier (코드 포매터)       GitLens (Git 기록 시각화)       REST Client (API 테스트용)              “에디터는 손끝의 무기. 자신에게 맞는 무기를 세팅하라.”     2. Raycast     🌐 https://www.raycast.com/   ⌨️ Mac용 명령형 런처 (스팟라이트 업그레이드 버전)   🧩 다양한 플러그인 &amp; 스크립트 가능   💡 개발자 사용 예시: # 로컬 서버 종료 $ raycast kill-server     3. Notion     🌐 https://www.notion.so/   📝 올인원 워크스페이스   📌 프로젝트 관리, 문서화, 위키, 회의록 등에 최적화      개발 문서는 결국 팀의 자산입니다. Notion으로 팀 지식을 구조화하세요.     4. Postman     🌐 https://www.postman.com/   🔍 REST API 테스트 및 문서화 도구   🧪 Collection 단위 테스트 가능   ✅ API 응답 시간, 상태 코드 체크 자동화     5. TablePlus     🌐 https://tableplus.com/   🧩 직관적인 DB 클라이언트 (MySQL, PostgreSQL 등 지원)   💨 빠른 쿼리, 편리한 UI, 로컬/원격 연결 모두 지원     마치며 🧘  생산성을 높인다는 건 “더 빨리 코딩한다”는 뜻이 아닙니다. 더 빠르게 이해하고, 더 정확히 실행하며, 더 적게 실수하는 것입니다. 위 도구들이 여러분의 개발 여정을 한층 더 가볍고 효율적으로 만들어주길 바랍니다.    📌 당신의 생산성 꿀팁은 무엇인가요? 댓글로 공유해주세요!     내 생각      항상 느끼는 거지만 GPT는 이모지가 과하다. 딴 건 이의없는데 왜 DB는 tableplus지? 한 번도 써본 적 없다. 댓글 기능이라…">
-
-
-
+  <meta property="og:description" content="문제        1148번 단어 만들기 - 백준     설계      20만개의 사전 단어… 이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다? 이게 되남??  믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다. 아니 또 시간이 문제가 아니라 메모리가 문제였네! 맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에  비트마스크 ㄱㄱ     구현      1. 단어와 사전  단어 클래스를 구현해 사전에 넣는다. 단어는 비트마스크와 문자 수를 가진다.  public static void main(String[] args) {     	 	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))){ 		 		List&lt;Word&gt; dictionary = new ArrayList&lt;&gt;(); 		 		// 사전 채우기 		while (true) { 			String word = br.readLine(); 			if (word.charAt(0) == &#39;-&#39;) break;  			dictionary.add(new Word(word)); 		} 		 	} catch (IOException e) {} }  // Word class static class Word { 	int mask; 	int[] count;  	Word() { 		this.count = new int[26]; 	}  	Word(String word) { 		this(); 		 		for (char c : word.toCharArray()) { 			// 무조건 대문자로 들어옴 			count[c - &#39;A&#39;]++; 			mask |= (1 &lt;&lt; (c - &#39;A&#39;)); 		} 	} }   2. 메인 루프  퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다. 분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다.  while (true) { 	String puzzle = br.readLine(); 	if (puzzle.charAt(0) == &#39;#&#39;) break;  	// 퍼즐판 비트마스크 변환 	int[] puzzleCount = new int[26]; 	int puzzleMask = 0; 	 	for (char c : puzzle.toCharArray()) { 		puzzleCount[c - &#39;A&#39;]++; 		puzzleMask |= (1 &lt;&lt; (c - &#39;A&#39;)); 	}  	Map&lt;Character, Integer&gt; center = new HashMap&lt;&gt;();  	// 중심글자 하나씩 넣어보기 	for (char c : puzzle.toCharArray()) { 		int centerMask = (1 &lt;&lt; (c - &#39;A&#39;)); 		int count = 0;  		for (Word w : dictionary) { 			// 알파벳 체크 			if ((w.mask &amp; puzzleMask) != w.mask) continue; 			// 중심글자 체크 			if ((w.mask &amp; centerMask) == 0) continue;  			boolean valid = true; 			// 개수 체크 			for (int i = 0; i &lt; 26; i++) { 				if (w.count[i] &gt; puzzleCount[i]) { 					valid = false; 					break; 				} 			}  			if (valid) count++; 		}  		center.put(c, count); 	}  	// 최소값 최대값 찾기 	int min = Collections.min(center.values()); 	int max = Collections.max(center.values());  	List&lt;Character&gt; minLetters = new ArrayList&lt;&gt;(); 	List&lt;Character&gt; maxLetters = new ArrayList&lt;&gt;();  	for (Map.Entry&lt;Character, Integer&gt; e : center.entrySet()) { 		if (e.getValue() == min &amp;&amp; !minLetters.contains(e.getKey())) { 			minLetters.add(e.getKey()); 		}  		if (e.getValue() == max &amp;&amp; !maxLetters.contains(e.getKey())) { 			maxLetters.add(e.getKey()); 		} 	}  	// 알파벳 순 정렬 	Collections.sort(minLetters); 	Collections.sort(maxLetters);  	for (char ch : minLetters) sb.append(ch); 	sb.append(&quot; &quot;).append(min).append(&quot; &quot;); 	for (char ch : maxLetters) sb.append(ch); 	sb.append(&quot; &quot;).append(max).append(&quot;\n&quot;); }      채점           반성      처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가 전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다. 어쨌든 20만개를 저장해서 순회하는 식이니 말이다.  좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯? 하지만 어쨌든 풀었으니 그만둬야지     코드 확인      Link to GitHub">
 
 
 
 
-  <meta property="article:published_time" content="2025-04-30T03:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-04-30T03:00:00+00:00">
+  <meta property="article:published_time" content="2025-06-02T05:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-06-02T05:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/ai-playground/gpt/2025/04/30/GPT.html">
+<link rel="canonical" href="https://movingwoo.com/random-solve/java/2025/06/02/1148.html">
 
 
 
@@ -1052,10 +1052,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="프로그래머를 위한 생산성 툴 TOP 5 🧰">
-      <meta itemprop="description" content="본 포스트는 AI가 제작한 포스트입니다.주제: IT 자유  “좋은 도구는 개발자의 시간을 아껴준다.”- 모든 개발자의 마음속 명언개발은 단순한 코드 작성이 아닌, 문제 해결과 창조적 사고의 연속입니다. 그렇기에 생산성을 높이는 툴은 단순한 ‘보조도구’가 아니라 ‘생산성의 핵심’이라 할 수 있습니다.이번 포스트에서는 실제 개발자들이 애용하는 툴들 중, 생산성을 크게 향상시켜주는 다섯 가지를 소개합니다.1. Visual Studio Code (VS Code)  🌐 https://code.visualstudio.com/  ✨ 확장성이 뛰어난 오픈소스 에디터  📦 추천 확장 기능:          Prettier (코드 포매터)      GitLens (Git 기록 시각화)      REST Client (API 테스트용)        “에디터는 손끝의 무기. 자신에게 맞는 무기를 세팅하라.”2. Raycast  🌐 https://www.raycast.com/  ⌨️ Mac용 명령형 런처 (스팟라이트 업그레이드 버전)  🧩 다양한 플러그인 &amp; 스크립트 가능💡 개발자 사용 예시:# 로컬 서버 종료$ raycast kill-server3. Notion  🌐 https://www.notion.so/  📝 올인원 워크스페이스  📌 프로젝트 관리, 문서화, 위키, 회의록 등에 최적화  개발 문서는 결국 팀의 자산입니다. Notion으로 팀 지식을 구조화하세요.4. Postman  🌐 https://www.postman.com/  🔍 REST API 테스트 및 문서화 도구  🧪 Collection 단위 테스트 가능  ✅ API 응답 시간, 상태 코드 체크 자동화5. TablePlus  🌐 https://tableplus.com/  🧩 직관적인 DB 클라이언트 (MySQL, PostgreSQL 등 지원)  💨 빠른 쿼리, 편리한 UI, 로컬/원격 연결 모두 지원마치며 🧘생산성을 높인다는 건 “더 빨리 코딩한다”는 뜻이 아닙니다.더 빠르게 이해하고, 더 정확히 실행하며, 더 적게 실수하는 것입니다.위 도구들이 여러분의 개발 여정을 한층 더 가볍고 효율적으로 만들어주길 바랍니다.📌 당신의 생산성 꿀팁은 무엇인가요? 댓글로 공유해주세요!  내 생각  항상 느끼는 거지만 GPT는 이모지가 과하다.딴 건 이의없는데 왜 DB는 tableplus지? 한 번도 써본 적 없다.댓글 기능이라…">
-      <meta itemprop="datePublished" content="2025-04-30T03:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-04-30T03:00:00+00:00">
+      <meta itemprop="headline" content="1148번 단어 만들기">
+      <meta itemprop="description" content="  문제  1148번 단어 만들기 - 백준  설계  20만개의 사전 단어…이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다?이게 되남??믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다.아니 또 시간이 문제가 아니라 메모리가 문제였네!맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에비트마스크 ㄱㄱ  구현  1. 단어와 사전단어 클래스를 구현해 사전에 넣는다.단어는 비트마스크와 문자 수를 가진다.public static void main(String[] args) {    		try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in));		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))){				List&lt;Word&gt; dictionary = new ArrayList&lt;&gt;();				// 사전 채우기		while (true) {			String word = br.readLine();			if (word.charAt(0) == &#39;-&#39;) break;			dictionary.add(new Word(word));		}			} catch (IOException e) {}}// Word classstatic class Word {	int mask;	int[] count;	Word() {		this.count = new int[26];	}	Word(String word) {		this();				for (char c : word.toCharArray()) {			// 무조건 대문자로 들어옴			count[c - &#39;A&#39;]++;			mask |= (1 &lt;&lt; (c - &#39;A&#39;));		}	}}2. 메인 루프퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다.분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다.while (true) {	String puzzle = br.readLine();	if (puzzle.charAt(0) == &#39;#&#39;) break;	// 퍼즐판 비트마스크 변환	int[] puzzleCount = new int[26];	int puzzleMask = 0;		for (char c : puzzle.toCharArray()) {		puzzleCount[c - &#39;A&#39;]++;		puzzleMask |= (1 &lt;&lt; (c - &#39;A&#39;));	}	Map&lt;Character, Integer&gt; center = new HashMap&lt;&gt;();	// 중심글자 하나씩 넣어보기	for (char c : puzzle.toCharArray()) {		int centerMask = (1 &lt;&lt; (c - &#39;A&#39;));		int count = 0;		for (Word w : dictionary) {			// 알파벳 체크			if ((w.mask &amp; puzzleMask) != w.mask) continue;			// 중심글자 체크			if ((w.mask &amp; centerMask) == 0) continue;			boolean valid = true;			// 개수 체크			for (int i = 0; i &lt; 26; i++) {				if (w.count[i] &gt; puzzleCount[i]) {					valid = false;					break;				}			}			if (valid) count++;		}		center.put(c, count);	}	// 최소값 최대값 찾기	int min = Collections.min(center.values());	int max = Collections.max(center.values());	List&lt;Character&gt; minLetters = new ArrayList&lt;&gt;();	List&lt;Character&gt; maxLetters = new ArrayList&lt;&gt;();	for (Map.Entry&lt;Character, Integer&gt; e : center.entrySet()) {		if (e.getValue() == min &amp;&amp; !minLetters.contains(e.getKey())) {			minLetters.add(e.getKey());		}		if (e.getValue() == max &amp;&amp; !maxLetters.contains(e.getKey())) {			maxLetters.add(e.getKey());		}	}	// 알파벳 순 정렬	Collections.sort(minLetters);	Collections.sort(maxLetters);	for (char ch : minLetters) sb.append(ch);	sb.append(&quot; &quot;).append(min).append(&quot; &quot;);	for (char ch : maxLetters) sb.append(ch);	sb.append(&quot; &quot;).append(max).append(&quot;\n&quot;);}  채점    반성  처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다.어쨌든 20만개를 저장해서 순회하는 식이니 말이다.좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯?하지만 어쨌든 풀었으니 그만둬야지  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-06-02T05:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-02T05:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1069,25 +1069,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
       <span class="separator">/</span>
       
-      <a href="/board?path=AI-playground" class="category-link">
-        AI-playground
+      <a href="/board?path=random-solve" class="category-link">
+        random-solve
       </a>
       
     
       <span class="separator">/</span>
       
-      <a href="/board?path=AI-playground%2FGPT" class="category-link">
-        GPT
+      <a href="/board?path=random-solve%2FJava" class="category-link">
+        Java
       </a>
       
     
   </div>
-  <a href="/board?path=AI-playground%2FGPT%2F" class="category-icon" title="리스트">
+  <a href="/board?path=random-solve%2FJava%2F" class="category-icon" title="리스트">
     <i class="fas fa-list-ul" aria-hidden="true"></i>
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">프로그래머를 위한 생산성 툴 TOP 5 🧰
+            <h1 id="page-title" class="page__title" itemprop="headline">1148번 단어 만들기
 </h1>
             
 
@@ -1096,109 +1096,179 @@ document.addEventListener('DOMContentLoaded', function() {
         
 
         <section class="page__content" itemprop="text">
-          <p><span style="color: red;"><strong>본 포스트는 AI가 제작한 포스트입니다.</strong></span><br />
-<span style="color: orange;">주제: IT 자유</span></p>
-
-<hr />
-
-<blockquote>
-  <p><strong>“좋은 도구는 개발자의 시간을 아껴준다.”</strong><br />
-<em>- 모든 개발자의 마음속 명언</em></p>
-</blockquote>
-
-<p>개발은 단순한 코드 작성이 아닌, 문제 해결과 창조적 사고의 연속입니다. 그렇기에 생산성을 높이는 툴은 단순한 ‘보조도구’가 아니라 ‘생산성의 핵심’이라 할 수 있습니다.<br />
-이번 포스트에서는 실제 개발자들이 애용하는 툴들 중, 생산성을 크게 향상시켜주는 다섯 가지를 소개합니다.</p>
-
-<hr />
-
-<h2 id="1-visual-studio-code-vs-code">1. <strong>Visual Studio Code (VS Code)</strong></h2>
-
-<ul>
-  <li>🌐 https://code.visualstudio.com/</li>
-  <li>✨ 확장성이 뛰어난 오픈소스 에디터</li>
-  <li>📦 추천 확장 기능:
-    <ul>
-      <li><em>Prettier</em> (코드 포매터)</li>
-      <li><em>GitLens</em> (Git 기록 시각화)</li>
-      <li><em>REST Client</em> (API 테스트용)</li>
-    </ul>
-  </li>
-</ul>
-
-<blockquote>
-  <p>“에디터는 손끝의 무기. 자신에게 맞는 무기를 세팅하라.”</p>
-</blockquote>
-
-<hr />
-
-<h2 id="2-raycast">2. <strong>Raycast</strong></h2>
-
-<ul>
-  <li>🌐 https://www.raycast.com/</li>
-  <li>⌨️ Mac용 명령형 런처 (스팟라이트 업그레이드 버전)</li>
-  <li>🧩 다양한 플러그인 &amp; 스크립트 가능</li>
-</ul>
-
-<p>💡 <strong>개발자 사용 예시:</strong></p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 로컬 서버 종료</span>
-<span class="nv">$ </span>raycast kill-server
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="3-notion">3. <strong>Notion</strong></h2>
-
-<ul>
-  <li>🌐 https://www.notion.so/</li>
-  <li>📝 올인원 워크스페이스</li>
-  <li>📌 프로젝트 관리, 문서화, 위키, 회의록 등에 최적화</li>
-</ul>
-
-<blockquote>
-  <p>개발 문서는 결국 팀의 자산입니다. Notion으로 팀 지식을 구조화하세요.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="4-postman">4. <strong>Postman</strong></h2>
-
-<ul>
-  <li>🌐 https://www.postman.com/</li>
-  <li>🔍 REST API 테스트 및 문서화 도구</li>
-  <li>🧪 Collection 단위 테스트 가능</li>
-  <li>✅ API 응답 시간, 상태 코드 체크 자동화</li>
-</ul>
-
-<hr />
-
-<h2 id="5-tableplus">5. <strong>TablePlus</strong></h2>
-
-<ul>
-  <li>🌐 https://tableplus.com/</li>
-  <li>🧩 직관적인 DB 클라이언트 (MySQL, PostgreSQL 등 지원)</li>
-  <li>💨 빠른 쿼리, 편리한 UI, 로컬/원격 연결 모두 지원</li>
-</ul>
-
-<hr />
-
-<h2 id="마치며-">마치며 🧘</h2>
-
-<p>생산성을 높인다는 건 “더 빨리 코딩한다”는 뜻이 아닙니다.<br />
-<strong>더 빠르게 이해하고, 더 정확히 실행하며, 더 적게 실수하는 것</strong>입니다.<br />
-위 도구들이 여러분의 개발 여정을 한층 더 가볍고 효율적으로 만들어주길 바랍니다.</p>
-
-<hr />
-
-<p>📌 <strong>당신의 생산성 꿀팁은 무엇인가요? 댓글로 공유해주세요!</strong></p>
-
-<blockquote>
-  <h4 id="내-생각">내 생각</h4>
+          <blockquote>
+  <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
 
-<p>항상 느끼는 거지만 GPT는 이모지가 과하다.<br />
-딴 건 이의없는데 왜 DB는 tableplus지? 한 번도 써본 적 없다.<br />
-댓글 기능이라…</p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/1148">1148번 단어 만들기 - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p><span style="color: orange;"><strong>20만개</strong></span>의 사전 단어…<br />
+이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다?<br />
+이게 되남??</p>
+
+<p>믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다.<br />
+아니 또 시간이 문제가 아니라 메모리가 문제였네!<br />
+맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에</p>
+
+<p><span style="color: orange;"><strong>비트마스크 ㄱㄱ</strong></span></p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-단어와-사전">1. 단어와 사전</h5>
+
+<p>단어 클래스를 구현해 사전에 넣는다.<br />
+단어는 비트마스크와 문자 수를 가진다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    	
+	<span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+		<span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">))){</span>
+		
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Word</span><span class="o">&gt;</span> <span class="n">dictionary</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+		
+		<span class="c1">// 사전 채우기</span>
+		<span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nc">String</span> <span class="n">word</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">word</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'-'</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+
+			<span class="n">dictionary</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">Word</span><span class="o">(</span><span class="n">word</span><span class="o">));</span>
+		<span class="o">}</span>
+		
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
+<span class="o">}</span>
+
+<span class="c1">// Word class</span>
+<span class="kd">static</span> <span class="kd">class</span> <span class="nc">Word</span> <span class="o">{</span>
+	<span class="kt">int</span> <span class="n">mask</span><span class="o">;</span>
+	<span class="kt">int</span><span class="o">[]</span> <span class="n">count</span><span class="o">;</span>
+
+	<span class="nc">Word</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">count</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">26</span><span class="o">];</span>
+	<span class="o">}</span>
+
+	<span class="nc">Word</span><span class="o">(</span><span class="nc">String</span> <span class="n">word</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">();</span>
+		
+		<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">word</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+			<span class="c1">// 무조건 대문자로 들어옴</span>
+			<span class="n">count</span><span class="o">[</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">]++;</span>
+			<span class="n">mask</span> <span class="o">|=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">));</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="2-메인-루프">2. 메인 루프</h5>
+
+<p>퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다.<br />
+분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+	<span class="nc">String</span> <span class="n">puzzle</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">puzzle</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'#'</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+
+	<span class="c1">// 퍼즐판 비트마스크 변환</span>
+	<span class="kt">int</span><span class="o">[]</span> <span class="n">puzzleCount</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">26</span><span class="o">];</span>
+	<span class="kt">int</span> <span class="n">puzzleMask</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	
+	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">puzzle</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+		<span class="n">puzzleCount</span><span class="o">[</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">]++;</span>
+		<span class="n">puzzleMask</span> <span class="o">|=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">));</span>
+	<span class="o">}</span>
+
+	<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">center</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+	<span class="c1">// 중심글자 하나씩 넣어보기</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">puzzle</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">centerMask</span> <span class="o">=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">));</span>
+		<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+		<span class="k">for</span> <span class="o">(</span><span class="nc">Word</span> <span class="n">w</span> <span class="o">:</span> <span class="n">dictionary</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// 알파벳 체크</span>
+			<span class="k">if</span> <span class="o">((</span><span class="n">w</span><span class="o">.</span><span class="na">mask</span> <span class="o">&amp;</span> <span class="n">puzzleMask</span><span class="o">)</span> <span class="o">!=</span> <span class="n">w</span><span class="o">.</span><span class="na">mask</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+			<span class="c1">// 중심글자 체크</span>
+			<span class="k">if</span> <span class="o">((</span><span class="n">w</span><span class="o">.</span><span class="na">mask</span> <span class="o">&amp;</span> <span class="n">centerMask</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+
+			<span class="kt">boolean</span> <span class="n">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="c1">// 개수 체크</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">w</span><span class="o">.</span><span class="na">count</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">puzzleCount</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">{</span>
+					<span class="n">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+					<span class="k">break</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+
+			<span class="k">if</span> <span class="o">(</span><span class="n">valid</span><span class="o">)</span> <span class="n">count</span><span class="o">++;</span>
+		<span class="o">}</span>
+
+		<span class="n">center</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="n">count</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 최소값 최대값 찾기</span>
+	<span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">center</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
+	<span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">center</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
+
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">&gt;</span> <span class="n">minLetters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">&gt;</span> <span class="n">maxLetters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+	<span class="k">for</span> <span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">e</span> <span class="o">:</span> <span class="n">center</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">==</span> <span class="n">min</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">minLetters</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">()))</span> <span class="o">{</span>
+			<span class="n">minLetters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">());</span>
+		<span class="o">}</span>
+
+		<span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">==</span> <span class="n">max</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">maxLetters</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">()))</span> <span class="o">{</span>
+			<span class="n">maxLetters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">());</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 알파벳 순 정렬</span>
+	<span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">minLetters</span><span class="o">);</span>
+	<span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">maxLetters</span><span class="o">);</span>
+
+	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">minLetters</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ch</span><span class="o">);</span>
+	<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">min</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">maxLetters</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ch</span><span class="o">);</span>
+	<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">max</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가<br />
+전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다.<br />
+어쨌든 20만개를 저장해서 순회하는 식이니 말이다.</p>
+
+<p>좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯?<br />
+하지만 어쨌든 풀었으니 그만둬야지</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-02-1148.java">Link to GitHub</a></p>
+
 
           
         </section>
@@ -1207,7 +1277,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-04-30">April 30, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-02">June 2, 2025</time></p>
 
 
         </footer>
@@ -1222,10 +1292,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "프로그래머를 위한 생산성 툴 TOP 5 🧰",
-        url: "/ai-playground/gpt/2025/04/30/GPT.html",
-        date: "2025-04-30",
-        categories: ["AI-playground/GPT/"]
+        title: "1148번 단어 만들기",
+        url: "/random-solve/java/2025/06/02/1148.html",
+        date: "2025-06-02",
+        categories: ["random-solve/Java/"]
       },
       allPosts: [
         
