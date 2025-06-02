@@ -190,4 +190,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/c++/2025/05/30/7663.html",
         "teaser": null
+      },{
+        "title": "11761번 Shuffling Along",
+        "excerpt":"문제 11761번 Shuffling Along - 백준 번역 덱을 절반을 나눠서 교차로 셔플한다. ABCDEFGH의 카드를 예시로 할때 A가 위로 오면 아웃셔플 (AEBFCGDH) E가 위로 오면 인셔플 (EAFBGCHD) 셔플을 여러번 하면 원래 덱 상태로 돌아오는데 덱 수와 셔플 방식이 주어지면 몇 회만에 원래 덱으로 돌아오는지 구하시오. 홀수인 경우 아웃셔플은 왼쪽에 1장, 인셔플은...","categories": ["random-solve/Python/"],
+        "tags": [],
+        "url": "/random-solve/python/2025/06/02/11761.html",
+        "teaser": null
       }]

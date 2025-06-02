@@ -1,4 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-05-30T06:53:32+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">7663번 Dreadful Deadlines</title><link href="https://movingwoo.com/random-solve/c++/2025/05/30/7663.html" rel="alternate" type="text/html" title="7663번 Dreadful Deadlines" /><published>2025-05-30T06:00:00+00:00</published><updated>2025-05-30T06:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/30/7663</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/30/7663.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-02T03:01:42+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">11761번 Shuffling Along</title><link href="https://movingwoo.com/random-solve/python/2025/06/02/11761.html" rel="alternate" type="text/html" title="11761번 Shuffling Along" /><published>2025-06-02T03:00:00+00:00</published><updated>2025-06-02T03:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/06/02/11761</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/06/02/11761.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-06-02-11761/img01.jpg" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/11761">11761번 Shuffling Along - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>덱을 절반을 나눠서 교차로 셔플한다.<br />
+ABCDEFGH의 카드를 예시로 할때<br />
+A가 위로 오면 아웃셔플 (AEBFCGDH)<br />
+E가 위로 오면 인셔플 (EAFBGCHD)</p>
+
+<p>셔플을 여러번 하면 원래 덱 상태로 돌아오는데<br />
+덱 수와 셔플 방식이 주어지면 몇 회만에 원래 덱으로 돌아오는지 구하시오.<br />
+홀수인 경우 아웃셔플은 왼쪽에 1장, 인셔플은 오른쪽에 1장 더 준다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>단순 구현 문제로 보인다.<br />
+인셔플과 아웃셔플 함수를 두고 개수세며 섞기만 하면 끝인가?<br />
+n이 작아서 충분히 가능할 것 같다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>홀수일때 아웃셔플은 왼쪽이 한 장 많고 인셔플은 오른쪽이 한 장 많다.<br />
+중간점만 잘 체크해주기</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 아웃셔플
+</span><span class="k">def</span> <span class="nf">out_shuffle</span><span class="p">(</span><span class="n">deck</span><span class="p">):</span>
+    <span class="c1"># 왼쪽이 더 많게
+</span>    <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>  
+    <span class="n">left</span> <span class="o">=</span> <span class="n">deck</span><span class="p">[:</span><span class="n">mid</span><span class="p">]</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">deck</span><span class="p">[</span><span class="n">mid</span><span class="p">:]</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># 인셔플
+</span><span class="k">def</span> <span class="nf">in_shuffle</span><span class="p">(</span><span class="n">deck</span><span class="p">):</span>
+    <span class="c1"># 오른쪽이 더 많게
+</span>    <span class="n">mid</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">deck</span><span class="p">[:</span><span class="n">mid</span><span class="p">]</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">deck</span><span class="p">[</span><span class="n">mid</span><span class="p">:]</span>
+    
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></div>
+
+<p>호출하며 카운트를 센다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">str_n</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">str_n</span><span class="p">)</span>
+
+<span class="n">deck</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="n">shuffled_deck</span> <span class="o">=</span> <span class="n">deck</span>
+<span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="sh">'</span><span class="s">in</span><span class="sh">'</span><span class="p">:</span>
+        <span class="n">shuffled_deck</span> <span class="o">=</span> <span class="nf">in_shuffle</span><span class="p">(</span><span class="n">shuffled_deck</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">o</span> <span class="o">==</span> <span class="sh">'</span><span class="s">out</span><span class="sh">'</span><span class="p">:</span>
+        <span class="n">shuffled_deck</span> <span class="o">=</span> <span class="nf">out_shuffle</span><span class="p">(</span><span class="n">shuffled_deck</span><span class="p">)</span>
+    
+    <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">shuffled_deck</span> <span class="o">==</span> <span class="n">deck</span><span class="p">:</span>
+        <span class="k">break</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-06-02-11761/img02.jpg" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>n이 작아서 단순 시뮬레이션으로 통과 가능했다.<br />
+만약 엄청나게 컸다면?<br />
+전체 덱의 셔플 주기를 찾아서 순환 길이들의 최소공배수를 찾아야할 것이다.<br />
+휴~~~ 간단한 문제라서 다행이야</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-06-02-11761.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 11761번 Shuffling Along - 백준 번역 덱을 절반을 나눠서 교차로 셔플한다. ABCDEFGH의 카드를 예시로 할때 A가 위로 오면 아웃셔플 (AEBFCGDH) E가 위로 오면 인셔플 (EAFBGCHD) 셔플을 여러번 하면 원래 덱 상태로 돌아오는데 덱 수와 셔플 방식이 주어지면 몇 회만에 원래 덱으로 돌아오는지 구하시오. 홀수인 경우 아웃셔플은 왼쪽에 1장, 인셔플은 오른쪽에 1장 더 준다. 설계 단순 구현 문제로 보인다. 인셔플과 아웃셔플 함수를 두고 개수세며 섞기만 하면 끝인가? n이 작아서 충분히 가능할 것 같다. 구현 홀수일때 아웃셔플은 왼쪽이 한 장 많고 인셔플은 오른쪽이 한 장 많다. 중간점만 잘 체크해주기 # 아웃셔플 def out_shuffle(deck): # 왼쪽이 더 많게 mid = (n + 1) // 2 left = deck[:mid] right = deck[mid:] result = [] for i in range(n): if i % 2 == 0: result.append(left[i // 2]) else: result.append(right[i // 2]) return result # 인셔플 def in_shuffle(deck): # 오른쪽이 더 많게 mid = n // 2 left = deck[:mid] right = deck[mid:] result = [] for i in range(n): if i % 2 == 0: result.append(right[i // 2]) else: result.append(left[i // 2]) return result 호출하며 카운트를 센다. str_n, o = input().split() n = int(str_n) deck = list(range(n)) shuffled_deck = deck cnt = 0 while True: if o == 'in': shuffled_deck = in_shuffle(shuffled_deck) elif o == 'out': shuffled_deck = out_shuffle(shuffled_deck) cnt += 1 if shuffled_deck == deck: break print(cnt) 채점 반성 n이 작아서 단순 시뮬레이션으로 통과 가능했다. 만약 엄청나게 컸다면? 전체 덱의 셔플 주기를 찾아서 순환 길이들의 최소공배수를 찾아야할 것이다. 휴~~~ 간단한 문제라서 다행이야 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">7663번 Dreadful Deadlines</title><link href="https://movingwoo.com/random-solve/c++/2025/05/30/7663.html" rel="alternate" type="text/html" title="7663번 Dreadful Deadlines" /><published>2025-05-30T06:00:00+00:00</published><updated>2025-05-30T06:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/30/7663</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/30/7663.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -1999,65 +2116,4 @@ WFC에서의 <span style="color: orange;"><strong>엔트로피는 셀의 불확�
 <a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-27-RandomWalk.js">Link to GitHub</a></p>
 
 <p>Cellular Automata<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-27-CellularAutomata.js">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 신나는 던전 맵 생성기 5종 알고리즘과 함께 구현 1. 설계 던전 맵 생성 관련 대표 알고리즘에 대해 찾아보았다. 알고리즘 스타일 특징 용도 BSP (Binary Space Partitioning) 직사각형 방 + 복도 공간을 재귀적으로 분할, 각 방을 연결 방 중심의 던전, 구조적 배치 Random Walk (Drunkard’s Walk) 유기적 경로, 비정형 무작위 방향 이동, 비선형 구조 자연 동굴, 탐험 중심 던전 Cellular Automata 자연 동굴 형태, 굴곡 많음 셀 규칙 반복으로 패턴 정제 동굴 스타일 던전, 유기적 형태 Delaunay Triangulation + MST 방 중심 + 경로 연결 무작위 방 &gt; 삼각분할 &gt; 최소 연결 모든 방 연결 보장, 전략적 맵 Wave Function Collapse (WFC) 타일 기반, 정교한 제약 타일 제약 기반 패턴 구성 정교한 던전, 룰 기반 구조 맵을 그릴 캔버스가 있는 html은 이전 미로 생성기의 것을 그대로 가져와서 사용한다. 2. BSP 알고리즘 BSP 알고리즘을 공간을 재귀적으로 분할한다. 분할 과정이 이진트리 형태로 표현되며 방 설정을 통해 크기와 개수를 쉽게 조절 가능하다. 통로는 각 방의 중심을 직선 또는 L자로 적당히 연결한다. 방이 완전히 랜덤한 위치에 생성되기 때문에 방의 중심을 연결하는 통로의 특성 상 통로가 겹치기도 하고 두껍게 이어지기도 한다. 또 현재 입구 생성을 [0, 0]에서 가장 가까운 셀로 해두었는데 랜덤하게 생성되어 이어지는 구조 특성 상 통로가 가장 가까운 경우 통로에 입구가 생길 수도 있다. 강제로 가까운 셀을 껴서 생성시키기에는 BSP의 취지에 맞지 않은 것 같고 방과 통로를 구분할 수 있게 방 데이터를 가져오려면 공통함수로 쓰기 애매하다. 그냥 복도에 입구가 생기면 운이 나쁜걸로… // 방 클래스 정의 class Room { constructor(x, y, w, h) { this.x = x; this.y = y; this.w = w; this.h = h; } // 방의 중심 좌표 center() { return [ Math.floor(this.x + this.w / 2), Math.floor(this.y + this.h / 2) ]; } // 다른 방과 겹치는지 판정 intersects(other) { return ( this.x &lt; other.x + other.w &amp;&amp; this.x + this.w &gt; other.x &amp;&amp; this.y &lt; other.y + other.h &amp;&amp; this.y + this.h &gt; other.y ); } } async function startBSP() { const MIN_SIZE = 4; // 방 최소 크기 const MAX_SIZE = 6; // 방 최대 크기 const partitions = [{ x: 0, y: 0, w: cols, h: rows }]; const rooms = []; // 생성된 방 목록 // 공간을 재귀적으로 분할 async function splitSpace(space) { const { x, y, w, h } = space; const horizontal = Math.random() &lt; 0.5; // 분할 방향 랜덤(수평/수직) // 더 이상 분할이 불가능할 때(최소 크기 이하) if ((horizontal &amp;&amp; h &lt;= 2 * MIN_SIZE) || (!horizontal &amp;&amp; w &lt;= 2 * MIN_SIZE)) { // 방 생성 시도 (겹쳐서 실패할 경우 10회까지 재시도) let tryCount = 0; let room; let overlapped; do { if (w - 2 &lt; MIN_SIZE || h - 2 &lt; MIN_SIZE) break; // 공간이 너무 작으면 중단 // 방 크기 랜덤 (MIN_SIZE~MAX_SIZE), 위치도 랜덤(테두리와 1칸 이상 띄움) const rw = Math.min( Math.floor(Math.random() * (w - 2 - MIN_SIZE + 1)) + MIN_SIZE, MAX_SIZE ); const rh = Math.min( Math.floor(Math.random() * (h - 2 - MIN_SIZE + 1)) + MIN_SIZE, MAX_SIZE ); const rx = Math.floor(Math.random() * (w - 2 - rw + 1)) + x + 1; const ry = Math.floor(Math.random() * (h - 2 - rh + 1)) + y + 1; room = new Room(rx, ry, rw, rh); overlapped = rooms.some(r =&gt; room.intersects(r)); tryCount++; } while (overlapped &amp;&amp; tryCount &lt; 10); // 겹치지 않는 방만 생성 if (!overlapped &amp;&amp; room) { rooms.push(room); // 방 내부를 흰색칠 for (let i = room.y; i &lt; room.y + room.h; i++) { for (let j = room.x; j &lt; room.x + room.w; j++) { map[i][j] = 0; drawCell(j, i, 'white'); await sleep(1); } } } return; } // 분할: 수평 또는 수직으로 영역을 나눔 if (horizontal) { // 수평 분할 const split = Math.floor(Math.random() * (h - MIN_SIZE * 2) + MIN_SIZE); const top = { x, y, w, h: split }; const bottom = { x, y: y + split, w, h: h - split }; await splitSpace(top); await splitSpace(bottom); } else { // 수직 분할 const split = Math.floor(Math.random() * (w - MIN_SIZE * 2) + MIN_SIZE); const left = { x, y, w: split, h }; const right = { x: x + split, y, w: w - split, h }; await splitSpace(left); await splitSpace(right); } } // 터널 뚫는 함수 async function tunneling(x1, y1, x2, y2) { const dx = Math.sign(x2 - x1); const dy = Math.sign(y2 - y1); // x축 방향으로 먼저 이동 while (x1 !== x2) { map[y1][x1] = 0; drawCell(x1, y1, 'white'); x1 += dx; await sleep(1); } // y축 방향으로 이동 while (y1 !== y2) { map[y1][x1] = 0; drawCell(x1, y1, 'white'); y1 += dy; await sleep(1); } } await splitSpace(partitions[0]); // 생성된 방들의 중심을 순서대로 복도로 연결 for (let i = 1; i &lt; rooms.length; i++) { const [x1, y1] = rooms[i - 1].center(); const [x2, y2] = rooms[i].center(); if (Math.random() &lt; 0.5) { await tunneling(x1, y1, x2, y1); await tunneling(x2, y1, x2, y2); } else { await tunneling(x1, y1, x1, y2); await tunneling(x1, y2, x2, y2); } } // 입출구 생성 generateEntrance(); } 3. Random Walk 알고리즘 굉장히 간단한 알고리즘이다. 이름에서 볼 수 있듯 방향을 랜덤으로 움직이며 길을 채우고 정해둔 만큼 맵을 채우면 종료한다. 통로나 방이 곡선형으로 잘 생성되는데 랜덤으로 여기저기 쑤시다보니 통로가 너무 좁을 수 있고 전체적인 구조를 제어하기 힙들다. async function startRandomWalk() { initMap(); // 시작점 (중앙) let x = Math.floor(cols / 2); let y = Math.floor(rows / 2); // 방문한 셀 수를 추적 let visitedCells = 0; const targetCells = Math.floor((cols * rows) * 0.4); // 전체 셀의 40% 채우면 종료 // 4방향 이동 const directions = [ [0, -1], [1, 0], [0, 1], [-1, 0] ]; // 현재 위치를 통로로 만들고 방문 표시 map[y][x] = 0; drawCell(x, y, 'white'); visitedCells++; while (visitedCells &lt; targetCells) { // 랜덤한 방향 선택 const [dx, dy] = directions[Math.floor(Math.random() * 4)]; const newX = x + dx; const newY = y + dy; // 경계 체크 if (newX &gt;= 0 &amp;&amp; newX &lt; cols &amp;&amp; newY &gt;= 0 &amp;&amp; newY &lt; rows) { // 새로운 위치가 벽이면 통로로 만들기 if (map[newY][newX] === 1) { map[newY][newX] = 0; drawCell(newX, newY, 'white'); visitedCells++; } x = newX; y = newY; } await sleep(1); } generateEntrance(); } 4. Cellular Automata 알고리즘 셀의 상태를 바탕으로 다음 상태를 결정해 갱신하는 알고리즘이다. 규칙은 어떻게 정하느냐에 따라 다르겠지마는 초기에 랜덤하게 벽을 뚫어두고 4번에 거쳐 다듬어나간다. 규칙은 아래와 같이 정했다. 현재 셀이 벽인데 주변 벽이 4개 이상이면 벽 유지, 그렇지 않으면 통로로 변경 현재 셀이 통로인데 주변 벽이 5개 이상이변 벽으로 변경, 그렇지 않으면 통로 유지 위 과정을 거쳐 자연스러운 동굴 형태의 맵이 완성된다. 엄격한 규칙을 기반으로 다듬어나가기 때문에 뭔가 틀에 박힌 BSP와 자유롭게 칠렐레 팔렐레 뻗은 Random Walk보다 보기 좋다. 이 알고리즘도 고립된 공간이 생길 수 있는데 이는 추가적인 알고리즘을 통해 고립된 방과 통로로 연결하거나 제거하면 된다. 하지만 이번 구현에서 그 부분은 패스. async function startCellularAutomata() { initMap(); // 초기 랜덤 상태 생성 (약 45%의 벽) for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { // 테두리는 벽으로 설정 if (x === 0 || x === cols - 1 || y === 0 || y === rows - 1) { map[y][x] = 1; drawCell(x, y, 'black'); } else { map[y][x] = Math.random() &lt; 0.45 ? 1 : 0; drawCell(x, y, map[y][x] === 1 ? 'black' : 'white'); } await sleep(1); } } // Cellular Automata 규칙 적용 (4회 반복) for (let generation = 0; generation &lt; 4; generation++) { const newMap = Array.from({ length: rows }, () =&gt; Array(cols).fill(0)); for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { // 테두리는 벽 유지 if (x === 0 || x === cols - 1 || y === 0 || y === rows - 1) { newMap[y][x] = 1; continue; } // 주변 8칸의 벽 개수 세기 let wallCount = 0; for (let dy = -1; dy &lt;= 1; dy++) { for (let dx = -1; dx &lt;= 1; dx++) { if (dx === 0 &amp;&amp; dy === 0) continue; if (map[y + dy][x + dx] === 1) wallCount++; } } //현재 셀이 벽인데 주변 벽이 4개 이상이면 벽 유지, 그렇지 않으면 통로로 변경 //현재 셀이 통로인데 주변 벽이 5개 이상이변 벽으로 변경, 그렇지 않으면 통로 유지 if (map[y][x] === 1) { newMap[y][x] = wallCount &gt;= 4 ? 1 : 0; } else { newMap[y][x] = wallCount &gt;= 5 ? 1 : 0; } drawCell(x, y, newMap[y][x] === 1 ? 'black' : 'white'); await sleep(1); } } map = newMap; } generateEntrance(); } 완성 BSP Random Walk Cellular Automata 반성 Random Walk 알고리즘과 Cellular Automata 알고리즘을 구현하며 즐거워졌다. 오래된 피쳐폰게임의 작은 미니맵을 보는 기분이다. 아 마음이 충만해진다… 코드 확인 직접 해보기 BSP Link to GitHub Random Walk Link to GitHub Cellular Automata Link to GitHub]]></summary></entry><entry><title type="html">5101번 Sequences</title><link href="https://movingwoo.com/random-solve/python/2025/05/23/5101.html" rel="alternate" type="text/html" title="5101번 Sequences" /><published>2025-05-23T07:00:00+00:00</published><updated>2025-05-23T07:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/23/5101</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/23/5101.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-23-5101/img01.jpg" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/5101">5101번 Sequences - 백준</a></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>음 쉬운 문제<br />
-하루의 마무리로 딱이다.</p>
-
-<p>시작 숫자와 차이가 주어지고 다음 숫자가 수열의 항인지 판단하는 문제이다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>단순 덧셈 반복해도 문제없지만 조금 더 스마트하게 해봐야지.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-    <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">());</span>
-
-    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">break</span>
-
-    <span class="c1"># b가 0이면 예외처리
-</span>    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">c</span><span class="p">:</span>
-            <span class="nf">print</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">X</span><span class="sh">"</span><span class="p">)</span>
-    <span class="c1"># 음수 고려
-</span>    <span class="nf">elif </span><span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">%</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">//</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">((</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">//</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">X</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-23-5101/img02.jpg" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>아무래도 랜덤 돌려서 브론즈 문제 나오면 좀 거르는게 좋겠다.<br />
-이것도 일종의 탄소 과잉배출로 볼 수 있지 않나?</p>
-
-<p>앞으로 랜덤백준디펜스의 브론즈 문제가 걸리면 다 거르는 것으로 해야겠다.<br />
-이건 뭐 깃에 코드 올리기도 뭐하고</p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 5101번 Sequences - 백준 설계 음 쉬운 문제 하루의 마무리로 딱이다. 시작 숫자와 차이가 주어지고 다음 숫자가 수열의 항인지 판단하는 문제이다. 구현 단순 덧셈 반복해도 문제없지만 조금 더 스마트하게 해봐야지. while True: a, b, c = map(int, input().split()); if a == 0 and b == 0 and c == 0: break # b가 0이면 예외처리 if b == 0: if a == c: print(1) else: print("X") # 음수 고려 elif (c - a) % b == 0 and (c - a) // b &gt;= 0: print((c - a) // b + 1) else: print("X") 채점 반성 아무래도 랜덤 돌려서 브론즈 문제 나오면 좀 거르는게 좋겠다. 이것도 일종의 탄소 과잉배출로 볼 수 있지 않나? 앞으로 랜덤백준디펜스의 브론즈 문제가 걸리면 다 거르는 것으로 해야겠다. 이건 뭐 깃에 코드 올리기도 뭐하고]]></summary></entry></feed>
+<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-27-CellularAutomata.js">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 신나는 던전 맵 생성기 5종 알고리즘과 함께 구현 1. 설계 던전 맵 생성 관련 대표 알고리즘에 대해 찾아보았다. 알고리즘 스타일 특징 용도 BSP (Binary Space Partitioning) 직사각형 방 + 복도 공간을 재귀적으로 분할, 각 방을 연결 방 중심의 던전, 구조적 배치 Random Walk (Drunkard’s Walk) 유기적 경로, 비정형 무작위 방향 이동, 비선형 구조 자연 동굴, 탐험 중심 던전 Cellular Automata 자연 동굴 형태, 굴곡 많음 셀 규칙 반복으로 패턴 정제 동굴 스타일 던전, 유기적 형태 Delaunay Triangulation + MST 방 중심 + 경로 연결 무작위 방 &gt; 삼각분할 &gt; 최소 연결 모든 방 연결 보장, 전략적 맵 Wave Function Collapse (WFC) 타일 기반, 정교한 제약 타일 제약 기반 패턴 구성 정교한 던전, 룰 기반 구조 맵을 그릴 캔버스가 있는 html은 이전 미로 생성기의 것을 그대로 가져와서 사용한다. 2. BSP 알고리즘 BSP 알고리즘을 공간을 재귀적으로 분할한다. 분할 과정이 이진트리 형태로 표현되며 방 설정을 통해 크기와 개수를 쉽게 조절 가능하다. 통로는 각 방의 중심을 직선 또는 L자로 적당히 연결한다. 방이 완전히 랜덤한 위치에 생성되기 때문에 방의 중심을 연결하는 통로의 특성 상 통로가 겹치기도 하고 두껍게 이어지기도 한다. 또 현재 입구 생성을 [0, 0]에서 가장 가까운 셀로 해두었는데 랜덤하게 생성되어 이어지는 구조 특성 상 통로가 가장 가까운 경우 통로에 입구가 생길 수도 있다. 강제로 가까운 셀을 껴서 생성시키기에는 BSP의 취지에 맞지 않은 것 같고 방과 통로를 구분할 수 있게 방 데이터를 가져오려면 공통함수로 쓰기 애매하다. 그냥 복도에 입구가 생기면 운이 나쁜걸로… // 방 클래스 정의 class Room { constructor(x, y, w, h) { this.x = x; this.y = y; this.w = w; this.h = h; } // 방의 중심 좌표 center() { return [ Math.floor(this.x + this.w / 2), Math.floor(this.y + this.h / 2) ]; } // 다른 방과 겹치는지 판정 intersects(other) { return ( this.x &lt; other.x + other.w &amp;&amp; this.x + this.w &gt; other.x &amp;&amp; this.y &lt; other.y + other.h &amp;&amp; this.y + this.h &gt; other.y ); } } async function startBSP() { const MIN_SIZE = 4; // 방 최소 크기 const MAX_SIZE = 6; // 방 최대 크기 const partitions = [{ x: 0, y: 0, w: cols, h: rows }]; const rooms = []; // 생성된 방 목록 // 공간을 재귀적으로 분할 async function splitSpace(space) { const { x, y, w, h } = space; const horizontal = Math.random() &lt; 0.5; // 분할 방향 랜덤(수평/수직) // 더 이상 분할이 불가능할 때(최소 크기 이하) if ((horizontal &amp;&amp; h &lt;= 2 * MIN_SIZE) || (!horizontal &amp;&amp; w &lt;= 2 * MIN_SIZE)) { // 방 생성 시도 (겹쳐서 실패할 경우 10회까지 재시도) let tryCount = 0; let room; let overlapped; do { if (w - 2 &lt; MIN_SIZE || h - 2 &lt; MIN_SIZE) break; // 공간이 너무 작으면 중단 // 방 크기 랜덤 (MIN_SIZE~MAX_SIZE), 위치도 랜덤(테두리와 1칸 이상 띄움) const rw = Math.min( Math.floor(Math.random() * (w - 2 - MIN_SIZE + 1)) + MIN_SIZE, MAX_SIZE ); const rh = Math.min( Math.floor(Math.random() * (h - 2 - MIN_SIZE + 1)) + MIN_SIZE, MAX_SIZE ); const rx = Math.floor(Math.random() * (w - 2 - rw + 1)) + x + 1; const ry = Math.floor(Math.random() * (h - 2 - rh + 1)) + y + 1; room = new Room(rx, ry, rw, rh); overlapped = rooms.some(r =&gt; room.intersects(r)); tryCount++; } while (overlapped &amp;&amp; tryCount &lt; 10); // 겹치지 않는 방만 생성 if (!overlapped &amp;&amp; room) { rooms.push(room); // 방 내부를 흰색칠 for (let i = room.y; i &lt; room.y + room.h; i++) { for (let j = room.x; j &lt; room.x + room.w; j++) { map[i][j] = 0; drawCell(j, i, 'white'); await sleep(1); } } } return; } // 분할: 수평 또는 수직으로 영역을 나눔 if (horizontal) { // 수평 분할 const split = Math.floor(Math.random() * (h - MIN_SIZE * 2) + MIN_SIZE); const top = { x, y, w, h: split }; const bottom = { x, y: y + split, w, h: h - split }; await splitSpace(top); await splitSpace(bottom); } else { // 수직 분할 const split = Math.floor(Math.random() * (w - MIN_SIZE * 2) + MIN_SIZE); const left = { x, y, w: split, h }; const right = { x: x + split, y, w: w - split, h }; await splitSpace(left); await splitSpace(right); } } // 터널 뚫는 함수 async function tunneling(x1, y1, x2, y2) { const dx = Math.sign(x2 - x1); const dy = Math.sign(y2 - y1); // x축 방향으로 먼저 이동 while (x1 !== x2) { map[y1][x1] = 0; drawCell(x1, y1, 'white'); x1 += dx; await sleep(1); } // y축 방향으로 이동 while (y1 !== y2) { map[y1][x1] = 0; drawCell(x1, y1, 'white'); y1 += dy; await sleep(1); } } await splitSpace(partitions[0]); // 생성된 방들의 중심을 순서대로 복도로 연결 for (let i = 1; i &lt; rooms.length; i++) { const [x1, y1] = rooms[i - 1].center(); const [x2, y2] = rooms[i].center(); if (Math.random() &lt; 0.5) { await tunneling(x1, y1, x2, y1); await tunneling(x2, y1, x2, y2); } else { await tunneling(x1, y1, x1, y2); await tunneling(x1, y2, x2, y2); } } // 입출구 생성 generateEntrance(); } 3. Random Walk 알고리즘 굉장히 간단한 알고리즘이다. 이름에서 볼 수 있듯 방향을 랜덤으로 움직이며 길을 채우고 정해둔 만큼 맵을 채우면 종료한다. 통로나 방이 곡선형으로 잘 생성되는데 랜덤으로 여기저기 쑤시다보니 통로가 너무 좁을 수 있고 전체적인 구조를 제어하기 힙들다. async function startRandomWalk() { initMap(); // 시작점 (중앙) let x = Math.floor(cols / 2); let y = Math.floor(rows / 2); // 방문한 셀 수를 추적 let visitedCells = 0; const targetCells = Math.floor((cols * rows) * 0.4); // 전체 셀의 40% 채우면 종료 // 4방향 이동 const directions = [ [0, -1], [1, 0], [0, 1], [-1, 0] ]; // 현재 위치를 통로로 만들고 방문 표시 map[y][x] = 0; drawCell(x, y, 'white'); visitedCells++; while (visitedCells &lt; targetCells) { // 랜덤한 방향 선택 const [dx, dy] = directions[Math.floor(Math.random() * 4)]; const newX = x + dx; const newY = y + dy; // 경계 체크 if (newX &gt;= 0 &amp;&amp; newX &lt; cols &amp;&amp; newY &gt;= 0 &amp;&amp; newY &lt; rows) { // 새로운 위치가 벽이면 통로로 만들기 if (map[newY][newX] === 1) { map[newY][newX] = 0; drawCell(newX, newY, 'white'); visitedCells++; } x = newX; y = newY; } await sleep(1); } generateEntrance(); } 4. Cellular Automata 알고리즘 셀의 상태를 바탕으로 다음 상태를 결정해 갱신하는 알고리즘이다. 규칙은 어떻게 정하느냐에 따라 다르겠지마는 초기에 랜덤하게 벽을 뚫어두고 4번에 거쳐 다듬어나간다. 규칙은 아래와 같이 정했다. 현재 셀이 벽인데 주변 벽이 4개 이상이면 벽 유지, 그렇지 않으면 통로로 변경 현재 셀이 통로인데 주변 벽이 5개 이상이변 벽으로 변경, 그렇지 않으면 통로 유지 위 과정을 거쳐 자연스러운 동굴 형태의 맵이 완성된다. 엄격한 규칙을 기반으로 다듬어나가기 때문에 뭔가 틀에 박힌 BSP와 자유롭게 칠렐레 팔렐레 뻗은 Random Walk보다 보기 좋다. 이 알고리즘도 고립된 공간이 생길 수 있는데 이는 추가적인 알고리즘을 통해 고립된 방과 통로로 연결하거나 제거하면 된다. 하지만 이번 구현에서 그 부분은 패스. async function startCellularAutomata() { initMap(); // 초기 랜덤 상태 생성 (약 45%의 벽) for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { // 테두리는 벽으로 설정 if (x === 0 || x === cols - 1 || y === 0 || y === rows - 1) { map[y][x] = 1; drawCell(x, y, 'black'); } else { map[y][x] = Math.random() &lt; 0.45 ? 1 : 0; drawCell(x, y, map[y][x] === 1 ? 'black' : 'white'); } await sleep(1); } } // Cellular Automata 규칙 적용 (4회 반복) for (let generation = 0; generation &lt; 4; generation++) { const newMap = Array.from({ length: rows }, () =&gt; Array(cols).fill(0)); for (let y = 0; y &lt; rows; y++) { for (let x = 0; x &lt; cols; x++) { // 테두리는 벽 유지 if (x === 0 || x === cols - 1 || y === 0 || y === rows - 1) { newMap[y][x] = 1; continue; } // 주변 8칸의 벽 개수 세기 let wallCount = 0; for (let dy = -1; dy &lt;= 1; dy++) { for (let dx = -1; dx &lt;= 1; dx++) { if (dx === 0 &amp;&amp; dy === 0) continue; if (map[y + dy][x + dx] === 1) wallCount++; } } //현재 셀이 벽인데 주변 벽이 4개 이상이면 벽 유지, 그렇지 않으면 통로로 변경 //현재 셀이 통로인데 주변 벽이 5개 이상이변 벽으로 변경, 그렇지 않으면 통로 유지 if (map[y][x] === 1) { newMap[y][x] = wallCount &gt;= 4 ? 1 : 0; } else { newMap[y][x] = wallCount &gt;= 5 ? 1 : 0; } drawCell(x, y, newMap[y][x] === 1 ? 'black' : 'white'); await sleep(1); } } map = newMap; } generateEntrance(); } 완성 BSP Random Walk Cellular Automata 반성 Random Walk 알고리즘과 Cellular Automata 알고리즘을 구현하며 즐거워졌다. 오래된 피쳐폰게임의 작은 미니맵을 보는 기분이다. 아 마음이 충만해진다… 코드 확인 직접 해보기 BSP Link to GitHub Random Walk Link to GitHub Cellular Automata Link to GitHub]]></summary></entry></feed>
