@@ -336,7 +336,7 @@ document.querySelector('#retryBtn').addEventListener('click', () => {
   
 플레이해보며 난이도를 좀 조절했다.  
   
-![img01](/assets/images/posts/one-pan/JavaScript/2025-05-14-Flappy Bird/img01.gif)  
+![img01](/assets/images/posts/one-pan/JavaScript/2025-05-14-Flappy Bird/img01.webp)  
   
 > #### 반성  
 ---  

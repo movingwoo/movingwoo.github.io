@@ -51,7 +51,7 @@ echo "$COUNT 개 복사 완료!!"
 > #### 완성  
 ---  
 
-![img01](/assets/images/posts/one-pan/ShellScript/2025-05-12-File Copier/img01.jpg)  
+![img01](/assets/images/posts/one-pan/ShellScript/2025-05-12-File Copier/img01.webp)  
   
 > #### 반성  
 ---  

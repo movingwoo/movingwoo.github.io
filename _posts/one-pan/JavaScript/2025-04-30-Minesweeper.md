@@ -324,11 +324,11 @@ function youLose() {
 > #### 완성  
 ---  
   
-![img01](/assets/images/posts/one-pan/JavaScript/2025-04-30-Minesweeper/img01.jpg)  
+![img01](/assets/images/posts/one-pan/JavaScript/2025-04-30-Minesweeper/img01.webp)  
   
 이지선다 지옥...  
   
-![img02](/assets/images/posts/one-pan/JavaScript/2025-04-30-Minesweeper/img02.jpg)  
+![img02](/assets/images/posts/one-pan/JavaScript/2025-04-30-Minesweeper/img02.webp)  
   
 {% include colored_text.html color="red" text="**크아아아아아아아악**" %}    
   

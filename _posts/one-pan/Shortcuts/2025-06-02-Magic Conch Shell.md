@@ -29,10 +29,10 @@ author: movingwoo
 랜덤으로 사진 4장 중 하나를 보여줘야하니 소라고둥 사진 4장을 만든다.  
 사진에 글자는 마크업 기능으로 그냥 쓰면 편하다.  
   
-{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img01.jpg" alt="img01" width="300" %}
-{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img02.jpg" alt="img02" width="300" %}  
-{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img03.jpg" alt="img03" width="300" %}
-{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img04.jpg" alt="img04" width="300" %}  
+{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img01.webp" alt="img01" width="300" %}
+{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img02.webp" alt="img02" width="300" %}  
+{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img03.webp" alt="img03" width="300" %}
+{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img04.webp" alt="img04" width="300" %}  
   
 ##### 2. 사용자 입력 받기  
   
@@ -41,7 +41,7 @@ author: movingwoo
   
 물론 로직 상 질문은 그저 형식에 불과하다.  
   
-{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img05.jpg" alt="img05" width="300" %}  
+{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img05.webp" alt="img05" width="300" %}  
   
 ##### 3. 무작위 처리  
   
@@ -50,8 +50,8 @@ author: movingwoo
 무작위 숫자를 뽑아서 문자열 뒤에 붙여주고  
 해당 이름을 가진 사진을 찾아서 보여준다.  
   
-{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img06.jpg" alt="img06" width="300" %}  
-{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img07.jpg" alt="img07" width="300" %}  
+{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img06.webp" alt="img06" width="300" %}  
+{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img07.webp" alt="img07" width="300" %}  
   
 > #### 완성  
 ---  
@@ -59,7 +59,7 @@ author: movingwoo
 고민이 될 때는 소라고둥님을 부르자.  
 {% include colored_text.html color="red" text="**마법의 소라고둥님! 이번 주는 진짜 로또가 될 수 있을까요?**" %}  
   
-{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img08.gif" alt="img08" width="300" %}  
+{% include resized_img.html src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img08.webp" alt="img08" width="300" %}  
   
 > #### 반성  
 ---  

@@ -79,7 +79,7 @@ function generateRandomNumbers() {
 > #### 완성  
 ---  
   
-![img01](/assets/images/posts/one-pan/JavaScript/2025-05-15-Random Printer/img01.jpg)  
+![img01](/assets/images/posts/one-pan/JavaScript/2025-05-15-Random Printer/img01.webp)  
   
 > #### 반성  
 ---  

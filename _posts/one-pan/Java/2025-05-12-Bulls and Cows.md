@@ -170,15 +170,15 @@ while (true) {
   
 1차 테스트 숫자는 {% include colored_text.html color="orange" text="**4865**" %}  
   
-![img01](/assets/images/posts/one-pan/Java/2025-05-12-Bulls and Cows/img01.jpg)  
+![img01](/assets/images/posts/one-pan/Java/2025-05-12-Bulls and Cows/img01.webp)  
 
 2차 테스트 숫자는 {% include colored_text.html color="orange" text="**0918**" %}  
   
-![img02](/assets/images/posts/one-pan/Java/2025-05-12-Bulls and Cows/img02.jpg)  
+![img02](/assets/images/posts/one-pan/Java/2025-05-12-Bulls and Cows/img02.webp)  
   
 3차 테스트 숫자는 {% include colored_text.html color="orange" text="**2580**" %}  
   
-![img03](/assets/images/posts/one-pan/Java/2025-05-12-Bulls and Cows/img03.jpg)   
+![img03](/assets/images/posts/one-pan/Java/2025-05-12-Bulls and Cows/img03.webp)   
   
 > #### 반성  
 ---  

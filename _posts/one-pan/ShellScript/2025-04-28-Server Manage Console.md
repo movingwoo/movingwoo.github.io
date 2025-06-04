@@ -194,12 +194,12 @@ export TOMCAT10_URL=
 > #### 완성  
 ---  
 
-![img01](/assets/images/posts/one-pan/ShellScript/2025-04-28-Server Manage Console/img01.jpg)  
+![img01](/assets/images/posts/one-pan/ShellScript/2025-04-28-Server Manage Console/img01.webp)  
   
 각 프로세스 현 상황과 jdk 버전을 한 눈에 확인하기 위한 상태 확인 코드를 추가하고 기동  
 메뉴 별 번호를 입력시 기동/중단을 즉시 수행한다  
   
-![img02](/assets/images/posts/one-pan/ShellScript/2025-04-28-Server Manage Console/img02.jpg)  
+![img02](/assets/images/posts/one-pan/ShellScript/2025-04-28-Server Manage Console/img02.webp)  
   
 메뉴 선택 시 로딩화면과 함께 기동/중단이 진행된다  
   
