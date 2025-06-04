@@ -208,4 +208,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/shortcuts/2025/06/02/Magic-Conch-Shell.html",
         "teaser": null
+      },{
+        "title": "WebP 변환기",
+        "excerpt":"개요 jpg는 화질을 제법 깎아먹어서 용량이 가벼운 편이다. 하지만 지난 포스트를 작성하며 이미지를 더 가볍게 유지할 필요성을 느꼈고 webp로 변환하는게 좋겠다는 결론에 도달했다. 그러면 WebP 변환기를 만들어야겠지!!! 변환하며 화질을 살짝 열화시키면 더 효과가 좋을 것이다. 뭐 영화 보는 것도 아니고 고화질 유지할 필요는 없으니 파이썬을 선택한 이유는 간단하다. 딸깍 한...","categories": ["one-pan/Python/"],
+        "tags": [],
+        "url": "/one-pan/python/2025/06/04/WebP-Converter.html",
+        "teaser": null
       }]

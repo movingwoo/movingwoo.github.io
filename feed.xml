@@ -1,4 +1,148 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-02T08:33:30+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">마법의 소라고둥</title><link href="https://movingwoo.com/one-pan/shortcuts/2025/06/02/Magic-Conch-Shell.html" rel="alternate" type="text/html" title="마법의 소라고둥" /><published>2025-06-02T08:00:00+00:00</published><updated>2025-06-02T08:00:00+00:00</updated><id>https://movingwoo.com/one-pan/shortcuts/2025/06/02/Magic%20Conch%20Shell</id><content type="html" xml:base="https://movingwoo.com/one-pan/shortcuts/2025/06/02/Magic-Conch-Shell.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-04T02:13:41+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">WebP 변환기</title><link href="https://movingwoo.com/one-pan/python/2025/06/04/WebP-Converter.html" rel="alternate" type="text/html" title="WebP 변환기" /><published>2025-06-04T02:00:00+00:00</published><updated>2025-06-04T02:00:00+00:00</updated><id>https://movingwoo.com/one-pan/python/2025/06/04/WebP%20Converter</id><content type="html" xml:base="https://movingwoo.com/one-pan/python/2025/06/04/WebP-Converter.html"><![CDATA[<blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p>jpg는 화질을 제법 깎아먹어서 용량이 가벼운 편이다.<br />
+하지만 지난 포스트를 작성하며 이미지를 더 가볍게 유지할 필요성을 느꼈고<br />
+<span style="color: orange;"><strong>webp</strong></span>로 변환하는게 좋겠다는 결론에 도달했다.</p>
+
+<p>그러면 WebP 변환기를 만들어야겠지!!!</p>
+
+<p>변환하며 화질을 살짝 열화시키면 더 효과가 좋을 것이다.<br />
+뭐 영화 보는 것도 아니고 고화질 유지할 필요는 없으니</p>
+
+<p>파이썬을 선택한 이유는 간단하다.<br />
+딸깍 한 번 하면 필요한 라이브러리가 설치되니까.</p>
+
+<p>자바로 하면 TwelveMonkeys 같은 외부 라이브러리 끌어와야하고<br />
+C++하면 libwebp 빌드부터가 귀찮다.</p>
+
+<p>편하게 쓰려고 내가 파이썬을 배웠지</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>webp로 변환할 타겟 폴더를 선택하는게 좋나, 타겟 이미지가 있는 폴더에 소스코드를 넣어두고 실행시키는게 좋나?<br />
+고민 끝에 더 생각없이 쓰려면 후자가 쉽고 빠를 것 같아 후자로 한다.</p>
+
+<p>현재 폴더의 모든 이미지를 타겟 폴더에 webp로 뱉어내도록 한다.</p>
+
+<p>하는 김에 용량 얼마나 줄였는지 디스플레이도 해주면 좋겠다.</p>
+
+<blockquote>
+  <h4 id="구현-포인트">구현 포인트</h4>
+  <hr />
+</blockquote>
+
+<p><span style="color: orange;"><strong>Pillow</strong></span> 라이브러리를 사용한다.</p>
+
+<h5 id="1-기초-코드">1. 기초 코드</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="n">os</span>
+
+<span class="c1"># 실행 경로
+</span><span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">()</span>
+
+<span class="c1"># 폴더 내 파일들을 대상으로 변환
+</span><span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+    <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">webp_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">splitext</span><span class="p">(</span><span class="n">img_path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="sh">"</span><span class="s">.webp</span><span class="sh">"</span>
+    <span class="n">Image</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="n">img_path</span><span class="p">).</span><span class="nf">save</span><span class="p">(</span><span class="n">webp_path</span><span class="p">,</span> <span class="sh">"</span><span class="s">WEBP</span><span class="sh">"</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span> <span class="c1"># 80% 품질
+</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">변환 완료</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h5 id="2-세부-설정">2. 세부 설정</h5>
+
+<p>예외처리를 위해 이미지 확장자를 제한한다.<br />
+jpg와 png, gif 3종류면 되겠지 뭐.</p>
+
+<p>그리고 변환 전후로 용량을 확인해 print 시 표시해준다.</p>
+
+<p>gif 파일은 그냥 변환하면 애니메이션이 사라지므로 따로 분기를 태워준다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># jpg, png, gif
+</span><span class="k">if</span> <span class="n">filename</span><span class="p">.</span><span class="nf">lower</span><span class="p">().</span><span class="nf">endswith</span><span class="p">((</span><span class="sh">"</span><span class="s">.jpg</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.jpeg</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.png</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.gif</span><span class="sh">"</span><span class="p">)):</span>
+    <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">webp_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">target_folder</span><span class="p">,</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="sh">"</span><span class="s">.webp</span><span class="sh">"</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">Image</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">img</span><span class="p">:</span>
+        <span class="c1"># gif는 애니메이션 때문에 특수 처리
+</span>        <span class="k">if</span> <span class="n">img</span><span class="p">.</span><span class="nb">format</span> <span class="o">==</span> <span class="sh">"</span><span class="s">GIF</span><span class="sh">"</span> <span class="ow">and</span> <span class="nf">getattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="sh">"</span><span class="s">is_animated</span><span class="sh">"</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+            <span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">durations</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># 그냥 변환하면 너무 느려서 duration 직접 추출
+</span>            <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">ImageSequence</span><span class="p">.</span><span class="nc">Iterator</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+                <span class="n">frames</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="nf">copy</span><span class="p">())</span>
+                <span class="n">durations</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">info</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">duration</span><span class="sh">"</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span> 
+
+            <span class="n">frames</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">save</span><span class="p">(</span>
+                <span class="n">webp_path</span><span class="p">,</span>
+                <span class="sh">"</span><span class="s">WEBP</span><span class="sh">"</span><span class="p">,</span>
+                <span class="n">save_all</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                <span class="n">append_images</span><span class="o">=</span><span class="n">frames</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+                <span class="n">duration</span><span class="o">=</span><span class="n">durations</span><span class="p">,</span>
+                <span class="n">loop</span><span class="o">=</span><span class="n">img</span><span class="p">.</span><span class="n">info</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">loop</span><span class="sh">"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">quality</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># 애니메이션 없으면 그냥 변환
+</span>        <span class="k">else</span><span class="p">:</span>
+            <span class="n">img</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">webp_path</span><span class="p">,</span> <span class="sh">"</span><span class="s">WEBP</span><span class="sh">"</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+
+    <span class="c1"># 용량 확인 (kb)
+</span>    <span class="n">before_size</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">getsize</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span>
+    <span class="n">after_size</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">getsize</span><span class="p">(</span><span class="n">webp_path</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span>
+
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s"> 변환 완료</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">after_size</span> <span class="o">&gt;</span> <span class="n">before_size</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">↑↑증가↑↑ </span><span class="si">{</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">before_size</span> <span class="o">/</span> <span class="n">after_size</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">% (</span><span class="si">{</span><span class="n">before_size</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">kb -&gt; </span><span class="si">{</span><span class="n">after_size</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">kb)</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">↓↓감소↓↓ </span><span class="si">{</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">after_size</span> <span class="o">/</span> <span class="n">before_size</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">% (</span><span class="si">{</span><span class="n">before_size</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">kb -&gt; </span><span class="si">{</span><span class="n">after_size</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">kb)</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="완성">완성</h4>
+  <hr />
+</blockquote>
+
+<p>테스트 이미지 파일 몇개 넣어놓고 돌려보았다.</p>
+
+<p><img src="/assets/images/posts/one-pan/Python/2025-06-04-WebP Converter/img01.webp" alt="img01" /></p>
+
+<p><span style="color: red;"><strong>gif는 용량이 오히려 늘어날 수 있다!!!</strong></span><br />
+변환해보고 webp가 오히려 용량이 많은 경우 gif를 그대로 써야겠다.</p>
+
+<p>늘어난 파일 제외하고 테스트 이미지 파일 압축 시 용량변화는 아래와 같다.</p>
+
+<p><img src="/assets/images/posts/one-pan/Python/2025-06-04-WebP Converter/img02.webp" alt="img02" /></p>
+
+<p><span style="color: orange;"><strong>18.1mb에서 4.51mb로 줄였으니 75% 가량 줄인 셈이다!!!</strong></span><br />
+홀리 지져스 크라이스트</p>
+
+<p>이제 그동안 올린 이미지 파일도 전체 용량 줄이기에 들어가자.<br />
+쌓이면 답도 없으니 이미지가 하나라도 적은 지금 작업해야한다…</p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>더 발전 시킬 수 있을거란 마음이 계속 생긴다.<br />
+하지만 이런건 적당히 끊어줘야한다.<br />
+잘 돌아가고 목적을 달성했으면 됐지.<br />
+여기서 칼같이 끊어야겠다.<br />
+이것 말고도 할게 많단 말이야.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/Python/2025-06-04-WebP%20Converter.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/Python/" /><summary type="html"><![CDATA[개요 jpg는 화질을 제법 깎아먹어서 용량이 가벼운 편이다. 하지만 지난 포스트를 작성하며 이미지를 더 가볍게 유지할 필요성을 느꼈고 webp로 변환하는게 좋겠다는 결론에 도달했다. 그러면 WebP 변환기를 만들어야겠지!!! 변환하며 화질을 살짝 열화시키면 더 효과가 좋을 것이다. 뭐 영화 보는 것도 아니고 고화질 유지할 필요는 없으니 파이썬을 선택한 이유는 간단하다. 딸깍 한 번 하면 필요한 라이브러리가 설치되니까. 자바로 하면 TwelveMonkeys 같은 외부 라이브러리 끌어와야하고 C++하면 libwebp 빌드부터가 귀찮다. 편하게 쓰려고 내가 파이썬을 배웠지 설계 webp로 변환할 타겟 폴더를 선택하는게 좋나, 타겟 이미지가 있는 폴더에 소스코드를 넣어두고 실행시키는게 좋나? 고민 끝에 더 생각없이 쓰려면 후자가 쉽고 빠를 것 같아 후자로 한다. 현재 폴더의 모든 이미지를 타겟 폴더에 webp로 뱉어내도록 한다. 하는 김에 용량 얼마나 줄였는지 디스플레이도 해주면 좋겠다. 구현 포인트 Pillow 라이브러리를 사용한다. 1. 기초 코드 from PIL import Image import os # 실행 경로 folder = os.getcwd() # 폴더 내 파일들을 대상으로 변환 for filename in os.listdir(folder): img_path = os.path.join(folder, filename) webp_path = os.path.splitext(img_path)[0] + ".webp" Image.open(img_path).save(webp_path, "WEBP", quality=80) # 80% 품질 print("변환 완료") 2. 세부 설정 예외처리를 위해 이미지 확장자를 제한한다. jpg와 png, gif 3종류면 되겠지 뭐. 그리고 변환 전후로 용량을 확인해 print 시 표시해준다. gif 파일은 그냥 변환하면 애니메이션이 사라지므로 따로 분기를 태워준다. # jpg, png, gif if filename.lower().endswith((".jpg", ".jpeg", ".png", ".gif")): img_path = os.path.join(folder, filename) webp_path = os.path.join(target_folder, os.path.splitext(filename)[0] + ".webp") with Image.open(img_path) as img: # gif는 애니메이션 때문에 특수 처리 if img.format == "GIF" and getattr(img, "is_animated", False): frames = [] durations = [] # 그냥 변환하면 너무 느려서 duration 직접 추출 for frame in ImageSequence.Iterator(img): frames.append(frame.copy()) durations.append(frame.info.get("duration", 100)) frames[0].save( webp_path, "WEBP", save_all=True, append_images=frames[1:], duration=durations, loop=img.info.get("loop", 0), quality=80, ) # 애니메이션 없으면 그냥 변환 else: img.save(webp_path, "WEBP", quality=80) # 용량 확인 (kb) before_size = os.path.getsize(img_path) / 1024 after_size = os.path.getsize(webp_path) / 1024 print(f"{filename} 변환 완료") if after_size &gt; before_size: print(f"↑↑증가↑↑ {(1 - before_size / after_size) * 100:.1f}% ({before_size:.1f}kb -&gt; {after_size:.1f}kb)") else: print(f"↓↓감소↓↓ {(1 - after_size / before_size) * 100:.1f}% ({before_size:.1f}kb -&gt; {after_size:.1f}kb)") 완성 테스트 이미지 파일 몇개 넣어놓고 돌려보았다. gif는 용량이 오히려 늘어날 수 있다!!! 변환해보고 webp가 오히려 용량이 많은 경우 gif를 그대로 써야겠다. 늘어난 파일 제외하고 테스트 이미지 파일 압축 시 용량변화는 아래와 같다. 18.1mb에서 4.51mb로 줄였으니 75% 가량 줄인 셈이다!!! 홀리 지져스 크라이스트 이제 그동안 올린 이미지 파일도 전체 용량 줄이기에 들어가자. 쌓이면 답도 없으니 이미지가 하나라도 적은 지금 작업해야한다… 반성 더 발전 시킬 수 있을거란 마음이 계속 생긴다. 하지만 이런건 적당히 끊어줘야한다. 잘 돌아가고 목적을 달성했으면 됐지. 여기서 칼같이 끊어야겠다. 이것 말고도 할게 많단 말이야. 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">마법의 소라고둥</title><link href="https://movingwoo.com/one-pan/shortcuts/2025/06/02/Magic-Conch-Shell.html" rel="alternate" type="text/html" title="마법의 소라고둥" /><published>2025-06-02T08:00:00+00:00</published><updated>2025-06-02T08:00:00+00:00</updated><id>https://movingwoo.com/one-pan/shortcuts/2025/06/02/Magic%20Conch%20Shell</id><content type="html" xml:base="https://movingwoo.com/one-pan/shortcuts/2025/06/02/Magic-Conch-Shell.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -25,10 +169,10 @@
 <p>랜덤으로 사진 4장 중 하나를 보여줘야하니 소라고둥 사진 4장을 만든다.<br />
 사진에 글자는 마크업 기능으로 그냥 쓰면 편하다.</p>
 
-<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img01.jpg" alt="img01" width="300" style="height: auto;" />
-<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img02.jpg" alt="img02" width="300" style="height: auto;" /><br />
-<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img03.jpg" alt="img03" width="300" style="height: auto;" />
-<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img04.jpg" alt="img04" width="300" style="height: auto;" /></p>
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img01.webp" alt="img01" width="300" style="height: auto;" />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img02.webp" alt="img02" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img03.webp" alt="img03" width="300" style="height: auto;" />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img04.webp" alt="img04" width="300" style="height: auto;" /></p>
 
 <h5 id="2-사용자-입력-받기">2. 사용자 입력 받기</h5>
 
@@ -37,7 +181,7 @@
 
 <p>물론 로직 상 질문은 그저 형식에 불과하다.</p>
 
-<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img05.jpg" alt="img05" width="300" style="height: auto;" /></p>
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img05.webp" alt="img05" width="300" style="height: auto;" /></p>
 
 <h5 id="3-무작위-처리">3. 무작위 처리</h5>
 
@@ -46,8 +190,8 @@
 무작위 숫자를 뽑아서 문자열 뒤에 붙여주고<br />
 해당 이름을 가진 사진을 찾아서 보여준다.</p>
 
-<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img06.jpg" alt="img06" width="300" style="height: auto;" /><br />
-<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img07.jpg" alt="img07" width="300" style="height: auto;" /></p>
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img06.webp" alt="img06" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img07.webp" alt="img07" width="300" style="height: auto;" /></p>
 
 <blockquote>
   <h4 id="완성">완성</h4>
@@ -57,7 +201,7 @@
 <p>고민이 될 때는 소라고둥님을 부르자.<br />
 <span style="color: red;"><strong>마법의 소라고둥님! 이번 주는 진짜 로또가 될 수 있을까요?</strong></span></p>
 
-<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img08.gif" alt="img08" width="300" style="height: auto;" /></p>
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-02-Magic Conch Shell/img08.webp" alt="img08" width="300" style="height: auto;" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
@@ -84,7 +228,7 @@ json 형식으로 작성한다해도 알아보기가 힘들고<br />
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img01.webp" alt="img01" /></p>
 
 <p><a href="https://www.acmicpc.net/problem/1148">1148번 단어 만들기 - 백준</a></p>
 
@@ -231,7 +375,7 @@ json 형식으로 작성한다해도 알아보기가 힘들고<br />
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
@@ -255,7 +399,7 @@ json 형식으로 작성한다해도 알아보기가 힘들고<br />
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-06-02-11761/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Python/2025-06-02-11761/img01.webp" alt="img01" /></p>
 
 <p><a href="https://www.acmicpc.net/problem/11761">11761번 Shuffling Along - 백준</a></p>
 
@@ -350,7 +494,7 @@ n이 작아서 충분히 가능할 것 같다.</p>
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-06-02-11761/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Python/2025-06-02-11761/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
@@ -372,7 +516,7 @@ n이 작아서 충분히 가능할 것 같다.</p>
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-30-7663/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-30-7663/img01.webp" alt="img01" /></p>
 
 <p><a href="https://www.acmicpc.net/problem/7663">7663번 Dreadful Deadlines - 백준</a></p>
 
@@ -461,7 +605,7 @@ x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다.</p>
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-30-7663/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-30-7663/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
@@ -484,7 +628,7 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img01.webp" alt="img01" /></p>
 
 <p><a href="https://www.acmicpc.net/problem/6862">6862번 Tin Can Telephone - 백준</a></p>
 
@@ -627,7 +771,7 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
@@ -647,7 +791,7 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img01.webp" alt="img01" /></p>
 
 <p><a href="https://www.acmicpc.net/problem/15654">15654번 N과 M (5) - 백준</a></p>
 
@@ -702,7 +846,7 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="코드-확인">코드 확인</h4>
@@ -714,7 +858,7 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-21308/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-21308/img01.webp" alt="img01" /></p>
 
 <p><a href="https://www.acmicpc.net/problem/21308">21308번 Ternary Machine - 백준</a></p>
 
@@ -1062,7 +1206,7 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-21308/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-21308/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
@@ -1090,7 +1234,7 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img01.webp" alt="img01" /></p>
 
 <p><a href="https://www.acmicpc.net/problem/11982">11982번 Angry Cows (Gold) - 백준</a></p>
 
@@ -1216,7 +1360,7 @@ R이 0이 될 때까지 폭발이 계속된다.<br />
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
@@ -1240,7 +1384,7 @@ R이 0이 될 때까지 폭발이 계속된다.<br />
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-28-16085/img01.jpg" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-28-16085/img01.webp" alt="img01" /></p>
 
 <p><a href="https://www.acmicpc.net/problem/16085">16085번 Гэмт хэрэг - 백준</a></p>
 
@@ -1329,7 +1473,7 @@ R이 0이 될 때까지 폭발이 계속된다.<br />
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-28-16085/img02.jpg" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-28-16085/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
@@ -1346,506 +1490,4 @@ R이 0이 될 때까지 폭발이 계속된다.<br />
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-28-16085.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 16085번 Гэмт хэрэг - 백준 번역 형사가 용의자가 있을 수 있는 지역의 넓이를 계산하는 문제. 정보가 들어온지 T초가 지났다. 차량은 오직 도로 위로만 이동하며 도로는 단 하나 존재한다.(x축) 도보로는 도로를 벗어날 수 있다.(y축) 도보로는 초당 W미터, 차를 타면 초당 C 미터 이동 가능하다. 탑승, 하차 시간은 계산하지 않음. 설계 단순히 원형, 캡슐형을 생각해서 계산하니 예제에 맞지 않는다. 우선 분기해야하는 부분이 C와 W 속도 차이. 차량보다 도보가 빠르면 차량을 탈 이유가 없다. 따라서 W가 C보다 크거나 같을 경우 도보로 가능한 원의 너비를 계산하면 끝. C가 W보다 큰게 문제인데 우선 도로를 타고 차량을 타고 이동한다. 거기서 내린 뒤 남은 시간동안 도보로 이동할 수 있다. 도보로 이동하는 거리는 차량을 쓰는 만큼 줄어든다. 0 &lt;= x &lt;= T * C 만큼 차를 타고 이동하면 남은 시간은 T - x / C 이며 보행반경이 W * (T - x / C) 만큼 줄어든다. 순수 도보로 그려지는 원의 경계가 더 큰 동안 원의 경계를 따르고 이후 차량-&gt;도보로 그려지는 선형구간의 넓이를 추가한다. 도보 원의 세그먼트 면적과 차량-&gt;도보로 이어지는 선형구간을 합하고 양쪽으로 갈 수 있으니 2를 곱해서 나오는 공식은 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2)) 아 머리아파 구현 #include &lt;iostream&gt; #include &lt;cmath&gt; #include &lt;cstdio&gt; using namespace std; int main() { int n; cin &gt;&gt; n; while (n--) { double T, W, C; cin &gt;&gt; T &gt;&gt; W &gt;&gt; C; double result; if (C &lt;= W) { // 도보가 빠르면 원 면적 계산 // (W*T)^2 * π result = W * W * T * T * M_PI; } else { // 차량이 빠르면 공식에 대입 // 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2)) double term1 = W * W * asin(W / C); // W^2 * arcsin(W/C) double term2 = W * sqrt(C * C - W * W); // W * sqrt(C^2 - W^2) result = 2.0 * T * T * (term1 + term2); } // 소수점 셋째 자리까지 출력 printf("%.3f\n", result); } return 0; } 채점 반성 이딴게 왜 골드? 하고 접근했다가 예제 다틀려서 상당히 당황했다. 세상만사 다 이유가 있지… 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">던전 생성기 02</title><link href="https://movingwoo.com/one-pan/javascript/2025/05/28/Dungeon-Generator-02.html" rel="alternate" type="text/html" title="던전 생성기 02" /><published>2025-05-28T02:00:00+00:00</published><updated>2025-05-28T02:00:00+00:00</updated><id>https://movingwoo.com/one-pan/javascript/2025/05/28/Dungeon%20Generator%2002</id><content type="html" xml:base="https://movingwoo.com/one-pan/javascript/2025/05/28/Dungeon-Generator-02.html"><![CDATA[<blockquote>
-  <h4 id="개요">개요</h4>
-  <hr />
-</blockquote>
-
-<p>남은 두개의 알고리즘으로 맵 만들기<br />
-<span style="color: orange;"><strong>즐 겁 다 !!</strong></span></p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-delaunay-triangulation--mst">1. Delaunay Triangulation + MST</h5>
-
-<p>얘는 왜 두개가 합쳐졌느냐???</p>
-
-<p>우선 랜덤한 점을 방의 중심점으로 사용해 방을 넒힌다.  <br />
-그리고 Delaunay Triangulation 알고리즘으로 모든 점을 삼각형으로 연결해<br />
-각 삼각형의 외접원이 다른 점을 포함하지 않도록 최적의 삼각형 분할을 생성한다.<br />
-마지막으로 MST 알고리즘은 모든 방을 연결하는 최소 비용의 통로를 생성한다.</p>
-
-<p>Delaunay Triangulation만 사용할 경우 모든 점이 서로 연결되어 너무 많은 통로가 생성되어 어지럽다.<br />
-이를 커버하는게 MST의 역할이다.</p>
-
-<p>덕분에 자연스러운 방 배치와 효율적인 통로 연결이 이루어지게 된다.</p>
-
-<p>삼각형 생성이 중요한데 삼각형을 생성하는 것으로 아래와 같은 일들이 가능해진다.</p>
-<ul>
-  <li><span style="color: orange;"><strong>국지적 연결을 최적화해 가까운 방들끼리 통로가 생기는 기반 마련</strong></span></li>
-  <li><span style="color: orange;"><strong>삼각형의 변이 후보 연결선이 됨</strong></span></li>
-  <li><span style="color: orange;"><strong>삼각형은 면을 채울 수 있는 기본 단위라 공간을 균형있게 분할하기 유리함</strong></span></li>
-</ul>
-
-<p>이렇게 생성된 삼각형들을 MST가 간소화해 효율성을 확보한다.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 점 클래스</span>
-<span class="kd">class</span> <span class="nc">Point</span> <span class="p">{</span>
-    <span class="nf">constructor</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="nf">equals</span><span class="p">(</span><span class="nx">other</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">===</span> <span class="nx">other</span><span class="p">.</span><span class="nx">x</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">===</span> <span class="nx">other</span><span class="p">.</span><span class="nx">y</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 간선 클래스</span>
-<span class="kd">class</span> <span class="nc">Edge</span> <span class="p">{</span>
-    <span class="nf">constructor</span><span class="p">(</span><span class="nx">p1</span><span class="p">,</span> <span class="nx">p2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">p1</span> <span class="o">=</span> <span class="nx">p1</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">p2</span> <span class="o">=</span> <span class="nx">p2</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">weight</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span>
-            <span class="nb">Math</span><span class="p">.</span><span class="nf">pow</span><span class="p">(</span><span class="nx">p2</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="nx">p1</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">pow</span><span class="p">(</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="nx">p1</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 삼각형 클래스</span>
-<span class="kd">class</span> <span class="nc">Triangle</span> <span class="p">{</span>
-    <span class="nf">constructor</span><span class="p">(</span><span class="nx">p1</span><span class="p">,</span> <span class="nx">p2</span><span class="p">,</span> <span class="nx">p3</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">p1</span> <span class="o">=</span> <span class="nx">p1</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">p2</span> <span class="o">=</span> <span class="nx">p2</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">p3</span> <span class="o">=</span> <span class="nx">p3</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 외접원의 중심과 반지름 계산</span>
-    <span class="nf">circumcircle</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">d</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">+</span> 
-                      <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">+</span> 
-                      <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span><span class="p">));</span>
-        <span class="kd">const</span> <span class="nx">ux</span> <span class="o">=</span> <span class="p">((</span><span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">+</span>
-                   <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">+</span>
-                   <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span><span class="p">))</span> <span class="o">/</span> <span class="nx">d</span><span class="p">;</span>
-        <span class="kd">const</span> <span class="nx">uy</span> <span class="o">=</span> <span class="p">((</span><span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span> <span class="o">+</span>
-                   <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span> <span class="o">+</span>
-                   <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">x</span><span class="p">))</span> <span class="o">/</span> <span class="nx">d</span><span class="p">;</span>
-        <span class="kd">const</span> <span class="nx">center</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Point</span><span class="p">(</span><span class="nx">ux</span><span class="p">,</span> <span class="nx">uy</span><span class="p">);</span>
-        <span class="kd">const</span> <span class="nx">radius</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span>
-            <span class="nb">Math</span><span class="p">.</span><span class="nf">pow</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="nx">center</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">pow</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="nx">center</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="p">);</span>
-        <span class="k">return</span> <span class="p">{</span> <span class="nx">center</span><span class="p">,</span> <span class="nx">radius</span> <span class="p">};</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 점이 외접원 내부에 있는지 확인</span>
-    <span class="nf">containsPoint</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="p">{</span> <span class="nx">center</span><span class="p">,</span> <span class="nx">radius</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nf">circumcircle</span><span class="p">();</span>
-        <span class="kd">const</span> <span class="nx">distance</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span>
-            <span class="nb">Math</span><span class="p">.</span><span class="nf">pow</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="nx">center</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">pow</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="nx">center</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="p">);</span>
-        <span class="k">return</span> <span class="nx">distance</span> <span class="o">&lt;</span> <span class="nx">radius</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">startDelaunay</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nf">initMap</span><span class="p">();</span>
-    
-    <span class="c1">// 랜덤 점 생성 (방의 중심점)</span>
-    <span class="kd">const</span> <span class="nx">points</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="kd">const</span> <span class="nx">numPoints</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="c1">// 방의 개수</span>
-    <span class="kd">const</span> <span class="nx">roomSize</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// 방 크기</span>
-    <span class="kd">const</span> <span class="nx">margin</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// 방 사이의 최소 간격</span>
-    
-    <span class="c1">// 방이 겹치는지 확인</span>
-    <span class="kd">function</span> <span class="nf">isOverlapping</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">size</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">dy</span> <span class="o">=</span> <span class="o">-</span><span class="nx">size</span> <span class="o">-</span> <span class="nx">margin</span><span class="p">;</span> <span class="nx">dy</span> <span class="o">&lt;=</span> <span class="nx">size</span> <span class="o">+</span> <span class="nx">margin</span><span class="p">;</span> <span class="nx">dy</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">dx</span> <span class="o">=</span> <span class="o">-</span><span class="nx">size</span> <span class="o">-</span> <span class="nx">margin</span><span class="p">;</span> <span class="nx">dx</span> <span class="o">&lt;=</span> <span class="nx">size</span> <span class="o">+</span> <span class="nx">margin</span><span class="p">;</span> <span class="nx">dx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">;</span>
-                <span class="kd">const</span> <span class="nx">ny</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
-                <span class="k">if </span><span class="p">(</span><span class="nx">nx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nx</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&lt;</span> <span class="nx">rows</span> <span class="o">&amp;&amp;</span> <span class="nx">map</span><span class="p">[</span><span class="nx">ny</span><span class="p">][</span><span class="nx">nx</span><span class="p">]</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-    <span class="p">}</span>
-    
-    <span class="c1">// 안전한 위치 찾기</span>
-    <span class="kd">function</span> <span class="nf">findSafePosition</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kd">let</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">;</span>
-        <span class="kd">let</span> <span class="nx">attempts</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="kd">const</span> <span class="nx">maxAttempts</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
-        
-        <span class="k">do</span> <span class="p">{</span>
-            <span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">cols</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="nx">roomSize</span><span class="p">))</span> <span class="o">+</span> <span class="nx">roomSize</span><span class="p">;</span>
-            <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">rows</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="nx">roomSize</span><span class="p">))</span> <span class="o">+</span> <span class="nx">roomSize</span><span class="p">;</span>
-            <span class="nx">attempts</span><span class="o">++</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">while </span><span class="p">(</span><span class="nf">isOverlapping</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">roomSize</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">attempts</span> <span class="o">&lt;</span> <span class="nx">maxAttempts</span><span class="p">);</span>
-        
-        <span class="k">return</span> <span class="nx">attempts</span> <span class="o">&lt;</span> <span class="nx">maxAttempts</span> <span class="p">?</span> <span class="p">{</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">}</span> <span class="p">:</span> <span class="kc">null</span><span class="p">;</span>
-    <span class="p">}</span>
-    
-    <span class="c1">// 방 생성</span>
-    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">numPoints</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nf">findSafePosition</span><span class="p">();</span>
-        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">pos</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span> <span class="c1">// 안전한 위치를 찾지 못하면 건너뛰기</span>
-        
-        <span class="nx">points</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="k">new</span> <span class="nc">Point</span><span class="p">(</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">));</span>
-        
-        <span class="c1">// 방 생성</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">dy</span> <span class="o">=</span> <span class="o">-</span><span class="nx">roomSize</span><span class="p">;</span> <span class="nx">dy</span> <span class="o">&lt;=</span> <span class="nx">roomSize</span><span class="p">;</span> <span class="nx">dy</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">dx</span> <span class="o">=</span> <span class="o">-</span><span class="nx">roomSize</span><span class="p">;</span> <span class="nx">dx</span> <span class="o">&lt;=</span> <span class="nx">roomSize</span><span class="p">;</span> <span class="nx">dx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">pos</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">;</span>
-                <span class="kd">const</span> <span class="nx">ny</span> <span class="o">=</span> <span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
-                <span class="k">if </span><span class="p">(</span><span class="nx">nx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nx</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">ny</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="nx">map</span><span class="p">[</span><span class="nx">ny</span><span class="p">][</span><span class="nx">nx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-                    <span class="nf">drawCell</span><span class="p">(</span><span class="nx">nx</span><span class="p">,</span> <span class="nx">ny</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
-    <span class="p">}</span>
-    
-    <span class="kd">const</span> <span class="nx">triangles</span> <span class="o">=</span> <span class="nf">delaunayTriangulation</span><span class="p">(</span><span class="nx">points</span><span class="p">);</span>
-    
-    <span class="c1">// 간선 추출</span>
-    <span class="kd">const</span> <span class="nx">edges</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">();</span>
-    <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">triangle</span> <span class="k">of</span> <span class="nx">triangles</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">edges</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="k">new</span> <span class="nc">Edge</span><span class="p">(</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">,</span> <span class="nx">triangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">));</span>
-        <span class="nx">edges</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="k">new</span> <span class="nc">Edge</span><span class="p">(</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">,</span> <span class="nx">triangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">));</span>
-        <span class="nx">edges</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="k">new</span> <span class="nc">Edge</span><span class="p">(</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">,</span> <span class="nx">triangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">));</span>
-    <span class="p">}</span>
-    
-    <span class="kd">const</span> <span class="nx">mstEdges</span> <span class="o">=</span> <span class="nf">kruskalMST</span><span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">(</span><span class="nx">edges</span><span class="p">));</span>
-    
-    <span class="c1">// MST 간선을 따라 통로 생성</span>
-    <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">edge</span> <span class="k">of</span> <span class="nx">mstEdges</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">await</span> <span class="nf">createCorridor</span><span class="p">(</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p1</span><span class="p">,</span> <span class="nx">edge</span><span class="p">.</span><span class="nx">p2</span><span class="p">);</span>
-    <span class="p">}</span>
-    
-    <span class="nf">generateEntrance</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="c1">// Delaunay Triangulation 알고리즘</span>
-<span class="kd">function</span> <span class="nf">delaunayTriangulation</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">triangles</span> <span class="o">=</span> <span class="p">[];</span>
-    
-    <span class="c1">// 슈퍼 삼각형 생성 (모든 점을 포함하는 큰 삼각형)</span>
-    <span class="c1">// 초기 삼각형이 필요해 생성하며 나중에 제거함</span>
-    <span class="kd">const</span> <span class="nx">superTriangle</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Triangle</span><span class="p">(</span>
-        <span class="k">new</span> <span class="nc">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">),</span>
-        <span class="k">new</span> <span class="nc">Point</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">),</span>
-        <span class="k">new</span> <span class="nc">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-    <span class="p">);</span>
-    <span class="nx">triangles</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">);</span>
-    
-    <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">point</span> <span class="k">of</span> <span class="nx">points</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">badTriangles</span> <span class="o">=</span> <span class="p">[];</span>
-        
-        <span class="c1">// 현재 점을 포함하는 삼각형 찾기</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">triangle</span> <span class="k">of</span> <span class="nx">triangles</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if </span><span class="p">(</span><span class="nx">triangle</span><span class="p">.</span><span class="nf">containsPoint</span><span class="p">(</span><span class="nx">point</span><span class="p">))</span> <span class="p">{</span>
-                <span class="nx">badTriangles</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">triangle</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        
-        <span class="c1">// 나쁜 삼각형들의 간선 찾기</span>
-        <span class="c1">// 나쁜 삼각형은 너무 뾰족하거나 한 꼭지점에 너무 몰려 있는 못난 삼각형</span>
-        <span class="kd">const</span> <span class="nx">edges</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">();</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">triangle</span> <span class="k">of</span> <span class="nx">badTriangles</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">edges</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="k">new</span> <span class="nc">Edge</span><span class="p">(</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">,</span> <span class="nx">triangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">));</span>
-            <span class="nx">edges</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="k">new</span> <span class="nc">Edge</span><span class="p">(</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">,</span> <span class="nx">triangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">));</span>
-            <span class="nx">edges</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="k">new</span> <span class="nc">Edge</span><span class="p">(</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">,</span> <span class="nx">triangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">));</span>
-        <span class="p">}</span>
-        
-        <span class="c1">// 나쁜 삼각형 제거</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">triangle</span> <span class="k">of</span> <span class="nx">badTriangles</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">const</span> <span class="nx">index</span> <span class="o">=</span> <span class="nx">triangles</span><span class="p">.</span><span class="nf">indexOf</span><span class="p">(</span><span class="nx">triangle</span><span class="p">);</span>
-            <span class="k">if </span><span class="p">(</span><span class="nx">index</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">triangles</span><span class="p">.</span><span class="nf">splice</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        
-        <span class="c1">// 새로운 삼각형 생성</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">edge</span> <span class="k">of</span> <span class="nx">edges</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">triangles</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="k">new</span> <span class="nc">Triangle</span><span class="p">(</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p1</span><span class="p">,</span> <span class="nx">edge</span><span class="p">.</span><span class="nx">p2</span><span class="p">,</span> <span class="nx">point</span><span class="p">));</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    
-    <span class="c1">// 슈퍼 삼각형과 관련된 삼각형 제거</span>
-    <span class="k">return</span> <span class="nx">triangles</span><span class="p">.</span><span class="nf">filter</span><span class="p">(</span><span class="nx">triangle</span> <span class="o">=&gt;</span> 
-        <span class="o">!</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-        <span class="o">!</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-        <span class="o">!</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-        <span class="o">!</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-        <span class="o">!</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-        <span class="o">!</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-        <span class="o">!</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">.</span><span class="nx">p1</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-        <span class="o">!</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">.</span><span class="nx">p2</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-        <span class="o">!</span><span class="nx">triangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">superTriangle</span><span class="p">.</span><span class="nx">p3</span><span class="p">)</span>
-    <span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// Kruskal's MST 알고리즘</span>
-<span class="kd">function</span> <span class="nf">kruskalMST</span><span class="p">(</span><span class="nx">edges</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 간선을 가중치 순으로 정렬</span>
-    <span class="nx">edges</span><span class="p">.</span><span class="nf">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">weight</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">weight</span><span class="p">);</span>
-    
-    <span class="kd">const</span> <span class="nx">mst</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="kd">const</span> <span class="nx">sets</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Map</span><span class="p">();</span>
-    
-    <span class="c1">// 각 점을 독립적인 집합으로 초기화</span>
-    <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">edge</span> <span class="k">of</span> <span class="nx">edges</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">sets</span><span class="p">.</span><span class="nf">has</span><span class="p">(</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p1</span><span class="p">))</span> <span class="nx">sets</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p1</span><span class="p">,</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">([</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p1</span><span class="p">]));</span>
-        <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">sets</span><span class="p">.</span><span class="nf">has</span><span class="p">(</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p2</span><span class="p">))</span> <span class="nx">sets</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p2</span><span class="p">,</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">([</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p2</span><span class="p">]));</span>
-    <span class="p">}</span>
-    
-    <span class="c1">// 사이클을 형성하지 않는 간선만 선택</span>
-    <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">edge</span> <span class="k">of</span> <span class="nx">edges</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">set1</span> <span class="o">=</span> <span class="nx">sets</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p1</span><span class="p">);</span>
-        <span class="kd">const</span> <span class="nx">set2</span> <span class="o">=</span> <span class="nx">sets</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="nx">edge</span><span class="p">.</span><span class="nx">p2</span><span class="p">);</span>
-        
-        <span class="k">if </span><span class="p">(</span><span class="nx">set1</span> <span class="o">!==</span> <span class="nx">set2</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">mst</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">edge</span><span class="p">);</span>
-            
-            <span class="c1">// 두 집합 합치기</span>
-            <span class="kd">const</span> <span class="nx">union</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Set</span><span class="p">();</span>
-            <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">p</span> <span class="k">of</span> <span class="nx">set1</span><span class="p">)</span> <span class="nx">union</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nx">p</span><span class="p">);</span>
-            <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">p</span> <span class="k">of</span> <span class="nx">set2</span><span class="p">)</span> <span class="nx">union</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nx">p</span><span class="p">);</span>
-
-            <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="nx">point</span> <span class="k">of</span> <span class="nx">union</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">sets</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="nx">point</span><span class="p">,</span> <span class="nx">union</span><span class="p">);</span>  <span class="c1">// 각 포인트가 새로운 union 집합을 참조하도록 갱신</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    
-    <span class="k">return</span> <span class="nx">mst</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// 두 점 사이의 통로 생성</span>
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">createCorridor</span><span class="p">(</span><span class="nx">p1</span><span class="p">,</span> <span class="nx">p2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">dx</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sign</span><span class="p">(</span><span class="nx">p2</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="nx">p1</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span>
-    <span class="kd">const</span> <span class="nx">dy</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sign</span><span class="p">(</span><span class="nx">p2</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="nx">p1</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
-    
-    <span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">p1</span><span class="p">.</span><span class="nx">x</span><span class="p">;</span>
-    <span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">p1</span><span class="p">.</span><span class="nx">y</span><span class="p">;</span>
-    
-    <span class="c1">// x축 방향으로 먼저 이동</span>
-    <span class="k">while </span><span class="p">(</span><span class="nx">x</span> <span class="o">!==</span> <span class="nx">p2</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">map</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-        <span class="nx">x</span> <span class="o">+=</span> <span class="nx">dx</span><span class="p">;</span>
-        <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-    
-    <span class="c1">// y축 방향으로 이동</span>
-    <span class="k">while </span><span class="p">(</span><span class="nx">y</span> <span class="o">!==</span> <span class="nx">p2</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">map</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="nf">drawCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-        <span class="nx">y</span> <span class="o">+=</span> <span class="nx">dy</span><span class="p">;</span>
-        <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="2-wfc-알고리즘">2. WFC 알고리즘</h5>
-
-<p>다소 난해했던 알고리즘<br />
-주변 셀에 따라 가능한 옵션을 줄이며 점차 결정하는 방식이다.<br />
-규칙을 설정해두는게 무엇보다 중요하다.</p>
-
-<p>WFC는 Wave Function Collapse의 약자인데<br />
-Wave Function은 모든 타일이 겹쳐진 상태를 의미하고 Collapse는 결정하는 과정을 말한다.<br />
-다른 내용은 괜찮은데 엔트로피 개념이 갑자기 끼어들어서 헷갈렸다.<br />
-WFC에서의 <span style="color: orange;"><strong>엔트로피는 셀의 불확실성 정도, 그 셀에서 가능한 타일 후보 수</strong></span>를 의미한다.<br />
-가능한 타일이 많을수록 엔트로피가 높은 셀인 것.</p>
-
-<p>흐름은 아래와 같다.</p>
-<ul>
-  <li><span style="color: orange;"><strong>모든 셀은 타일 후보를 가지고 시작</strong></span></li>
-  <li><span style="color: orange;"><strong>가장 적은 옵션을 가진 셀 선택(엔트로피가 가장 낮은 셀)</strong></span></li>
-  <li><span style="color: orange;"><strong>그 셀이 가능한 타일 중 하나를 무작위로 결정(collapse)</strong></span></li>
-  <li><span style="color: orange;"><strong>전파(Propagation)</strong></span></li>
-  <li><span style="color: orange;"><strong>결정과 전파 반복</strong></span></li>
-</ul>
-
-<p>설정한 타일로 가득 채워진 맵을 얻을 수 있으며 타일을 잘 설정할수록 상당히 구조적인 맵이 나온다.<br />
-나는 불확실성으로 가득찬게 좋아서 타일을 8개 맘대로 집어넣었더니 결과물이 깔끔해 보이진 않는다.</p>
-
-<p>개념을 확실히 정립하기 전에는 방 전체가 뚫린다던가 죄다 벽이라던가 구현이 어려웠다.<br />
-그래도 전파되며 만들어지는 모습이 아름답다.</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 2x2 타일 사전 정의</span>
-<span class="kd">const</span> <span class="nx">tiles</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">wall</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// 전체 벽</span>
-        <span class="na">data</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
-        <span class="na">edges</span><span class="p">:</span> <span class="p">{</span> <span class="na">up</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">down</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">floor</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// 전체 통로</span>
-        <span class="na">data</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
-        <span class="na">edges</span><span class="p">:</span> <span class="p">{</span> <span class="na">up</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">down</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">hall_h</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// 수평 복도</span>
-        <span class="na">data</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
-        <span class="na">edges</span><span class="p">:</span> <span class="p">{</span> <span class="na">up</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">down</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">hall_v</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// 수직 복도</span>
-        <span class="na">data</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
-        <span class="na">edges</span><span class="p">:</span> <span class="p">{</span> <span class="na">up</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">down</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">room_corner_top_left</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// 위/왼쪽이 열린 방 구석</span>
-        <span class="na">data</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
-        <span class="na">edges</span><span class="p">:</span> <span class="p">{</span> <span class="na">up</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">down</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">room_corner_bottom_right</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// 아래/오른쪽 열린 방 구석</span>
-        <span class="na">data</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
-        <span class="na">edges</span><span class="p">:</span> <span class="p">{</span> <span class="na">up</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">down</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">junction_T_up</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// T자 모양 (위쪽 갈래)</span>
-        <span class="na">data</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
-        <span class="na">edges</span><span class="p">:</span> <span class="p">{</span> <span class="na">up</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">down</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">dead_end_left</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// 왼쪽에만 열린 막다른길</span>
-        <span class="na">data</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
-        <span class="na">edges</span><span class="p">:</span> <span class="p">{</span> <span class="na">up</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">down</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">];</span>
-  
-<span class="c1">// 붙으려는 상대방 타일의 방향을 찾기 위한 반대 방향 매핑</span>
-<span class="kd">const</span> <span class="nx">opposite</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">up</span><span class="p">:</span> <span class="dl">"</span><span class="s2">down</span><span class="dl">"</span><span class="p">,</span>
-    <span class="na">down</span><span class="p">:</span> <span class="dl">"</span><span class="s2">up</span><span class="dl">"</span><span class="p">,</span>
-    <span class="na">left</span><span class="p">:</span> <span class="dl">"</span><span class="s2">right</span><span class="dl">"</span><span class="p">,</span>
-    <span class="na">right</span><span class="p">:</span> <span class="dl">"</span><span class="s2">left</span><span class="dl">"</span>
-<span class="p">};</span>
-
-<span class="c1">// 타일 간 인접성 판단</span>
-<span class="kd">function</span> <span class="nf">compatible</span><span class="p">(</span><span class="nx">tileA</span><span class="p">,</span> <span class="nx">tileB</span><span class="p">,</span> <span class="nx">direction</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">tileA</span><span class="p">.</span><span class="nx">edges</span><span class="p">[</span><span class="nx">direction</span><span class="p">]</span> <span class="o">===</span> <span class="nx">tileB</span><span class="p">.</span><span class="nx">edges</span><span class="p">[</span><span class="nx">opposite</span><span class="p">[</span><span class="nx">direction</span><span class="p">]];</span>
-<span class="p">}</span>
-
-<span class="c1">// 셀 클래스 (1칸마다 타일 1개)</span>
-<span class="kd">class</span> <span class="nc">WFC_TileCell</span> <span class="p">{</span>
-    <span class="nf">constructor</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">options</span> <span class="o">=</span> <span class="nx">tiles</span><span class="p">.</span><span class="nf">slice</span><span class="p">();</span> <span class="c1">// 가능한 타일들</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">collapsed</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="nf">collapse</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">pick</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">length</span><span class="p">)];</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">options</span> <span class="o">=</span> <span class="p">[</span><span class="nx">pick</span><span class="p">];</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">collapsed</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-        <span class="k">return</span> <span class="nx">pick</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="nf">getTile</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">startWFC</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nf">initMap</span><span class="p">();</span>
-
-    <span class="kd">const</span> <span class="nx">tileSize</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// 2x2 타일</span>
-    <span class="kd">const</span> <span class="nx">tileCols</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nx">cols</span> <span class="o">/</span> <span class="nx">tileSize</span><span class="p">);</span>
-    <span class="kd">const</span> <span class="nx">tileRows</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nx">rows</span> <span class="o">/</span> <span class="nx">tileSize</span><span class="p">);</span>
-
-    <span class="kd">const</span> <span class="nx">grid</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">({</span> <span class="na">length</span><span class="p">:</span> <span class="nx">tileRows</span> <span class="p">},</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span>
-        <span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">({</span> <span class="na">length</span><span class="p">:</span> <span class="nx">tileCols</span> <span class="p">},</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nc">WFC_TileCell</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">))</span>
-    <span class="p">);</span>
-
-    <span class="c1">// collapse 루프</span>
-    <span class="kd">let</span> <span class="nx">pending</span> <span class="o">=</span> <span class="nx">grid</span><span class="p">.</span><span class="nf">flat</span><span class="p">().</span><span class="nf">filter</span><span class="p">(</span><span class="nx">cell</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">cell</span><span class="p">.</span><span class="nx">collapsed</span><span class="p">);</span>
-
-    <span class="k">while </span><span class="p">(</span><span class="nx">pending</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// 아직 collapse되지 않은 셀 중에서 가능한 옵션이 가장 적은 값 찾기</span>
-        <span class="kd">let</span> <span class="nx">minEntropy</span> <span class="o">=</span> <span class="nx">pending</span><span class="p">.</span><span class="nf">reduce</span><span class="p">((</span><span class="nx">min</span><span class="p">,</span> <span class="nx">cell</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="nx">min</span><span class="p">,</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">length</span><span class="p">),</span> <span class="kc">Infinity</span><span class="p">);</span>
-        <span class="c1">// 가능한 옵션 수가 최소인 셀들만 필터링</span>
-        <span class="kd">let</span> <span class="nx">choices</span> <span class="o">=</span> <span class="nx">pending</span><span class="p">.</span><span class="nf">filter</span><span class="p">(</span><span class="nx">c</span> <span class="o">=&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">minEntropy</span><span class="p">);</span>
-        <span class="c1">// 그 중 하나를 랜덤 선택</span>
-        <span class="kd">let</span> <span class="nx">cell</span> <span class="o">=</span> <span class="nx">choices</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">choices</span><span class="p">.</span><span class="nx">length</span><span class="p">)];</span>
-
-        <span class="kd">const</span> <span class="nx">tile</span> <span class="o">=</span> <span class="nx">cell</span><span class="p">.</span><span class="nf">collapse</span><span class="p">();</span>
-
-        <span class="c1">// 타일을 실제 맵에 그리기</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">dy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">dy</span> <span class="o">&lt;</span> <span class="nx">tileSize</span><span class="p">;</span> <span class="nx">dy</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">dx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">dx</span> <span class="o">&lt;</span> <span class="nx">tileSize</span><span class="p">;</span> <span class="nx">dx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">const</span> <span class="nx">mx</span> <span class="o">=</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">tileSize</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">;</span>
-            <span class="kd">const</span> <span class="nx">my</span> <span class="o">=</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="nx">tileSize</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
-
-            <span class="k">if </span><span class="p">(</span><span class="nx">mx</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">my</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">)</span> <span class="p">{</span>
-              <span class="nx">map</span><span class="p">[</span><span class="nx">my</span><span class="p">][</span><span class="nx">mx</span><span class="p">]</span> <span class="o">=</span> <span class="nx">tile</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="nx">dy</span><span class="p">][</span><span class="nx">dx</span><span class="p">];</span>
-              <span class="nf">drawCell</span><span class="p">(</span><span class="nx">mx</span><span class="p">,</span> <span class="nx">my</span><span class="p">,</span> <span class="nx">tile</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="nx">dy</span><span class="p">][</span><span class="nx">dx</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
-        <span class="k">await</span> <span class="nf">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-
-        <span class="c1">// 주변 셀 옵션 줄이기</span>
-        <span class="k">for </span><span class="p">(</span><span class="kd">const</span> <span class="p">[</span><span class="nx">dir</span><span class="p">,</span> <span class="p">[</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">]]</span> <span class="k">of</span> <span class="nb">Object</span><span class="p">.</span><span class="nf">entries</span><span class="p">({</span>
-            <span class="na">up</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-            <span class="na">right</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="na">down</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-            <span class="na">left</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="p">}))</span> <span class="p">{</span>
-                <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">;</span>
-                <span class="kd">const</span> <span class="nx">ny</span> <span class="o">=</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
-
-                <span class="k">if </span><span class="p">(</span><span class="nx">nx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">ny</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">nx</span> <span class="o">&gt;=</span> <span class="nx">tileCols</span> <span class="o">||</span> <span class="nx">ny</span> <span class="o">&gt;=</span> <span class="nx">tileRows</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
-
-                <span class="kd">const</span> <span class="nx">neighbor</span> <span class="o">=</span> <span class="nx">grid</span><span class="p">[</span><span class="nx">ny</span><span class="p">][</span><span class="nx">nx</span><span class="p">];</span>
-                <span class="k">if </span><span class="p">(</span><span class="nx">neighbor</span><span class="p">.</span><span class="nx">collapsed</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
-
-                <span class="c1">// 현재 셀과 호환되는 타일만 남김</span>
-                <span class="nx">neighbor</span><span class="p">.</span><span class="nx">options</span> <span class="o">=</span> <span class="nx">neighbor</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nf">filter</span><span class="p">(</span><span class="nx">opt</span> <span class="o">=&gt;</span>
-                    <span class="nf">compatible</span><span class="p">(</span><span class="nx">tile</span><span class="p">,</span> <span class="nx">opt</span><span class="p">,</span> <span class="nx">dir</span><span class="p">)</span>
-                <span class="p">);</span>
-            <span class="p">}</span>
-
-            <span class="nx">pending</span> <span class="o">=</span> <span class="nx">grid</span><span class="p">.</span><span class="nf">flat</span><span class="p">().</span><span class="nf">filter</span><span class="p">(</span><span class="nx">c</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">c</span><span class="p">.</span><span class="nx">collapsed</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="k">await</span> <span class="nf">generateEntrance</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="완성">완성</h4>
-  <hr />
-</blockquote>
-
-<p>Delaunay Triangulation + MST<br />
-<img src="/assets/images/posts/one-pan/JavaScript/2025-05-28-Dungeon Generator 02/img01.gif" alt="img01" /></p>
-
-<p>WFC<br />
-<img src="/assets/images/posts/one-pan/JavaScript/2025-05-28-Dungeon Generator 02/img02.gif" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>동굴 지형같은 구불구불 무작위보다 구조적인 지형을 구성하는게 무엇보다 더 어려운 느낌이다.<br />
-우연하게 태어난 아름다움과 철저히 설계된 아름다움의 차이로 느껴진다.<br />
-아 감성적인 하루</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="/play/Dungeon%20Generator.html" target="_blank" rel="noopener noreferrer">
-  직접 해보기
-</a></p>
-
-<p>Delaunay Triangulation + MST<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-28-Delaunay.js">Link to GitHub</a></p>
-
-<p>WFC<br />
-<a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/JavaScript/2025-05-28-WFC.js">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/JavaScript/" /><summary type="html"><![CDATA[개요 남은 두개의 알고리즘으로 맵 만들기 즐 겁 다 !! 구현 1. Delaunay Triangulation + MST 얘는 왜 두개가 합쳐졌느냐??? 우선 랜덤한 점을 방의 중심점으로 사용해 방을 넒힌다. 그리고 Delaunay Triangulation 알고리즘으로 모든 점을 삼각형으로 연결해 각 삼각형의 외접원이 다른 점을 포함하지 않도록 최적의 삼각형 분할을 생성한다. 마지막으로 MST 알고리즘은 모든 방을 연결하는 최소 비용의 통로를 생성한다. Delaunay Triangulation만 사용할 경우 모든 점이 서로 연결되어 너무 많은 통로가 생성되어 어지럽다. 이를 커버하는게 MST의 역할이다. 덕분에 자연스러운 방 배치와 효율적인 통로 연결이 이루어지게 된다. 삼각형 생성이 중요한데 삼각형을 생성하는 것으로 아래와 같은 일들이 가능해진다. 국지적 연결을 최적화해 가까운 방들끼리 통로가 생기는 기반 마련 삼각형의 변이 후보 연결선이 됨 삼각형은 면을 채울 수 있는 기본 단위라 공간을 균형있게 분할하기 유리함 이렇게 생성된 삼각형들을 MST가 간소화해 효율성을 확보한다. // 점 클래스 class Point { constructor(x, y) { this.x = x; this.y = y; } equals(other) { return this.x === other.x &amp;&amp; this.y === other.y; } } // 간선 클래스 class Edge { constructor(p1, p2) { this.p1 = p1; this.p2 = p2; this.weight = Math.sqrt( Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) ); } } // 삼각형 클래스 class Triangle { constructor(p1, p2, p3) { this.p1 = p1; this.p2 = p2; this.p3 = p3; } // 외접원의 중심과 반지름 계산 circumcircle() { const d = 2 * (this.p1.x * (this.p2.y - this.p3.y) + this.p2.x * (this.p3.y - this.p1.y) + this.p3.x * (this.p1.y - this.p2.y)); const ux = ((this.p1.x * this.p1.x + this.p1.y * this.p1.y) * (this.p2.y - this.p3.y) + (this.p2.x * this.p2.x + this.p2.y * this.p2.y) * (this.p3.y - this.p1.y) + (this.p3.x * this.p3.x + this.p3.y * this.p3.y) * (this.p1.y - this.p2.y)) / d; const uy = ((this.p1.x * this.p1.x + this.p1.y * this.p1.y) * (this.p3.x - this.p2.x) + (this.p2.x * this.p2.x + this.p2.y * this.p2.y) * (this.p1.x - this.p3.x) + (this.p3.x * this.p3.x + this.p3.y * this.p3.y) * (this.p2.x - this.p1.x)) / d; const center = new Point(ux, uy); const radius = Math.sqrt( Math.pow(this.p1.x - center.x, 2) + Math.pow(this.p1.y - center.y, 2) ); return { center, radius }; } // 점이 외접원 내부에 있는지 확인 containsPoint(p) { const { center, radius } = this.circumcircle(); const distance = Math.sqrt( Math.pow(p.x - center.x, 2) + Math.pow(p.y - center.y, 2) ); return distance &lt; radius; } } async function startDelaunay() { initMap(); // 랜덤 점 생성 (방의 중심점) const points = []; const numPoints = 20; // 방의 개수 const roomSize = 2; // 방 크기 const margin = 2; // 방 사이의 최소 간격 // 방이 겹치는지 확인 function isOverlapping(x, y, size) { for (let dy = -size - margin; dy &lt;= size + margin; dy++) { for (let dx = -size - margin; dx &lt;= size + margin; dx++) { const nx = x + dx; const ny = y + dy; if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows &amp;&amp; map[ny][nx] === 0) { return true; } } } return false; } // 안전한 위치 찾기 function findSafePosition() { let x, y; let attempts = 0; const maxAttempts = 100; do { x = Math.floor(Math.random() * (cols - 2 * roomSize)) + roomSize; y = Math.floor(Math.random() * (rows - 2 * roomSize)) + roomSize; attempts++; } while (isOverlapping(x, y, roomSize) &amp;&amp; attempts &lt; maxAttempts); return attempts &lt; maxAttempts ? {x, y} : null; } // 방 생성 for (let i = 0; i &lt; numPoints; i++) { const pos = findSafePosition(); if (!pos) continue; // 안전한 위치를 찾지 못하면 건너뛰기 points.push(new Point(pos.x, pos.y)); // 방 생성 for (let dy = -roomSize; dy &lt;= roomSize; dy++) { for (let dx = -roomSize; dx &lt;= roomSize; dx++) { const nx = pos.x + dx; const ny = pos.y + dy; if (nx &gt;= 0 &amp;&amp; nx &lt; cols &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; rows) { map[ny][nx] = 0; drawCell(nx, ny, 'white'); } } } await sleep(50); } const triangles = delaunayTriangulation(points); // 간선 추출 const edges = new Set(); for (const triangle of triangles) { edges.add(new Edge(triangle.p1, triangle.p2)); edges.add(new Edge(triangle.p2, triangle.p3)); edges.add(new Edge(triangle.p3, triangle.p1)); } const mstEdges = kruskalMST(Array.from(edges)); // MST 간선을 따라 통로 생성 for (const edge of mstEdges) { await createCorridor(edge.p1, edge.p2); } generateEntrance(); } // Delaunay Triangulation 알고리즘 function delaunayTriangulation(points) { const triangles = []; // 슈퍼 삼각형 생성 (모든 점을 포함하는 큰 삼각형) // 초기 삼각형이 필요해 생성하며 나중에 제거함 const superTriangle = new Triangle( new Point(-100, -100), new Point(100, -100), new Point(0, 100) ); triangles.push(superTriangle); for (const point of points) { const badTriangles = []; // 현재 점을 포함하는 삼각형 찾기 for (const triangle of triangles) { if (triangle.containsPoint(point)) { badTriangles.push(triangle); } } // 나쁜 삼각형들의 간선 찾기 // 나쁜 삼각형은 너무 뾰족하거나 한 꼭지점에 너무 몰려 있는 못난 삼각형 const edges = new Set(); for (const triangle of badTriangles) { edges.add(new Edge(triangle.p1, triangle.p2)); edges.add(new Edge(triangle.p2, triangle.p3)); edges.add(new Edge(triangle.p3, triangle.p1)); } // 나쁜 삼각형 제거 for (const triangle of badTriangles) { const index = triangles.indexOf(triangle); if (index &gt; -1) { triangles.splice(index, 1); } } // 새로운 삼각형 생성 for (const edge of edges) { triangles.push(new Triangle(edge.p1, edge.p2, point)); } } // 슈퍼 삼각형과 관련된 삼각형 제거 return triangles.filter(triangle =&gt; !triangle.p1.equals(superTriangle.p1) &amp;&amp; !triangle.p1.equals(superTriangle.p2) &amp;&amp; !triangle.p1.equals(superTriangle.p3) &amp;&amp; !triangle.p2.equals(superTriangle.p1) &amp;&amp; !triangle.p2.equals(superTriangle.p2) &amp;&amp; !triangle.p2.equals(superTriangle.p3) &amp;&amp; !triangle.p3.equals(superTriangle.p1) &amp;&amp; !triangle.p3.equals(superTriangle.p2) &amp;&amp; !triangle.p3.equals(superTriangle.p3) ); } // Kruskal's MST 알고리즘 function kruskalMST(edges) { // 간선을 가중치 순으로 정렬 edges.sort((a, b) =&gt; a.weight - b.weight); const mst = []; const sets = new Map(); // 각 점을 독립적인 집합으로 초기화 for (const edge of edges) { if (!sets.has(edge.p1)) sets.set(edge.p1, new Set([edge.p1])); if (!sets.has(edge.p2)) sets.set(edge.p2, new Set([edge.p2])); } // 사이클을 형성하지 않는 간선만 선택 for (const edge of edges) { const set1 = sets.get(edge.p1); const set2 = sets.get(edge.p2); if (set1 !== set2) { mst.push(edge); // 두 집합 합치기 const union = new Set(); for (const p of set1) union.add(p); for (const p of set2) union.add(p); for (const point of union) { sets.set(point, union); // 각 포인트가 새로운 union 집합을 참조하도록 갱신 } } } return mst; } // 두 점 사이의 통로 생성 async function createCorridor(p1, p2) { const dx = Math.sign(p2.x - p1.x); const dy = Math.sign(p2.y - p1.y); let x = p1.x; let y = p1.y; // x축 방향으로 먼저 이동 while (x !== p2.x) { map[y][x] = 0; drawCell(x, y, 'white'); x += dx; await sleep(1); } // y축 방향으로 이동 while (y !== p2.y) { map[y][x] = 0; drawCell(x, y, 'white'); y += dy; await sleep(1); } } 2. WFC 알고리즘 다소 난해했던 알고리즘 주변 셀에 따라 가능한 옵션을 줄이며 점차 결정하는 방식이다. 규칙을 설정해두는게 무엇보다 중요하다. WFC는 Wave Function Collapse의 약자인데 Wave Function은 모든 타일이 겹쳐진 상태를 의미하고 Collapse는 결정하는 과정을 말한다. 다른 내용은 괜찮은데 엔트로피 개념이 갑자기 끼어들어서 헷갈렸다. WFC에서의 엔트로피는 셀의 불확실성 정도, 그 셀에서 가능한 타일 후보 수를 의미한다. 가능한 타일이 많을수록 엔트로피가 높은 셀인 것. 흐름은 아래와 같다. 모든 셀은 타일 후보를 가지고 시작 가장 적은 옵션을 가진 셀 선택(엔트로피가 가장 낮은 셀) 그 셀이 가능한 타일 중 하나를 무작위로 결정(collapse) 전파(Propagation) 결정과 전파 반복 설정한 타일로 가득 채워진 맵을 얻을 수 있으며 타일을 잘 설정할수록 상당히 구조적인 맵이 나온다. 나는 불확실성으로 가득찬게 좋아서 타일을 8개 맘대로 집어넣었더니 결과물이 깔끔해 보이진 않는다. 개념을 확실히 정립하기 전에는 방 전체가 뚫린다던가 죄다 벽이라던가 구현이 어려웠다. 그래도 전파되며 만들어지는 모습이 아름답다. // 2x2 타일 사전 정의 const tiles = [ { name: "wall", // 전체 벽 data: [[1, 1], [1, 1]], edges: { up: 1, right: 1, down: 1, left: 1 } }, { name: "floor", // 전체 통로 data: [[0, 0], [0, 0]], edges: { up: 0, right: 0, down: 0, left: 0 } }, { name: "hall_h", // 수평 복도 data: [[1, 1], [0, 0]], edges: { up: 1, right: 0, down: 1, left: 0 } }, { name: "hall_v", // 수직 복도 data: [[1, 0], [1, 0]], edges: { up: 0, right: 1, down: 0, left: 1 } }, { name: "room_corner_top_left", // 위/왼쪽이 열린 방 구석 data: [[0, 0], [0, 1]], edges: { up: 0, right: 0, down: 1, left: 0 } }, { name: "room_corner_bottom_right", // 아래/오른쪽 열린 방 구석 data: [[1, 0], [0, 0]], edges: { up: 1, right: 0, down: 0, left: 0 } }, { name: "junction_T_up", // T자 모양 (위쪽 갈래) data: [[0, 0], [1, 0]], edges: { up: 0, right: 0, down: 1, left: 1 } }, { name: "dead_end_left", // 왼쪽에만 열린 막다른길 data: [[1, 1], [0, 1]], edges: { up: 1, right: 1, down: 1, left: 0 } } ]; // 붙으려는 상대방 타일의 방향을 찾기 위한 반대 방향 매핑 const opposite = { up: "down", down: "up", left: "right", right: "left" }; // 타일 간 인접성 판단 function compatible(tileA, tileB, direction) { return tileA.edges[direction] === tileB.edges[opposite[direction]]; } // 셀 클래스 (1칸마다 타일 1개) class WFC_TileCell { constructor(x, y) { this.x = x; this.y = y; this.options = tiles.slice(); // 가능한 타일들 this.collapsed = false; } collapse() { const pick = this.options[Math.floor(Math.random() * this.options.length)]; this.options = [pick]; this.collapsed = true; return pick; } getTile() { return this.options[0]; } } async function startWFC() { initMap(); const tileSize = 2; // 2x2 타일 const tileCols = Math.floor(cols / tileSize); const tileRows = Math.floor(rows / tileSize); const grid = Array.from({ length: tileRows }, (_, y) =&gt; Array.from({ length: tileCols }, (_, x) =&gt; new WFC_TileCell(x, y)) ); // collapse 루프 let pending = grid.flat().filter(cell =&gt; !cell.collapsed); while (pending.length &gt; 0) { // 아직 collapse되지 않은 셀 중에서 가능한 옵션이 가장 적은 값 찾기 let minEntropy = pending.reduce((min, cell) =&gt; Math.min(min, cell.options.length), Infinity); // 가능한 옵션 수가 최소인 셀들만 필터링 let choices = pending.filter(c =&gt; c.options.length === minEntropy); // 그 중 하나를 랜덤 선택 let cell = choices[Math.floor(Math.random() * choices.length)]; const tile = cell.collapse(); // 타일을 실제 맵에 그리기 for (let dy = 0; dy &lt; tileSize; dy++) { for (let dx = 0; dx &lt; tileSize; dx++) { const mx = cell.x * tileSize + dx; const my = cell.y * tileSize + dy; if (mx &lt; cols &amp;&amp; my &lt; rows) { map[my][mx] = tile.data[dy][dx]; drawCell(mx, my, tile.data[dy][dx] === 1 ? 'black' : 'white'); } } await sleep(5); // 주변 셀 옵션 줄이기 for (const [dir, [dx, dy]] of Object.entries({ up: [0, -1], right: [1, 0], down: [0, 1], left: [-1, 0] })) { const nx = cell.x + dx; const ny = cell.y + dy; if (nx &lt; 0 || ny &lt; 0 || nx &gt;= tileCols || ny &gt;= tileRows) continue; const neighbor = grid[ny][nx]; if (neighbor.collapsed) continue; // 현재 셀과 호환되는 타일만 남김 neighbor.options = neighbor.options.filter(opt =&gt; compatible(tile, opt, dir) ); } pending = grid.flat().filter(c =&gt; !c.collapsed); } } await generateEntrance(); } 완성 Delaunay Triangulation + MST WFC 반성 동굴 지형같은 구불구불 무작위보다 구조적인 지형을 구성하는게 무엇보다 더 어려운 느낌이다. 우연하게 태어난 아름다움과 철저히 설계된 아름다움의 차이로 느껴진다. 아 감성적인 하루 코드 확인 직접 해보기 Delaunay Triangulation + MST Link to GitHub WFC Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-28-16085.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 16085번 Гэмт хэрэг - 백준 번역 형사가 용의자가 있을 수 있는 지역의 넓이를 계산하는 문제. 정보가 들어온지 T초가 지났다. 차량은 오직 도로 위로만 이동하며 도로는 단 하나 존재한다.(x축) 도보로는 도로를 벗어날 수 있다.(y축) 도보로는 초당 W미터, 차를 타면 초당 C 미터 이동 가능하다. 탑승, 하차 시간은 계산하지 않음. 설계 단순히 원형, 캡슐형을 생각해서 계산하니 예제에 맞지 않는다. 우선 분기해야하는 부분이 C와 W 속도 차이. 차량보다 도보가 빠르면 차량을 탈 이유가 없다. 따라서 W가 C보다 크거나 같을 경우 도보로 가능한 원의 너비를 계산하면 끝. C가 W보다 큰게 문제인데 우선 도로를 타고 차량을 타고 이동한다. 거기서 내린 뒤 남은 시간동안 도보로 이동할 수 있다. 도보로 이동하는 거리는 차량을 쓰는 만큼 줄어든다. 0 &lt;= x &lt;= T * C 만큼 차를 타고 이동하면 남은 시간은 T - x / C 이며 보행반경이 W * (T - x / C) 만큼 줄어든다. 순수 도보로 그려지는 원의 경계가 더 큰 동안 원의 경계를 따르고 이후 차량-&gt;도보로 그려지는 선형구간의 넓이를 추가한다. 도보 원의 세그먼트 면적과 차량-&gt;도보로 이어지는 선형구간을 합하고 양쪽으로 갈 수 있으니 2를 곱해서 나오는 공식은 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2)) 아 머리아파 구현 #include &lt;iostream&gt; #include &lt;cmath&gt; #include &lt;cstdio&gt; using namespace std; int main() { int n; cin &gt;&gt; n; while (n--) { double T, W, C; cin &gt;&gt; T &gt;&gt; W &gt;&gt; C; double result; if (C &lt;= W) { // 도보가 빠르면 원 면적 계산 // (W*T)^2 * π result = W * W * T * T * M_PI; } else { // 차량이 빠르면 공식에 대입 // 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2)) double term1 = W * W * asin(W / C); // W^2 * arcsin(W/C) double term2 = W * sqrt(C * C - W * W); // W * sqrt(C^2 - W^2) result = 2.0 * T * T * (term1 + term2); } // 소수점 셋째 자리까지 출력 printf("%.3f\n", result); } return 0; } 채점 반성 이딴게 왜 골드? 하고 접근했다가 예제 다틀려서 상당히 당황했다. 세상만사 다 이유가 있지… 코드 확인 Link to GitHub]]></summary></entry></feed>
