@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>15654번 N과 M (5) - 뭐라도 하겠지</title>
-<meta name="description" content="문제        15654번 N과 M (5) - 백준     설계      뭐야 드디어 번역이 필요없는 문제가…  N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다. 쉬어가는 문제로구나 백트래킹 ㄱㄱ     구현      설명할게 없음  N, M = map(int, input().split())  numbers = list(map(int, input().split())) # 오름차순 numbers.sort()  result = M * [0] visited = N * [False]  def back_tracking(depth):     if depth == M:         # M개 까지 출력         print(*result, sep=&#39; &#39;)         return          for i in range(N):         if not visited[i]:             # 방문 처리             visited[i] = True             result[depth] = numbers[i]             back_tracking(depth + 1)              visited[i] = False  # 재귀 back_tracking(0)      채점           코드 확인      Link to GitHub">
+<!-- begin _includes/seo.html --><title>2784번 가로 세로 퍼즐 - 뭐라도 하겠지</title>
+<meta name="description" content="문제        2784번 가로 세로 퍼즐 - 백준     설계      개똥아 똥쌌니 아니오 를 만드는 문제  생각보다… 조건이 복잡한건가? 일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고 출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데 가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가? 도통 알 수 없다.  단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나? 대충 하나하나 다 갖다박아보자.     구현      1. 세로 단어 추출  일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다. 그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.  for (int i = 0 ; i &lt; 6 ; i++) { 	for (int j = 0 ; j &lt; 6 ; j++) { 		if (i == j) continue; 		for (int k = 0 ; k &lt; 6 ; k++) { 			if (i == k || j == k) continue; 			 			String horizontalWord1 = words.get(i); 			String horizontalWord2 = words.get(j); 			String horizontalWord3 = words.get(k); 			 			// 만든 단어 			Map&lt;String, Integer&gt; used = new HashMap&lt;&gt;(); 			 			int putCount = 0; 			// 세로 줄 단어 생성 			for (int l = 0 ; l &lt; 3 ; l++) { 				String verticalWord = &quot;&quot; + horizontalWord1.charAt(l) + horizontalWord2.charAt(l) + horizontalWord3.charAt(l); 				 				// 세로단어가 존재하지 않는 단어면 통과 				if (!words.contains(verticalWord)) break; 				 				used.put(verticalWord, used.getOrDefault(verticalWord, 0) + 1); 				putCount++; 			} 			 			// 3번 안넣었으면 굳이 더 볼 필요 없음 			if (putCount &lt; 3) continue; 			 		} 	} }   2. 단어가 모이면 비교  입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다. 입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고 세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.  List&lt;String&gt; words = new ArrayList&lt;&gt;(); // 비교 시 중복때문에 Set을 못써서 Map 사용 Map&lt;String, Integer&gt; count = new HashMap&lt;&gt;();  for (int i = 0 ; i &lt; 6 ; i++) { 	String word = br.readLine(); 	words.add(word); 	count.put(word, count.getOrDefault(word, 0) + 1); }  // ... 중략 ...  boolean valid = true; // 비교 for (Map.Entry&lt;String, Integer&gt; entry : used.entrySet()) { 	if (entry.getValue() != count.get(entry.getKey())) { 		valid = false; 		break; 	} }  if (valid) { 	result = true; 	bw.write(horizontalWord1); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord2); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord3); 	break exit; }      채점           반성      입력이 너무 적어서 아무 의미 없겠지만 생각해보자. 이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지? 가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나? 그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가… 이거 굉장히 곤란한 문제가 될 수 있겠다. 에잇 끔찍한 소리 치워 꼴도 보기 싫어     코드 확인      Link to GitHub">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="15654번 N과 M (5)">
-<meta property="og:url" content="https://movingwoo.com/random-solve/python/2025/05/30/15654.html">
+<meta property="og:title" content="2784번 가로 세로 퍼즐">
+<meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/06/04/2784.html">
 
 
-  <meta property="og:description" content="문제        15654번 N과 M (5) - 백준     설계      뭐야 드디어 번역이 필요없는 문제가…  N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다. 쉬어가는 문제로구나 백트래킹 ㄱㄱ     구현      설명할게 없음  N, M = map(int, input().split())  numbers = list(map(int, input().split())) # 오름차순 numbers.sort()  result = M * [0] visited = N * [False]  def back_tracking(depth):     if depth == M:         # M개 까지 출력         print(*result, sep=&#39; &#39;)         return          for i in range(N):         if not visited[i]:             # 방문 처리             visited[i] = True             result[depth] = numbers[i]             back_tracking(depth + 1)              visited[i] = False  # 재귀 back_tracking(0)      채점           코드 확인      Link to GitHub">
-
-
-
+  <meta property="og:description" content="문제        2784번 가로 세로 퍼즐 - 백준     설계      개똥아 똥쌌니 아니오 를 만드는 문제  생각보다… 조건이 복잡한건가? 일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고 출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데 가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가? 도통 알 수 없다.  단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나? 대충 하나하나 다 갖다박아보자.     구현      1. 세로 단어 추출  일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다. 그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.  for (int i = 0 ; i &lt; 6 ; i++) { 	for (int j = 0 ; j &lt; 6 ; j++) { 		if (i == j) continue; 		for (int k = 0 ; k &lt; 6 ; k++) { 			if (i == k || j == k) continue; 			 			String horizontalWord1 = words.get(i); 			String horizontalWord2 = words.get(j); 			String horizontalWord3 = words.get(k); 			 			// 만든 단어 			Map&lt;String, Integer&gt; used = new HashMap&lt;&gt;(); 			 			int putCount = 0; 			// 세로 줄 단어 생성 			for (int l = 0 ; l &lt; 3 ; l++) { 				String verticalWord = &quot;&quot; + horizontalWord1.charAt(l) + horizontalWord2.charAt(l) + horizontalWord3.charAt(l); 				 				// 세로단어가 존재하지 않는 단어면 통과 				if (!words.contains(verticalWord)) break; 				 				used.put(verticalWord, used.getOrDefault(verticalWord, 0) + 1); 				putCount++; 			} 			 			// 3번 안넣었으면 굳이 더 볼 필요 없음 			if (putCount &lt; 3) continue; 			 		} 	} }   2. 단어가 모이면 비교  입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다. 입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고 세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.  List&lt;String&gt; words = new ArrayList&lt;&gt;(); // 비교 시 중복때문에 Set을 못써서 Map 사용 Map&lt;String, Integer&gt; count = new HashMap&lt;&gt;();  for (int i = 0 ; i &lt; 6 ; i++) { 	String word = br.readLine(); 	words.add(word); 	count.put(word, count.getOrDefault(word, 0) + 1); }  // ... 중략 ...  boolean valid = true; // 비교 for (Map.Entry&lt;String, Integer&gt; entry : used.entrySet()) { 	if (entry.getValue() != count.get(entry.getKey())) { 		valid = false; 		break; 	} }  if (valid) { 	result = true; 	bw.write(horizontalWord1); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord2); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord3); 	break exit; }      채점           반성      입력이 너무 적어서 아무 의미 없겠지만 생각해보자. 이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지? 가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나? 그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가… 이거 굉장히 곤란한 문제가 될 수 있겠다. 에잇 끔찍한 소리 치워 꼴도 보기 싫어     코드 확인      Link to GitHub">
 
 
 
 
-  <meta property="article:published_time" content="2025-05-30T02:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-05-30T02:00:00+00:00">
+  <meta property="article:published_time" content="2025-06-04T07:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-06-04T07:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/random-solve/python/2025/05/30/15654.html">
+<link rel="canonical" href="https://movingwoo.com/random-solve/java/2025/06/04/2784.html">
 
 
 
@@ -1148,10 +1148,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="15654번 N과 M (5)">
-      <meta itemprop="description" content="  문제  15654번 N과 M (5) - 백준  설계  뭐야 드디어 번역이 필요없는 문제가…N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다.쉬어가는 문제로구나백트래킹 ㄱㄱ  구현  설명할게 없음N, M = map(int, input().split())numbers = list(map(int, input().split()))# 오름차순numbers.sort()result = M * [0]visited = N * [False]def back_tracking(depth):    if depth == M:        # M개 까지 출력        print(*result, sep=&#39; &#39;)        return        for i in range(N):        if not visited[i]:            # 방문 처리            visited[i] = True            result[depth] = numbers[i]            back_tracking(depth + 1)            visited[i] = False# 재귀back_tracking(0)  채점    코드 확인  Link to GitHub">
-      <meta itemprop="datePublished" content="2025-05-30T02:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-05-30T02:00:00+00:00">
+      <meta itemprop="headline" content="2784번 가로 세로 퍼즐">
+      <meta itemprop="description" content="  문제  2784번 가로 세로 퍼즐 - 백준  설계  개똥아똥쌌니아니오를 만드는 문제생각보다… 조건이 복잡한건가?일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가?도통 알 수 없다.단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나?대충 하나하나 다 갖다박아보자.  구현  1. 세로 단어 추출일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다.그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.for (int i = 0 ; i &lt; 6 ; i++) {	for (int j = 0 ; j &lt; 6 ; j++) {		if (i == j) continue;		for (int k = 0 ; k &lt; 6 ; k++) {			if (i == k || j == k) continue;						String horizontalWord1 = words.get(i);			String horizontalWord2 = words.get(j);			String horizontalWord3 = words.get(k);						// 만든 단어			Map&lt;String, Integer&gt; used = new HashMap&lt;&gt;();						int putCount = 0;			// 세로 줄 단어 생성			for (int l = 0 ; l &lt; 3 ; l++) {				String verticalWord = &quot;&quot; + horizontalWord1.charAt(l) + horizontalWord2.charAt(l) + horizontalWord3.charAt(l);								// 세로단어가 존재하지 않는 단어면 통과				if (!words.contains(verticalWord)) break;								used.put(verticalWord, used.getOrDefault(verticalWord, 0) + 1);				putCount++;			}						// 3번 안넣었으면 굳이 더 볼 필요 없음			if (putCount &lt; 3) continue;					}	}}2. 단어가 모이면 비교입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다.입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.List&lt;String&gt; words = new ArrayList&lt;&gt;();// 비교 시 중복때문에 Set을 못써서 Map 사용Map&lt;String, Integer&gt; count = new HashMap&lt;&gt;();for (int i = 0 ; i &lt; 6 ; i++) {	String word = br.readLine();	words.add(word);	count.put(word, count.getOrDefault(word, 0) + 1);}// ... 중략 ...boolean valid = true;// 비교for (Map.Entry&lt;String, Integer&gt; entry : used.entrySet()) {	if (entry.getValue() != count.get(entry.getKey())) {		valid = false;		break;	}}if (valid) {	result = true;	bw.write(horizontalWord1);	bw.write(&quot;\n&quot;);	bw.write(horizontalWord2);	bw.write(&quot;\n&quot;);	bw.write(horizontalWord3);	break exit;}  채점    반성  입력이 너무 적어서 아무 의미 없겠지만 생각해보자.이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지?가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나?그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가…이거 굉장히 곤란한 문제가 될 수 있겠다.에잇 끔찍한 소리 치워 꼴도 보기 싫어  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-06-04T07:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-04T07:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1172,18 +1172,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
       <span class="separator">/</span>
       
-      <a href="/board?path=random-solve%2FPython" class="category-link">
-        Python
+      <a href="/board?path=random-solve%2FJava" class="category-link">
+        Java
       </a>
       
     
   </div>
-  <a href="/board?path=random-solve%2FPython%2F" class="category-icon" title="리스트">
+  <a href="/board?path=random-solve%2FJava%2F" class="category-icon" title="리스트">
     <i class="fas fa-list-ul" aria-hidden="true"></i>
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">15654번 N과 M (5)
+            <h1 id="page-title" class="page__title" itemprop="headline">2784번 가로 세로 퍼즐
 </h1>
             
 
@@ -1197,54 +1197,108 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img01.webp" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-04-2784/img01.webp" alt="img01" /></p>
 
-<p><a href="https://www.acmicpc.net/problem/15654">15654번 N과 M (5) - 백준</a></p>
+<p><a href="https://www.acmicpc.net/problem/2784">2784번 가로 세로 퍼즐 - 백준</a></p>
 
 <blockquote>
   <h4 id="설계">설계</h4>
   <hr />
 </blockquote>
 
-<p>뭐야 드디어 번역이 필요없는 문제가…</p>
+<p><span style="color: orange;"><strong>개똥아</strong></span><br />
+<span style="color: orange;"><strong>똥쌌니</strong></span><br />
+<span style="color: orange;"><strong>아니오</strong></span><br />
+를 만드는 문제</p>
 
-<p>N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다.<br />
-쉬어가는 문제로구나<br />
-백트래킹 ㄱㄱ</p>
+<p>생각보다… 조건이 복잡한건가?
+일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고<br />
+출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데<br />
+가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가?<br />
+도통 알 수 없다.</p>
+
+<p>단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나?<br />
+대충 하나하나 다 갖다박아보자.</p>
 
 <blockquote>
   <h4 id="구현">구현</h4>
   <hr />
 </blockquote>
 
-<p>설명할게 없음</p>
+<h5 id="1-세로-단어-추출">1. 세로 단어 추출</h5>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+<p>일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다.<br />
+그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.</p>
 
-<span class="n">numbers</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-<span class="c1"># 오름차순
-</span><span class="n">numbers</span><span class="p">.</span><span class="nf">sort</span><span class="p">()</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">k</span> <span class="o">||</span> <span class="n">j</span> <span class="o">==</span> <span class="n">k</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+			
+			<span class="nc">String</span> <span class="n">horizontalWord1</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+			<span class="nc">String</span> <span class="n">horizontalWord2</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
+			<span class="nc">String</span> <span class="n">horizontalWord3</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">k</span><span class="o">);</span>
+			
+			<span class="c1">// 만든 단어</span>
+			<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">used</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+			
+			<span class="kt">int</span> <span class="n">putCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+			<span class="c1">// 세로 줄 단어 생성</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="o">;</span> <span class="n">l</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="nc">String</span> <span class="n">verticalWord</span> <span class="o">=</span> <span class="s">""</span> <span class="o">+</span> <span class="n">horizontalWord1</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">l</span><span class="o">)</span> <span class="o">+</span> <span class="n">horizontalWord2</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">l</span><span class="o">)</span> <span class="o">+</span> <span class="n">horizontalWord3</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">l</span><span class="o">);</span>
+				
+				<span class="c1">// 세로단어가 존재하지 않는 단어면 통과</span>
+				<span class="k">if</span> <span class="o">(!</span><span class="n">words</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">verticalWord</span><span class="o">))</span> <span class="k">break</span><span class="o">;</span>
+				
+				<span class="n">used</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">verticalWord</span><span class="o">,</span> <span class="n">used</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">verticalWord</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+				<span class="n">putCount</span><span class="o">++;</span>
+			<span class="o">}</span>
+			
+			<span class="c1">// 3번 안넣었으면 굳이 더 볼 필요 없음</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">putCount</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+			
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">visited</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="p">[</span><span class="bp">False</span><span class="p">]</span>
+<h5 id="2-단어가-모이면-비교">2. 단어가 모이면 비교</h5>
 
-<span class="k">def</span> <span class="nf">back_tracking</span><span class="p">(</span><span class="n">depth</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="n">M</span><span class="p">:</span>
-        <span class="c1"># M개 까지 출력
-</span>        <span class="nf">print</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="p">)</span>
-        <span class="k">return</span>
-    
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-            <span class="c1"># 방문 처리
-</span>            <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="n">result</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="nf">back_tracking</span><span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<p>입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다.<br />
+입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고<br />
+세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.</p>
 
-            <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">words</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="c1">// 비교 시 중복때문에 Set을 못써서 Map 사용</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
 
-<span class="c1"># 재귀
-</span><span class="nf">back_tracking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="nc">String</span> <span class="n">word</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+	<span class="n">words</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">word</span><span class="o">);</span>
+	<span class="n">count</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">word</span><span class="o">,</span> <span class="n">count</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">word</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// ... 중략 ...</span>
+
+<span class="kt">boolean</span> <span class="n">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+<span class="c1">// 비교</span>
+<span class="k">for</span> <span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">used</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">!=</span> <span class="n">count</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()))</span> <span class="o">{</span>
+		<span class="n">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="k">break</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">valid</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">horizontalWord1</span><span class="o">);</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">horizontalWord2</span><span class="o">);</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">horizontalWord3</span><span class="o">);</span>
+	<span class="k">break</span> <span class="n">exit</span><span class="o">;</span>
+<span class="o">}</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -1252,14 +1306,27 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img02.webp" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-04-2784/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>입력이 너무 적어서 아무 의미 없겠지만 생각해보자.<br />
+이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지?<br />
+가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나?<br />
+그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가…<br />
+이거 굉장히 곤란한 문제가 될 수 있겠다.<br />
+에잇 끔찍한 소리 치워 꼴도 보기 싫어</p>
 
 <blockquote>
   <h4 id="코드-확인">코드 확인</h4>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-30-15654.py">Link to GitHub</a></p>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-04-2784.java">Link to GitHub</a></p>
+
 
           
         </section>
@@ -1268,7 +1335,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-30">May 30, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-04">June 4, 2025</time></p>
 
 
         </footer>
@@ -1283,10 +1350,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "15654번 N과 M (5)",
-        url: "/random-solve/python/2025/05/30/15654.html",
-        date: "2025-05-30",
-        categories: ["random-solve/Python/"]
+        title: "2784번 가로 세로 퍼즐",
+        url: "/random-solve/java/2025/06/04/2784.html",
+        date: "2025-06-04",
+        categories: ["random-solve/Java/"]
       },
       allPosts: [
         

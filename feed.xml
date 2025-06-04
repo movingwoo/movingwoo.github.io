@@ -1,4 +1,137 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-04T05:01:22+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">4676번 Haiku Review</title><link href="https://movingwoo.com/random-solve/python/2025/06/04/4676.html" rel="alternate" type="text/html" title="4676번 Haiku Review" /><published>2025-06-04T05:00:00+00:00</published><updated>2025-06-04T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/06/04/4676</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/06/04/4676.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-04T07:08:45+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">2784번 가로 세로 퍼즐</title><link href="https://movingwoo.com/random-solve/java/2025/06/04/2784.html" rel="alternate" type="text/html" title="2784번 가로 세로 퍼즐" /><published>2025-06-04T07:00:00+00:00</published><updated>2025-06-04T07:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/06/04/2784</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/06/04/2784.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-04-2784/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/2784">2784번 가로 세로 퍼즐 - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p><span style="color: orange;"><strong>개똥아</strong></span><br />
+<span style="color: orange;"><strong>똥쌌니</strong></span><br />
+<span style="color: orange;"><strong>아니오</strong></span><br />
+를 만드는 문제</p>
+
+<p>생각보다… 조건이 복잡한건가?
+일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고<br />
+출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데<br />
+가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가?<br />
+도통 알 수 없다.</p>
+
+<p>단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나?<br />
+대충 하나하나 다 갖다박아보자.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-세로-단어-추출">1. 세로 단어 추출</h5>
+
+<p>일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다.<br />
+그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">k</span> <span class="o">||</span> <span class="n">j</span> <span class="o">==</span> <span class="n">k</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+			
+			<span class="nc">String</span> <span class="n">horizontalWord1</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+			<span class="nc">String</span> <span class="n">horizontalWord2</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
+			<span class="nc">String</span> <span class="n">horizontalWord3</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">k</span><span class="o">);</span>
+			
+			<span class="c1">// 만든 단어</span>
+			<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">used</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+			
+			<span class="kt">int</span> <span class="n">putCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+			<span class="c1">// 세로 줄 단어 생성</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="o">;</span> <span class="n">l</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="nc">String</span> <span class="n">verticalWord</span> <span class="o">=</span> <span class="s">""</span> <span class="o">+</span> <span class="n">horizontalWord1</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">l</span><span class="o">)</span> <span class="o">+</span> <span class="n">horizontalWord2</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">l</span><span class="o">)</span> <span class="o">+</span> <span class="n">horizontalWord3</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">l</span><span class="o">);</span>
+				
+				<span class="c1">// 세로단어가 존재하지 않는 단어면 통과</span>
+				<span class="k">if</span> <span class="o">(!</span><span class="n">words</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">verticalWord</span><span class="o">))</span> <span class="k">break</span><span class="o">;</span>
+				
+				<span class="n">used</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">verticalWord</span><span class="o">,</span> <span class="n">used</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">verticalWord</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+				<span class="n">putCount</span><span class="o">++;</span>
+			<span class="o">}</span>
+			
+			<span class="c1">// 3번 안넣었으면 굳이 더 볼 필요 없음</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">putCount</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+			
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="2-단어가-모이면-비교">2. 단어가 모이면 비교</h5>
+
+<p>입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다.<br />
+입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고<br />
+세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">words</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="c1">// 비교 시 중복때문에 Set을 못써서 Map 사용</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="nc">String</span> <span class="n">word</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+	<span class="n">words</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">word</span><span class="o">);</span>
+	<span class="n">count</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">word</span><span class="o">,</span> <span class="n">count</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">word</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// ... 중략 ...</span>
+
+<span class="kt">boolean</span> <span class="n">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+<span class="c1">// 비교</span>
+<span class="k">for</span> <span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">used</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">!=</span> <span class="n">count</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()))</span> <span class="o">{</span>
+		<span class="n">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="k">break</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">valid</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">horizontalWord1</span><span class="o">);</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">horizontalWord2</span><span class="o">);</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">horizontalWord3</span><span class="o">);</span>
+	<span class="k">break</span> <span class="n">exit</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-04-2784/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>입력이 너무 적어서 아무 의미 없겠지만 생각해보자.<br />
+이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지?<br />
+가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나?<br />
+그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가…<br />
+이거 굉장히 곤란한 문제가 될 수 있겠다.<br />
+에잇 끔찍한 소리 치워 꼴도 보기 싫어</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-04-2784.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 2784번 가로 세로 퍼즐 - 백준 설계 개똥아 똥쌌니 아니오 를 만드는 문제 생각보다… 조건이 복잡한건가? 일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고 출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데 가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가? 도통 알 수 없다. 단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나? 대충 하나하나 다 갖다박아보자. 구현 1. 세로 단어 추출 일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다. 그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다. for (int i = 0 ; i &lt; 6 ; i++) { for (int j = 0 ; j &lt; 6 ; j++) { if (i == j) continue; for (int k = 0 ; k &lt; 6 ; k++) { if (i == k || j == k) continue; String horizontalWord1 = words.get(i); String horizontalWord2 = words.get(j); String horizontalWord3 = words.get(k); // 만든 단어 Map&lt;String, Integer&gt; used = new HashMap&lt;&gt;(); int putCount = 0; // 세로 줄 단어 생성 for (int l = 0 ; l &lt; 3 ; l++) { String verticalWord = "" + horizontalWord1.charAt(l) + horizontalWord2.charAt(l) + horizontalWord3.charAt(l); // 세로단어가 존재하지 않는 단어면 통과 if (!words.contains(verticalWord)) break; used.put(verticalWord, used.getOrDefault(verticalWord, 0) + 1); putCount++; } // 3번 안넣었으면 굳이 더 볼 필요 없음 if (putCount &lt; 3) continue; } } } 2. 단어가 모이면 비교 입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다. 입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고 세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다. List&lt;String&gt; words = new ArrayList&lt;&gt;(); // 비교 시 중복때문에 Set을 못써서 Map 사용 Map&lt;String, Integer&gt; count = new HashMap&lt;&gt;(); for (int i = 0 ; i &lt; 6 ; i++) { String word = br.readLine(); words.add(word); count.put(word, count.getOrDefault(word, 0) + 1); } // ... 중략 ... boolean valid = true; // 비교 for (Map.Entry&lt;String, Integer&gt; entry : used.entrySet()) { if (entry.getValue() != count.get(entry.getKey())) { valid = false; break; } } if (valid) { result = true; bw.write(horizontalWord1); bw.write("\n"); bw.write(horizontalWord2); bw.write("\n"); bw.write(horizontalWord3); break exit; } 채점 반성 입력이 너무 적어서 아무 의미 없겠지만 생각해보자. 이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지? 가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나? 그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가… 이거 굉장히 곤란한 문제가 될 수 있겠다. 에잇 끔찍한 소리 치워 꼴도 보기 싫어 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">4676번 Haiku Review</title><link href="https://movingwoo.com/random-solve/python/2025/06/04/4676.html" rel="alternate" type="text/html" title="4676번 Haiku Review" /><published>2025-06-04T05:00:00+00:00</published><updated>2025-06-04T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/06/04/4676</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/06/04/4676.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -1315,154 +1448,4 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-30-21308.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 21308번 Ternary Machine - 백준 번역 롱——문제 3진수 프로그램을 해석하고 실행하는 인터프리터를 구현해야한다. 명령어는 고정된 형식이 존재하며 표를 참조한다. 올바르지 않은 입력에 대해서는 런타임에러를 출력하는데, 실행되지 않는 오류는 무시한다. 프로그램은 최대 8192자이며 입력이 필요한 경우 충분한 입력이 반드시 주어진다. 설계 구현문제로 보이는데 생각할 부분이 다소 많아보인다. 명령어 해석을 빠르게 처리해야하고 스택과 힙을 구현해야하겠고 예외처리도 해야하고… 주어진 것부터 묵묵히 하다보면 풀리겠지?? 구현 1. 입출력과 기본함수 입력은 한번에 받아서 버퍼로 저장해둔다. 필요하면 버퍼에 하나씩 꺼내 쓰도록 하고 출력은 모아뒀다가 한번에 한다. 오류 출력시에는 기존 프로그램이 생성한 출력은 먼저 출력해야하는 것에 주의 isError = False # 입력 버퍼 탐색 인덱스 buffer_index = 0 # 프로그램 탐색 인덱스 program_index = 0 # 명령어 사전 opcodes = [ # 4자리 명령부터 판단 # CODE | PARAM | DESCRIPTION ("1000", None, "ADD"), ("1001", None, "SUB"), ("1002", None, "MUL"), ("1010", None, "DIV"), ("1011", None, "MOD"), ("1200", None, "PRINT_CHAR"), ("1201", None, "PRINT_NUM"), ("1210", None, "READ_CHAR"), ("1211", None, "READ_NUM"), ("000", "number", "PUSH_POS"), ("001", "number", "PUSH_NEG"), ("020", None, "DUP"), ("021", None, "SWAP"), ("022", None, "DROP"), ("110", None, "STORE"), ("111", None, "LOAD"), ("200", "label", "LABEL"), ("201", "label", "CALL"), ("202", "label", "JUMP"), ("210", "label", "JUMP_IF_ZERO"), ("211", "label", "JUMP_IF_NEG"), ("212", None, "RETURN"), ("222", None, "HALT"), ] stack = [] heap = {} # 복귀 주소 스택 call_stack = [] # CALL, JUMP 등을 처리하기 위해 label 위치를 미리 매핑해야함 labels = {} # 출력은 리스트에 모아두었다가 한 번에 출력 output = [] print(''.join(output), end='') if isError: print("RUN-TIME ERROR", end='') 한자리 숫자, 문자를 읽는 함수, 라벨을 읽는 함수, 프로그램 내 숫자를 읽는 함수가 필요하다. 스택에 넣는 부분이 많아서 그부분도 따로 함수로 뺀다. # 버퍼에서 숫자 하나 읽어오는 함수 def read_number(): global buffer_index, isError # 입력에 공백이 주어지나?? while buffer_index &lt; len(input_buffer) and input_buffer[buffer_index].isspace(): buffer_index += 1 if buffer_index &gt;= len(input_buffer): isError = True return 0 start = buffer_index # 입력 값이 음수일 수 있음 if input_buffer[buffer_index] == '-': buffer_index += 1 while buffer_index &lt; len(input_buffer) and input_buffer[buffer_index].isdigit(): buffer_index += 1 if start == buffer_index or (input_buffer[start] == '-' and buffer_index == start + 1): isError = True return 0 return int(''.join(input_buffer[start:buffer_index])) # 버퍼에서 문자 하나 읽어오는 함수 def read_char(): global buffer_index, isError if buffer_index &gt;= len(input_buffer): isError = True return 0 ch = input_buffer[buffer_index] buffer_index += 1 return ord(ch) # 프로그램에서 2로 끝나는 레이블을 읽어오는 함수 def read_label(): global program_index, isError start = program_index while program_index &lt; len(program): trit = program[program_index] if trit == '2': label = program[start:program_index] program_index += 1 return label elif trit not in '01': isError = True return None program_index += 1 isError = True return None # 프로그램 내의 숫자 파싱하는 함수 def parse_number_program(): global program_index, isError bits = [] count = 0 while program_index &lt; len(program): trit = program[program_index] if trit == '0' or trit == '1': bits.append(trit) program_index += 1 count += 1 if count &gt; 31: isError = True return 0 elif trit == '2': program_index += 1 if not bits: isError = True return 0 return int(''.join(bits), 2) else: isError = True return 0 isError = True return 0 # 스택에 넣는 함수 def push_stack(value): global stack, isError if len(stack) &gt;= 1024: isError = True return stack.append(value) # 콜스택에 넣는 함수 def push_call_stack(value): global call_stack, isError # 서브루틴도 1024 체크 필요 if len(call_stack) &gt;= 1024: isError = True return call_stack.append(value) 2. 레이블 스캔 함수 CALL이나 JUMP 명령 시 어디로 가야하는가? 그것을 미리 알기위해 레이블 스캔을 미리 진행한다. 실행 시 찾으려면 비효율적일 것 같아서리 섣불리 에러처리 해버리면 에러 전까지의 프로그램 아웃풋이 없으므로 주의해야한다. # label 스캔하는 함수 def scan_labels(): global labels, isError scan_index = 0 while scan_index &lt; len(program): # 트릿이 아니면 스캔 종료 if program[scan_index] not in '012': break matched = False for code, param, description in opcodes: if program.startswith(code, scan_index): scan_index += len(code) matched = True # HALT 이후까지 스캔하면 불필요한 오류 발생 가능 if description == "HALT": # return 해버리니 뒤쪽 레이블이 등록안됨... break elif description == "LABEL": # label 읽기 start = scan_index while scan_index &lt; len(program): trit = program[scan_index] if trit == '2': label = program[start:scan_index] scan_index += 1 if not label or any(c not in '01' for c in label): isError = True return if label in labels: # 같은 위치에 중복된 레이블이면 허용 if labels[label] != scan_index: isError = True return else: # label 다음 위치 labels[label] = scan_index break elif trit not in '01': isError = True return scan_index += 1 else: # 끝까지 2를 못 만남 isError = True return # 숫자 건너뛰기 elif param == "number": count = 0 while scan_index &lt; len(program): trit = program[scan_index] scan_index += 1 if trit == '2': break elif trit not in '01': isError = True return count += 1 if count &gt; 31: isError = True return # 레이블 건너뛰기 elif param == "label": while scan_index &lt; len(program): trit = program[scan_index] scan_index += 1 if trit == '2': break elif trit not in '01': isError = True return # param 없는 경우 break if not matched: isError = True break return 3. 메인 루프 명령어 조건에 맞춰 메인 루프 작성 가장 단순하고 가장 별거없고 가장 노가다 구간 # 본 로직 while program_index &lt; len(program) and not isError and not halted: matched = False for code, param, description in opcodes: if program.startswith(code, program_index): program_index += len(code) matched = True # 분기 시작 # ... 중략 ... if not matched: # 남은 코드가 공백이거나 무의미하면 무시하고 종료 if program_index &gt;= len(program): break else: isError = True break 채점 반성 하필 또 파이썬이라 푸는데 엄청 오래 걸린 문제 구현만 잘하면 문제없을 줄 알았는데 생각보다 오류가 엄청났다. 레이블 스캔하는 부분에서 뜻대로 잘 동작하지 않아서 결과가 자꾸 틀어짐… PyPy는 JIT 컴파일러가 있어서 더 빠르다고해서 Python3와 PyPy3 두개로 제출했다. 생각보다 시간 차이가 안나는데, 메모리는 당연히 PyPy3가 많이 쓸거고 속도는 연산자체가 그리 많은 문제가 아니라 큰 차이 안나는 것으로 보인다. 제한시간 빡빡한 문제에서 다시 한 번 비교해봐야할 듯 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">11982번 Angry Cows (Gold)</title><link href="https://movingwoo.com/random-solve/java/2025/05/28/11982.html" rel="alternate" type="text/html" title="11982번 Angry Cows (Gold)" /><published>2025-05-28T08:00:00+00:00</published><updated>2025-05-28T08:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/28/11982</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/28/11982.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/11982">11982번 Angry Cows (Gold) - 백준</a></p>
-
-<blockquote>
-  <h4 id="번역">번역</h4>
-  <hr />
-</blockquote>
-
-<p>오 뭔가 재밌어보이는 문제</p>
-
-<p>‘Angry Cows’ 라는 게임이 있다.<br />
-소를 쏴서 건초더미를 폭발시키는 게임이다.</p>
-
-<p>R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고<br />
-폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다.<br />
-R이 0이 될 때까지 폭발이 계속된다.<br />
-이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>예체 출력이 실수형이라 골치가 아픈데…</p>
-
-<p>1차 시도) 
-우선 건초더미를 정렬해 이진탐색<br />
-실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다.<br />
-솔직히 시간초과 날 것 같았음</p>
-
-<p>2차 시도)
-문제 알고리즘 분류대로 DP 활용<br />
-소숫점 계산을 위해 <span style="color: orange;"><strong>2배 스케일링</strong></span> 후 <span style="color: orange;"><strong>DP</strong></span>로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고<br />
-<span style="color: orange;"><strong>두 포인터</strong></span>로 구간 분할해 최소 반경을 구한다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-건초-배열-dp-배열">1. 건초 배열, DP 배열</h5>
-
-<p>2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-<span class="kt">long</span><span class="o">[]</span> <span class="n">hayBales</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
-
-<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-	<span class="c1">// 소숫점 처리를 위해 2배 스케일링 </span>
-	<span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">*</span> <span class="mi">2</span><span class="o">;</span>
-<span class="o">}</span>
-
-<span class="c1">// 오름차순</span>
-<span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">hayBales</span><span class="o">);</span>
-
-<span class="kt">long</span><span class="o">[]</span> <span class="n">leftDP</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
-<span class="kt">long</span><span class="o">[]</span> <span class="n">rightDP</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">long</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
-<span class="c1">// 큰 값으로 초기화 (2 더하면 오버플로우남)</span>
-<span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">leftDP</span><span class="o">,</span> <span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>
-<span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">rightDP</span><span class="o">,</span> <span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>
-</code></pre></div></div>
-
-<h5 id="2-dp">2. DP</h5>
-
-<p>2배 스케일링되어 있기 때문에 2씩 조절해야한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 2배 스케일링해서 2씩 조절함</span>
-<span class="c1">// 왼쪽 전파 DP</span>
-<span class="n">leftDP</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">;</span>  
-<span class="kt">int</span> <span class="n">last</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-	<span class="c1">// last를 오른쪽으로 밀며 폭발이 닿을 때까지</span>
-	<span class="k">while</span> <span class="o">(</span><span class="n">last</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">leftDP</span><span class="o">[</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">last</span><span class="o">++;</span>
-	<span class="o">}</span>
-	<span class="c1">// hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽</span>
-	<span class="n">leftDP</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">],</span> <span class="n">leftDP</span><span class="o">[</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="c1">// 오른쪽 전파 DP</span>
-<span class="n">rightDP</span><span class="o">[</span><span class="no">N</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">;</span>
-<span class="n">last</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
-<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">2</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
-	<span class="c1">// 왼쪽으로 밀며 체크</span>
-	<span class="k">while</span> <span class="o">(</span><span class="n">last</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">last</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">last</span><span class="o">--;</span>
-	<span class="o">}</span>
-	
-	<span class="c1">// 한 단계 줄인 값과 비교</span>
-	<span class="n">rightDP</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">hayBales</span><span class="o">[</span><span class="n">last</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">last</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h5 id="3-두-포인터">3. 두 포인터</h5>
-
-<p>구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음</span>
-<span class="kt">long</span> <span class="n">best</span> <span class="o">=</span> <span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
-
-<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
-<span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
-	<span class="c1">// i~j 구간의 가운데와 전파에 필요한 직경 비교</span>
-	<span class="kt">long</span> <span class="n">need</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">((</span><span class="n">hayBales</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">-</span> <span class="n">hayBales</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">/</span> <span class="mi">2</span><span class="o">,</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">leftDP</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">j</span><span class="o">])</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
-	<span class="n">best</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">best</span><span class="o">,</span> <span class="n">need</span><span class="o">);</span>
-
-	<span class="c1">// 어느 쪽 DP가 더 작은가에 따라 포인터 이동</span>
-	<span class="k">if</span> <span class="o">(</span><span class="n">leftDP</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">rightDP</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">])</span> <span class="o">{</span>
-		<span class="n">i</span><span class="o">++;</span>
-	<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-		<span class="n">j</span><span class="o">--;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-
-<span class="c1">// 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">best</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%d.0\n"</span><span class="o">,</span> <span class="n">best</span><span class="o">/</span><span class="mi">2</span><span class="o">)</span> <span class="o">:</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%d.5\n"</span><span class="o">,</span> <span class="n">best</span><span class="o">/</span><span class="mi">2</span><span class="o">));</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-28-11982/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다.<br />
-번역해보니 문제가 다르더라… 날먹 실패<br />
-다음에 언젠가 걸리면 풀겠지 뭐</p>
-
-<p>항상 고급문제를 풀면 시간초과가 걸리적거린다.<br />
-가장 효율적인 방안을 바로 찾기가 쉽지 않다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-28-11982.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 11982번 Angry Cows (Gold) - 백준 번역 오 뭔가 재밌어보이는 문제 ‘Angry Cows’ 라는 게임이 있다. 소를 쏴서 건초더미를 폭발시키는 게임이다. R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고 폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다. R이 0이 될 때까지 폭발이 계속된다. 이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오. 설계 예체 출력이 실수형이라 골치가 아픈데… 1차 시도) 우선 건초더미를 정렬해 이진탐색 실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다. 솔직히 시간초과 날 것 같았음 2차 시도) 문제 알고리즘 분류대로 DP 활용 소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고 두 포인터로 구간 분할해 최소 반경을 구한다. 구현 1. 건초 배열, DP 배열 2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다. int N = Integer.parseInt(br.readLine()); long[] hayBales = new long[N]; for (int i = 0; i &lt; N; i++) { // 소숫점 처리를 위해 2배 스케일링 hayBales[i] = Long.parseLong(br.readLine()) * 2; } // 오름차순 Arrays.sort(hayBales); long[] leftDP = new long[N]; long[] rightDP = new long[N]; // 큰 값으로 초기화 (2 더하면 오버플로우남) Arrays.fill(leftDP, Long.MAX_VALUE - 2); Arrays.fill(rightDP, Long.MAX_VALUE - 2); 2. DP 2배 스케일링되어 있기 때문에 2씩 조절해야한다. // 2배 스케일링해서 2씩 조절함 // 왼쪽 전파 DP leftDP[0] = -2; int last = 0; for (int i = 1; i &lt; N; i++) { // last를 오른쪽으로 밀며 폭발이 닿을 때까지 while (last + 1 &lt; i &amp;&amp; hayBales[i] - hayBales[last+1] &gt; leftDP[last+1] + 2) { last++; } // hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽 leftDP[i] = Math.min(hayBales[i] - hayBales[last], leftDP[last+1] + 2); } // 오른쪽 전파 DP rightDP[N-1] = -2; last = N - 1; for (int i = N - 2; i &gt;= 0; i--) { // 왼쪽으로 밀며 체크 while (last - 1 &gt; i &amp;&amp; hayBales[last-1] - hayBales[i] &gt; rightDP[last-1] + 2) { last--; } // 한 단계 줄인 값과 비교 rightDP[i] = Math.min(hayBales[last] - hayBales[i], rightDP[last-1] + 2); } 3. 두 포인터 구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다. // 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음 long best = Long.MAX_VALUE; int i = 0; int j = N - 1; while (i &lt; j) { // i~j 구간의 가운데와 전파에 필요한 직경 비교 long need = Math.max((hayBales[j] - hayBales[i]) / 2, Math.max(leftDP[i], rightDP[j]) + 2); best = Math.min(best, need); // 어느 쪽 DP가 더 작은가에 따라 포인터 이동 if (leftDP[i+1] &lt; rightDP[j-1]) { i++; } else { j--; } } // 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기 bw.write(best % 2 == 0 ? String.format("%d.0\n", best/2) : String.format("%d.5\n", best/2)); bw.flush(); 채점 반성 코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다. 번역해보니 문제가 다르더라… 날먹 실패 다음에 언젠가 걸리면 풀겠지 뭐 항상 고급문제를 풀면 시간초과가 걸리적거린다. 가장 효율적인 방안을 바로 찾기가 쉽지 않다. 코드 확인 Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-30-21308.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 21308번 Ternary Machine - 백준 번역 롱——문제 3진수 프로그램을 해석하고 실행하는 인터프리터를 구현해야한다. 명령어는 고정된 형식이 존재하며 표를 참조한다. 올바르지 않은 입력에 대해서는 런타임에러를 출력하는데, 실행되지 않는 오류는 무시한다. 프로그램은 최대 8192자이며 입력이 필요한 경우 충분한 입력이 반드시 주어진다. 설계 구현문제로 보이는데 생각할 부분이 다소 많아보인다. 명령어 해석을 빠르게 처리해야하고 스택과 힙을 구현해야하겠고 예외처리도 해야하고… 주어진 것부터 묵묵히 하다보면 풀리겠지?? 구현 1. 입출력과 기본함수 입력은 한번에 받아서 버퍼로 저장해둔다. 필요하면 버퍼에 하나씩 꺼내 쓰도록 하고 출력은 모아뒀다가 한번에 한다. 오류 출력시에는 기존 프로그램이 생성한 출력은 먼저 출력해야하는 것에 주의 isError = False # 입력 버퍼 탐색 인덱스 buffer_index = 0 # 프로그램 탐색 인덱스 program_index = 0 # 명령어 사전 opcodes = [ # 4자리 명령부터 판단 # CODE | PARAM | DESCRIPTION ("1000", None, "ADD"), ("1001", None, "SUB"), ("1002", None, "MUL"), ("1010", None, "DIV"), ("1011", None, "MOD"), ("1200", None, "PRINT_CHAR"), ("1201", None, "PRINT_NUM"), ("1210", None, "READ_CHAR"), ("1211", None, "READ_NUM"), ("000", "number", "PUSH_POS"), ("001", "number", "PUSH_NEG"), ("020", None, "DUP"), ("021", None, "SWAP"), ("022", None, "DROP"), ("110", None, "STORE"), ("111", None, "LOAD"), ("200", "label", "LABEL"), ("201", "label", "CALL"), ("202", "label", "JUMP"), ("210", "label", "JUMP_IF_ZERO"), ("211", "label", "JUMP_IF_NEG"), ("212", None, "RETURN"), ("222", None, "HALT"), ] stack = [] heap = {} # 복귀 주소 스택 call_stack = [] # CALL, JUMP 등을 처리하기 위해 label 위치를 미리 매핑해야함 labels = {} # 출력은 리스트에 모아두었다가 한 번에 출력 output = [] print(''.join(output), end='') if isError: print("RUN-TIME ERROR", end='') 한자리 숫자, 문자를 읽는 함수, 라벨을 읽는 함수, 프로그램 내 숫자를 읽는 함수가 필요하다. 스택에 넣는 부분이 많아서 그부분도 따로 함수로 뺀다. # 버퍼에서 숫자 하나 읽어오는 함수 def read_number(): global buffer_index, isError # 입력에 공백이 주어지나?? while buffer_index &lt; len(input_buffer) and input_buffer[buffer_index].isspace(): buffer_index += 1 if buffer_index &gt;= len(input_buffer): isError = True return 0 start = buffer_index # 입력 값이 음수일 수 있음 if input_buffer[buffer_index] == '-': buffer_index += 1 while buffer_index &lt; len(input_buffer) and input_buffer[buffer_index].isdigit(): buffer_index += 1 if start == buffer_index or (input_buffer[start] == '-' and buffer_index == start + 1): isError = True return 0 return int(''.join(input_buffer[start:buffer_index])) # 버퍼에서 문자 하나 읽어오는 함수 def read_char(): global buffer_index, isError if buffer_index &gt;= len(input_buffer): isError = True return 0 ch = input_buffer[buffer_index] buffer_index += 1 return ord(ch) # 프로그램에서 2로 끝나는 레이블을 읽어오는 함수 def read_label(): global program_index, isError start = program_index while program_index &lt; len(program): trit = program[program_index] if trit == '2': label = program[start:program_index] program_index += 1 return label elif trit not in '01': isError = True return None program_index += 1 isError = True return None # 프로그램 내의 숫자 파싱하는 함수 def parse_number_program(): global program_index, isError bits = [] count = 0 while program_index &lt; len(program): trit = program[program_index] if trit == '0' or trit == '1': bits.append(trit) program_index += 1 count += 1 if count &gt; 31: isError = True return 0 elif trit == '2': program_index += 1 if not bits: isError = True return 0 return int(''.join(bits), 2) else: isError = True return 0 isError = True return 0 # 스택에 넣는 함수 def push_stack(value): global stack, isError if len(stack) &gt;= 1024: isError = True return stack.append(value) # 콜스택에 넣는 함수 def push_call_stack(value): global call_stack, isError # 서브루틴도 1024 체크 필요 if len(call_stack) &gt;= 1024: isError = True return call_stack.append(value) 2. 레이블 스캔 함수 CALL이나 JUMP 명령 시 어디로 가야하는가? 그것을 미리 알기위해 레이블 스캔을 미리 진행한다. 실행 시 찾으려면 비효율적일 것 같아서리 섣불리 에러처리 해버리면 에러 전까지의 프로그램 아웃풋이 없으므로 주의해야한다. # label 스캔하는 함수 def scan_labels(): global labels, isError scan_index = 0 while scan_index &lt; len(program): # 트릿이 아니면 스캔 종료 if program[scan_index] not in '012': break matched = False for code, param, description in opcodes: if program.startswith(code, scan_index): scan_index += len(code) matched = True # HALT 이후까지 스캔하면 불필요한 오류 발생 가능 if description == "HALT": # return 해버리니 뒤쪽 레이블이 등록안됨... break elif description == "LABEL": # label 읽기 start = scan_index while scan_index &lt; len(program): trit = program[scan_index] if trit == '2': label = program[start:scan_index] scan_index += 1 if not label or any(c not in '01' for c in label): isError = True return if label in labels: # 같은 위치에 중복된 레이블이면 허용 if labels[label] != scan_index: isError = True return else: # label 다음 위치 labels[label] = scan_index break elif trit not in '01': isError = True return scan_index += 1 else: # 끝까지 2를 못 만남 isError = True return # 숫자 건너뛰기 elif param == "number": count = 0 while scan_index &lt; len(program): trit = program[scan_index] scan_index += 1 if trit == '2': break elif trit not in '01': isError = True return count += 1 if count &gt; 31: isError = True return # 레이블 건너뛰기 elif param == "label": while scan_index &lt; len(program): trit = program[scan_index] scan_index += 1 if trit == '2': break elif trit not in '01': isError = True return # param 없는 경우 break if not matched: isError = True break return 3. 메인 루프 명령어 조건에 맞춰 메인 루프 작성 가장 단순하고 가장 별거없고 가장 노가다 구간 # 본 로직 while program_index &lt; len(program) and not isError and not halted: matched = False for code, param, description in opcodes: if program.startswith(code, program_index): program_index += len(code) matched = True # 분기 시작 # ... 중략 ... if not matched: # 남은 코드가 공백이거나 무의미하면 무시하고 종료 if program_index &gt;= len(program): break else: isError = True break 채점 반성 하필 또 파이썬이라 푸는데 엄청 오래 걸린 문제 구현만 잘하면 문제없을 줄 알았는데 생각보다 오류가 엄청났다. 레이블 스캔하는 부분에서 뜻대로 잘 동작하지 않아서 결과가 자꾸 틀어짐… PyPy는 JIT 컴파일러가 있어서 더 빠르다고해서 Python3와 PyPy3 두개로 제출했다. 생각보다 시간 차이가 안나는데, 메모리는 당연히 PyPy3가 많이 쓸거고 속도는 연산자체가 그리 많은 문제가 아니라 큰 차이 안나는 것으로 보인다. 제한시간 빡빡한 문제에서 다시 한 번 비교해봐야할 듯 코드 확인 Link to GitHub]]></summary></entry></feed>
