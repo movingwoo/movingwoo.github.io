@@ -214,4 +214,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/python/2025/06/04/WebP-Converter.html",
         "teaser": null
+      },{
+        "title": "4676번 Haiku Review",
+        "excerpt":"문제 4676번 Haiku Review - 백준 번역 하이쿠는 5/7/5 조의 일본 시다. 입력을 받아 하이쿠가 맞다면 Y 아니라면 잘못된 행의 숫자를 출력하시오. 설계 a, e, i, o, u, y 6개를 모음으로 치며 모음이 붙어있는 경우에는 1음절로 친다. 예제의 경우를 확인해보면 happy purple frog eating bugs in the marshes get indigestion...","categories": ["random-solve/Python/"],
+        "tags": [],
+        "url": "/random-solve/python/2025/06/04/4676.html",
+        "teaser": null
       }]

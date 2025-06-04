@@ -1,4 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-04T02:13:41+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">WebP 변환기</title><link href="https://movingwoo.com/one-pan/python/2025/06/04/WebP-Converter.html" rel="alternate" type="text/html" title="WebP 변환기" /><published>2025-06-04T02:00:00+00:00</published><updated>2025-06-04T02:00:00+00:00</updated><id>https://movingwoo.com/one-pan/python/2025/06/04/WebP%20Converter</id><content type="html" xml:base="https://movingwoo.com/one-pan/python/2025/06/04/WebP-Converter.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-04T05:01:22+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">4676번 Haiku Review</title><link href="https://movingwoo.com/random-solve/python/2025/06/04/4676.html" rel="alternate" type="text/html" title="4676번 Haiku Review" /><published>2025-06-04T05:00:00+00:00</published><updated>2025-06-04T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/06/04/4676</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/06/04/4676.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-06-04-4676/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/4676">4676번 Haiku Review - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>하이쿠는 5/7/5 조의 일본 시다.<br />
+입력을 받아 하이쿠가 맞다면 Y 아니라면 잘못된 행의 숫자를 출력하시오.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p><span style="color: orange;"><strong>a, e, i, o, u, y</strong></span> 6개를 모음으로 치며 모음이 붙어있는 경우에는 1음절로 친다.</p>
+
+<p>예제의 경우를 확인해보면<br />
+h<span style="color: orange;"><strong>a</strong></span>pp<span style="color: orange;"><strong>y</strong></span> p<span style="color: orange;"><strong>u</strong></span>rpl<span style="color: orange;"><strong>e</strong></span> fr<span style="color: orange;"><strong>o</strong></span>g<br />
+<span style="color: orange;"><strong>ea</strong></span>t<span style="color: orange;"><strong>i</strong></span>ng b<span style="color: orange;"><strong>u</strong></span>gs <span style="color: orange;"><strong>i</strong></span>n th<span style="color: orange;"><strong>e</strong></span> m<span style="color: orange;"><strong>a</strong></span>rsh<span style="color: orange;"><strong>e</strong></span>s<br />
+g<span style="color: orange;"><strong>e</strong></span>t <span style="color: orange;"><strong>i</strong></span>nd<span style="color: orange;"><strong>i</strong></span>g<span style="color: orange;"><strong>e</strong></span>sti<span style="color: orange;"><strong>o</strong></span>n</p>
+
+<p>그래서 Y로 볼 수 있다.</p>
+
+<p>아니 이거 정규식 짜면 한 방 아닌가?</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>정규식은 <span style="color: orange;"><strong>[aeiouy]+</strong></span> 을 사용한다.<br />
+aeiouy 중 하나 이상(+)의 연속된 그룹을 찾는 정규식이다.</p>
+
+<p>자동으로 찾아주니 분기만 잘 태워주면 끝</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">re</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">haikus</span> <span class="o">=</span> <span class="nf">input</span><span class="p">().</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">haikus</span> <span class="o">==</span> <span class="sh">'</span><span class="s">e/o/i</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">break</span>
+
+    <span class="n">haiku</span> <span class="o">=</span> <span class="n">haikus</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">/</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">jo</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">re</span><span class="p">.</span><span class="nf">findall</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">[aeiouy]+</span><span class="sh">'</span><span class="p">,</span> <span class="n">haiku</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">!=</span> <span class="n">jo</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            <span class="k">break</span>
+
+        <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+    <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">Y</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Python/2025-06-04-4676/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>예전에 정규식으로 XSS 방지 스크립트 짜던 기억이 떠오른다.<br />
+힘들었는데 진짜…</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-06-04-4676.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 4676번 Haiku Review - 백준 번역 하이쿠는 5/7/5 조의 일본 시다. 입력을 받아 하이쿠가 맞다면 Y 아니라면 잘못된 행의 숫자를 출력하시오. 설계 a, e, i, o, u, y 6개를 모음으로 치며 모음이 붙어있는 경우에는 1음절로 친다. 예제의 경우를 확인해보면 happy purple frog eating bugs in the marshes get indigestion 그래서 Y로 볼 수 있다. 아니 이거 정규식 짜면 한 방 아닌가? 구현 정규식은 [aeiouy]+ 을 사용한다. aeiouy 중 하나 이상(+)의 연속된 그룹을 찾는 정규식이다. 자동으로 찾아주니 분기만 잘 태워주면 끝 import re while True: haikus = input().strip() if haikus == 'e/o/i': break haiku = haikus.split('/') jo = [5, 7, 5] result = 1; for i in range(3): if len(re.findall(r'[aeiouy]+', haiku[i])) != jo[i]: print(result) break result += 1 if result == 4: print('Y') 채점 반성 예전에 정규식으로 XSS 방지 스크립트 짜던 기억이 떠오른다. 힘들었는데 진짜… 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">WebP 변환기</title><link href="https://movingwoo.com/one-pan/python/2025/06/04/WebP-Converter.html" rel="alternate" type="text/html" title="WebP 변환기" /><published>2025-06-04T02:00:00+00:00</published><updated>2025-06-04T02:00:00+00:00</updated><id>https://movingwoo.com/one-pan/python/2025/06/04/WebP%20Converter</id><content type="html" xml:base="https://movingwoo.com/one-pan/python/2025/06/04/WebP-Converter.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -1379,115 +1465,4 @@ R이 0이 될 때까지 폭발이 계속된다.<br />
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-28-11982.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 11982번 Angry Cows (Gold) - 백준 번역 오 뭔가 재밌어보이는 문제 ‘Angry Cows’ 라는 게임이 있다. 소를 쏴서 건초더미를 폭발시키는 게임이다. R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고 폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다. R이 0이 될 때까지 폭발이 계속된다. 이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오. 설계 예체 출력이 실수형이라 골치가 아픈데… 1차 시도) 우선 건초더미를 정렬해 이진탐색 실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다. 솔직히 시간초과 날 것 같았음 2차 시도) 문제 알고리즘 분류대로 DP 활용 소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고 두 포인터로 구간 분할해 최소 반경을 구한다. 구현 1. 건초 배열, DP 배열 2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다. int N = Integer.parseInt(br.readLine()); long[] hayBales = new long[N]; for (int i = 0; i &lt; N; i++) { // 소숫점 처리를 위해 2배 스케일링 hayBales[i] = Long.parseLong(br.readLine()) * 2; } // 오름차순 Arrays.sort(hayBales); long[] leftDP = new long[N]; long[] rightDP = new long[N]; // 큰 값으로 초기화 (2 더하면 오버플로우남) Arrays.fill(leftDP, Long.MAX_VALUE - 2); Arrays.fill(rightDP, Long.MAX_VALUE - 2); 2. DP 2배 스케일링되어 있기 때문에 2씩 조절해야한다. // 2배 스케일링해서 2씩 조절함 // 왼쪽 전파 DP leftDP[0] = -2; int last = 0; for (int i = 1; i &lt; N; i++) { // last를 오른쪽으로 밀며 폭발이 닿을 때까지 while (last + 1 &lt; i &amp;&amp; hayBales[i] - hayBales[last+1] &gt; leftDP[last+1] + 2) { last++; } // hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽 leftDP[i] = Math.min(hayBales[i] - hayBales[last], leftDP[last+1] + 2); } // 오른쪽 전파 DP rightDP[N-1] = -2; last = N - 1; for (int i = N - 2; i &gt;= 0; i--) { // 왼쪽으로 밀며 체크 while (last - 1 &gt; i &amp;&amp; hayBales[last-1] - hayBales[i] &gt; rightDP[last-1] + 2) { last--; } // 한 단계 줄인 값과 비교 rightDP[i] = Math.min(hayBales[last] - hayBales[i], rightDP[last-1] + 2); } 3. 두 포인터 구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다. // 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음 long best = Long.MAX_VALUE; int i = 0; int j = N - 1; while (i &lt; j) { // i~j 구간의 가운데와 전파에 필요한 직경 비교 long need = Math.max((hayBales[j] - hayBales[i]) / 2, Math.max(leftDP[i], rightDP[j]) + 2); best = Math.min(best, need); // 어느 쪽 DP가 더 작은가에 따라 포인터 이동 if (leftDP[i+1] &lt; rightDP[j-1]) { i++; } else { j--; } } // 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기 bw.write(best % 2 == 0 ? String.format("%d.0\n", best/2) : String.format("%d.5\n", best/2)); bw.flush(); 채점 반성 코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다. 번역해보니 문제가 다르더라… 날먹 실패 다음에 언젠가 걸리면 풀겠지 뭐 항상 고급문제를 풀면 시간초과가 걸리적거린다. 가장 효율적인 방안을 바로 찾기가 쉽지 않다. 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">16085번 Гэмт хэрэг</title><link href="https://movingwoo.com/random-solve/c++/2025/05/28/16085.html" rel="alternate" type="text/html" title="16085번 Гэмт хэрэг" /><published>2025-05-28T05:00:00+00:00</published><updated>2025-05-28T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/05/28/16085</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/05/28/16085.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-28-16085/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/16085">16085번 Гэмт хэрэг - 백준</a></p>
-
-<blockquote>
-  <h4 id="번역">번역</h4>
-  <hr />
-</blockquote>
-
-<p>형사가 용의자가 있을 수 있는 지역의 넓이를 계산하는 문제.</p>
-
-<p>정보가 들어온지 T초가 지났다.<br />
-차량은 오직 도로 위로만 이동하며 도로는 단 하나 존재한다.(x축)<br />
-도보로는 도로를 벗어날 수 있다.(y축)<br />
-도보로는 초당 W미터, 차를 타면 초당 C 미터 이동 가능하다.<br />
-탑승, 하차 시간은 계산하지 않음.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>단순히 원형, 캡슐형을 생각해서 계산하니 예제에 맞지 않는다.<br />
-우선 분기해야하는 부분이 C와 W 속도 차이.<br />
-차량보다 도보가 빠르면 차량을 탈 이유가 없다.<br />
-따라서 <span style="color: orange;"><strong>W가 C보다 크거나 같을 경우 도보로 가능한 원의 너비를 계산</strong></span>하면 끝.</p>
-
-<p>C가 W보다 큰게 문제인데<br />
-우선 도로를 타고 차량을 타고 이동한다.<br />
-거기서 내린 뒤 남은 시간동안 도보로 이동할 수 있다.</p>
-
-<p>도보로 이동하는 거리는 차량을 쓰는 만큼 줄어든다.<br />
-0 &lt;= x &lt;= T * C 만큼 차를 타고 이동하면 남은 시간은 T - x / C 이며<br />
-보행반경이 W * (T - x / C) 만큼 줄어든다.</p>
-
-<p>순수 도보로 그려지는 원의 경계가 더 큰 동안 원의 경계를 따르고<br />
-이후 차량-&gt;도보로 그려지는 선형구간의 넓이를 추가한다.</p>
-
-<p>도보 원의 세그먼트 면적과 차량-&gt;도보로 이어지는 선형구간을 합하고 양쪽으로 갈 수 있으니 2를 곱해서 나오는 공식은<br />
-<span style="color: orange;"><strong>2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2))</strong></span></p>
-
-<p>아 머리아파</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
-</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-
-    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
-
-    <span class="k">while</span> <span class="p">(</span><span class="n">n</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">double</span> <span class="n">T</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">C</span><span class="p">;</span>
-        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">T</span> <span class="o">&gt;&gt;</span> <span class="n">W</span> <span class="o">&gt;&gt;</span> <span class="n">C</span><span class="p">;</span>
-        <span class="kt">double</span> <span class="n">result</span><span class="p">;</span>
-
-
-        <span class="k">if</span> <span class="p">(</span><span class="n">C</span> <span class="o">&lt;=</span> <span class="n">W</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// 도보가 빠르면 원 면적 계산</span>
-            <span class="c1">// (W*T)^2 * π</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">W</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="c1">// 차량이 빠르면 공식에 대입</span>
-            <span class="c1">// 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2))</span>
-            <span class="kt">double</span> <span class="n">term1</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">W</span> <span class="o">*</span> <span class="n">asin</span><span class="p">(</span><span class="n">W</span> <span class="o">/</span> <span class="n">C</span><span class="p">);</span> <span class="c1">// W^2 * arcsin(W/C)</span>
-            <span class="kt">double</span> <span class="n">term2</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">C</span> <span class="o">*</span> <span class="n">C</span> <span class="o">-</span> <span class="n">W</span> <span class="o">*</span> <span class="n">W</span><span class="p">);</span> <span class="c1">// W * sqrt(C^2 - W^2)</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">term1</span> <span class="o">+</span> <span class="n">term2</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="c1">// 소수점 셋째 자리까지 출력</span>
-        <span class="n">printf</span><span class="p">(</span><span class="s">"%.3f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
-    <span class="p">}</span>
-    
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/C++/2025-05-28-16085/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>이딴게 왜 골드? 하고 접근했다가<br />
-예제 다틀려서 상당히 당황했다.</p>
-
-<p>세상만사 다 이유가 있지…</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-28-16085.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 16085번 Гэмт хэрэг - 백준 번역 형사가 용의자가 있을 수 있는 지역의 넓이를 계산하는 문제. 정보가 들어온지 T초가 지났다. 차량은 오직 도로 위로만 이동하며 도로는 단 하나 존재한다.(x축) 도보로는 도로를 벗어날 수 있다.(y축) 도보로는 초당 W미터, 차를 타면 초당 C 미터 이동 가능하다. 탑승, 하차 시간은 계산하지 않음. 설계 단순히 원형, 캡슐형을 생각해서 계산하니 예제에 맞지 않는다. 우선 분기해야하는 부분이 C와 W 속도 차이. 차량보다 도보가 빠르면 차량을 탈 이유가 없다. 따라서 W가 C보다 크거나 같을 경우 도보로 가능한 원의 너비를 계산하면 끝. C가 W보다 큰게 문제인데 우선 도로를 타고 차량을 타고 이동한다. 거기서 내린 뒤 남은 시간동안 도보로 이동할 수 있다. 도보로 이동하는 거리는 차량을 쓰는 만큼 줄어든다. 0 &lt;= x &lt;= T * C 만큼 차를 타고 이동하면 남은 시간은 T - x / C 이며 보행반경이 W * (T - x / C) 만큼 줄어든다. 순수 도보로 그려지는 원의 경계가 더 큰 동안 원의 경계를 따르고 이후 차량-&gt;도보로 그려지는 선형구간의 넓이를 추가한다. 도보 원의 세그먼트 면적과 차량-&gt;도보로 이어지는 선형구간을 합하고 양쪽으로 갈 수 있으니 2를 곱해서 나오는 공식은 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2)) 아 머리아파 구현 #include &lt;iostream&gt; #include &lt;cmath&gt; #include &lt;cstdio&gt; using namespace std; int main() { int n; cin &gt;&gt; n; while (n--) { double T, W, C; cin &gt;&gt; T &gt;&gt; W &gt;&gt; C; double result; if (C &lt;= W) { // 도보가 빠르면 원 면적 계산 // (W*T)^2 * π result = W * W * T * T * M_PI; } else { // 차량이 빠르면 공식에 대입 // 2 * T^2 * (W^2 * arcsin(W/C) + W * sqrt(C^2 - W^2)) double term1 = W * W * asin(W / C); // W^2 * arcsin(W/C) double term2 = W * sqrt(C * C - W * W); // W * sqrt(C^2 - W^2) result = 2.0 * T * T * (term1 + term2); } // 소수점 셋째 자리까지 출력 printf("%.3f\n", result); } return 0; } 채점 반성 이딴게 왜 골드? 하고 접근했다가 예제 다틀려서 상당히 당황했다. 세상만사 다 이유가 있지… 코드 확인 Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-28-11982.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 11982번 Angry Cows (Gold) - 백준 번역 오 뭔가 재밌어보이는 문제 ‘Angry Cows’ 라는 게임이 있다. 소를 쏴서 건초더미를 폭발시키는 게임이다. R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고 폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다. R이 0이 될 때까지 폭발이 계속된다. 이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오. 설계 예체 출력이 실수형이라 골치가 아픈데… 1차 시도) 우선 건초더미를 정렬해 이진탐색 실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다. 솔직히 시간초과 날 것 같았음 2차 시도) 문제 알고리즘 분류대로 DP 활용 소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고 두 포인터로 구간 분할해 최소 반경을 구한다. 구현 1. 건초 배열, DP 배열 2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다. int N = Integer.parseInt(br.readLine()); long[] hayBales = new long[N]; for (int i = 0; i &lt; N; i++) { // 소숫점 처리를 위해 2배 스케일링 hayBales[i] = Long.parseLong(br.readLine()) * 2; } // 오름차순 Arrays.sort(hayBales); long[] leftDP = new long[N]; long[] rightDP = new long[N]; // 큰 값으로 초기화 (2 더하면 오버플로우남) Arrays.fill(leftDP, Long.MAX_VALUE - 2); Arrays.fill(rightDP, Long.MAX_VALUE - 2); 2. DP 2배 스케일링되어 있기 때문에 2씩 조절해야한다. // 2배 스케일링해서 2씩 조절함 // 왼쪽 전파 DP leftDP[0] = -2; int last = 0; for (int i = 1; i &lt; N; i++) { // last를 오른쪽으로 밀며 폭발이 닿을 때까지 while (last + 1 &lt; i &amp;&amp; hayBales[i] - hayBales[last+1] &gt; leftDP[last+1] + 2) { last++; } // hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽 leftDP[i] = Math.min(hayBales[i] - hayBales[last], leftDP[last+1] + 2); } // 오른쪽 전파 DP rightDP[N-1] = -2; last = N - 1; for (int i = N - 2; i &gt;= 0; i--) { // 왼쪽으로 밀며 체크 while (last - 1 &gt; i &amp;&amp; hayBales[last-1] - hayBales[i] &gt; rightDP[last-1] + 2) { last--; } // 한 단계 줄인 값과 비교 rightDP[i] = Math.min(hayBales[last] - hayBales[i], rightDP[last-1] + 2); } 3. 두 포인터 구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다. // 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음 long best = Long.MAX_VALUE; int i = 0; int j = N - 1; while (i &lt; j) { // i~j 구간의 가운데와 전파에 필요한 직경 비교 long need = Math.max((hayBales[j] - hayBales[i]) / 2, Math.max(leftDP[i], rightDP[j]) + 2); best = Math.min(best, need); // 어느 쪽 DP가 더 작은가에 따라 포인터 이동 if (leftDP[i+1] &lt; rightDP[j-1]) { i++; } else { j--; } } // 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기 bw.write(best % 2 == 0 ? String.format("%d.0\n", best/2) : String.format("%d.5\n", best/2)); bw.flush(); 채점 반성 코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다. 번역해보니 문제가 다르더라… 날먹 실패 다음에 언젠가 걸리면 풀겠지 뭐 항상 고급문제를 풀면 시간초과가 걸리적거린다. 가장 효율적인 방안을 바로 찾기가 쉽지 않다. 코드 확인 Link to GitHub]]></summary></entry></feed>
