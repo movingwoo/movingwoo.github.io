@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>7106번 Wonderful Fours - 뭐라도 하겠지</title>
-<meta name="description" content="문제        7106번 Wonderful Fours - 백준     번역      브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제. 내 그지같은 파이썬 실력에 알맞은 난이도다. 찬찬히 해석해보면…  십진수 숫자 5개를 K5라 부른다. 모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다. 그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다.    4개의 5자리 자연수가 모두 적절하게 만들어짐   4개의 5자리 자연수는 모두 다른 숫자   s1 + s2 + s3 = s4   여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오.     설계      뭐 방법이 있나? 숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다. 중복 제거에만 신경쓰면 될 듯     구현      중복 제거를 고민해봤는데 처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다.  1. 입력받아 ‘적절한’ 숫자 만들기  더 똑똑하게 할 수 있지만 겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다. 중복 거르고 정렬.  K5 = input().split()  r = 0  # 적절한 숫자 생성(중복제외) all_num = set()  # 몇개 안되고 귀찮으니 5중반복문 for i in range(5):     for j in range(5):         if j == i:             continue         for k in range(5):             if k == i or k == j:                 continue             for l in range(5):                 if l == i or l == j or l == k:                     continue                 for m in range(5):                     if m == i or m == j or m == k or m == l:                         continue                     num_str = K5[i] + K5[j] + K5[k] + K5[l] + K5[m]                     if num_str[0] != &#39;0&#39;:                         all_num.add(int(num_str))  all_num = list(all_num) all_num.sort()   2. 완다풀 포 구하기  미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고 리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다.  length = len(all_num) max = all_num[length-1]  # list 순회하며 s1 + s2 + s3 = s4 조건 확인 if length &gt;= 4:      for i in range(length):         for j in range(i + 1, length):             for k in range(j + 1, length):                 s1, s2, s3 = all_num[i], all_num[j], all_num[k]                 s4 = s1 + s2 + s3                  if s4 &gt; max:                     # 최대 숫자보다 크면 탈출                     break                 if s4 in all_num:                     r+=1  print(r)      채점           반성      머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다. 이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다. 휴식이 필요한 하루다…  얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남     코드 확인      Link to GitHub">
+<!-- begin _includes/seo.html --><title>21237번 Clockwise Fence - 뭐라도 하겠지</title>
+<meta name="description" content="문제        21237번 Clockwise Fence - 백준     번역      울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오. 시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다.     설계      신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다.     구현      NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고 방향 데이터를 받아서 순회하며 신발끈 공식으로 면적을 구한다.  int N = Integer.parseInt(br.readLine()); 			 // 방향 Map&lt;Character, Integer&gt; dx = new HashMap&lt;&gt;(); dx.put(&#39;N&#39;, 0); dx.put(&#39;E&#39;, 1); dx.put(&#39;S&#39;, 0); dx.put(&#39;W&#39;, -1);  Map&lt;Character, Integer&gt; dy = new HashMap&lt;&gt;(); dy.put(&#39;N&#39;, 1); dy.put(&#39;E&#39;, 0); dy.put(&#39;S&#39;, -1); dy.put(&#39;W&#39;, 0);  while(N-- &gt; 0) { 	char[] fences = br.readLine().toCharArray(); 	 	int x = 0; 	int y = 0; 	int result = 0; 	 	for(int i = 0 ; i &lt; fences.length ; i++) { 		int nx = x + dx.get(fences[i]); 		int ny = y + dy.get(fences[i]);  		// 신발끈 공식 		result += x * ny - y * nx;  		// 이전 좌표 갱신 		x = nx; 		y = ny; 	}  	// 음수면 시계 방향 아니면 반시계 방향 	if(result &lt; 0) bw.write(&quot;CW\n&quot;); 	else bw.write(&quot;CCW\n&quot;); }      채점           반성      파이썬 하다가 자바 보니까 코드가 못났다. 점점 파이썬에 스며드는 중이다.     코드 확인      Link to GitHub">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="7106번 Wonderful Fours">
-<meta property="og:url" content="https://movingwoo.com/random-solve/python/2025/05/27/7106.html">
+<meta property="og:title" content="21237번 Clockwise Fence">
+<meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/06/10/21237.html">
 
 
-  <meta property="og:description" content="문제        7106번 Wonderful Fours - 백준     번역      브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제. 내 그지같은 파이썬 실력에 알맞은 난이도다. 찬찬히 해석해보면…  십진수 숫자 5개를 K5라 부른다. 모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다. 그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다.    4개의 5자리 자연수가 모두 적절하게 만들어짐   4개의 5자리 자연수는 모두 다른 숫자   s1 + s2 + s3 = s4   여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오.     설계      뭐 방법이 있나? 숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다. 중복 제거에만 신경쓰면 될 듯     구현      중복 제거를 고민해봤는데 처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다.  1. 입력받아 ‘적절한’ 숫자 만들기  더 똑똑하게 할 수 있지만 겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다. 중복 거르고 정렬.  K5 = input().split()  r = 0  # 적절한 숫자 생성(중복제외) all_num = set()  # 몇개 안되고 귀찮으니 5중반복문 for i in range(5):     for j in range(5):         if j == i:             continue         for k in range(5):             if k == i or k == j:                 continue             for l in range(5):                 if l == i or l == j or l == k:                     continue                 for m in range(5):                     if m == i or m == j or m == k or m == l:                         continue                     num_str = K5[i] + K5[j] + K5[k] + K5[l] + K5[m]                     if num_str[0] != &#39;0&#39;:                         all_num.add(int(num_str))  all_num = list(all_num) all_num.sort()   2. 완다풀 포 구하기  미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고 리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다.  length = len(all_num) max = all_num[length-1]  # list 순회하며 s1 + s2 + s3 = s4 조건 확인 if length &gt;= 4:      for i in range(length):         for j in range(i + 1, length):             for k in range(j + 1, length):                 s1, s2, s3 = all_num[i], all_num[j], all_num[k]                 s4 = s1 + s2 + s3                  if s4 &gt; max:                     # 최대 숫자보다 크면 탈출                     break                 if s4 in all_num:                     r+=1  print(r)      채점           반성      머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다. 이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다. 휴식이 필요한 하루다…  얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남     코드 확인      Link to GitHub">
-
-
-
+  <meta property="og:description" content="문제        21237번 Clockwise Fence - 백준     번역      울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오. 시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다.     설계      신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다.     구현      NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고 방향 데이터를 받아서 순회하며 신발끈 공식으로 면적을 구한다.  int N = Integer.parseInt(br.readLine()); 			 // 방향 Map&lt;Character, Integer&gt; dx = new HashMap&lt;&gt;(); dx.put(&#39;N&#39;, 0); dx.put(&#39;E&#39;, 1); dx.put(&#39;S&#39;, 0); dx.put(&#39;W&#39;, -1);  Map&lt;Character, Integer&gt; dy = new HashMap&lt;&gt;(); dy.put(&#39;N&#39;, 1); dy.put(&#39;E&#39;, 0); dy.put(&#39;S&#39;, -1); dy.put(&#39;W&#39;, 0);  while(N-- &gt; 0) { 	char[] fences = br.readLine().toCharArray(); 	 	int x = 0; 	int y = 0; 	int result = 0; 	 	for(int i = 0 ; i &lt; fences.length ; i++) { 		int nx = x + dx.get(fences[i]); 		int ny = y + dy.get(fences[i]);  		// 신발끈 공식 		result += x * ny - y * nx;  		// 이전 좌표 갱신 		x = nx; 		y = ny; 	}  	// 음수면 시계 방향 아니면 반시계 방향 	if(result &lt; 0) bw.write(&quot;CW\n&quot;); 	else bw.write(&quot;CCW\n&quot;); }      채점           반성      파이썬 하다가 자바 보니까 코드가 못났다. 점점 파이썬에 스며드는 중이다.     코드 확인      Link to GitHub">
 
 
 
 
-  <meta property="article:published_time" content="2025-05-27T07:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-05-27T07:00:00+00:00">
+  <meta property="article:published_time" content="2025-06-10T01:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-06-10T01:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/random-solve/python/2025/05/27/7106.html">
+<link rel="canonical" href="https://movingwoo.com/random-solve/java/2025/06/10/21237.html">
 
 
 
@@ -1154,10 +1154,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="7106번 Wonderful Fours">
-      <meta itemprop="description" content="  문제  7106번 Wonderful Fours - 백준  번역  브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제.내 그지같은 파이썬 실력에 알맞은 난이도다.찬찬히 해석해보면…십진수 숫자 5개를 K5라 부른다.모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다.그리고 아래 내용이 모두 참일 경우 완다풀 포가 된다.  4개의 5자리 자연수가 모두 적절하게 만들어짐  4개의 5자리 자연수는 모두 다른 숫자  s1 + s2 + s3 = s4여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오.  설계  뭐 방법이 있나?숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다.중복 제거에만 신경쓰면 될 듯  구현  중복 제거를 고민해봤는데처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다.1. 입력받아 ‘적절한’ 숫자 만들기더 똑똑하게 할 수 있지만겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다.중복 거르고 정렬.K5 = input().split()r = 0# 적절한 숫자 생성(중복제외)all_num = set()# 몇개 안되고 귀찮으니 5중반복문for i in range(5):    for j in range(5):        if j == i:            continue        for k in range(5):            if k == i or k == j:                continue            for l in range(5):                if l == i or l == j or l == k:                    continue                for m in range(5):                    if m == i or m == j or m == k or m == l:                        continue                    num_str = K5[i] + K5[j] + K5[k] + K5[l] + K5[m]                    if num_str[0] != &#39;0&#39;:                        all_num.add(int(num_str))all_num = list(all_num)all_num.sort()2. 완다풀 포 구하기미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다.length = len(all_num)max = all_num[length-1]# list 순회하며 s1 + s2 + s3 = s4 조건 확인if length &gt;= 4:    for i in range(length):        for j in range(i + 1, length):            for k in range(j + 1, length):                s1, s2, s3 = all_num[i], all_num[j], all_num[k]                s4 = s1 + s2 + s3                if s4 &gt; max:                    # 최대 숫자보다 크면 탈출                    break                if s4 in all_num:                    r+=1print(r)  채점    반성  머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다.이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다.휴식이 필요한 하루다…얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남  코드 확인  Link to GitHub">
-      <meta itemprop="datePublished" content="2025-05-27T07:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-05-27T07:00:00+00:00">
+      <meta itemprop="headline" content="21237번 Clockwise Fence">
+      <meta itemprop="description" content="  문제  21237번 Clockwise Fence - 백준  번역  울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오.시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다.  설계  신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다.  구현  NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고방향 데이터를 받아서 순회하며 신발끈 공식으로 면적을 구한다.int N = Integer.parseInt(br.readLine());			// 방향Map&lt;Character, Integer&gt; dx = new HashMap&lt;&gt;();dx.put(&#39;N&#39;, 0);dx.put(&#39;E&#39;, 1);dx.put(&#39;S&#39;, 0);dx.put(&#39;W&#39;, -1);Map&lt;Character, Integer&gt; dy = new HashMap&lt;&gt;();dy.put(&#39;N&#39;, 1);dy.put(&#39;E&#39;, 0);dy.put(&#39;S&#39;, -1);dy.put(&#39;W&#39;, 0);while(N-- &gt; 0) {	char[] fences = br.readLine().toCharArray();		int x = 0;	int y = 0;	int result = 0;		for(int i = 0 ; i &lt; fences.length ; i++) {		int nx = x + dx.get(fences[i]);		int ny = y + dy.get(fences[i]);		// 신발끈 공식		result += x * ny - y * nx;		// 이전 좌표 갱신		x = nx;		y = ny;	}	// 음수면 시계 방향 아니면 반시계 방향	if(result &lt; 0) bw.write(&quot;CW\n&quot;);	else bw.write(&quot;CCW\n&quot;);}  채점    반성  파이썬 하다가 자바 보니까 코드가 못났다.점점 파이썬에 스며드는 중이다.  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-06-10T01:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-10T01:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1178,18 +1178,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
       <span class="separator">/</span>
       
-      <a href="/board?path=random-solve%2FPython" class="category-link">
-        Python
+      <a href="/board?path=random-solve%2FJava" class="category-link">
+        Java
       </a>
       
     
   </div>
-  <a href="/board?path=random-solve%2FPython%2F" class="category-icon" title="리스트">
+  <a href="/board?path=random-solve%2FJava%2F" class="category-icon" title="리스트">
     <i class="fas fa-list-ul" aria-hidden="true"></i>
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">7106번 Wonderful Fours
+            <h1 id="page-title" class="page__title" itemprop="headline">21237번 Clockwise Fence
 </h1>
             
 
@@ -1203,106 +1203,71 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-27-7106/img01.webp" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-10-21237/img01.webp" alt="img01" /></p>
 
-<p><a href="https://www.acmicpc.net/problem/7106">7106번 Wonderful Fours - 백준</a></p>
+<p><a href="https://www.acmicpc.net/problem/21237">21237번 Clockwise Fence - 백준</a></p>
 
 <blockquote>
   <h4 id="번역">번역</h4>
   <hr />
 </blockquote>
 
-<p>브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제.<br />
-내 그지같은 파이썬 실력에 알맞은 난이도다.<br />
-찬찬히 해석해보면…</p>
-
-<p>십진수 숫자 5개를 K5라 부른다.<br />
-모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 <span style="color: orange;"><strong>‘적절히’</strong></span> 만들어진 것이다.<br />
-그리고 아래 내용이 모두 참일 경우 <span style="color: orange;"><strong>완다풀 포</strong></span>가 된다.</p>
-<ul>
-  <li>4개의 5자리 자연수가 모두 적절하게 만들어짐</li>
-  <li>4개의 5자리 자연수는 모두 다른 숫자</li>
-  <li>s1 + s2 + s3 = s4</li>
-</ul>
-
-<p>여기서 주어진 K5로 몇 개의 서로 다른 완다풀 포를 만들 수 있는지 계산하시오.</p>
+<p>울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오.<br />
+시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다.</p>
 
 <blockquote>
   <h4 id="설계">설계</h4>
   <hr />
 </blockquote>
 
-<p>뭐 방법이 있나?<br />
-숫자 크기도 작고 그냥 세개 뽑아서 합해서 찾아보면 되겠다.<br />
-중복 제거에만 신경쓰면 될 듯</p>
+<p>신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다.</p>
 
 <blockquote>
   <h4 id="구현">구현</h4>
   <hr />
 </blockquote>
 
-<p>중복 제거를 고민해봤는데<br />
-처음부터 ‘적절한’ 숫자를 만들며 중복되는걸 날려버리면 끝이다.</p>
+<p>NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고<br />
+방향 데이터를 받아서 순회하며 신발끈 공식으로 면적을 구한다.</p>
 
-<h5 id="1-입력받아-적절한-숫자-만들기">1. 입력받아 ‘적절한’ 숫자 만들기</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+			
+<span class="c1">// 방향</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">dx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'N'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'E'</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'S'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'W'</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
 
-<p>더 똑똑하게 할 수 있지만<br />
-겨우 숫자 다섯개로 하는거니 5중 나생문을 쌓았다.<br />
-중복 거르고 정렬.</p>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">dy</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'N'</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'E'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'S'</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'W'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">K5</span> <span class="o">=</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()</span>
+<span class="k">while</span><span class="o">(</span><span class="no">N</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kt">char</span><span class="o">[]</span> <span class="n">fences</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">();</span>
+	
+	<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	
+	<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fences</span><span class="o">.</span><span class="na">length</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fences</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+		<span class="kt">int</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fences</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="c1">// 신발끈 공식</span>
+		<span class="n">result</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">ny</span> <span class="o">-</span> <span class="n">y</span> <span class="o">*</span> <span class="n">nx</span><span class="o">;</span>
 
-<span class="c1"># 적절한 숫자 생성(중복제외)
-</span><span class="n">all_num</span> <span class="o">=</span> <span class="nf">set</span><span class="p">()</span>
+		<span class="c1">// 이전 좌표 갱신</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">nx</span><span class="o">;</span>
+		<span class="n">y</span> <span class="o">=</span> <span class="n">ny</span><span class="o">;</span>
+	<span class="o">}</span>
 
-<span class="c1"># 몇개 안되고 귀찮으니 5중반복문
-</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">k</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">==</span> <span class="n">j</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">==</span> <span class="n">j</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">==</span> <span class="n">k</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">==</span> <span class="n">l</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                    <span class="n">num_str</span> <span class="o">=</span> <span class="n">K5</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">K5</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">K5</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">K5</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">+</span> <span class="n">K5</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="n">num_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="sh">'</span><span class="s">0</span><span class="sh">'</span><span class="p">:</span>
-                        <span class="n">all_num</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nf">int</span><span class="p">(</span><span class="n">num_str</span><span class="p">))</span>
-
-<span class="n">all_num</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">all_num</span><span class="p">)</span>
-<span class="n">all_num</span><span class="p">.</span><span class="nf">sort</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h5 id="2-완다풀-포-구하기">2. 완다풀 포 구하기</h5>
-
-<p>미리 중복 거르고 정렬해놔서 중복체크는 할 필요 없고<br />
-리스트의 최대값보다 합이 커지면 더 탐색할 필요없이 break 한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">length</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">all_num</span><span class="p">)</span>
-<span class="nb">max</span> <span class="o">=</span> <span class="n">all_num</span><span class="p">[</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="c1"># list 순회하며 s1 + s2 + s3 = s4 조건 확인
-</span><span class="k">if</span> <span class="n">length</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
-                <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s3</span> <span class="o">=</span> <span class="n">all_num</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">all_num</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">all_num</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                <span class="n">s4</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span> <span class="o">+</span> <span class="n">s3</span>
-
-                <span class="k">if</span> <span class="n">s4</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">:</span>
-                    <span class="c1"># 최대 숫자보다 크면 탈출
-</span>                    <span class="k">break</span>
-                <span class="k">if</span> <span class="n">s4</span> <span class="ow">in</span> <span class="n">all_num</span><span class="p">:</span>
-                    <span class="n">r</span><span class="o">+=</span><span class="mi">1</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+	<span class="c1">// 음수면 시계 방향 아니면 반시계 방향</span>
+	<span class="k">if</span><span class="o">(</span><span class="n">result</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"CW\n"</span><span class="o">);</span>
+	<span class="k">else</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"CCW\n"</span><span class="o">);</span>
+<span class="o">}</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -1310,25 +1275,23 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-27-7106/img02.webp" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-10-21237/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
   <hr />
 </blockquote>
 
-<p>머리아파서 뇌비우고 하다가 그래도 더 잘할 수 있지 않나? 하는 마음에 탈출코드 추가해서 시간을 줄였다.<br />
-이제 5중 나생문을 해체하려고 보는 순간 다시 머리가 아파서 관뒀다.<br />
-휴식이 필요한 하루다…</p>
-
-<p>얼마나 머리아프냐면 생각없이 파이썬 코드를 C++코드로 제출해서 컴파일 오류남</p>
+<p>파이썬 하다가 자바 보니까 코드가 못났다.<br />
+점점 파이썬에 스며드는 중이다.</p>
 
 <blockquote>
   <h4 id="코드-확인">코드 확인</h4>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-27-7106.py">Link to GitHub</a></p>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-10-21237.java">Link to GitHub</a></p>
+
 
           
         </section>
@@ -1337,7 +1300,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-27">May 27, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-10">June 10, 2025</time></p>
 
 
         </footer>
@@ -1352,10 +1315,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "7106번 Wonderful Fours",
-        url: "/random-solve/python/2025/05/27/7106.html",
-        date: "2025-05-27",
-        categories: ["random-solve/Python/"]
+        title: "21237번 Clockwise Fence",
+        url: "/random-solve/java/2025/06/10/21237.html",
+        date: "2025-06-10",
+        categories: ["random-solve/Java/"]
       },
       allPosts: [
         

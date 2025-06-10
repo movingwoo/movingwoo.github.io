@@ -232,4 +232,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/python/2025/06/09/Hardware-Monitor.html",
         "teaser": null
+      },{
+        "title": "21237번 Clockwise Fence",
+        "excerpt":"문제 21237번 Clockwise Fence - 백준 번역 울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오. 시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다. 설계 신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다. 구현 NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고 방향 데이터를 받아서...","categories": ["random-solve/Java/"],
+        "tags": [],
+        "url": "/random-solve/java/2025/06/10/21237.html",
+        "teaser": null
       }]

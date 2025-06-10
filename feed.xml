@@ -1,4 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-10T00:08:42+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">하드웨어 모니터</title><link href="https://movingwoo.com/one-pan/python/2025/06/09/Hardware-Monitor.html" rel="alternate" type="text/html" title="하드웨어 모니터" /><published>2025-06-09T23:00:00+00:00</published><updated>2025-06-09T23:00:00+00:00</updated><id>https://movingwoo.com/one-pan/python/2025/06/09/Hardware%20Monitor</id><content type="html" xml:base="https://movingwoo.com/one-pan/python/2025/06/09/Hardware-Monitor.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-10T01:19:01+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">21237번 Clockwise Fence</title><link href="https://movingwoo.com/random-solve/java/2025/06/10/21237.html" rel="alternate" type="text/html" title="21237번 Clockwise Fence" /><published>2025-06-10T01:00:00+00:00</published><updated>2025-06-10T01:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/06/10/21237</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/06/10/21237.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-10-21237/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/21237">21237번 Clockwise Fence - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오.<br />
+시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고<br />
+방향 데이터를 받아서 순회하며 신발끈 공식으로 면적을 구한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+			
+<span class="c1">// 방향</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">dx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'N'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'E'</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'S'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'W'</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">dy</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'N'</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'E'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'S'</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'W'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+<span class="k">while</span><span class="o">(</span><span class="no">N</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kt">char</span><span class="o">[]</span> <span class="n">fences</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">();</span>
+	
+	<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	
+	<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fences</span><span class="o">.</span><span class="na">length</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fences</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+		<span class="kt">int</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fences</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+
+		<span class="c1">// 신발끈 공식</span>
+		<span class="n">result</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">ny</span> <span class="o">-</span> <span class="n">y</span> <span class="o">*</span> <span class="n">nx</span><span class="o">;</span>
+
+		<span class="c1">// 이전 좌표 갱신</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">nx</span><span class="o">;</span>
+		<span class="n">y</span> <span class="o">=</span> <span class="n">ny</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 음수면 시계 방향 아니면 반시계 방향</span>
+	<span class="k">if</span><span class="o">(</span><span class="n">result</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"CW\n"</span><span class="o">);</span>
+	<span class="k">else</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"CCW\n"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-10-21237/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>파이썬 하다가 자바 보니까 코드가 못났다.<br />
+점점 파이썬에 스며드는 중이다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-10-21237.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 21237번 Clockwise Fence - 백준 번역 울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오. 시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다. 설계 신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다. 구현 NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고 방향 데이터를 받아서 순회하며 신발끈 공식으로 면적을 구한다. int N = Integer.parseInt(br.readLine()); // 방향 Map&lt;Character, Integer&gt; dx = new HashMap&lt;&gt;(); dx.put('N', 0); dx.put('E', 1); dx.put('S', 0); dx.put('W', -1); Map&lt;Character, Integer&gt; dy = new HashMap&lt;&gt;(); dy.put('N', 1); dy.put('E', 0); dy.put('S', -1); dy.put('W', 0); while(N-- &gt; 0) { char[] fences = br.readLine().toCharArray(); int x = 0; int y = 0; int result = 0; for(int i = 0 ; i &lt; fences.length ; i++) { int nx = x + dx.get(fences[i]); int ny = y + dy.get(fences[i]); // 신발끈 공식 result += x * ny - y * nx; // 이전 좌표 갱신 x = nx; y = ny; } // 음수면 시계 방향 아니면 반시계 방향 if(result &lt; 0) bw.write("CW\n"); else bw.write("CCW\n"); } 채점 반성 파이썬 하다가 자바 보니까 코드가 못났다. 점점 파이썬에 스며드는 중이다. 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">하드웨어 모니터</title><link href="https://movingwoo.com/one-pan/python/2025/06/09/Hardware-Monitor.html" rel="alternate" type="text/html" title="하드웨어 모니터" /><published>2025-06-09T23:00:00+00:00</published><updated>2025-06-09T23:00:00+00:00</updated><id>https://movingwoo.com/one-pan/python/2025/06/09/Hardware%20Monitor</id><content type="html" xml:base="https://movingwoo.com/one-pan/python/2025/06/09/Hardware-Monitor.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -1309,71 +1401,4 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-30-6862.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 6862번 Tin Can Telephone - 백준 번역 깡통 전화라는 문제인데 한국인에겐 종이컵 전화가 더 익숙할 듯 하다. 깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데 경로에 건물이 있거나 닿으면 안된다. 입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오. 건물 모서리는 최대 32개다. 설계 두 가지를 고려해 구현하면 될 것 같다. 전화선이 건물의 변과 교차하는 경우 전화선이 건물의 꼭지점과 접촉하는 경우 꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다. 구현 1. 건물 꼭지점 클래스와 입력받기 건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데 막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine()," "); int xR = Integer.parseInt(st.nextToken()); int yR = Integer.parseInt(st.nextToken()); int xJ = Integer.parseInt(st.nextToken()); int yJ = Integer.parseInt(st.nextToken()); int n = Integer.parseInt(br.readLine()); int count = 0; for (int i = 0 ; i &lt; n ; i++) { st = new StringTokenizer(br.readLine()," "); int length = Integer.parseInt(st.nextToken()); Vertex[] vertexes = new Vertex[length]; int j = 0; while(st.hasMoreTokens()) { int x = Integer.parseInt(st.nextToken()); int y = Integer.parseInt(st.nextToken()); vertexes[j++] = new Vertex(x, y); } } bw.write(String.valueOf(count)); bw.flush(); }catch(IOException e) { e.printStackTrace(); } } // 건물 꼭지점 클래스 static class Vertex{ int x; int y; Vertex(int x, int y){ this.x = x; this.y = y; } } 2. 함수와 메인루프 세 점의 방향성을 계산하는 Counter ClockWise 함수와 점이 선분위에 있는지 판단하는 onSegment 함수를 작성. 이후 꼭지점 수만큼 계산한다. // Counter ClockWise static long counterClockWise(int x1, int y1, int x2, int y2, int x3, int y3) { return (long)(x2 - x1) * (y3 - y1) - (long)(y2 - y1) * (x3 - x1); } // 점이 선분위에 있는지 여부 static boolean onSegment(int x1, int y1, int x2, int y2, int x3, int y3) { return Math.min(x1, x2) &lt;= x3 &amp;&amp; x3 &lt;= Math.max(x1, x2) &amp;&amp; Math.min(y1, y2) &lt;= y3 &amp;&amp; y3 &lt;= Math.max(y1, y2); } // ... 중략 ... boolean blocked = false; // 메인루프 for(int k = 0 ; k &lt; length ; k++) { // 세 점의 방향성을 확인해 선분 교차 확인 long ab1 = counterClockWise(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y); long ab2 = counterClockWise(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y); long cd1 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR); long cd2 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ); if (ab1 * ab2 &lt; 0 &amp;&amp; cd1 * cd2 &lt; 0) { blocked = true; break; } // 꼭지점 접촉 확인 if ((ab1 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y)) || (ab2 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y)) || (cd1 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR)) || (cd2 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ))) { blocked = true; break; } } if (blocked) count++; 채점 반성 왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지 정신차려라 나야 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">15654번 N과 M (5)</title><link href="https://movingwoo.com/random-solve/python/2025/05/30/15654.html" rel="alternate" type="text/html" title="15654번 N과 M (5)" /><published>2025-05-30T02:00:00+00:00</published><updated>2025-05-30T02:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/05/30/15654</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/05/30/15654.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/15654">15654번 N과 M (5) - 백준</a></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>뭐야 드디어 번역이 필요없는 문제가…</p>
-
-<p>N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다.<br />
-쉬어가는 문제로구나<br />
-백트래킹 ㄱㄱ</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>설명할게 없음</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
-
-<span class="n">numbers</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-<span class="c1"># 오름차순
-</span><span class="n">numbers</span><span class="p">.</span><span class="nf">sort</span><span class="p">()</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">visited</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="p">[</span><span class="bp">False</span><span class="p">]</span>
-
-<span class="k">def</span> <span class="nf">back_tracking</span><span class="p">(</span><span class="n">depth</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="n">M</span><span class="p">:</span>
-        <span class="c1"># M개 까지 출력
-</span>        <span class="nf">print</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="p">)</span>
-        <span class="k">return</span>
-    
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-            <span class="c1"># 방문 처리
-</span>            <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="n">result</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="nf">back_tracking</span><span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-
-            <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
-
-<span class="c1"># 재귀
-</span><span class="nf">back_tracking</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-05-30-15654/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-05-30-15654.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 15654번 N과 M (5) - 백준 설계 뭐야 드디어 번역이 필요없는 문제가… N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다. 쉬어가는 문제로구나 백트래킹 ㄱㄱ 구현 설명할게 없음 N, M = map(int, input().split()) numbers = list(map(int, input().split())) # 오름차순 numbers.sort() result = M * [0] visited = N * [False] def back_tracking(depth): if depth == M: # M개 까지 출력 print(*result, sep=' ') return for i in range(N): if not visited[i]: # 방문 처리 visited[i] = True result[depth] = numbers[i] back_tracking(depth + 1) visited[i] = False # 재귀 back_tracking(0) 채점 코드 확인 Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-30-6862.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 6862번 Tin Can Telephone - 백준 번역 깡통 전화라는 문제인데 한국인에겐 종이컵 전화가 더 익숙할 듯 하다. 깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데 경로에 건물이 있거나 닿으면 안된다. 입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오. 건물 모서리는 최대 32개다. 설계 두 가지를 고려해 구현하면 될 것 같다. 전화선이 건물의 변과 교차하는 경우 전화선이 건물의 꼭지점과 접촉하는 경우 꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다. 구현 1. 건물 꼭지점 클래스와 입력받기 건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데 막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine()," "); int xR = Integer.parseInt(st.nextToken()); int yR = Integer.parseInt(st.nextToken()); int xJ = Integer.parseInt(st.nextToken()); int yJ = Integer.parseInt(st.nextToken()); int n = Integer.parseInt(br.readLine()); int count = 0; for (int i = 0 ; i &lt; n ; i++) { st = new StringTokenizer(br.readLine()," "); int length = Integer.parseInt(st.nextToken()); Vertex[] vertexes = new Vertex[length]; int j = 0; while(st.hasMoreTokens()) { int x = Integer.parseInt(st.nextToken()); int y = Integer.parseInt(st.nextToken()); vertexes[j++] = new Vertex(x, y); } } bw.write(String.valueOf(count)); bw.flush(); }catch(IOException e) { e.printStackTrace(); } } // 건물 꼭지점 클래스 static class Vertex{ int x; int y; Vertex(int x, int y){ this.x = x; this.y = y; } } 2. 함수와 메인루프 세 점의 방향성을 계산하는 Counter ClockWise 함수와 점이 선분위에 있는지 판단하는 onSegment 함수를 작성. 이후 꼭지점 수만큼 계산한다. // Counter ClockWise static long counterClockWise(int x1, int y1, int x2, int y2, int x3, int y3) { return (long)(x2 - x1) * (y3 - y1) - (long)(y2 - y1) * (x3 - x1); } // 점이 선분위에 있는지 여부 static boolean onSegment(int x1, int y1, int x2, int y2, int x3, int y3) { return Math.min(x1, x2) &lt;= x3 &amp;&amp; x3 &lt;= Math.max(x1, x2) &amp;&amp; Math.min(y1, y2) &lt;= y3 &amp;&amp; y3 &lt;= Math.max(y1, y2); } // ... 중략 ... boolean blocked = false; // 메인루프 for(int k = 0 ; k &lt; length ; k++) { // 세 점의 방향성을 확인해 선분 교차 확인 long ab1 = counterClockWise(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y); long ab2 = counterClockWise(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y); long cd1 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR); long cd2 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ); if (ab1 * ab2 &lt; 0 &amp;&amp; cd1 * cd2 &lt; 0) { blocked = true; break; } // 꼭지점 접촉 확인 if ((ab1 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y)) || (ab2 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y)) || (cd1 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR)) || (cd2 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ))) { blocked = true; break; } } if (blocked) count++; 채점 반성 왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지 정신차려라 나야 코드 확인 Link to GitHub]]></summary></entry></feed>
