@@ -226,4 +226,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/java/2025/06/04/2784.html",
         "teaser": null
+      },{
+        "title": "하드웨어 모니터",
+        "excerpt":"개요 알리에서 3.5인치 모니터를 주웠다. 온도 체크하기가 불편해서 사봤는데 리소스 사용량도 보여주고 상당히 괜찮다. 제조사에서 드라이버를 제공해서 예쁜 테마를 가져다 그대로 쓸 수 있는데 다소 불안한 감이 있고 이런 건 또 직접해야 제맛이다. 필요없는 정보는 지우고 감성보다 기능성에 초점을 맞춘 새로운 테마를 만든다. 설계 turing-smart-screen-python 이 오픈소스 프로젝트는 소형 시스템...","categories": ["one-pan/Python/"],
+        "tags": [],
+        "url": "/one-pan/python/2025/06/09/Hardware-Monitor.html",
+        "teaser": null
       }]
