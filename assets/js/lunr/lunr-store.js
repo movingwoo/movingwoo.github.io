@@ -238,4 +238,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/java/2025/06/10/21237.html",
         "teaser": null
+      },{
+        "title": "제비 뽑기",
+        "excerpt":"개요 점심 먹고 커피를 누가 살지, 술 마시고 대표로 누가 결제할지 등 각종 내기할 때 준비물이 필요 없고 밸런스가 잘 맞는 게임은 가위바위보가 있다. 좀 더 익스트림한 경험을 원하면 사다리타기나 핀볼을 하기도 한다. 오늘은 단축어로 내기에 쓸 수 있는 제비뽑기를 만들어 볼 것이다. js를 사용하지 않으면 GUI가 극적이진 않지만 직접...","categories": ["one-pan/Shortcuts/"],
+        "tags": [],
+        "url": "/one-pan/shortcuts/2025/06/11/Drawing-Lots.html",
+        "teaser": null
       }]

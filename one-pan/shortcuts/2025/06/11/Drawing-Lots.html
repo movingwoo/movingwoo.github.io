@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>27391번 Platform Placing - 뭐라도 하겠지</title>
-<meta name="description" content="문제        27391번 Platform Placing - 백준     설계      한글 문제 언제 나오나?  플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오.  대충 그리디 알고리즘 ㄱㄱ  당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다.  해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다.     구현      1. 입력 받기  제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다.  public static void main(String[] args) {     	     	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { 	         	        StringTokenizer st = new StringTokenizer(br.readLine(), &quot; &quot;); 	        int n = Integer.parseInt(st.nextToken()); 	        int s = Integer.parseInt(st.nextToken()); 	        int k = Integer.parseInt(st.nextToken()); 	        int result = 0; 	         	        int[] platforms = new int[n]; 	        for(int i = 0 ; i &lt; n ; i++) { 	        	platforms[i] = Integer.parseInt(br.readLine()); 	        } 	        // 오름차순 	        Arrays.sort(platforms); 	         	        int[] lengths = new int[n]; 	        // 최대길이로 일단 채우고 시작 	        Arrays.fill(lengths, k); 	         	    }catch(IOException e) { 	        e.printStackTrace(); 	    }     }   2. 플랫폼 배열 탐색  플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다.  for (int i = 1 ; i &lt; n ; i++) {     int dist = platforms[i] - platforms[i - 1];     // 플랫폼이 양쪽으로 펼쳐짐     int max = 2 * dist;      // 불가능한 경우     if (max &lt; 2 * s) {         bw.write(&quot;-1&quot;);         return;     }      // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정     if (lengths[i - 1] + lengths[i] &gt; max) {         lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1]));          // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함         if (lengths[i - 1] + lengths[i] &gt; max) {             lengths[i - 1] = Math.max(s, max - lengths[i]);         }     } }  for (int length : lengths) result += length; bw.write(String.valueOf(result));      채점           반성      기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고     코드 확인      Link to GitHub">
+<!-- begin _includes/seo.html --><title>제비 뽑기 - 뭐라도 하겠지</title>
+<meta name="description" content="개요      점심 먹고 커피를 누가 살지, 술 마시고 대표로 누가 결제할지 등 각종 내기할 때 준비물이 필요 없고 밸런스가 잘 맞는 게임은 가위바위보가 있다. 좀 더 익스트림한 경험을 원하면 사다리타기나 핀볼을 하기도 한다.  오늘은 단축어로 내기에 쓸 수 있는 제비뽑기를 만들어 볼 것이다. js를 사용하지 않으면 GUI가 극적이진 않지만 직접 만들어서 사용하면 제법 재미있다.  단축어 js 연동은 다소 불편하기도 하고…     설계      입력을 받을 때 인원 수에 따라 항목은 얼마든지 늘어날 수 있게 설정해야한다.  입력 받으면 무작위 셔플 후 각각에 인덱스를 부여해 하나의 제비로 만든다. 제비 클래스를 구현할 수는 없으므로 사전을 사용하는게 좋겠다.  각 제비는 하나를 선택해 하나씩 열어볼 수 있게하고 전체를 한 번에 열어볼 수 있게도 만든다.  어떤 단축어 블럭을 사용할지 고민하는게 어렵고 로직 자체는 심플하다.     구현      1. 목록 입력받아 사전 생성  기본 값으로 당첨 하나와 꽝 2개 총 3개 항목을 설정하고 보여준다. 당첨과 꽝 문구는 변경할 수 있게 하고 항목을 추가할 수 있게 한다.  필터 블럭으로 제비를 무작위 셔플하고 목록 수 만큼 반복문을 구성한다. 3가지 작업을 하게 되는데    인덱스와 셔플된 값으로 사전 구성   목록을 선택할 수 있게 별도 인덱스 변수 구성   전체 보기 시 출력할 텍스트 변수 구성   전체 보기의 경우 뒤에서 사용하게 될건데 결과 보기 블럭에 사전을 그냥 넣을 경우 json 형식으로 출력한다. 보기 불편하기 때문에 결과를 텍스트로 미리 다듬어서 변수로 선언해두고 전체 보기 할 경우 해당 텍스트 변수를 출력한다.  반복문이 종료되면 사용자에게 보여줄 목록 변수에 ‘전체 보기’ 항목을 넣어서 한 번에 전체를 볼 수 있게 한다.      2. 반복문과 조건문  반복 블럭을 새로 구성해서 인덱스 변수를 목록으로 보여준다.  만약 전체 보기를 선택할 경우에 미리 선언해둔 전체 보기 변수를 출력 후 단축어를 종료한다. 그렇지 않으면 해당 인덱스의 값을 사전에서 가져와 출력한다. 사전에서 값을 가져오면 인덱스 변수에서 선택한 값을 필터 블럭으로 제거해 남은 제비만을 다시 보여준다.  모든 제비를 열어보았다면 전체 보기 변수를 출력해 최종 결과를 출력한다.         완성      당첨자는 오늘 커피를 산다!!!       반성      ios 판올림할 때마다 단축어도 조금씩 바뀌는데 원래 반복 블럭에 for each처럼 쓰는게 있었나 기억이 안난다.  사전 값 출력하려고 각각 반복 블럭을 사용해봤는데 예상한대로 동작하지 않아서 기본 반복 블럭을 사용했다. 개발자 문서를 찾아봐야하나…  단축어의 장점은 제공되는 기본 기능을 자유롭게 확장할 수 있다는 것이며 단축어의 단점은 제공되는 기본 기능만 자유롭게 확장할 수 있다는 것  api 연동까지는 어떻게 편하게 써도 js 엮이는 순간 골치아파지는데 나중에 포스트로 다뤄볼 기회가 있을 것이다.     공유      사파리에서 링크 실행  제비 뽑기 - iCloud Link">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="27391번 Platform Placing">
-<meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/05/23/27391.html">
+<meta property="og:title" content="제비 뽑기">
+<meta property="og:url" content="https://movingwoo.com/one-pan/shortcuts/2025/06/11/Drawing-Lots.html">
 
 
-  <meta property="og:description" content="문제        27391번 Platform Placing - 백준     설계      한글 문제 언제 나오나?  플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오.  대충 그리디 알고리즘 ㄱㄱ  당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다.  해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다.     구현      1. 입력 받기  제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다.  public static void main(String[] args) {     	     	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { 	         	        StringTokenizer st = new StringTokenizer(br.readLine(), &quot; &quot;); 	        int n = Integer.parseInt(st.nextToken()); 	        int s = Integer.parseInt(st.nextToken()); 	        int k = Integer.parseInt(st.nextToken()); 	        int result = 0; 	         	        int[] platforms = new int[n]; 	        for(int i = 0 ; i &lt; n ; i++) { 	        	platforms[i] = Integer.parseInt(br.readLine()); 	        } 	        // 오름차순 	        Arrays.sort(platforms); 	         	        int[] lengths = new int[n]; 	        // 최대길이로 일단 채우고 시작 	        Arrays.fill(lengths, k); 	         	    }catch(IOException e) { 	        e.printStackTrace(); 	    }     }   2. 플랫폼 배열 탐색  플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다.  for (int i = 1 ; i &lt; n ; i++) {     int dist = platforms[i] - platforms[i - 1];     // 플랫폼이 양쪽으로 펼쳐짐     int max = 2 * dist;      // 불가능한 경우     if (max &lt; 2 * s) {         bw.write(&quot;-1&quot;);         return;     }      // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정     if (lengths[i - 1] + lengths[i] &gt; max) {         lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1]));          // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함         if (lengths[i - 1] + lengths[i] &gt; max) {             lengths[i - 1] = Math.max(s, max - lengths[i]);         }     } }  for (int length : lengths) result += length; bw.write(String.valueOf(result));      채점           반성      기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고     코드 확인      Link to GitHub">
-
-
-
+  <meta property="og:description" content="개요      점심 먹고 커피를 누가 살지, 술 마시고 대표로 누가 결제할지 등 각종 내기할 때 준비물이 필요 없고 밸런스가 잘 맞는 게임은 가위바위보가 있다. 좀 더 익스트림한 경험을 원하면 사다리타기나 핀볼을 하기도 한다.  오늘은 단축어로 내기에 쓸 수 있는 제비뽑기를 만들어 볼 것이다. js를 사용하지 않으면 GUI가 극적이진 않지만 직접 만들어서 사용하면 제법 재미있다.  단축어 js 연동은 다소 불편하기도 하고…     설계      입력을 받을 때 인원 수에 따라 항목은 얼마든지 늘어날 수 있게 설정해야한다.  입력 받으면 무작위 셔플 후 각각에 인덱스를 부여해 하나의 제비로 만든다. 제비 클래스를 구현할 수는 없으므로 사전을 사용하는게 좋겠다.  각 제비는 하나를 선택해 하나씩 열어볼 수 있게하고 전체를 한 번에 열어볼 수 있게도 만든다.  어떤 단축어 블럭을 사용할지 고민하는게 어렵고 로직 자체는 심플하다.     구현      1. 목록 입력받아 사전 생성  기본 값으로 당첨 하나와 꽝 2개 총 3개 항목을 설정하고 보여준다. 당첨과 꽝 문구는 변경할 수 있게 하고 항목을 추가할 수 있게 한다.  필터 블럭으로 제비를 무작위 셔플하고 목록 수 만큼 반복문을 구성한다. 3가지 작업을 하게 되는데    인덱스와 셔플된 값으로 사전 구성   목록을 선택할 수 있게 별도 인덱스 변수 구성   전체 보기 시 출력할 텍스트 변수 구성   전체 보기의 경우 뒤에서 사용하게 될건데 결과 보기 블럭에 사전을 그냥 넣을 경우 json 형식으로 출력한다. 보기 불편하기 때문에 결과를 텍스트로 미리 다듬어서 변수로 선언해두고 전체 보기 할 경우 해당 텍스트 변수를 출력한다.  반복문이 종료되면 사용자에게 보여줄 목록 변수에 ‘전체 보기’ 항목을 넣어서 한 번에 전체를 볼 수 있게 한다.      2. 반복문과 조건문  반복 블럭을 새로 구성해서 인덱스 변수를 목록으로 보여준다.  만약 전체 보기를 선택할 경우에 미리 선언해둔 전체 보기 변수를 출력 후 단축어를 종료한다. 그렇지 않으면 해당 인덱스의 값을 사전에서 가져와 출력한다. 사전에서 값을 가져오면 인덱스 변수에서 선택한 값을 필터 블럭으로 제거해 남은 제비만을 다시 보여준다.  모든 제비를 열어보았다면 전체 보기 변수를 출력해 최종 결과를 출력한다.         완성      당첨자는 오늘 커피를 산다!!!       반성      ios 판올림할 때마다 단축어도 조금씩 바뀌는데 원래 반복 블럭에 for each처럼 쓰는게 있었나 기억이 안난다.  사전 값 출력하려고 각각 반복 블럭을 사용해봤는데 예상한대로 동작하지 않아서 기본 반복 블럭을 사용했다. 개발자 문서를 찾아봐야하나…  단축어의 장점은 제공되는 기본 기능을 자유롭게 확장할 수 있다는 것이며 단축어의 단점은 제공되는 기본 기능만 자유롭게 확장할 수 있다는 것  api 연동까지는 어떻게 편하게 써도 js 엮이는 순간 골치아파지는데 나중에 포스트로 다뤄볼 기회가 있을 것이다.     공유      사파리에서 링크 실행  제비 뽑기 - iCloud Link">
 
 
 
 
-  <meta property="article:published_time" content="2025-05-23T06:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-05-23T06:00:00+00:00">
+  <meta property="article:published_time" content="2025-06-11T02:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-06-11T02:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/random-solve/java/2025/05/23/27391.html">
+<link rel="canonical" href="https://movingwoo.com/one-pan/shortcuts/2025/06/11/Drawing-Lots.html">
 
 
 
@@ -1160,10 +1160,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="27391번 Platform Placing">
-      <meta itemprop="description" content="  문제  27391번 Platform Placing - 백준  설계  한글 문제 언제 나오나?플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다.양쪽으로 펼쳐진다는 뜻.최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다.모든 고정지점마다 플랫폼 하나 설치가 가능하다.이때 플랫폼 길이의 총합이 최대가 되도록 하시오.대충 그리디 알고리즘 ㄱㄱ당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다.고정 지점들을 정렬해 순차적으로 길이를 할당하되이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다.해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다.  구현  1. 입력 받기제한시간은 항상 두려우니 버퍼로 입력받고플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다.public static void main(String[] args) {    	    	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) {	        	        StringTokenizer st = new StringTokenizer(br.readLine(), &quot; &quot;);	        int n = Integer.parseInt(st.nextToken());	        int s = Integer.parseInt(st.nextToken());	        int k = Integer.parseInt(st.nextToken());	        int result = 0;	        	        int[] platforms = new int[n];	        for(int i = 0 ; i &lt; n ; i++) {	        	platforms[i] = Integer.parseInt(br.readLine());	        }	        // 오름차순	        Arrays.sort(platforms);	        	        int[] lengths = new int[n];	        // 최대길이로 일단 채우고 시작	        Arrays.fill(lengths, k);	        	    }catch(IOException e) {	        e.printStackTrace();	    }    }2. 플랫폼 배열 탐색플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다.배치 불가능하면 -1을 즉시 출력하고가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다.for (int i = 1 ; i &lt; n ; i++) {    int dist = platforms[i] - platforms[i - 1];    // 플랫폼이 양쪽으로 펼쳐짐    int max = 2 * dist;    // 불가능한 경우    if (max &lt; 2 * s) {        bw.write(&quot;-1&quot;);        return;    }    // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정    if (lengths[i - 1] + lengths[i] &gt; max) {        lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1]));        // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함        if (lengths[i - 1] + lengths[i] &gt; max) {            lengths[i - 1] = Math.max(s, max - lengths[i]);        }    }}for (int length : lengths) result += length;bw.write(String.valueOf(result));  채점    반성  기분좋게 잘 해결되었다.C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고  코드 확인  Link to GitHub">
-      <meta itemprop="datePublished" content="2025-05-23T06:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-05-23T06:00:00+00:00">
+      <meta itemprop="headline" content="제비 뽑기">
+      <meta itemprop="description" content="  개요  점심 먹고 커피를 누가 살지, 술 마시고 대표로 누가 결제할지 등각종 내기할 때 준비물이 필요 없고 밸런스가 잘 맞는 게임은 가위바위보가 있다.좀 더 익스트림한 경험을 원하면 사다리타기나 핀볼을 하기도 한다.오늘은 단축어로 내기에 쓸 수 있는 제비뽑기를 만들어 볼 것이다.js를 사용하지 않으면 GUI가 극적이진 않지만 직접 만들어서 사용하면 제법 재미있다.단축어 js 연동은 다소 불편하기도 하고…  설계  입력을 받을 때 인원 수에 따라 항목은 얼마든지 늘어날 수 있게 설정해야한다.입력 받으면 무작위 셔플 후 각각에 인덱스를 부여해 하나의 제비로 만든다.제비 클래스를 구현할 수는 없으므로 사전을 사용하는게 좋겠다.각 제비는 하나를 선택해 하나씩 열어볼 수 있게하고전체를 한 번에 열어볼 수 있게도 만든다.어떤 단축어 블럭을 사용할지 고민하는게 어렵고 로직 자체는 심플하다.  구현  1. 목록 입력받아 사전 생성기본 값으로 당첨 하나와 꽝 2개 총 3개 항목을 설정하고 보여준다.당첨과 꽝 문구는 변경할 수 있게 하고 항목을 추가할 수 있게 한다.필터 블럭으로 제비를 무작위 셔플하고 목록 수 만큼 반복문을 구성한다.3가지 작업을 하게 되는데  인덱스와 셔플된 값으로 사전 구성  목록을 선택할 수 있게 별도 인덱스 변수 구성  전체 보기 시 출력할 텍스트 변수 구성전체 보기의 경우 뒤에서 사용하게 될건데결과 보기 블럭에 사전을 그냥 넣을 경우 json 형식으로 출력한다.보기 불편하기 때문에 결과를 텍스트로 미리 다듬어서 변수로 선언해두고전체 보기 할 경우 해당 텍스트 변수를 출력한다.반복문이 종료되면 사용자에게 보여줄 목록 변수에 ‘전체 보기’ 항목을 넣어서 한 번에 전체를 볼 수 있게 한다.2. 반복문과 조건문반복 블럭을 새로 구성해서 인덱스 변수를 목록으로 보여준다.만약 전체 보기를 선택할 경우에 미리 선언해둔 전체 보기 변수를 출력 후 단축어를 종료한다.그렇지 않으면 해당 인덱스의 값을 사전에서 가져와 출력한다.사전에서 값을 가져오면 인덱스 변수에서 선택한 값을 필터 블럭으로 제거해 남은 제비만을 다시 보여준다.모든 제비를 열어보았다면 전체 보기 변수를 출력해 최종 결과를 출력한다.  완성  당첨자는 오늘 커피를 산다!!!  반성  ios 판올림할 때마다 단축어도 조금씩 바뀌는데원래 반복 블럭에 for each처럼 쓰는게 있었나 기억이 안난다.사전 값 출력하려고 각각 반복 블럭을 사용해봤는데 예상한대로 동작하지 않아서 기본 반복 블럭을 사용했다.개발자 문서를 찾아봐야하나…단축어의 장점은 제공되는 기본 기능을 자유롭게 확장할 수 있다는 것이며단축어의 단점은 제공되는 기본 기능만 자유롭게 확장할 수 있다는 것api 연동까지는 어떻게 편하게 써도 js 엮이는 순간 골치아파지는데나중에 포스트로 다뤄볼 기회가 있을 것이다.  공유  사파리에서 링크 실행제비 뽑기 - iCloud Link">
+      <meta itemprop="datePublished" content="2025-06-11T02:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-11T02:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1177,25 +1177,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
       <span class="separator">/</span>
       
-      <a href="/board?path=random-solve" class="category-link">
-        random-solve
+      <a href="/board?path=one-pan" class="category-link">
+        one-pan
       </a>
       
     
       <span class="separator">/</span>
       
-      <a href="/board?path=random-solve%2FJava" class="category-link">
-        Java
+      <a href="/board?path=one-pan%2FShortcuts" class="category-link">
+        Shortcuts
       </a>
       
     
   </div>
-  <a href="/board?path=random-solve%2FJava%2F" class="category-icon" title="리스트">
+  <a href="/board?path=one-pan%2FShortcuts%2F" class="category-icon" title="리스트">
     <i class="fas fa-list-ul" aria-hidden="true"></i>
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">27391번 Platform Placing
+            <h1 id="page-title" class="page__title" itemprop="headline">제비 뽑기
 </h1>
             
 
@@ -1205,126 +1205,111 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <section class="page__content" itemprop="text">
           <blockquote>
-  <h4 id="문제">문제</h4>
+  <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-23-27391/img01.webp" alt="img01" /></p>
+<p>점심 먹고 커피를 누가 살지, 술 마시고 대표로 누가 결제할지 등<br />
+각종 내기할 때 준비물이 필요 없고 밸런스가 잘 맞는 게임은 가위바위보가 있다.<br />
+좀 더 익스트림한 경험을 원하면 사다리타기나 핀볼을 하기도 한다.</p>
 
-<p><a href="https://www.acmicpc.net/problem/27391">27391번 Platform Placing - 백준</a></p>
+<p>오늘은 단축어로 내기에 쓸 수 있는 제비뽑기를 만들어 볼 것이다.<br />
+js를 사용하지 않으면 GUI가 극적이진 않지만 직접 만들어서 사용하면 제법 재미있다.</p>
+
+<p>단축어 js 연동은 다소 불편하기도 하고…</p>
 
 <blockquote>
   <h4 id="설계">설계</h4>
   <hr />
 </blockquote>
 
-<p>한글 문제 언제 나오나?</p>
+<p>입력을 받을 때 인원 수에 따라 항목은 얼마든지 늘어날 수 있게 설정해야한다.</p>
 
-<p>플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다.<br />
-양쪽으로 펼쳐진다는 뜻.<br />
-최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다.<br />
-모든 고정지점마다 플랫폼 하나 설치가 가능하다.<br />
-이때 플랫폼 길이의 총합이 최대가 되도록 하시오.</p>
+<p>입력 받으면 무작위 셔플 후 각각에 인덱스를 부여해 하나의 제비로 만든다.<br />
+제비 클래스를 구현할 수는 없으므로 <span style="color: orange;"><strong>사전</strong></span>을 사용하는게 좋겠다.</p>
 
-<p>대충 그리디 알고리즘 ㄱㄱ</p>
+<p>각 제비는 하나를 선택해 하나씩 열어볼 수 있게하고<br />
+전체를 한 번에 열어볼 수 있게도 만든다.</p>
 
-<p>당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다.<br />
-고정 지점들을 정렬해 순차적으로 길이를 할당하되<br />
-이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다.</p>
-
-<p>해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다.</p>
+<p>어떤 단축어 블럭을 사용할지 고민하는게 어렵고 로직 자체는 심플하다.</p>
 
 <blockquote>
   <h4 id="구현">구현</h4>
   <hr />
 </blockquote>
 
-<h5 id="1-입력-받기">1. 입력 받기</h5>
+<h5 id="1-목록-입력받아-사전-생성">1. 목록 입력받아 사전 생성</h5>
 
-<p>제한시간은 항상 두려우니 버퍼로 입력받고<br />
-플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다.</p>
+<p>기본 값으로 당첨 하나와 꽝 2개 총 3개 항목을 설정하고 보여준다.<br />
+당첨과 꽝 문구는 변경할 수 있게 하고 항목을 추가할 수 있게 한다.</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-    	
-    	<span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
-	        <span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">)))</span> <span class="o">{</span>
-	        
-	        <span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span> <span class="s">" "</span><span class="o">);</span>
-	        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	        <span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-	        
-	        <span class="kt">int</span><span class="o">[]</span> <span class="n">platforms</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
-	        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-	        	<span class="n">platforms</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-	        <span class="o">}</span>
-	        <span class="c1">// 오름차순</span>
-	        <span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">platforms</span><span class="o">);</span>
-	        
-	        <span class="kt">int</span><span class="o">[]</span> <span class="n">lengths</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
-	        <span class="c1">// 최대길이로 일단 채우고 시작</span>
-	        <span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">lengths</span><span class="o">,</span> <span class="n">k</span><span class="o">);</span>
-	        
-	    <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-	        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-	    <span class="o">}</span>
-    <span class="o">}</span>
-</code></pre></div></div>
+<p>필터 블럭으로 제비를 무작위 셔플하고 목록 수 만큼 반복문을 구성한다.<br />
+3가지 작업을 하게 되는데</p>
+<ul>
+  <li><span style="color: orange;"><strong>인덱스와 셔플된 값으로 사전</strong></span> 구성</li>
+  <li>목록을 선택할 수 있게 별도 <span style="color: orange;"><strong>인덱스 변수</strong></span> 구성</li>
+  <li>전체 보기 시 출력할 <span style="color: orange;"><strong>텍스트 변수</strong></span> 구성</li>
+</ul>
 
-<h5 id="2-플랫폼-배열-탐색">2. 플랫폼 배열 탐색</h5>
+<p>전체 보기의 경우 뒤에서 사용하게 될건데<br />
+결과 보기 블럭에 사전을 그냥 넣을 경우 json 형식으로 출력한다.<br />
+보기 불편하기 때문에 결과를 텍스트로 미리 다듬어서 변수로 선언해두고<br />
+전체 보기 할 경우 해당 텍스트 변수를 출력한다.</p>
 
-<p>플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다.<br />
-배치 불가능하면 -1을 즉시 출력하고<br />
-가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다.</p>
+<p>반복문이 종료되면 사용자에게 보여줄 목록 변수에 ‘전체 보기’ 항목을 넣어서 한 번에 전체를 볼 수 있게 한다.</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-    <span class="kt">int</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">platforms</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">platforms</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
-    <span class="c1">// 플랫폼이 양쪽으로 펼쳐짐</span>
-    <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dist</span><span class="o">;</span>
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img01.webp" alt="img01" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img02.webp" alt="img02" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img03.webp" alt="img03" width="300" style="height: auto;" /></p>
 
-    <span class="c1">// 불가능한 경우</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">max</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"-1"</span><span class="o">);</span>
-        <span class="k">return</span><span class="o">;</span>
-    <span class="o">}</span>
+<h5 id="2-반복문과-조건문">2. 반복문과 조건문</h5>
 
-    <span class="c1">// 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">max</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">max</span> <span class="o">-</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]));</span>
+<p>반복 블럭을 새로 구성해서 인덱스 변수를 목록으로 보여준다.</p>
 
-        <span class="c1">// 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">max</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">lengths</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="n">max</span> <span class="o">-</span> <span class="n">lengths</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<p>만약 전체 보기를 선택할 경우에 미리 선언해둔 전체 보기 변수를 출력 후 단축어를 종료한다.<br />
+그렇지 않으면 해당 인덱스의 값을 사전에서 가져와 출력한다.<br />
+사전에서 값을 가져오면 인덱스 변수에서 선택한 값을 필터 블럭으로 제거해 남은 제비만을 다시 보여준다.</p>
 
-<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">length</span> <span class="o">:</span> <span class="n">lengths</span><span class="o">)</span> <span class="n">result</span> <span class="o">+=</span> <span class="n">length</span><span class="o">;</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">result</span><span class="o">));</span>
-</code></pre></div></div>
+<p>모든 제비를 열어보았다면 전체 보기 변수를 출력해 최종 결과를 출력한다.</p>
+
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img04.webp" alt="img04" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img05.webp" alt="img05" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img06.webp" alt="img06" width="300" style="height: auto;" /></p>
 
 <blockquote>
-  <h4 id="채점">채점</h4>
+  <h4 id="완성">완성</h4>
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-23-27391/img02.webp" alt="img02" /></p>
+<p><span style="color: red;"><strong>당첨자는 오늘 커피를 산다!!!</strong></span></p>
+
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img07.webp" alt="img07" width="300" style="height: auto;" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
   <hr />
 </blockquote>
 
-<p>기분좋게 잘 해결되었다.<br />
-C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고</p>
+<p>ios 판올림할 때마다 단축어도 조금씩 바뀌는데<br />
+원래 반복 블럭에 for each처럼 쓰는게 있었나 기억이 안난다.</p>
+
+<p>사전 값 출력하려고 각각 반복 블럭을 사용해봤는데 예상한대로 동작하지 않아서 기본 반복 블럭을 사용했다.<br />
+개발자 문서를 찾아봐야하나…</p>
+
+<p>단축어의 장점은 제공되는 기본 기능을 자유롭게 확장할 수 있다는 것이며
+단축어의 단점은 제공되는 기본 기능만 자유롭게 확장할 수 있다는 것</p>
+
+<p>api 연동까지는 어떻게 편하게 써도 js 엮이는 순간 골치아파지는데<br />
+나중에 포스트로 다뤄볼 기회가 있을 것이다.</p>
 
 <blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
+  <h4 id="공유">공유</h4>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-23-27391.java">Link to GitHub</a></p>
+<p>사파리에서 링크 실행</p>
+
+<p><a href="https://www.icloud.com/shortcuts/1846ec094ab34bf79d689d4dcbd32a36">제비 뽑기 - iCloud Link</a></p>
 
 
           
@@ -1334,7 +1319,7 @@ C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 �
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-23">May 23, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-11">June 11, 2025</time></p>
 
 
         </footer>
@@ -1349,10 +1334,10 @@ C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 �
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "27391번 Platform Placing",
-        url: "/random-solve/java/2025/05/23/27391.html",
-        date: "2025-05-23",
-        categories: ["random-solve/Java/"]
+        title: "제비 뽑기",
+        url: "/one-pan/shortcuts/2025/06/11/Drawing-Lots.html",
+        date: "2025-06-11",
+        categories: ["one-pan/Shortcuts/"]
       },
       allPosts: [
         

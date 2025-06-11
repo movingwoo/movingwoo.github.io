@@ -1,4 +1,109 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-10T01:19:01+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">21237번 Clockwise Fence</title><link href="https://movingwoo.com/random-solve/java/2025/06/10/21237.html" rel="alternate" type="text/html" title="21237번 Clockwise Fence" /><published>2025-06-10T01:00:00+00:00</published><updated>2025-06-10T01:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/06/10/21237</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/06/10/21237.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-11T02:46:36+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">제비 뽑기</title><link href="https://movingwoo.com/one-pan/shortcuts/2025/06/11/Drawing-Lots.html" rel="alternate" type="text/html" title="제비 뽑기" /><published>2025-06-11T02:00:00+00:00</published><updated>2025-06-11T02:00:00+00:00</updated><id>https://movingwoo.com/one-pan/shortcuts/2025/06/11/Drawing%20Lots</id><content type="html" xml:base="https://movingwoo.com/one-pan/shortcuts/2025/06/11/Drawing-Lots.html"><![CDATA[<blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p>점심 먹고 커피를 누가 살지, 술 마시고 대표로 누가 결제할지 등<br />
+각종 내기할 때 준비물이 필요 없고 밸런스가 잘 맞는 게임은 가위바위보가 있다.<br />
+좀 더 익스트림한 경험을 원하면 사다리타기나 핀볼을 하기도 한다.</p>
+
+<p>오늘은 단축어로 내기에 쓸 수 있는 제비뽑기를 만들어 볼 것이다.<br />
+js를 사용하지 않으면 GUI가 극적이진 않지만 직접 만들어서 사용하면 제법 재미있다.</p>
+
+<p>단축어 js 연동은 다소 불편하기도 하고…</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>입력을 받을 때 인원 수에 따라 항목은 얼마든지 늘어날 수 있게 설정해야한다.</p>
+
+<p>입력 받으면 무작위 셔플 후 각각에 인덱스를 부여해 하나의 제비로 만든다.<br />
+제비 클래스를 구현할 수는 없으므로 <span style="color: orange;"><strong>사전</strong></span>을 사용하는게 좋겠다.</p>
+
+<p>각 제비는 하나를 선택해 하나씩 열어볼 수 있게하고<br />
+전체를 한 번에 열어볼 수 있게도 만든다.</p>
+
+<p>어떤 단축어 블럭을 사용할지 고민하는게 어렵고 로직 자체는 심플하다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-목록-입력받아-사전-생성">1. 목록 입력받아 사전 생성</h5>
+
+<p>기본 값으로 당첨 하나와 꽝 2개 총 3개 항목을 설정하고 보여준다.<br />
+당첨과 꽝 문구는 변경할 수 있게 하고 항목을 추가할 수 있게 한다.</p>
+
+<p>필터 블럭으로 제비를 무작위 셔플하고 목록 수 만큼 반복문을 구성한다.<br />
+3가지 작업을 하게 되는데</p>
+<ul>
+  <li><span style="color: orange;"><strong>인덱스와 셔플된 값으로 사전</strong></span> 구성</li>
+  <li>목록을 선택할 수 있게 별도 <span style="color: orange;"><strong>인덱스 변수</strong></span> 구성</li>
+  <li>전체 보기 시 출력할 <span style="color: orange;"><strong>텍스트 변수</strong></span> 구성</li>
+</ul>
+
+<p>전체 보기의 경우 뒤에서 사용하게 될건데<br />
+결과 보기 블럭에 사전을 그냥 넣을 경우 json 형식으로 출력한다.<br />
+보기 불편하기 때문에 결과를 텍스트로 미리 다듬어서 변수로 선언해두고<br />
+전체 보기 할 경우 해당 텍스트 변수를 출력한다.</p>
+
+<p>반복문이 종료되면 사용자에게 보여줄 목록 변수에 ‘전체 보기’ 항목을 넣어서 한 번에 전체를 볼 수 있게 한다.</p>
+
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img01.webp" alt="img01" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img02.webp" alt="img02" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img03.webp" alt="img03" width="300" style="height: auto;" /></p>
+
+<h5 id="2-반복문과-조건문">2. 반복문과 조건문</h5>
+
+<p>반복 블럭을 새로 구성해서 인덱스 변수를 목록으로 보여준다.</p>
+
+<p>만약 전체 보기를 선택할 경우에 미리 선언해둔 전체 보기 변수를 출력 후 단축어를 종료한다.<br />
+그렇지 않으면 해당 인덱스의 값을 사전에서 가져와 출력한다.<br />
+사전에서 값을 가져오면 인덱스 변수에서 선택한 값을 필터 블럭으로 제거해 남은 제비만을 다시 보여준다.</p>
+
+<p>모든 제비를 열어보았다면 전체 보기 변수를 출력해 최종 결과를 출력한다.</p>
+
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img04.webp" alt="img04" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img05.webp" alt="img05" width="300" style="height: auto;" /><br />
+<img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img06.webp" alt="img06" width="300" style="height: auto;" /></p>
+
+<blockquote>
+  <h4 id="완성">완성</h4>
+  <hr />
+</blockquote>
+
+<p><span style="color: red;"><strong>당첨자는 오늘 커피를 산다!!!</strong></span></p>
+
+<p><img src="/assets/images/posts/one-pan/Shortcuts/2025-06-11-Drawing Lots/img07.webp" alt="img07" width="300" style="height: auto;" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>ios 판올림할 때마다 단축어도 조금씩 바뀌는데<br />
+원래 반복 블럭에 for each처럼 쓰는게 있었나 기억이 안난다.</p>
+
+<p>사전 값 출력하려고 각각 반복 블럭을 사용해봤는데 예상한대로 동작하지 않아서 기본 반복 블럭을 사용했다.<br />
+개발자 문서를 찾아봐야하나…</p>
+
+<p>단축어의 장점은 제공되는 기본 기능을 자유롭게 확장할 수 있다는 것이며
+단축어의 단점은 제공되는 기본 기능만 자유롭게 확장할 수 있다는 것</p>
+
+<p>api 연동까지는 어떻게 편하게 써도 js 엮이는 순간 골치아파지는데<br />
+나중에 포스트로 다뤄볼 기회가 있을 것이다.</p>
+
+<blockquote>
+  <h4 id="공유">공유</h4>
+  <hr />
+</blockquote>
+
+<p>사파리에서 링크 실행</p>
+
+<p><a href="https://www.icloud.com/shortcuts/1846ec094ab34bf79d689d4dcbd32a36">제비 뽑기 - iCloud Link</a></p>]]></content><author><name>movingwoo</name></author><category term="one-pan/Shortcuts/" /><summary type="html"><![CDATA[개요 점심 먹고 커피를 누가 살지, 술 마시고 대표로 누가 결제할지 등 각종 내기할 때 준비물이 필요 없고 밸런스가 잘 맞는 게임은 가위바위보가 있다. 좀 더 익스트림한 경험을 원하면 사다리타기나 핀볼을 하기도 한다. 오늘은 단축어로 내기에 쓸 수 있는 제비뽑기를 만들어 볼 것이다. js를 사용하지 않으면 GUI가 극적이진 않지만 직접 만들어서 사용하면 제법 재미있다. 단축어 js 연동은 다소 불편하기도 하고… 설계 입력을 받을 때 인원 수에 따라 항목은 얼마든지 늘어날 수 있게 설정해야한다. 입력 받으면 무작위 셔플 후 각각에 인덱스를 부여해 하나의 제비로 만든다. 제비 클래스를 구현할 수는 없으므로 사전을 사용하는게 좋겠다. 각 제비는 하나를 선택해 하나씩 열어볼 수 있게하고 전체를 한 번에 열어볼 수 있게도 만든다. 어떤 단축어 블럭을 사용할지 고민하는게 어렵고 로직 자체는 심플하다. 구현 1. 목록 입력받아 사전 생성 기본 값으로 당첨 하나와 꽝 2개 총 3개 항목을 설정하고 보여준다. 당첨과 꽝 문구는 변경할 수 있게 하고 항목을 추가할 수 있게 한다. 필터 블럭으로 제비를 무작위 셔플하고 목록 수 만큼 반복문을 구성한다. 3가지 작업을 하게 되는데 인덱스와 셔플된 값으로 사전 구성 목록을 선택할 수 있게 별도 인덱스 변수 구성 전체 보기 시 출력할 텍스트 변수 구성 전체 보기의 경우 뒤에서 사용하게 될건데 결과 보기 블럭에 사전을 그냥 넣을 경우 json 형식으로 출력한다. 보기 불편하기 때문에 결과를 텍스트로 미리 다듬어서 변수로 선언해두고 전체 보기 할 경우 해당 텍스트 변수를 출력한다. 반복문이 종료되면 사용자에게 보여줄 목록 변수에 ‘전체 보기’ 항목을 넣어서 한 번에 전체를 볼 수 있게 한다. 2. 반복문과 조건문 반복 블럭을 새로 구성해서 인덱스 변수를 목록으로 보여준다. 만약 전체 보기를 선택할 경우에 미리 선언해둔 전체 보기 변수를 출력 후 단축어를 종료한다. 그렇지 않으면 해당 인덱스의 값을 사전에서 가져와 출력한다. 사전에서 값을 가져오면 인덱스 변수에서 선택한 값을 필터 블럭으로 제거해 남은 제비만을 다시 보여준다. 모든 제비를 열어보았다면 전체 보기 변수를 출력해 최종 결과를 출력한다. 완성 당첨자는 오늘 커피를 산다!!! 반성 ios 판올림할 때마다 단축어도 조금씩 바뀌는데 원래 반복 블럭에 for each처럼 쓰는게 있었나 기억이 안난다. 사전 값 출력하려고 각각 반복 블럭을 사용해봤는데 예상한대로 동작하지 않아서 기본 반복 블럭을 사용했다. 개발자 문서를 찾아봐야하나… 단축어의 장점은 제공되는 기본 기능을 자유롭게 확장할 수 있다는 것이며 단축어의 단점은 제공되는 기본 기능만 자유롭게 확장할 수 있다는 것 api 연동까지는 어떻게 편하게 써도 js 엮이는 순간 골치아파지는데 나중에 포스트로 다뤄볼 기회가 있을 것이다. 공유 사파리에서 링크 실행 제비 뽑기 - iCloud Link]]></summary></entry><entry><title type="html">21237번 Clockwise Fence</title><link href="https://movingwoo.com/random-solve/java/2025/06/10/21237.html" rel="alternate" type="text/html" title="21237번 Clockwise Fence" /><published>2025-06-10T01:00:00+00:00</published><updated>2025-06-10T01:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/06/10/21237</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/06/10/21237.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -1238,167 +1343,4 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-30-7663.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 7663번 Dreadful Deadlines - 백준 번역 데이빗은 과제를 n개 해야한다. 한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다. 이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가? 설계 또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다? 우리에겐 그리디 알고리즘이 있으니까! 그리디… 그리디만 있다면… 구현 여러 케이스 들어오니 while문에 집어넣고 x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다. while(true){ int n; cin &gt;&gt; n; if (n == 0) break; vector&lt;int&gt; x(n); vector&lt;int&gt; t(n); vector&lt;tuple&lt;int, int&gt;&gt; assignments; for (int i = 0 ; i &lt; n ; i++) { cin &gt;&gt; x[i]; } for (int i = 0 ; i &lt; n ; i++) { cin &gt;&gt; t[i]; } // 튜플로 만들어 넣기 for (int i = 0; i &lt; n; ++i) { assignments.push_back(make_tuple(x[i], t[i])); } } 놀다가 제일 늦게 하고싶기 때문에 마감시간이 제일 늦은 순서로 정렬 후 탐색한다. 시간이 모자라면 불가능 처리 // 늦게 시작하고 싶으니 마감시간이 제일 늦은 과제부터 거꾸로 확인 sort(assignments.begin(), assignments.end(), compare); int time = INT_MAX; // 과제 하나씩 체크 for (const auto&amp; assignment : assignments) { int xi = get&lt;0&gt;(assignment); int ti = get&lt;1&gt;(assignment); time = min(time, ti); time -= xi; } // 시간이 부족하면 impossible if (time &lt; 0) cout &lt;&lt; "impossible\n"; else cout &lt;&lt; time &lt;&lt; '\n'; // ... 중략 ... // 커스텀 정렬 함수 bool compare(const tuple&lt;int, int&gt;&amp; a, const tuple&lt;int, int&gt;&amp; b) { return get&lt;1&gt;(a) &gt; get&lt;1&gt;(b); } 채점 반성 이번엔 climits 헤더 빼먹어서 컴파일 에러 발생 정신을 못차리니 오늘은 쉬어야지 java문제 풀고 c문제 푸니 느끼는데 진짜 입출력이 사기다. java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">6862번 Tin Can Telephone</title><link href="https://movingwoo.com/random-solve/java/2025/05/30/6862.html" rel="alternate" type="text/html" title="6862번 Tin Can Telephone" /><published>2025-05-30T05:00:00+00:00</published><updated>2025-05-30T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/05/30/6862</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/05/30/6862.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/6862">6862번 Tin Can Telephone - 백준</a></p>
-
-<blockquote>
-  <h4 id="번역">번역</h4>
-  <hr />
-</blockquote>
-
-<p>깡통 전화라는 문제인데<br />
-한국인에겐 종이컵 전화가 더 익숙할 듯 하다.</p>
-
-<p>깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데<br />
-경로에 건물이 있거나 닿으면 안된다.</p>
-
-<p>입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오.<br />
-건물 모서리는 최대 32개다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>두 가지를 고려해 구현하면 될 것 같다.</p>
-<ul>
-  <li><span style="color: orange;"><strong>전화선이 건물의 변과 교차하는 경우</strong></span></li>
-  <li><span style="color: orange;"><strong>전화선이 건물의 꼭지점과 접촉하는 경우</strong></span></li>
-</ul>
-
-<p>꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-건물-꼭지점-클래스와-입력받기">1. 건물 꼭지점 클래스와 입력받기</h5>
-
-<p>건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데<br />
-막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-
-	<span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
-		<span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">)))</span> <span class="o">{</span>
-		
-		<span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-		
-		<span class="kt">int</span> <span class="n">xR</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-		<span class="kt">int</span> <span class="n">yR</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-		<span class="kt">int</span> <span class="n">xJ</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-		<span class="kt">int</span> <span class="n">yJ</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-		
-		<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-		<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-		
-		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-			<span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-			<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-			<span class="nc">Vertex</span><span class="o">[]</span> <span class="n">vertexes</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Vertex</span><span class="o">[</span><span class="n">length</span><span class="o">];</span>
-			<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-			
-			<span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="o">{</span>
-				<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-				<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-				
-				<span class="n">vertexes</span><span class="o">[</span><span class="n">j</span><span class="o">++]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Vertex</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
-			<span class="o">}</span>
-			
-		<span class="o">}</span>
-		
-		<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">count</span><span class="o">));</span>
-		<span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
-		
-	<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-
-<span class="c1">// 건물 꼭지점 클래스</span>
-<span class="kd">static</span> <span class="kd">class</span> <span class="nc">Vertex</span><span class="o">{</span>
-	<span class="kt">int</span> <span class="n">x</span><span class="o">;</span>
-	<span class="kt">int</span> <span class="n">y</span><span class="o">;</span>
-	
-	<span class="nc">Vertex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">){</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h5 id="2-함수와-메인루프">2. 함수와 메인루프</h5>
-
-<p><span style="color: orange;"><strong>세 점의 방향성을 계산</strong></span>하는 Counter ClockWise 함수와 <span style="color: orange;"><strong>점이 선분위에 있는지 판단</strong></span>하는 onSegment 함수를 작성.<br />
-이후 꼭지점 수만큼 계산한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Counter ClockWise</span>
-<span class="kd">static</span> <span class="kt">long</span> <span class="nf">counterClockWise</span><span class="o">(</span><span class="kt">int</span> <span class="n">x1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x3</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y3</span><span class="o">)</span> <span class="o">{</span>
-	<span class="k">return</span> <span class="o">(</span><span class="kt">long</span><span class="o">)(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="o">)</span> <span class="o">*</span> <span class="o">(</span><span class="n">y3</span> <span class="o">-</span> <span class="n">y1</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="kt">long</span><span class="o">)(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="o">)</span> <span class="o">*</span> <span class="o">(</span><span class="n">x3</span> <span class="o">-</span> <span class="n">x1</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="c1">// 점이 선분위에 있는지 여부</span>
-<span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">onSegment</span><span class="o">(</span><span class="kt">int</span> <span class="n">x1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">x3</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y3</span><span class="o">)</span> <span class="o">{</span>
-	<span class="k">return</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">x1</span><span class="o">,</span> <span class="n">x2</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">x3</span> <span class="o">&amp;&amp;</span> <span class="n">x3</span> <span class="o">&lt;=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">x1</span><span class="o">,</span> <span class="n">x2</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
-			<span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">y1</span><span class="o">,</span> <span class="n">y2</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">y3</span> <span class="o">&amp;&amp;</span> <span class="n">y3</span> <span class="o">&lt;=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">y1</span><span class="o">,</span> <span class="n">y2</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="c1">// ... 중략 ...</span>
-
-<span class="kt">boolean</span> <span class="n">blocked</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-    			
-<span class="c1">// 메인루프</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">length</span> <span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
-	
-	<span class="c1">// 세 점의 방향성을 확인해 선분 교차 확인</span>
-	<span class="kt">long</span> <span class="n">ab1</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">);</span>
-	<span class="kt">long</span> <span class="n">ab2</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">);</span>
-	<span class="kt">long</span> <span class="n">cd1</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">);</span>
-	<span class="kt">long</span> <span class="n">cd2</span> <span class="o">=</span> <span class="n">counterClockWise</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">);</span>
-	
-	<span class="k">if</span> <span class="o">(</span><span class="n">ab1</span> <span class="o">*</span> <span class="n">ab2</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">cd1</span> <span class="o">*</span> <span class="n">cd2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">blocked</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-		<span class="k">break</span><span class="o">;</span>
-	<span class="o">}</span>
-	
-	<span class="c1">// 꼭지점 접촉 확인</span>
-	<span class="k">if</span> <span class="o">((</span><span class="n">ab1</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">))</span> <span class="o">||</span>
-		<span class="o">(</span><span class="n">ab2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">))</span> <span class="o">||</span>
-		<span class="o">(</span><span class="n">cd1</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xR</span><span class="o">,</span> <span class="n">yR</span><span class="o">))</span> <span class="o">||</span>
-		<span class="o">(</span><span class="n">cd2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onSegment</span><span class="o">(</span><span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[</span><span class="n">k</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">x</span><span class="o">,</span> <span class="n">vertexes</span><span class="o">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">length</span><span class="o">].</span><span class="na">y</span><span class="o">,</span> <span class="n">xJ</span><span class="o">,</span> <span class="n">yJ</span><span class="o">)))</span> <span class="o">{</span>
-		<span class="n">blocked</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-		<span class="k">break</span><span class="o">;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-
-<span class="k">if</span> <span class="o">(</span><span class="n">blocked</span><span class="o">)</span> <span class="n">count</span><span class="o">++;</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-05-30-6862/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지<br />
-정신차려라 나야</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-05-30-6862.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 6862번 Tin Can Telephone - 백준 번역 깡통 전화라는 문제인데 한국인에겐 종이컵 전화가 더 익숙할 듯 하다. 깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데 경로에 건물이 있거나 닿으면 안된다. 입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오. 건물 모서리는 최대 32개다. 설계 두 가지를 고려해 구현하면 될 것 같다. 전화선이 건물의 변과 교차하는 경우 전화선이 건물의 꼭지점과 접촉하는 경우 꼭지점과 접촉 판별이 가능하면 꼭지점을 통해 건물을 가로지르는 경우는 생각하지 않아도 될 것 같다. 구현 1. 건물 꼭지점 클래스와 입력받기 건물이 사각형으로 정해진게 아니라서 꼭지점 클래스, 꼭지점 클래스의 집합인 건물 클래스를 만들고 사용하려했는데 막상 구현해보니 건물 클래스는 의미 없어서 제외하고 꼭지점 클래스만 사용한다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { StringTokenizer st = new StringTokenizer(br.readLine()," "); int xR = Integer.parseInt(st.nextToken()); int yR = Integer.parseInt(st.nextToken()); int xJ = Integer.parseInt(st.nextToken()); int yJ = Integer.parseInt(st.nextToken()); int n = Integer.parseInt(br.readLine()); int count = 0; for (int i = 0 ; i &lt; n ; i++) { st = new StringTokenizer(br.readLine()," "); int length = Integer.parseInt(st.nextToken()); Vertex[] vertexes = new Vertex[length]; int j = 0; while(st.hasMoreTokens()) { int x = Integer.parseInt(st.nextToken()); int y = Integer.parseInt(st.nextToken()); vertexes[j++] = new Vertex(x, y); } } bw.write(String.valueOf(count)); bw.flush(); }catch(IOException e) { e.printStackTrace(); } } // 건물 꼭지점 클래스 static class Vertex{ int x; int y; Vertex(int x, int y){ this.x = x; this.y = y; } } 2. 함수와 메인루프 세 점의 방향성을 계산하는 Counter ClockWise 함수와 점이 선분위에 있는지 판단하는 onSegment 함수를 작성. 이후 꼭지점 수만큼 계산한다. // Counter ClockWise static long counterClockWise(int x1, int y1, int x2, int y2, int x3, int y3) { return (long)(x2 - x1) * (y3 - y1) - (long)(y2 - y1) * (x3 - x1); } // 점이 선분위에 있는지 여부 static boolean onSegment(int x1, int y1, int x2, int y2, int x3, int y3) { return Math.min(x1, x2) &lt;= x3 &amp;&amp; x3 &lt;= Math.max(x1, x2) &amp;&amp; Math.min(y1, y2) &lt;= y3 &amp;&amp; y3 &lt;= Math.max(y1, y2); } // ... 중략 ... boolean blocked = false; // 메인루프 for(int k = 0 ; k &lt; length ; k++) { // 세 점의 방향성을 확인해 선분 교차 확인 long ab1 = counterClockWise(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y); long ab2 = counterClockWise(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y); long cd1 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR); long cd2 = counterClockWise(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ); if (ab1 * ab2 &lt; 0 &amp;&amp; cd1 * cd2 &lt; 0) { blocked = true; break; } // 꼭지점 접촉 확인 if ((ab1 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[k].x, vertexes[k].y)) || (ab2 == 0 &amp;&amp; onSegment(xR, yR, xJ, yJ, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y)) || (cd1 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xR, yR)) || (cd2 == 0 &amp;&amp; onSegment(vertexes[k].x, vertexes[k].y, vertexes[(k + 1) % length].x, vertexes[(k + 1) % length].y, xJ, yJ))) { blocked = true; break; } } if (blocked) count++; 채점 반성 왜 자꾸 java 제출할때 패키지를 안지워서 오류내는거지 정신차려라 나야 코드 확인 Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-30-7663.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><summary type="html"><![CDATA[문제 7663번 Dreadful Deadlines - 백준 번역 데이빗은 과제를 n개 해야한다. 한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다. 이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가? 설계 또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다? 우리에겐 그리디 알고리즘이 있으니까! 그리디… 그리디만 있다면… 구현 여러 케이스 들어오니 while문에 집어넣고 x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다. while(true){ int n; cin &gt;&gt; n; if (n == 0) break; vector&lt;int&gt; x(n); vector&lt;int&gt; t(n); vector&lt;tuple&lt;int, int&gt;&gt; assignments; for (int i = 0 ; i &lt; n ; i++) { cin &gt;&gt; x[i]; } for (int i = 0 ; i &lt; n ; i++) { cin &gt;&gt; t[i]; } // 튜플로 만들어 넣기 for (int i = 0; i &lt; n; ++i) { assignments.push_back(make_tuple(x[i], t[i])); } } 놀다가 제일 늦게 하고싶기 때문에 마감시간이 제일 늦은 순서로 정렬 후 탐색한다. 시간이 모자라면 불가능 처리 // 늦게 시작하고 싶으니 마감시간이 제일 늦은 과제부터 거꾸로 확인 sort(assignments.begin(), assignments.end(), compare); int time = INT_MAX; // 과제 하나씩 체크 for (const auto&amp; assignment : assignments) { int xi = get&lt;0&gt;(assignment); int ti = get&lt;1&gt;(assignment); time = min(time, ti); time -= xi; } // 시간이 부족하면 impossible if (time &lt; 0) cout &lt;&lt; "impossible\n"; else cout &lt;&lt; time &lt;&lt; '\n'; // ... 중략 ... // 커스텀 정렬 함수 bool compare(const tuple&lt;int, int&gt;&amp; a, const tuple&lt;int, int&gt;&amp; b) { return get&lt;1&gt;(a) &gt; get&lt;1&gt;(b); } 채점 반성 이번엔 climits 헤더 빼먹어서 컴파일 에러 발생 정신을 못차리니 오늘은 쉬어야지 java문제 풀고 c문제 푸니 느끼는데 진짜 입출력이 사기다. java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데 코드 확인 Link to GitHub]]></summary></entry></feed>
