@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>2784번 가로 세로 퍼즐 - 뭐라도 하겠지</title>
-<meta name="description" content="문제        2784번 가로 세로 퍼즐 - 백준     설계      개똥아 똥쌌니 아니오 를 만드는 문제  생각보다… 조건이 복잡한건가? 일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고 출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데 가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가? 도통 알 수 없다.  단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나? 대충 하나하나 다 갖다박아보자.     구현      1. 세로 단어 추출  일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다. 그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.  for (int i = 0 ; i &lt; 6 ; i++) { 	for (int j = 0 ; j &lt; 6 ; j++) { 		if (i == j) continue; 		for (int k = 0 ; k &lt; 6 ; k++) { 			if (i == k || j == k) continue; 			 			String horizontalWord1 = words.get(i); 			String horizontalWord2 = words.get(j); 			String horizontalWord3 = words.get(k); 			 			// 만든 단어 			Map&lt;String, Integer&gt; used = new HashMap&lt;&gt;(); 			 			int putCount = 0; 			// 세로 줄 단어 생성 			for (int l = 0 ; l &lt; 3 ; l++) { 				String verticalWord = &quot;&quot; + horizontalWord1.charAt(l) + horizontalWord2.charAt(l) + horizontalWord3.charAt(l); 				 				// 세로단어가 존재하지 않는 단어면 통과 				if (!words.contains(verticalWord)) break; 				 				used.put(verticalWord, used.getOrDefault(verticalWord, 0) + 1); 				putCount++; 			} 			 			// 3번 안넣었으면 굳이 더 볼 필요 없음 			if (putCount &lt; 3) continue; 			 		} 	} }   2. 단어가 모이면 비교  입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다. 입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고 세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.  List&lt;String&gt; words = new ArrayList&lt;&gt;(); // 비교 시 중복때문에 Set을 못써서 Map 사용 Map&lt;String, Integer&gt; count = new HashMap&lt;&gt;();  for (int i = 0 ; i &lt; 6 ; i++) { 	String word = br.readLine(); 	words.add(word); 	count.put(word, count.getOrDefault(word, 0) + 1); }  // ... 중략 ...  boolean valid = true; // 비교 for (Map.Entry&lt;String, Integer&gt; entry : used.entrySet()) { 	if (entry.getValue() != count.get(entry.getKey())) { 		valid = false; 		break; 	} }  if (valid) { 	result = true; 	bw.write(horizontalWord1); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord2); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord3); 	break exit; }      채점           반성      입력이 너무 적어서 아무 의미 없겠지만 생각해보자. 이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지? 가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나? 그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가… 이거 굉장히 곤란한 문제가 될 수 있겠다. 에잇 끔찍한 소리 치워 꼴도 보기 싫어     코드 확인      Link to GitHub">
+<!-- begin _includes/seo.html --><title>16256번 Painting the Wall - 뭐라도 하겠지</title>
+<meta name="description" content="문제        16256번 Painting the Wall - 백준     번역      정사각형 타일로 구성된 n * m 사이즈의 벽이 있다. 타일의 일부는 램프다.(0이면 램프 1이면 타일)  타일에 페인트를 칠하려 한다. 수직 또는 수평으로 연속된 타일이 있을 때 각 타일은 모두 다른 색의 페인트로 칠해야한다. 서로 다른 색상의 페인트 k개가 있을 때 모두 다른 색상으로 벽을 칠할 수 있으면 YES와 페인트칠 한 예시를 불가능하면 NO를 출력한다.  k개의 페인트를 모두 사용할 필요는 없다.     설계      페인트칠 불가능한 조건부터 생각해보자. 타일이 연속된 구간 중 가장 긴 구간의 길이가 k보다 크면 색칠이 불가능하다. 가령 1 1 1 인 경우 연속 구간의 페인트 색은 모두 달라야 하기 때문에 k가 3보다 작다면 NO를 출력해야한다.  구간 확인 후 색칠이 가능하면 각 연속 구간 내 1부터 k까지 칠해서 출력한다.     구현      1. 불가능한 경우  타일이 연속되는 구간을 확인해 k와 비교해서 페인트칠 가능한지 확인한다.  vector&lt;vector&lt;int&gt;&gt; wall(n, vector&lt;int&gt;(m));  for (int i = 0; i &lt; n; ++i) {     for (int j = 0; j &lt; m; ++j) {         cin &gt;&gt; wall[i][j];     } }  bool paintable = true;  // 연속된 행 방향 타일 구간 탐색 for (int i = 0 ; i &lt; n &amp;&amp; paintable ; ++i) {     int cnt = 0;      for (int j = 0 ; j &lt;= m ; ++j) {          if (j &lt; m &amp;&amp; wall[i][j] == 1) {             cnt++;         } else {             if (cnt &gt; k) {                 paintable = false;                 break;             }              cnt = 0;         }     } }  // 연속된 열 방향 타일 구간 탐색 for (int j = 0 ; j &lt; m &amp;&amp; paintable ; ++j) {     int cnt = 0;      for (int i = 0 ; i &lt;= n ; ++i) {         if (i &lt; n &amp;&amp; wall[i][j] == 1) {             cnt++;         } else {             if (cnt &gt; k) {                 paintable = false;                 break;             }                          cnt = 0;         }     } }  if (!paintable) {     cout &lt;&lt; &quot;NO\n&quot;;     continue; }   2. 가능한 경우  색칠이 가능하면 겹치지 않게 숫자를 매긴다. 겹치지만 않으면 되므로 mod 연산으로 대충 뿌려준다.  // 가능하면 페인트칠 vector&lt;vector&lt;int&gt;&gt; painted_wall(n, vector&lt;int&gt;(m, 0));  for (int i = 0; i &lt; n; ++i){     for (int j = 0; j &lt; m; ++j) {         if (wall[i][j] == 1) {             // 모든 행열 구간에서 중복되지 않게             painted_wall[i][j] = ((i + j) % k) + 1;         }     } }      cout &lt;&lt; &quot;YES\n&quot;; for (int i = 0 ; i &lt; n ; ++i) {     for (int j = 0 ; j &lt; m ; ++j) {         cout &lt;&lt; painted_wall[i][j] &lt;&lt; &quot; &quot;;     }     cout &lt;&lt; &quot;\n&quot;; }      채점           반성      벡터가 아니라 배열로 쓰면 더 나았으려나? java면 배열로 했겠지만 C++라서 벡터를 사용한건데     코드 확인      Link to GitHub">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="2784번 가로 세로 퍼즐">
-<meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/06/04/2784.html">
+<meta property="og:title" content="16256번 Painting the Wall">
+<meta property="og:url" content="https://movingwoo.com/random-solve/c++/2025/06/13/16256.html">
 
 
-  <meta property="og:description" content="문제        2784번 가로 세로 퍼즐 - 백준     설계      개똥아 똥쌌니 아니오 를 만드는 문제  생각보다… 조건이 복잡한건가? 일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고 출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데 가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가? 도통 알 수 없다.  단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나? 대충 하나하나 다 갖다박아보자.     구현      1. 세로 단어 추출  일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다. 그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.  for (int i = 0 ; i &lt; 6 ; i++) { 	for (int j = 0 ; j &lt; 6 ; j++) { 		if (i == j) continue; 		for (int k = 0 ; k &lt; 6 ; k++) { 			if (i == k || j == k) continue; 			 			String horizontalWord1 = words.get(i); 			String horizontalWord2 = words.get(j); 			String horizontalWord3 = words.get(k); 			 			// 만든 단어 			Map&lt;String, Integer&gt; used = new HashMap&lt;&gt;(); 			 			int putCount = 0; 			// 세로 줄 단어 생성 			for (int l = 0 ; l &lt; 3 ; l++) { 				String verticalWord = &quot;&quot; + horizontalWord1.charAt(l) + horizontalWord2.charAt(l) + horizontalWord3.charAt(l); 				 				// 세로단어가 존재하지 않는 단어면 통과 				if (!words.contains(verticalWord)) break; 				 				used.put(verticalWord, used.getOrDefault(verticalWord, 0) + 1); 				putCount++; 			} 			 			// 3번 안넣었으면 굳이 더 볼 필요 없음 			if (putCount &lt; 3) continue; 			 		} 	} }   2. 단어가 모이면 비교  입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다. 입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고 세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.  List&lt;String&gt; words = new ArrayList&lt;&gt;(); // 비교 시 중복때문에 Set을 못써서 Map 사용 Map&lt;String, Integer&gt; count = new HashMap&lt;&gt;();  for (int i = 0 ; i &lt; 6 ; i++) { 	String word = br.readLine(); 	words.add(word); 	count.put(word, count.getOrDefault(word, 0) + 1); }  // ... 중략 ...  boolean valid = true; // 비교 for (Map.Entry&lt;String, Integer&gt; entry : used.entrySet()) { 	if (entry.getValue() != count.get(entry.getKey())) { 		valid = false; 		break; 	} }  if (valid) { 	result = true; 	bw.write(horizontalWord1); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord2); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord3); 	break exit; }      채점           반성      입력이 너무 적어서 아무 의미 없겠지만 생각해보자. 이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지? 가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나? 그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가… 이거 굉장히 곤란한 문제가 될 수 있겠다. 에잇 끔찍한 소리 치워 꼴도 보기 싫어     코드 확인      Link to GitHub">
-
-
-
+  <meta property="og:description" content="문제        16256번 Painting the Wall - 백준     번역      정사각형 타일로 구성된 n * m 사이즈의 벽이 있다. 타일의 일부는 램프다.(0이면 램프 1이면 타일)  타일에 페인트를 칠하려 한다. 수직 또는 수평으로 연속된 타일이 있을 때 각 타일은 모두 다른 색의 페인트로 칠해야한다. 서로 다른 색상의 페인트 k개가 있을 때 모두 다른 색상으로 벽을 칠할 수 있으면 YES와 페인트칠 한 예시를 불가능하면 NO를 출력한다.  k개의 페인트를 모두 사용할 필요는 없다.     설계      페인트칠 불가능한 조건부터 생각해보자. 타일이 연속된 구간 중 가장 긴 구간의 길이가 k보다 크면 색칠이 불가능하다. 가령 1 1 1 인 경우 연속 구간의 페인트 색은 모두 달라야 하기 때문에 k가 3보다 작다면 NO를 출력해야한다.  구간 확인 후 색칠이 가능하면 각 연속 구간 내 1부터 k까지 칠해서 출력한다.     구현      1. 불가능한 경우  타일이 연속되는 구간을 확인해 k와 비교해서 페인트칠 가능한지 확인한다.  vector&lt;vector&lt;int&gt;&gt; wall(n, vector&lt;int&gt;(m));  for (int i = 0; i &lt; n; ++i) {     for (int j = 0; j &lt; m; ++j) {         cin &gt;&gt; wall[i][j];     } }  bool paintable = true;  // 연속된 행 방향 타일 구간 탐색 for (int i = 0 ; i &lt; n &amp;&amp; paintable ; ++i) {     int cnt = 0;      for (int j = 0 ; j &lt;= m ; ++j) {          if (j &lt; m &amp;&amp; wall[i][j] == 1) {             cnt++;         } else {             if (cnt &gt; k) {                 paintable = false;                 break;             }              cnt = 0;         }     } }  // 연속된 열 방향 타일 구간 탐색 for (int j = 0 ; j &lt; m &amp;&amp; paintable ; ++j) {     int cnt = 0;      for (int i = 0 ; i &lt;= n ; ++i) {         if (i &lt; n &amp;&amp; wall[i][j] == 1) {             cnt++;         } else {             if (cnt &gt; k) {                 paintable = false;                 break;             }                          cnt = 0;         }     } }  if (!paintable) {     cout &lt;&lt; &quot;NO\n&quot;;     continue; }   2. 가능한 경우  색칠이 가능하면 겹치지 않게 숫자를 매긴다. 겹치지만 않으면 되므로 mod 연산으로 대충 뿌려준다.  // 가능하면 페인트칠 vector&lt;vector&lt;int&gt;&gt; painted_wall(n, vector&lt;int&gt;(m, 0));  for (int i = 0; i &lt; n; ++i){     for (int j = 0; j &lt; m; ++j) {         if (wall[i][j] == 1) {             // 모든 행열 구간에서 중복되지 않게             painted_wall[i][j] = ((i + j) % k) + 1;         }     } }      cout &lt;&lt; &quot;YES\n&quot;; for (int i = 0 ; i &lt; n ; ++i) {     for (int j = 0 ; j &lt; m ; ++j) {         cout &lt;&lt; painted_wall[i][j] &lt;&lt; &quot; &quot;;     }     cout &lt;&lt; &quot;\n&quot;; }      채점           반성      벡터가 아니라 배열로 쓰면 더 나았으려나? java면 배열로 했겠지만 C++라서 벡터를 사용한건데     코드 확인      Link to GitHub">
 
 
 
 
-  <meta property="article:published_time" content="2025-06-04T07:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-06-04T07:00:00+00:00">
+  <meta property="article:published_time" content="2025-06-13T01:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-06-13T01:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/random-solve/java/2025/06/04/2784.html">
+<link rel="canonical" href="https://movingwoo.com/random-solve/c++/2025/06/13/16256.html">
 
 
 
@@ -1160,10 +1160,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="2784번 가로 세로 퍼즐">
-      <meta itemprop="description" content="  문제  2784번 가로 세로 퍼즐 - 백준  설계  개똥아똥쌌니아니오를 만드는 문제생각보다… 조건이 복잡한건가?일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가?도통 알 수 없다.단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나?대충 하나하나 다 갖다박아보자.  구현  1. 세로 단어 추출일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다.그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.for (int i = 0 ; i &lt; 6 ; i++) {	for (int j = 0 ; j &lt; 6 ; j++) {		if (i == j) continue;		for (int k = 0 ; k &lt; 6 ; k++) {			if (i == k || j == k) continue;						String horizontalWord1 = words.get(i);			String horizontalWord2 = words.get(j);			String horizontalWord3 = words.get(k);						// 만든 단어			Map&lt;String, Integer&gt; used = new HashMap&lt;&gt;();						int putCount = 0;			// 세로 줄 단어 생성			for (int l = 0 ; l &lt; 3 ; l++) {				String verticalWord = &quot;&quot; + horizontalWord1.charAt(l) + horizontalWord2.charAt(l) + horizontalWord3.charAt(l);								// 세로단어가 존재하지 않는 단어면 통과				if (!words.contains(verticalWord)) break;								used.put(verticalWord, used.getOrDefault(verticalWord, 0) + 1);				putCount++;			}						// 3번 안넣었으면 굳이 더 볼 필요 없음			if (putCount &lt; 3) continue;					}	}}2. 단어가 모이면 비교입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다.입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.List&lt;String&gt; words = new ArrayList&lt;&gt;();// 비교 시 중복때문에 Set을 못써서 Map 사용Map&lt;String, Integer&gt; count = new HashMap&lt;&gt;();for (int i = 0 ; i &lt; 6 ; i++) {	String word = br.readLine();	words.add(word);	count.put(word, count.getOrDefault(word, 0) + 1);}// ... 중략 ...boolean valid = true;// 비교for (Map.Entry&lt;String, Integer&gt; entry : used.entrySet()) {	if (entry.getValue() != count.get(entry.getKey())) {		valid = false;		break;	}}if (valid) {	result = true;	bw.write(horizontalWord1);	bw.write(&quot;\n&quot;);	bw.write(horizontalWord2);	bw.write(&quot;\n&quot;);	bw.write(horizontalWord3);	break exit;}  채점    반성  입력이 너무 적어서 아무 의미 없겠지만 생각해보자.이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지?가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나?그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가…이거 굉장히 곤란한 문제가 될 수 있겠다.에잇 끔찍한 소리 치워 꼴도 보기 싫어  코드 확인  Link to GitHub">
-      <meta itemprop="datePublished" content="2025-06-04T07:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-06-04T07:00:00+00:00">
+      <meta itemprop="headline" content="16256번 Painting the Wall">
+      <meta itemprop="description" content="  문제  16256번 Painting the Wall - 백준  번역  정사각형 타일로 구성된 n * m 사이즈의 벽이 있다.타일의 일부는 램프다.(0이면 램프 1이면 타일)타일에 페인트를 칠하려 한다.수직 또는 수평으로 연속된 타일이 있을 때 각 타일은 모두 다른 색의 페인트로 칠해야한다.서로 다른 색상의 페인트 k개가 있을 때 모두 다른 색상으로 벽을 칠할 수 있으면 YES와 페인트칠 한 예시를불가능하면 NO를 출력한다.k개의 페인트를 모두 사용할 필요는 없다.  설계  페인트칠 불가능한 조건부터 생각해보자.타일이 연속된 구간 중 가장 긴 구간의 길이가 k보다 크면 색칠이 불가능하다.가령 1 1 1 인 경우 연속 구간의 페인트 색은 모두 달라야 하기 때문에 k가 3보다 작다면 NO를 출력해야한다.구간 확인 후 색칠이 가능하면 각 연속 구간 내 1부터 k까지 칠해서 출력한다.  구현  1. 불가능한 경우타일이 연속되는 구간을 확인해 k와 비교해서 페인트칠 가능한지 확인한다.vector&lt;vector&lt;int&gt;&gt; wall(n, vector&lt;int&gt;(m));for (int i = 0; i &lt; n; ++i) {    for (int j = 0; j &lt; m; ++j) {        cin &gt;&gt; wall[i][j];    }}bool paintable = true;// 연속된 행 방향 타일 구간 탐색for (int i = 0 ; i &lt; n &amp;&amp; paintable ; ++i) {    int cnt = 0;    for (int j = 0 ; j &lt;= m ; ++j) {         if (j &lt; m &amp;&amp; wall[i][j] == 1) {            cnt++;        } else {            if (cnt &gt; k) {                paintable = false;                break;            }            cnt = 0;        }    }}// 연속된 열 방향 타일 구간 탐색for (int j = 0 ; j &lt; m &amp;&amp; paintable ; ++j) {    int cnt = 0;    for (int i = 0 ; i &lt;= n ; ++i) {        if (i &lt; n &amp;&amp; wall[i][j] == 1) {            cnt++;        } else {            if (cnt &gt; k) {                paintable = false;                break;            }                        cnt = 0;        }    }}if (!paintable) {    cout &lt;&lt; &quot;NO\n&quot;;    continue;}2. 가능한 경우색칠이 가능하면 겹치지 않게 숫자를 매긴다.겹치지만 않으면 되므로 mod 연산으로 대충 뿌려준다.// 가능하면 페인트칠vector&lt;vector&lt;int&gt;&gt; painted_wall(n, vector&lt;int&gt;(m, 0));for (int i = 0; i &lt; n; ++i){    for (int j = 0; j &lt; m; ++j) {        if (wall[i][j] == 1) {            // 모든 행열 구간에서 중복되지 않게            painted_wall[i][j] = ((i + j) % k) + 1;        }    }}    cout &lt;&lt; &quot;YES\n&quot;;for (int i = 0 ; i &lt; n ; ++i) {    for (int j = 0 ; j &lt; m ; ++j) {        cout &lt;&lt; painted_wall[i][j] &lt;&lt; &quot; &quot;;    }    cout &lt;&lt; &quot;\n&quot;;}  채점    반성  벡터가 아니라 배열로 쓰면 더 나았으려나?java면 배열로 했겠지만 C++라서 벡터를 사용한건데  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-06-13T01:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-13T01:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1184,18 +1184,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
       <span class="separator">/</span>
       
-      <a href="/board?path=random-solve%2FJava" class="category-link">
-        Java
+      <a href="/board?path=random-solve%2FC%2B%2B" class="category-link">
+        C++
       </a>
       
     
   </div>
-  <a href="/board?path=random-solve%2FJava%2F" class="category-icon" title="리스트">
+  <a href="/board?path=random-solve%2FC%2B%2B%2F" class="category-icon" title="리스트">
     <i class="fas fa-list-ul" aria-hidden="true"></i>
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">2784번 가로 세로 퍼즐
+            <h1 id="page-title" class="page__title" itemprop="headline">16256번 Painting the Wall
 </h1>
             
 
@@ -1209,108 +1209,121 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-06-04-2784/img01.webp" alt="img01" /></p>
+<p><img src="/assets/images/posts/random-solve/C++/2025-06-13-16256/img01.webp" alt="img01" /></p>
 
-<p><a href="https://www.acmicpc.net/problem/2784">2784번 가로 세로 퍼즐 - 백준</a></p>
+<p><a href="https://www.acmicpc.net/problem/16256">16256번 Painting the Wall - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>정사각형 타일로 구성된 n * m 사이즈의 벽이 있다.<br />
+타일의 일부는 램프다.(0이면 램프 1이면 타일)</p>
+
+<p>타일에 페인트를 칠하려 한다.<br />
+<span style="color: orange;"><strong>수직 또는 수평으로 연속된 타일이 있을 때 각 타일은 모두 다른 색의 페인트로 칠해야한다.</strong></span><br />
+서로 다른 색상의 페인트 k개가 있을 때 모두 다른 색상으로 벽을 칠할 수 있으면 YES와 페인트칠 한 예시를<br />
+불가능하면 NO를 출력한다.</p>
+
+<p>k개의 페인트를 모두 사용할 필요는 없다.</p>
 
 <blockquote>
   <h4 id="설계">설계</h4>
   <hr />
 </blockquote>
 
-<p><span style="color: orange;"><strong>개똥아</strong></span><br />
-<span style="color: orange;"><strong>똥쌌니</strong></span><br />
-<span style="color: orange;"><strong>아니오</strong></span><br />
-를 만드는 문제</p>
+<p>페인트칠 불가능한 조건부터 생각해보자.<br />
+<span style="color: orange;"><strong>타일이 연속된 구간 중 가장 긴 구간의 길이가 k보다 크면 색칠이 불가능</strong></span>하다.<br />
+가령 1 1 1 인 경우 연속 구간의 페인트 색은 모두 달라야 하기 때문에 k가 3보다 작다면 NO를 출력해야한다.</p>
 
-<p>생각보다… 조건이 복잡한건가?
-일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고<br />
-출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데<br />
-가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가?<br />
-도통 알 수 없다.</p>
-
-<p>단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나?<br />
-대충 하나하나 다 갖다박아보자.</p>
+<p>구간 확인 후 색칠이 가능하면 각 연속 구간 내 1부터 k까지 칠해서 출력한다.</p>
 
 <blockquote>
   <h4 id="구현">구현</h4>
   <hr />
 </blockquote>
 
-<h5 id="1-세로-단어-추출">1. 세로 단어 추출</h5>
+<h5 id="1-불가능한-경우">1. 불가능한 경우</h5>
 
-<p>일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다.<br />
-그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.</p>
+<p>타일이 연속되는 구간을 확인해 k와 비교해서 페인트칠 가능한지 확인한다.</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
-		<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
-		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
-			<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">k</span> <span class="o">||</span> <span class="n">j</span> <span class="o">==</span> <span class="n">k</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
-			
-			<span class="nc">String</span> <span class="n">horizontalWord1</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-			<span class="nc">String</span> <span class="n">horizontalWord2</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
-			<span class="nc">String</span> <span class="n">horizontalWord3</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">k</span><span class="o">);</span>
-			
-			<span class="c1">// 만든 단어</span>
-			<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">used</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
-			
-			<span class="kt">int</span> <span class="n">putCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-			<span class="c1">// 세로 줄 단어 생성</span>
-			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="o">;</span> <span class="n">l</span><span class="o">++)</span> <span class="o">{</span>
-				<span class="nc">String</span> <span class="n">verticalWord</span> <span class="o">=</span> <span class="s">""</span> <span class="o">+</span> <span class="n">horizontalWord1</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">l</span><span class="o">)</span> <span class="o">+</span> <span class="n">horizontalWord2</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">l</span><span class="o">)</span> <span class="o">+</span> <span class="n">horizontalWord3</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">l</span><span class="o">);</span>
-				
-				<span class="c1">// 세로단어가 존재하지 않는 단어면 통과</span>
-				<span class="k">if</span> <span class="o">(!</span><span class="n">words</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">verticalWord</span><span class="o">))</span> <span class="k">break</span><span class="o">;</span>
-				
-				<span class="n">used</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">verticalWord</span><span class="o">,</span> <span class="n">used</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">verticalWord</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
-				<span class="n">putCount</span><span class="o">++;</span>
-			<span class="o">}</span>
-			
-			<span class="c1">// 3번 안넣었으면 굳이 더 볼 필요 없음</span>
-			<span class="k">if</span> <span class="o">(</span><span class="n">putCount</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
-			
-		<span class="o">}</span>
-	<span class="o">}</span>
-<span class="o">}</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">wall</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">));</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">paintable</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+<span class="c1">// 연속된 행 방향 타일 구간 탐색</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">paintable</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="o">&amp;&amp;</span> <span class="n">wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">paintable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 연속된 열 방향 타일 구간 탐색</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="o">&amp;&amp;</span> <span class="n">paintable</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">paintable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+            
+            <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">paintable</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"NO</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="k">continue</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div></div>
 
-<h5 id="2-단어가-모이면-비교">2. 단어가 모이면 비교</h5>
+<h5 id="2-가능한-경우">2. 가능한 경우</h5>
 
-<p>입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다.<br />
-입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고<br />
-세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.</p>
+<p>색칠이 가능하면 겹치지 않게 숫자를 매긴다.<br />
+겹치지만 않으면 되므로 mod 연산으로 대충 뿌려준다.</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">words</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-<span class="c1">// 비교 시 중복때문에 Set을 못써서 Map 사용</span>
-<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 가능하면 페인트칠</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">painted_wall</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
 
-<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-	<span class="nc">String</span> <span class="n">word</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-	<span class="n">words</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">word</span><span class="o">);</span>
-	<span class="n">count</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">word</span><span class="o">,</span> <span class="n">count</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">word</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
-<span class="o">}</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 모든 행열 구간에서 중복되지 않게</span>
+            <span class="n">painted_wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>    
 
-<span class="c1">// ... 중략 ...</span>
-
-<span class="kt">boolean</span> <span class="n">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-<span class="c1">// 비교</span>
-<span class="k">for</span> <span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">used</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
-	<span class="k">if</span> <span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">!=</span> <span class="n">count</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()))</span> <span class="o">{</span>
-		<span class="n">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-		<span class="k">break</span><span class="o">;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-
-<span class="k">if</span> <span class="o">(</span><span class="n">valid</span><span class="o">)</span> <span class="o">{</span>
-	<span class="n">result</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">horizontalWord1</span><span class="o">);</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">horizontalWord2</span><span class="o">);</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">horizontalWord3</span><span class="o">);</span>
-	<span class="k">break</span> <span class="n">exit</span><span class="o">;</span>
-<span class="o">}</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"YES</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">painted_wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -1318,26 +1331,22 @@ document.addEventListener('DOMContentLoaded', function() {
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/random-solve/Java/2025-06-04-2784/img02.webp" alt="img02" /></p>
+<p><img src="/assets/images/posts/random-solve/C++/2025-06-13-16256/img02.webp" alt="img02" /></p>
 
 <blockquote>
   <h4 id="반성">반성</h4>
   <hr />
 </blockquote>
 
-<p>입력이 너무 적어서 아무 의미 없겠지만 생각해보자.<br />
-이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지?<br />
-가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나?<br />
-그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가…<br />
-이거 굉장히 곤란한 문제가 될 수 있겠다.<br />
-에잇 끔찍한 소리 치워 꼴도 보기 싫어</p>
+<p>벡터가 아니라 배열로 쓰면 더 나았으려나?<br />
+java면 배열로 했겠지만 C++라서 벡터를 사용한건데</p>
 
 <blockquote>
   <h4 id="코드-확인">코드 확인</h4>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-04-2784.java">Link to GitHub</a></p>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-06-13-16256.cpp">Link to GitHub</a></p>
 
 
           
@@ -1347,7 +1356,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-04">June 4, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-13">June 13, 2025</time></p>
 
 
         </footer>
@@ -1362,10 +1371,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "2784번 가로 세로 퍼즐",
-        url: "/random-solve/java/2025/06/04/2784.html",
-        date: "2025-06-04",
-        categories: ["random-solve/Java/"]
+        title: "16256번 Painting the Wall",
+        url: "/random-solve/c++/2025/06/13/16256.html",
+        date: "2025-06-13",
+        categories: ["random-solve/C++/"]
       },
       allPosts: [
         

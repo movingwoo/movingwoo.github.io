@@ -244,4 +244,10 @@ var store = [{
         "tags": [],
         "url": "/one-pan/shortcuts/2025/06/11/Drawing-Lots.html",
         "teaser": null
+      },{
+        "title": "16256번 Painting the Wall",
+        "excerpt":"문제 16256번 Painting the Wall - 백준 번역 정사각형 타일로 구성된 n * m 사이즈의 벽이 있다. 타일의 일부는 램프다.(0이면 램프 1이면 타일) 타일에 페인트를 칠하려 한다. 수직 또는 수평으로 연속된 타일이 있을 때 각 타일은 모두 다른 색의 페인트로 칠해야한다. 서로 다른 색상의 페인트 k개가 있을 때 모두 다른...","categories": ["random-solve/C++/"],
+        "tags": [],
+        "url": "/random-solve/c++/2025/06/13/16256.html",
+        "teaser": null
       }]
