@@ -250,4 +250,10 @@ var store = [{
         "tags": [],
         "url": "/random-solve/c++/2025/06/13/16256.html",
         "teaser": null
+      },{
+        "title": "24008번 Catch Them All",
+        "excerpt":"문제 24008번 Catch Them All - 백준 번역 Codejamon GO 게임을 한다. 도시는 1부터 N까지 장소가 있으며 M개의 양방향 도로가 있고 시작 지점은 항상 1이다. Codejamon이 랜덤 장소에 등장하면 가장 빠른 경로로 이동해 잡는다. 잡은 즉시 다른 랜덤 위치에 Codejamon이 나타난다. 총 P마리 Codejamon을 잡을 때 기대 소요 시간을 구하시오....","categories": ["random-solve/Java/"],
+        "tags": [],
+        "url": "/random-solve/java/2025/06/13/24008.html",
+        "teaser": null
       }]

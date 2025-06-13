@@ -1,4 +1,171 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-13T01:48:25+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">16256번 Painting the Wall</title><link href="https://movingwoo.com/random-solve/c++/2025/06/13/16256.html" rel="alternate" type="text/html" title="16256번 Painting the Wall" /><published>2025-06-13T01:00:00+00:00</published><updated>2025-06-13T01:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/06/13/16256</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/06/13/16256.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-13T07:51:48+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>나도 사람인데 뭐라도 하겠지</subtitle><entry><title type="html">24008번 Catch Them All</title><link href="https://movingwoo.com/random-solve/java/2025/06/13/24008.html" rel="alternate" type="text/html" title="24008번 Catch Them All" /><published>2025-06-13T07:00:00+00:00</published><updated>2025-06-13T07:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/06/13/24008</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/06/13/24008.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-13-24008/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/24008">24008번 Catch Them All - 백준</a></p>
+
+<blockquote>
+  <h4 id="번역">번역</h4>
+  <hr />
+</blockquote>
+
+<p>Codejamon GO 게임을 한다.<br />
+도시는 1부터 N까지 장소가 있으며 M개의 양방향 도로가 있고 <span style="color: orange;"><strong>시작 지점은 항상 1</strong></span>이다.</p>
+
+<p>Codejamon이 랜덤 장소에 등장하면 가장 빠른 경로로 이동해 잡는다.<br />
+잡은 즉시 다른 랜덤 위치에 Codejamon이 나타난다.</p>
+
+<p>총 P마리 Codejamon을 잡을 때 기대 소요 시간을 구하시오.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>푸키먼 고를 흉내낸 문제.</p>
+
+<p>현재 장소를 제외한 무작위 위치에 푸키먼이 등장하는데<br />
+우선 각 위치에서 다른 모든 위치까지의 최단 거리를 알아야한다.</p>
+
+<p>거리를 알게되면 이동시간을 구할 수 있고 이동시간을 알면 평균을 낼 수 있다.<br />
+이를 P번 반복해서 기대 소요 시간을 구한다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-그래프-그리기">1. 그래프 그리기</h5>
+
+<p>입력받아서 그래프를 그려준다.<br />
+<span style="color: orange;"><strong>중복 간선이 없다는게 보장</strong></span>되므로 그냥 쑥쑥 집어넣기만 하면 된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+	<span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">))){</span>
+	
+	<span class="kt">int</span> <span class="no">T</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">trim</span><span class="o">());</span>
+	
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="no">T</span> <span class="o">;</span> <span class="n">t</span><span class="o">++)</span> <span class="o">{</span>
+		
+		<span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">trim</span><span class="o">(),</span> <span class="s">" "</span><span class="o">);</span>
+		<span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="no">M</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="no">P</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+		
+		<span class="c1">// 그래프 초기화</span>
+		<span class="kt">int</span><span class="o">[][]</span> <span class="n">dist</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">N</span> <span class="o">+</span> <span class="mi">1</span><span class="o">][</span><span class="no">N</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+		
+		<span class="k">for</span><span class="o">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="no">N</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="no">N</span> <span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="c1">// U V D가 크지않아서 적당히 큰 값 세팅</span>
+				<span class="n">dist</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">100000</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		
+		<span class="c1">// 간선 등록</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">M</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">trim</span><span class="o">(),</span> <span class="s">" "</span><span class="o">);</span>
+			
+			<span class="kt">int</span> <span class="no">U</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+			<span class="kt">int</span> <span class="no">V</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+			<span class="kt">int</span> <span class="no">D</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+			
+			<span class="c1">// 양방향</span>
+			<span class="n">dist</span><span class="o">[</span><span class="no">U</span><span class="o">][</span><span class="no">V</span><span class="o">]</span> <span class="o">=</span> <span class="no">D</span><span class="o">;</span>
+			<span class="n">dist</span><span class="o">[</span><span class="no">V</span><span class="o">][</span><span class="no">U</span><span class="o">]</span> <span class="o">=</span> <span class="no">D</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="2-최단거리">2. 최단거리</h5>
+
+<p><span style="color: orange;"><strong>플로이드 워셜 알고리즘</strong></span>을 사용한다.<br />
+시간 복잡도가 O(N^3) 인데 N이 크지가 않아서 괜찮을거다.<br />
+다익스트라보다 간단하다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 플로이드 워셜 알고리즘</span>
+<span class="c1">// 경유지 k가 가장 바깥</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="c1">// k 를 경유해서 가는게 더 빠르면 갱신</span>
+			<span class="n">dist</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">dist</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">],</span> <span class="n">dist</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">k</span><span class="o">]</span> <span class="o">+</span> <span class="n">dist</span><span class="o">[</span><span class="n">k</span><span class="o">][</span><span class="n">j</span><span class="o">])</span> <span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="3-시간-계산">3. 시간 계산</h5>
+
+<p>원래 대충 근사값 계산했는데 계속 틀렸다고해서 수학공부를 좀 진행해야했다.<br />
+단순 근사값 계산 대신 <span style="color: orange;"><strong>마르코프 체인</strong></span>을 활용해 P (최대 10^9) 에 대한 누적 기대 시간을 효율적으로 추정한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 시간 계산</span>
+<span class="c1">// 첫번째는 반드시 1번에서 출발</span>
+<span class="kt">double</span> <span class="n">start</span> <span class="o">=</span> <span class="mf">0.0</span><span class="o">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="n">start</span> <span class="o">+=</span> <span class="n">dist</span><span class="o">[</span><span class="mi">1</span><span class="o">][</span><span class="n">i</span><span class="o">];</span>
+<span class="o">}</span>
+<span class="n">start</span> <span class="o">/=</span> <span class="o">(</span><span class="kt">double</span><span class="o">)(</span><span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+
+<span class="c1">// 같은 위치 제외 모든 거리의 평균</span>
+<span class="kt">double</span> <span class="n">result</span> <span class="o">=</span> <span class="mf">0.0</span><span class="o">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+		
+		<span class="n">result</span> <span class="o">+=</span> <span class="n">dist</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">];</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// N * (N - 1)</span>
+<span class="n">result</span> <span class="o">/=</span> <span class="o">(</span><span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">*</span> <span class="o">(</span><span class="kt">double</span><span class="o">)(</span><span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">-</span> <span class="mi">1</span><span class="o">));</span>
+
+<span class="c1">// 근사값 계산했더니 틀려서 상세하게 접근</span>
+<span class="c1">// 람다</span>
+<span class="kt">double</span> <span class="n">lambda</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="o">(</span><span class="n">nmp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+<span class="c1">// 기하급수 합</span>
+<span class="kt">double</span> <span class="n">geoSum</span> <span class="o">=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nc">Math</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">lambda</span><span class="o">,</span> <span class="n">nmp</span><span class="o">[</span><span class="mi">2</span><span class="o">]))</span> <span class="o">/</span> <span class="o">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lambda</span><span class="o">);</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">*</span> <span class="n">nmp</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">+</span> <span class="o">(</span><span class="n">start</span> <span class="o">-</span> <span class="n">result</span><span class="o">)</span> <span class="o">*</span> <span class="n">geoSum</span><span class="o">;</span>
+
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"Case #%d: %.6f\n"</span><span class="o">,</span> <span class="n">t</span><span class="o">,</span> <span class="n">result</span><span class="o">));</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/Java/2025-06-13-24008/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>이상한 일이 있다.<br />
+분명히 처음에 예제 입력이 너무 개판이었다.<br />
+한 줄에 3개씩 숫자가 들어와야하는데 4개 2개 이렇게 개판으로 들어와서 입력을 희한하게도 주네 했는데<br />
+<span style="color: red;"><strong>문제 맞추고 다시 보니 예제가 3개씩 들어오는 것으로 정상화 되어있다.</strong></span></p>
+
+<p><span style="color: red;"><strong>최면 걸렸나? 사이버 귀신인가?</strong></span></p>
+
+<p>그래서 다시 입력받는 부분 간소화하고 돌렸더니 메모리와 시간이 확 줄었다.<br />
+진짜 무슨 일이 일어난거지</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-13-24008.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 24008번 Catch Them All - 백준 번역 Codejamon GO 게임을 한다. 도시는 1부터 N까지 장소가 있으며 M개의 양방향 도로가 있고 시작 지점은 항상 1이다. Codejamon이 랜덤 장소에 등장하면 가장 빠른 경로로 이동해 잡는다. 잡은 즉시 다른 랜덤 위치에 Codejamon이 나타난다. 총 P마리 Codejamon을 잡을 때 기대 소요 시간을 구하시오. 설계 푸키먼 고를 흉내낸 문제. 현재 장소를 제외한 무작위 위치에 푸키먼이 등장하는데 우선 각 위치에서 다른 모든 위치까지의 최단 거리를 알아야한다. 거리를 알게되면 이동시간을 구할 수 있고 이동시간을 알면 평균을 낼 수 있다. 이를 P번 반복해서 기대 소요 시간을 구한다. 구현 1. 그래프 그리기 입력받아서 그래프를 그려준다. 중복 간선이 없다는게 보장되므로 그냥 쑥쑥 집어넣기만 하면 된다. try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))){ int T = Integer.parseInt(br.readLine().trim()); for (int t = 1 ; t &lt;= T ; t++) { StringTokenizer st = new StringTokenizer(br.readLine().trim(), " "); int N = Integer.parseInt(st.nextToken()); int M = Integer.parseInt(st.nextToken()); int P = Integer.parseInt(st.nextToken()); // 그래프 초기화 int[][] dist = new int[N + 1][N + 1]; for( int i = 1 ; i &lt;= N ; i++) { for (int j = 1 ; j &lt;= N ; j++) { // U V D가 크지않아서 적당히 큰 값 세팅 dist[i][j] = i == j ? 0 : 100000; } } // 간선 등록 for (int i = 0 ; i &lt; M ; i++) { st = new StringTokenizer(br.readLine().trim(), " "); int U = Integer.parseInt(st.nextToken()); int V = Integer.parseInt(st.nextToken()); int D = Integer.parseInt(st.nextToken()); // 양방향 dist[U][V] = D; dist[V][U] = D; } } }catch(Exception e) { e.printStackTrace(); } 2. 최단거리 플로이드 워셜 알고리즘을 사용한다. 시간 복잡도가 O(N^3) 인데 N이 크지가 않아서 괜찮을거다. 다익스트라보다 간단하다. // 플로이드 워셜 알고리즘 // 경유지 k가 가장 바깥 for (int k = 1; k &lt;= nmp[0] ; k++) { for (int i = 1 ; i &lt;= nmp[0] ; i++) { for (int j = 1 ; j &lt;= nmp[0] ; j++) { // k 를 경유해서 가는게 더 빠르면 갱신 dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]) ; } } } 3. 시간 계산 원래 대충 근사값 계산했는데 계속 틀렸다고해서 수학공부를 좀 진행해야했다. 단순 근사값 계산 대신 마르코프 체인을 활용해 P (최대 10^9) 에 대한 누적 기대 시간을 효율적으로 추정한다. // 시간 계산 // 첫번째는 반드시 1번에서 출발 double start = 0.0; for (int i = 2 ; i &lt;= nmp[0] ; i++) { start += dist[1][i]; } start /= (double)(nmp[0] - 1); // 같은 위치 제외 모든 거리의 평균 double result = 0.0; for (int i = 1 ; i &lt;= nmp[0] ; i++) { for (int j = 1 ; j &lt;= nmp[0] ; j++) { if (i == j) continue; result += dist[i][j]; } } // N * (N - 1) result /= (nmp[0] * (double)(nmp[0] - 1)); // 근사값 계산했더니 틀려서 상세하게 접근 // 람다 double lambda = -1.0 / (nmp[0] - 1); // 기하급수 합 double geoSum = (1 - Math.pow(lambda, nmp[2])) / (1 - lambda); result = result * nmp[2] + (start - result) * geoSum; bw.write(String.format("Case #%d: %.6f\n", t, result)); 채점 반성 이상한 일이 있다. 분명히 처음에 예제 입력이 너무 개판이었다. 한 줄에 3개씩 숫자가 들어와야하는데 4개 2개 이렇게 개판으로 들어와서 입력을 희한하게도 주네 했는데 문제 맞추고 다시 보니 예제가 3개씩 들어오는 것으로 정상화 되어있다. 최면 걸렸나? 사이버 귀신인가? 그래서 다시 입력받는 부분 간소화하고 돌렸더니 메모리와 시간이 확 줄었다. 진짜 무슨 일이 일어난거지 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">16256번 Painting the Wall</title><link href="https://movingwoo.com/random-solve/c++/2025/06/13/16256.html" rel="alternate" type="text/html" title="16256번 Painting the Wall" /><published>2025-06-13T01:00:00+00:00</published><updated>2025-06-13T01:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/06/13/16256</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/06/13/16256.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -1256,121 +1423,4 @@ json 형식으로 작성한다해도 알아보기가 힘들고<br />
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-02-1148.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 1148번 단어 만들기 - 백준 설계 20만개의 사전 단어… 이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다? 이게 되남?? 믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다. 아니 또 시간이 문제가 아니라 메모리가 문제였네! 맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에 비트마스크 ㄱㄱ 구현 1. 단어와 사전 단어 클래스를 구현해 사전에 넣는다. 단어는 비트마스크와 문자 수를 가진다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))){ List&lt;Word&gt; dictionary = new ArrayList&lt;&gt;(); // 사전 채우기 while (true) { String word = br.readLine(); if (word.charAt(0) == '-') break; dictionary.add(new Word(word)); } } catch (IOException e) {} } // Word class static class Word { int mask; int[] count; Word() { this.count = new int[26]; } Word(String word) { this(); for (char c : word.toCharArray()) { // 무조건 대문자로 들어옴 count[c - 'A']++; mask |= (1 &lt;&lt; (c - 'A')); } } } 2. 메인 루프 퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다. 분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다. while (true) { String puzzle = br.readLine(); if (puzzle.charAt(0) == '#') break; // 퍼즐판 비트마스크 변환 int[] puzzleCount = new int[26]; int puzzleMask = 0; for (char c : puzzle.toCharArray()) { puzzleCount[c - 'A']++; puzzleMask |= (1 &lt;&lt; (c - 'A')); } Map&lt;Character, Integer&gt; center = new HashMap&lt;&gt;(); // 중심글자 하나씩 넣어보기 for (char c : puzzle.toCharArray()) { int centerMask = (1 &lt;&lt; (c - 'A')); int count = 0; for (Word w : dictionary) { // 알파벳 체크 if ((w.mask &amp; puzzleMask) != w.mask) continue; // 중심글자 체크 if ((w.mask &amp; centerMask) == 0) continue; boolean valid = true; // 개수 체크 for (int i = 0; i &lt; 26; i++) { if (w.count[i] &gt; puzzleCount[i]) { valid = false; break; } } if (valid) count++; } center.put(c, count); } // 최소값 최대값 찾기 int min = Collections.min(center.values()); int max = Collections.max(center.values()); List&lt;Character&gt; minLetters = new ArrayList&lt;&gt;(); List&lt;Character&gt; maxLetters = new ArrayList&lt;&gt;(); for (Map.Entry&lt;Character, Integer&gt; e : center.entrySet()) { if (e.getValue() == min &amp;&amp; !minLetters.contains(e.getKey())) { minLetters.add(e.getKey()); } if (e.getValue() == max &amp;&amp; !maxLetters.contains(e.getKey())) { maxLetters.add(e.getKey()); } } // 알파벳 순 정렬 Collections.sort(minLetters); Collections.sort(maxLetters); for (char ch : minLetters) sb.append(ch); sb.append(" ").append(min).append(" "); for (char ch : maxLetters) sb.append(ch); sb.append(" ").append(max).append("\n"); } 채점 반성 처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가 전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다. 어쨌든 20만개를 저장해서 순회하는 식이니 말이다. 좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯? 하지만 어쨌든 풀었으니 그만둬야지 코드 확인 Link to GitHub]]></summary></entry><entry><title type="html">11761번 Shuffling Along</title><link href="https://movingwoo.com/random-solve/python/2025/06/02/11761.html" rel="alternate" type="text/html" title="11761번 Shuffling Along" /><published>2025-06-02T03:00:00+00:00</published><updated>2025-06-02T03:00:00+00:00</updated><id>https://movingwoo.com/random-solve/python/2025/06/02/11761</id><content type="html" xml:base="https://movingwoo.com/random-solve/python/2025/06/02/11761.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-06-02-11761/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/11761">11761번 Shuffling Along - 백준</a></p>
-
-<blockquote>
-  <h4 id="번역">번역</h4>
-  <hr />
-</blockquote>
-
-<p>덱을 절반을 나눠서 교차로 셔플한다.<br />
-ABCDEFGH의 카드를 예시로 할때<br />
-A가 위로 오면 아웃셔플 (AEBFCGDH)<br />
-E가 위로 오면 인셔플 (EAFBGCHD)</p>
-
-<p>셔플을 여러번 하면 원래 덱 상태로 돌아오는데<br />
-덱 수와 셔플 방식이 주어지면 몇 회만에 원래 덱으로 돌아오는지 구하시오.<br />
-홀수인 경우 아웃셔플은 왼쪽에 1장, 인셔플은 오른쪽에 1장 더 준다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>단순 구현 문제로 보인다.<br />
-인셔플과 아웃셔플 함수를 두고 개수세며 섞기만 하면 끝인가?<br />
-n이 작아서 충분히 가능할 것 같다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>홀수일때 아웃셔플은 왼쪽이 한 장 많고 인셔플은 오른쪽이 한 장 많다.<br />
-중간점만 잘 체크해주기</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 아웃셔플
-</span><span class="k">def</span> <span class="nf">out_shuffle</span><span class="p">(</span><span class="n">deck</span><span class="p">):</span>
-    <span class="c1"># 왼쪽이 더 많게
-</span>    <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>  
-    <span class="n">left</span> <span class="o">=</span> <span class="n">deck</span><span class="p">[:</span><span class="n">mid</span><span class="p">]</span>
-    <span class="n">right</span> <span class="o">=</span> <span class="n">deck</span><span class="p">[</span><span class="n">mid</span><span class="p">:]</span>
-
-    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">result</span>
-
-<span class="c1"># 인셔플
-</span><span class="k">def</span> <span class="nf">in_shuffle</span><span class="p">(</span><span class="n">deck</span><span class="p">):</span>
-    <span class="c1"># 오른쪽이 더 많게
-</span>    <span class="n">mid</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="n">left</span> <span class="o">=</span> <span class="n">deck</span><span class="p">[:</span><span class="n">mid</span><span class="p">]</span>
-    <span class="n">right</span> <span class="o">=</span> <span class="n">deck</span><span class="p">[</span><span class="n">mid</span><span class="p">:]</span>
-    
-    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">result</span>
-</code></pre></div></div>
-
-<p>호출하며 카운트를 센다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">str_n</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()</span>
-<span class="n">n</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">str_n</span><span class="p">)</span>
-
-<span class="n">deck</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-
-<span class="n">shuffled_deck</span> <span class="o">=</span> <span class="n">deck</span>
-<span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="sh">'</span><span class="s">in</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">shuffled_deck</span> <span class="o">=</span> <span class="nf">in_shuffle</span><span class="p">(</span><span class="n">shuffled_deck</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">o</span> <span class="o">==</span> <span class="sh">'</span><span class="s">out</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">shuffled_deck</span> <span class="o">=</span> <span class="nf">out_shuffle</span><span class="p">(</span><span class="n">shuffled_deck</span><span class="p">)</span>
-    
-    <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">if</span> <span class="n">shuffled_deck</span> <span class="o">==</span> <span class="n">deck</span><span class="p">:</span>
-        <span class="k">break</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-06-02-11761/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>n이 작아서 단순 시뮬레이션으로 통과 가능했다.<br />
-만약 엄청나게 컸다면?<br />
-전체 덱의 셔플 주기를 찾아서 순환 길이들의 최소공배수를 찾아야할 것이다.<br />
-휴~~~ 간단한 문제라서 다행이야</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-06-02-11761.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Python/" /><summary type="html"><![CDATA[문제 11761번 Shuffling Along - 백준 번역 덱을 절반을 나눠서 교차로 셔플한다. ABCDEFGH의 카드를 예시로 할때 A가 위로 오면 아웃셔플 (AEBFCGDH) E가 위로 오면 인셔플 (EAFBGCHD) 셔플을 여러번 하면 원래 덱 상태로 돌아오는데 덱 수와 셔플 방식이 주어지면 몇 회만에 원래 덱으로 돌아오는지 구하시오. 홀수인 경우 아웃셔플은 왼쪽에 1장, 인셔플은 오른쪽에 1장 더 준다. 설계 단순 구현 문제로 보인다. 인셔플과 아웃셔플 함수를 두고 개수세며 섞기만 하면 끝인가? n이 작아서 충분히 가능할 것 같다. 구현 홀수일때 아웃셔플은 왼쪽이 한 장 많고 인셔플은 오른쪽이 한 장 많다. 중간점만 잘 체크해주기 # 아웃셔플 def out_shuffle(deck): # 왼쪽이 더 많게 mid = (n + 1) // 2 left = deck[:mid] right = deck[mid:] result = [] for i in range(n): if i % 2 == 0: result.append(left[i // 2]) else: result.append(right[i // 2]) return result # 인셔플 def in_shuffle(deck): # 오른쪽이 더 많게 mid = n // 2 left = deck[:mid] right = deck[mid:] result = [] for i in range(n): if i % 2 == 0: result.append(right[i // 2]) else: result.append(left[i // 2]) return result 호출하며 카운트를 센다. str_n, o = input().split() n = int(str_n) deck = list(range(n)) shuffled_deck = deck cnt = 0 while True: if o == 'in': shuffled_deck = in_shuffle(shuffled_deck) elif o == 'out': shuffled_deck = out_shuffle(shuffled_deck) cnt += 1 if shuffled_deck == deck: break print(cnt) 채점 반성 n이 작아서 단순 시뮬레이션으로 통과 가능했다. 만약 엄청나게 컸다면? 전체 덱의 셔플 주기를 찾아서 순환 길이들의 최소공배수를 찾아야할 것이다. 휴~~~ 간단한 문제라서 다행이야 코드 확인 Link to GitHub]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-02-1148.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><summary type="html"><![CDATA[문제 1148번 단어 만들기 - 백준 설계 20만개의 사전 단어… 이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다? 이게 되남?? 믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다. 아니 또 시간이 문제가 아니라 메모리가 문제였네! 맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에 비트마스크 ㄱㄱ 구현 1. 단어와 사전 단어 클래스를 구현해 사전에 넣는다. 단어는 비트마스크와 문자 수를 가진다. public static void main(String[] args) { try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))){ List&lt;Word&gt; dictionary = new ArrayList&lt;&gt;(); // 사전 채우기 while (true) { String word = br.readLine(); if (word.charAt(0) == '-') break; dictionary.add(new Word(word)); } } catch (IOException e) {} } // Word class static class Word { int mask; int[] count; Word() { this.count = new int[26]; } Word(String word) { this(); for (char c : word.toCharArray()) { // 무조건 대문자로 들어옴 count[c - 'A']++; mask |= (1 &lt;&lt; (c - 'A')); } } } 2. 메인 루프 퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다. 분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다. while (true) { String puzzle = br.readLine(); if (puzzle.charAt(0) == '#') break; // 퍼즐판 비트마스크 변환 int[] puzzleCount = new int[26]; int puzzleMask = 0; for (char c : puzzle.toCharArray()) { puzzleCount[c - 'A']++; puzzleMask |= (1 &lt;&lt; (c - 'A')); } Map&lt;Character, Integer&gt; center = new HashMap&lt;&gt;(); // 중심글자 하나씩 넣어보기 for (char c : puzzle.toCharArray()) { int centerMask = (1 &lt;&lt; (c - 'A')); int count = 0; for (Word w : dictionary) { // 알파벳 체크 if ((w.mask &amp; puzzleMask) != w.mask) continue; // 중심글자 체크 if ((w.mask &amp; centerMask) == 0) continue; boolean valid = true; // 개수 체크 for (int i = 0; i &lt; 26; i++) { if (w.count[i] &gt; puzzleCount[i]) { valid = false; break; } } if (valid) count++; } center.put(c, count); } // 최소값 최대값 찾기 int min = Collections.min(center.values()); int max = Collections.max(center.values()); List&lt;Character&gt; minLetters = new ArrayList&lt;&gt;(); List&lt;Character&gt; maxLetters = new ArrayList&lt;&gt;(); for (Map.Entry&lt;Character, Integer&gt; e : center.entrySet()) { if (e.getValue() == min &amp;&amp; !minLetters.contains(e.getKey())) { minLetters.add(e.getKey()); } if (e.getValue() == max &amp;&amp; !maxLetters.contains(e.getKey())) { maxLetters.add(e.getKey()); } } // 알파벳 순 정렬 Collections.sort(minLetters); Collections.sort(maxLetters); for (char ch : minLetters) sb.append(ch); sb.append(" ").append(min).append(" "); for (char ch : maxLetters) sb.append(ch); sb.append(" ").append(max).append("\n"); } 채점 반성 처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가 전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다. 어쨌든 20만개를 저장해서 순회하는 식이니 말이다. 좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯? 하지만 어쨌든 풀었으니 그만둬야지 코드 확인 Link to GitHub]]></summary></entry></feed>
