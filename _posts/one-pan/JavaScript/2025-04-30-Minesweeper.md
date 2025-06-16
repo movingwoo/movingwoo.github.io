@@ -1,9 +1,11 @@
 ---
 title: "지뢰찾기"
+description: "JAVASCRIPT 지뢰찾기 게임 개발"
 date: "2025-04-30 07:00:00 +0900"
 last_modified_at: "2025-04-30 07:00:00 +0900"
 categories: 
   - one-pan/JavaScript/
+tags: [JAVASCRIPT, 지뢰찾기]
 author: movingwoo
 ---
 > #### 탄생 비화  

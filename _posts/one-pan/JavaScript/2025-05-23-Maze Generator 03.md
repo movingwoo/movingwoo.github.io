@@ -1,9 +1,11 @@
 ---
 title: "미로 생성기 03"
+description: "JAVASCRIPT 미로 생성기 프로그램 개발"
 date: "2025-05-23 10:00:00 +0900"
 last_modified_at: "2025-05-23 10:00:00 +0900"
 categories: 
   - one-pan/JavaScript/
+tags: [JAVASCRIPT, CANVAS, 미로 생성기, 알고리즘, Binary Tree, Sidewinder, Recursive Division, Eller's]
 author: movingwoo
 ---
 > #### 개요  

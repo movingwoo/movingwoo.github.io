@@ -1,9 +1,11 @@
 ---
 title: "제비 뽑기"
+description: "단축어 제비 뽑기 프로그램 개발"
 date: "2025-06-11 11:00:00 +0900"
 last_modified_at: "2025-06-11 11:00:00 +0900"
 categories: 
   - one-pan/Shortcuts/
+tags: [단축어, 제비 뽑기]
 author: movingwoo
 ---
 > #### 개요  

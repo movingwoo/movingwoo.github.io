@@ -1,5 +1,5 @@
-{% assign categories = site.categories | sort %}
-{% assign tags = site.tags | sort %}
+{% assign categories = site.categories | sort_natural %}
+{% assign tags = site.tags | sort_natural %}
 
 {% assign category_tree = "" | split: "" %}
 {% for category in site.categories %}

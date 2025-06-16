@@ -1,9 +1,11 @@
 ---
 title: "파일 복사기"
+description: "SHELL 파일 복사기 프로그램 개발"
 date: "2025-05-12 16:00:00 +0900"
 last_modified_at: "2025-05-12 16:00:00 +0900"
 categories: 
   - one-pan/ShellScript/
+tags: [SHELL, 파일 복사기]
 author: movingwoo
 ---
 > #### 탄생 비화  

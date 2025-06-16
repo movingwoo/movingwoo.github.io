@@ -1,9 +1,11 @@
 ---
 title: "던전 생성기 02"
+description: "JAVASCRIPT 던전 생성기 프로그램 개발"
 date: "2025-05-28 11:00:00 +0900"
 last_modified_at: "2025-05-28 11:00:00 +0900"
 categories: 
   - one-pan/JavaScript/
+tags: [JAVASCRIPT, CANVAS, 던전 생성기, 알고리즘, Delaunay Triangulation, MST, WFC]
 author: movingwoo
 ---
 > #### 개요  

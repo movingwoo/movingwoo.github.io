@@ -1,9 +1,11 @@
 ---
 title: "플래피 버드"
+description: "JAVASCRIPT 플래피 버드 게임 개발"
 date: "2025-05-14 07:00:00 +0900"
 last_modified_at: "2025-05-14 07:00:00 +0900"
 categories: 
   - one-pan/JavaScript/
+tags: [JAVASCRIPT, CANVAS, 플래피 버드]
 author: movingwoo
 ---
 > #### 개요  
