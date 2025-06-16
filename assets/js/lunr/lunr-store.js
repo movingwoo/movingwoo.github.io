@@ -1,13 +1,13 @@
 var store = [{
         "title": "서버 관리 콘솔",
         "excerpt":"탄생 비화 WSL 환경에서 tomcat과 jdk를 버전별로 올려 테스트 중 문제 발생 윈도우 IP로 접속 시 WSL과 바로 연결이 안됨 ㄴ 포트 매핑이 필요하다. 모든 톰캣의 포트를 일일이 매핑시키기 귀찮음 ㄴ nginx를 올려 443번만 뚫고 각 톰캣 http 포트로 매핑 설정 일일히 하기 귀찮아서 톰캣 8080 포트 통일 일일이 경로...","categories": ["one-pan/ShellScript/"],
-        "tags": [],
+        "tags": ["SHELL","서버 관리 콘솔"],
         "url": "/one-pan/shellscript/2025/04/28/Server-Manage-Console.html",
         "teaser": null
       },{
         "title": "지뢰찾기",
         "excerpt":"탄생 비화 바닐라 JS 재활훈련삼아 투닥투닥 두들겨 봄 재활훈련을 마치면 canvas를 이용해 뭐라도 만들어 볼 요량 구현 포인트 1. 지뢰판 뿌리기 처음에는 그리드로 대충 만들어 뿌렸는데 뿌려놓고 css가 변경될 경우 리드로우가 일어난다고 한다. 그래서 DOM을 직접 컨트롤하는건 권장하지 않는다고 지뢰찾기 몇 칸 넣는데 영향은 없겠지만 연습삼아 fragment를 사용해본다. 그리고 옛날사람처럼...","categories": ["one-pan/JavaScript/"],
-        "tags": [],
+        "tags": ["JAVASCRIPT","지뢰찾기"],
         "url": "/one-pan/javascript/2025/04/29/Minesweeper.html",
         "teaser": null
       },{
@@ -37,25 +37,25 @@ var store = [{
       },{
         "title": "숫자야구",
         "excerpt":"탄생 비화 숫자야구 져서 꼴받아서 처음에는 전체 숫자 풀에서 틀린 후보를 삭제해가는 식으로 했는데 Knuth 전략을 이용하면 6턴 내 클리어가 보장된다고 하여 공부할 겸 만들어 봄 구현 포인트 1. 피드백 클래스 생성 Knuth 전략의 핵심은 최악의 경우를 최소화하는 것이다. 각 추측마다 가능한 모든 피드백 그룹을 만들고, 가장 큰 그룹의 크기를...","categories": ["one-pan/Java/"],
-        "tags": [],
+        "tags": ["JAVA","알고리즘","숫자야구","Knuth"],
         "url": "/one-pan/java/2025/05/11/Bulls-and-Cows.html",
         "teaser": null
       },{
         "title": "파일 복사기",
         "excerpt":"탄생 비화 리눅스 파일 100개를 일일이 복사하려는 안타까운 광경을 보고 대충 투닥투닥 만들어줌… 구현 포인트 1. 입력받기 파일과 복사할 숫자를 입력받고 없으면 예외처리해준다. read -p \"파일명 입력 (확장자 포함) : \" FILENAME if [ ! -e \"$FILENAME\" ]; then echo \"파일이 없음...\" exit 1 fi read -p \"복사할 개수 (숫자)...","categories": ["one-pan/ShellScript/"],
-        "tags": [],
+        "tags": ["SHELL","파일 복사기"],
         "url": "/one-pan/shellscript/2025/05/12/File-Copier.html",
         "teaser": null
       },{
         "title": "클리커",
         "excerpt":"탄생 비화 화면을 인식하고 다양한 입력을 받고 싶은데 어떡하지? GUI 뚝딱 만들어내는게 파이썬이 간단해보여서 기초 문법을 공부할 겸 만들어봄 구현 포인트 1. 메인 # 프로그램의 시작점 # C나 java의 main()과 같음 if __name__ == \"__main__\": # 파이썬은 들여쓰기가 아주 중요함 # 스페이스 4칸이 국룰이라고 함 # 탭 누르면 4칸 들여쓰기가...","categories": ["one-pan/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","클리커"],
         "url": "/one-pan/python/2025/05/13/Clicker.html",
         "teaser": null
       },{
         "title": "플래피 버드",
         "excerpt":"개요 캔버스로 웹 게임 하나 만들어보기 마우스 클릭 조작만 이용하고 싶기에 고심끝에 Flappy Bird를 구현해보기로 한다. 그런데 이 게임 한국어로 뭐라고 하지? 그냥 플래피 버드라고 하면 되나? 구현 1. 설계 필요한 기능을 정리해보자. 마우스 클릭 시 점프 천장, 지면, 장애물 충돌 판정 장애물 높이 랜덤 생성 및 시간이 지날수록 속도...","categories": ["one-pan/JavaScript/"],
-        "tags": [],
+        "tags": ["JAVASCRIPT","CANVAS","플래피 버드"],
         "url": "/one-pan/javascript/2025/05/13/Flappy-Bird.html",
         "teaser": null
       },{
@@ -67,193 +67,193 @@ var store = [{
       },{
         "title": "랜덤 출력기",
         "excerpt":"개요 백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데 랜덤 뽑아내는 기능이 필요해서 자급자족함 구현 1. 설계 백준에 문제가 몇개나 되지? 현시점 전체 문제는 3만개 이상으로 나온다. 웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지? 최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다. 언어는 72종...","categories": ["one-pan/JavaScript/"],
-        "tags": [],
+        "tags": ["JAVASCRIPT","랜덤 출력기"],
         "url": "/one-pan/javascript/2025/05/14/Random-Printer.html",
         "teaser": null
       },{
         "title": "18382번 2048",
         "excerpt":"문제 18382번 2048 - 백준 설계 앗 영어문제 2048 게임의 최종 점수를 출력하는 문제이다. 입력으로 앞으로의 움직임과 나타날 블럭이 주어지므로 시뮬레이션만 잘하면 되는 문제다. 4x4 배열을 만들고 움직임에 따라 타일을 조작하며 합쳐지면 점수에 그만큼 더해준다. 구현 1. 입력 받기 score = int(input()) # 무빙 moving_input = input() moving = [moving_input[i:i+4]...","categories": ["random-solve/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","알고리즘","백준",18382,2048,"시뮬레이션"],
         "url": "/random-solve/python/2025/05/15/18382.html",
         "teaser": null
       },{
         "title": "29348번 Скользкий путь",
         "excerpt":"문제 29348번 Скользкий путь - 백준 설계 앗 러시아어 문제 번역기의 힘을 빌리자… 루크 스카이워커가 어쩌고 하는데 집어치우고 문제의 요지를 파악해야한다. 정사각형으로 이루어진 맵에서 최단 경로를 찾아야하는 문제이다. 이동 조건은 아래와 같다. 지형은 건물, 눈, 얼음 3가지로 이루어져 있으며 칸마다 높이가 존재함 일반 이동 조건은 아래와 같음 건물과 건물은 자유롭게...","categories": ["random-solve/C++/"],
-        "tags": [],
+        "tags": ["C++","알고리즘","백준",29348,"Скользкий путь","BFS"],
         "url": "/random-solve/c++/2025/05/16/29348.html",
         "teaser": null
       },{
         "title": "15936번 Hypercube",
         "excerpt":"문제 15936번 Hypercube - 백준 설계 앗 영어문제 아니 진짜 뭔 이딴문제만 걸리냐? 시간제한이 0.2초인데 이거 자바로 되나 싶었는데 푼 사람 목록보니 파이썬도 있다. 알고리즘 잘 짜면 자바도 되겠지 뭐… 입력으로 N, M, K를 준다. N: N차원 하이퍼 큐브 M: 노드 번호 K: 경로 길이 하이퍼 큐브가 머에여??? 초입방체 -...","categories": ["random-solve/Java/"],
-        "tags": [],
+        "tags": ["JAVA","알고리즘","백준",15936,"Hypercube","수학"],
         "url": "/random-solve/java/2025/05/20/15936.html",
         "teaser": null
       },{
         "title": "미로 생성기 01",
         "excerpt":"개요 이전에 DFS 공부한걸 찾아서 미로 만드는데 써봄. 캔버스로 미로를 자동으로 그리고 추가로 미로를 만들 수 있는 다른 알고리즘도 써보기로 함. 구현 1. 설계 미로 생성할 수 있는 대표 알고리즘 7종에 대하여 찾아보았다. 알고리즘 스타일 특징 용도 DFS 꼬불꼬불한 한 줄기 통로, 가지치기 많음 재귀 기반, 한 방향으로 깊게 파고들며...","categories": ["one-pan/JavaScript/"],
-        "tags": [],
+        "tags": ["JAVASCRIPT","CANVAS","미로 생성기","알고리즘","DFS"],
         "url": "/one-pan/javascript/2025/05/20/Maze-Generator-01.html",
         "teaser": null
       },{
         "title": "26226번 Autocomplete",
         "excerpt":"문제 26226번 Autocomplete - 백준 설계 앗 영어 문제 단어를 비교하는 문제이다. 두 단어가 “비슷하다”고 말하는 조건은 다음과 같다. 대소문자 구분 없이 비교했을 때 완전히 같음 대소문자를 구분하면 서로 다른 문자의 위치가 K개 이하 단어의 길이 최대 2000, 단어 사전 1000개, 질의 1000개다. 생각보다 숫자가 좀 크다? 구현 1. 시간...","categories": ["random-solve/C++/"],
-        "tags": [],
+        "tags": ["C++","알고리즘","백준",26226,"Autocomplete","BFS"],
         "url": "/random-solve/c++/2025/05/21/26226.html",
         "teaser": null
       },{
         "title": "미로 생성기 02",
         "excerpt":"개요 Prim’s 알고리즘과 Kruskal’s 알고리즘의 미로를 추가하기 구현 시작 전에 공통으로 사용할 함수를 index로 몰아준다. 1. Prim’s 알고리즘 DFS와 Prim의 미로는 겉으로는 제법 유사해보이는데 Prim은 탈출 경로가 훨씬 단순해진다. DFS는 한 방향으로 쭈욱 파다가 막히면 돌아가서 새로운 길을 찾는데, Prim은 미로의 경계에서 새로운 길을 만들기 때문이다. 느낌으로 비교하자면 DFS는 ‘길을...","categories": ["one-pan/JavaScript/"],
-        "tags": [],
+        "tags": ["JAVASCRIPT","CANVAS","미로 생성기","알고리즘","Prim's","Kruskal's"],
         "url": "/one-pan/javascript/2025/05/21/Maze-Generator-02.html",
         "teaser": null
       },{
         "title": "26489번 Gum Gum for Jay Jay",
         "excerpt":"문제 26489번 Gum Gum for Jay Jay - 백준 설계 엌ㅋㅋㅋㅋㅋ 개날먹 문제 ㅋㅋㅋㅋㅋ 좋아좋아 이런 날도 있어야지. 입력 들어오는 라인 수를 세기만 하면 되는 개꿀문제다. 구현 n = 0 try: while True: input() n+=1 except EOFError: pass print(n) 끝이다. 아니 내 컨텐츠가!!!!!!! 너무 쉬운 문제는 이런게 문제구나. 이왕 이렇게...","categories": ["random-solve/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","알고리즘","백준",26489,"Gum Gum for Jay Jay"],
         "url": "/random-solve/python/2025/05/22/26489.html",
         "teaser": null
       },{
         "title": "미로 생성기 03",
         "excerpt":"개요 남은 알고리즘 미로 추가하여 미로 생성기 완성하기. 구현 시작 전에 길찾고 그리는 부분이 중복되기 때문에 공통 함수로 옮겨줬다. 1. Binary Tree 알고리즘과 Sidewinder 알고리즘 두 알고리즘의 미로 생성 과정이나 결과물은 상당히 유사해보인다. 셀에서 방향을 무작위로 선택해 벽을 제거하고 나아가는 방식이다. 차이점을 정리해보면 Binary Tree 각 셀마다 독립적으로 결정을 내림...","categories": ["one-pan/JavaScript/"],
-        "tags": [],
+        "tags": ["JAVASCRIPT","CANVAS","미로 생성기","알고리즘","Binary Tree","Sidewinder","Recursive Division","Eller's"],
         "url": "/one-pan/javascript/2025/05/23/Maze-Generator-03.html",
         "teaser": null
       },{
         "title": "25245번 Amusement Arcade",
         "excerpt":"문제 25245번 Amusement Arcade - 백준 설계 n개의 오락기가 있다.(n은 홀수) 사람이 앉아야하는데 반드시 오락기에 한 칸씩 비우고 앉아야한다. 도착하는 사람은 사람이 있는 곳에서 가장 멀리 떨어진 자리를 고르며, 여러개라면 무작위로 선택한다. 이때 줄리아가 가장 먼저 앉을 적절한 위치를 고르시오. n은 반드시 홀수고 한 칸씩 비우면 최대 인원은 (n +...","categories": ["random-solve/C++/"],
-        "tags": [],
+        "tags": ["C++","알고리즘","백준",25245,"Amusement Arcade","균등분할"],
         "url": "/random-solve/c++/2025/05/23/25245.html",
         "teaser": null
       },{
         "title": "27391번 Platform Placing",
         "excerpt":"문제 27391번 Platform Placing - 백준 설계 한글 문제 언제 나오나? 플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오. 대충 그리디 알고리즘...","categories": ["random-solve/Java/"],
-        "tags": [],
+        "tags": ["JAVA","알고리즘","백준",27391,"Platform Placing","그리디"],
         "url": "/random-solve/java/2025/05/23/27391.html",
         "teaser": null
       },{
         "title": "5101번 Sequences",
         "excerpt":"문제 5101번 Sequences - 백준 설계 음 쉬운 문제 하루의 마무리로 딱이다. 시작 숫자와 차이가 주어지고 다음 숫자가 수열의 항인지 판단하는 문제이다. 구현 단순 덧셈 반복해도 문제없지만 조금 더 스마트하게 해봐야지. while True: a, b, c = map(int, input().split()); if a == 0 and b == 0 and c ==...","categories": ["random-solve/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","알고리즘","백준",5101,"Sequences","수학"],
         "url": "/random-solve/python/2025/05/23/5101.html",
         "teaser": null
       },{
         "title": "던전 생성기 01",
         "excerpt":"개요 신나는 던전 맵 생성기 5종 알고리즘과 함께 구현 1. 설계 던전 맵 생성 관련 대표 알고리즘에 대해 찾아보았다. 알고리즘 스타일 특징 용도 BSP (Binary Space Partitioning) 직사각형 방 + 복도 공간을 재귀적으로 분할, 각 방을 연결 방 중심의 던전, 구조적 배치 Random Walk (Drunkard’s Walk) 유기적 경로, 비정형 무작위...","categories": ["one-pan/JavaScript/"],
-        "tags": [],
+        "tags": ["JAVASCRIPT","CANVAS","던전 생성기","알고리즘","BSP","Random Walk","Cellular Automata"],
         "url": "/one-pan/javascript/2025/05/27/Dungeon-Generator-01.html",
         "teaser": null
       },{
         "title": "7106번 Wonderful Fours",
         "excerpt":"문제 7106번 Wonderful Fours - 백준 번역 브론즈 문제 하나, 텍스트 제출 문제 하나 거르고 나온 실버 문제. 내 그지같은 파이썬 실력에 알맞은 난이도다. 찬찬히 해석해보면… 십진수 숫자 5개를 K5라 부른다. 모두 사용하되 0으로 시작하지 않는 숫자를 만들면 그 숫자는 ‘적절히’ 만들어진 것이다. 그리고 아래 내용이 모두 참일 경우 완다풀...","categories": ["random-solve/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","알고리즘","백준",7106,"Wonderful Fours"],
         "url": "/random-solve/python/2025/05/27/7106.html",
         "teaser": null
       },{
         "title": "던전 생성기 02",
         "excerpt":"개요 남은 두개의 알고리즘으로 맵 만들기 즐 겁 다 !! 구현 1. Delaunay Triangulation + MST 얘는 왜 두개가 합쳐졌느냐??? 우선 랜덤한 점을 방의 중심점으로 사용해 방을 넒힌다. 그리고 Delaunay Triangulation 알고리즘으로 모든 점을 삼각형으로 연결해 각 삼각형의 외접원이 다른 점을 포함하지 않도록 최적의 삼각형 분할을 생성한다. 마지막으로 MST 알고리즘은...","categories": ["one-pan/JavaScript/"],
-        "tags": [],
+        "tags": ["JAVASCRIPT","CANVAS","던전 생성기","알고리즘","Delaunay Triangulation","MST","WFC"],
         "url": "/one-pan/javascript/2025/05/28/Dungeon-Generator-02.html",
         "teaser": null
       },{
         "title": "16085번 Гэмт хэрэг",
         "excerpt":"문제 16085번 Гэмт хэрэг - 백준 번역 형사가 용의자가 있을 수 있는 지역의 넓이를 계산하는 문제. 정보가 들어온지 T초가 지났다. 차량은 오직 도로 위로만 이동하며 도로는 단 하나 존재한다.(x축) 도보로는 도로를 벗어날 수 있다.(y축) 도보로는 초당 W미터, 차를 타면 초당 C 미터 이동 가능하다. 탑승, 하차 시간은 계산하지 않음. 설계...","categories": ["random-solve/C++/"],
-        "tags": [],
+        "tags": ["C++","알고리즘","백준",16085,"Гэмт хэрэг","기하학"],
         "url": "/random-solve/c++/2025/05/28/16085.html",
         "teaser": null
       },{
         "title": "11982번 Angry Cows (Gold)",
         "excerpt":"문제 11982번 Angry Cows (Gold) - 백준 번역 오 뭔가 재밌어보이는 문제 ‘Angry Cows’ 라는 게임이 있다. 소를 쏴서 건초더미를 폭발시키는 게임이다. R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고 폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다. R이 0이 될 때까지 폭발이 계속된다. 이때 소...","categories": ["random-solve/Java/"],
-        "tags": [],
+        "tags": ["JAVA","알고리즘","백준",11982,"Angry Cows (Gold)","DP"],
         "url": "/random-solve/java/2025/05/28/11982.html",
         "teaser": null
       },{
         "title": "21308번 Ternary Machine",
         "excerpt":"문제 21308번 Ternary Machine - 백준 번역 롱——문제 3진수 프로그램을 해석하고 실행하는 인터프리터를 구현해야한다. 명령어는 고정된 형식이 존재하며 표를 참조한다. 올바르지 않은 입력에 대해서는 런타임에러를 출력하는데, 실행되지 않는 오류는 무시한다. 프로그램은 최대 8192자이며 입력이 필요한 경우 충분한 입력이 반드시 주어진다. 설계 구현문제로 보이는데 생각할 부분이 다소 많아보인다. 명령어 해석을 빠르게...","categories": ["random-solve/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","알고리즘","백준",21308,"Ternary Machine","구현"],
         "url": "/random-solve/python/2025/05/30/21308.html",
         "teaser": null
       },{
         "title": "15654번 N과 M (5)",
         "excerpt":"문제 15654번 N과 M (5) - 백준 설계 뭐야 드디어 번역이 필요없는 문제가… N개의 자연수에서 M개를 고른 수열을 오름차순으로 출력하는 문제다. 쉬어가는 문제로구나 백트래킹 ㄱㄱ 구현 설명할게 없음 N, M = map(int, input().split()) numbers = list(map(int, input().split())) # 오름차순 numbers.sort() result = M * [0] visited = N * [False]...","categories": ["random-solve/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","알고리즘","백준",15654,"N과 M (5)","백트래킹"],
         "url": "/random-solve/python/2025/05/30/15654.html",
         "teaser": null
       },{
         "title": "6862번 Tin Can Telephone",
         "excerpt":"문제 6862번 Tin Can Telephone - 백준 번역 깡통 전화라는 문제인데 한국인에겐 종이컵 전화가 더 익숙할 듯 하다. 깡통이든 종이컵이든 양 수화부를 쭉 펼쳐서 통화를 하려는데 경로에 건물이 있거나 닿으면 안된다. 입력을 받았을때 걸리적 거리는 건물의 수를 출력하시오. 건물 모서리는 최대 32개다. 설계 두 가지를 고려해 구현하면 될 것 같다....","categories": ["random-solve/Java/"],
-        "tags": [],
+        "tags": ["JAVA","알고리즘","백준",6862,"Tin Can Telephone","기하학"],
         "url": "/random-solve/java/2025/05/30/6862.html",
         "teaser": null
       },{
         "title": "7663번 Dreadful Deadlines",
         "excerpt":"문제 7663번 Dreadful Deadlines - 백준 번역 데이빗은 과제를 n개 해야한다. 한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다. 이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가? 설계 또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다? 우리에겐...","categories": ["random-solve/C++/"],
-        "tags": [],
+        "tags": ["C++","알고리즘","백준",7663,"Dreadful Deadlines","그리디"],
         "url": "/random-solve/c++/2025/05/30/7663.html",
         "teaser": null
       },{
         "title": "11761번 Shuffling Along",
         "excerpt":"문제 11761번 Shuffling Along - 백준 번역 덱을 절반을 나눠서 교차로 셔플한다. ABCDEFGH의 카드를 예시로 할때 A가 위로 오면 아웃셔플 (AEBFCGDH) E가 위로 오면 인셔플 (EAFBGCHD) 셔플을 여러번 하면 원래 덱 상태로 돌아오는데 덱 수와 셔플 방식이 주어지면 몇 회만에 원래 덱으로 돌아오는지 구하시오. 홀수인 경우 아웃셔플은 왼쪽에 1장, 인셔플은...","categories": ["random-solve/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","알고리즘","백준",11761,"Shuffling Along","시뮬레이션"],
         "url": "/random-solve/python/2025/06/02/11761.html",
         "teaser": null
       },{
         "title": "1148번 단어 만들기",
         "excerpt":"문제 1148번 단어 만들기 - 백준 설계 20만개의 사전 단어… 이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다? 이게 되남?? 믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다. 아니 또 시간이 문제가 아니라 메모리가 문제였네! 맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에 비트마스크 ㄱㄱ 구현 1....","categories": ["random-solve/Java/"],
-        "tags": [],
+        "tags": ["JAVA","알고리즘","백준",1148,"단어 만들기","비트마스킹"],
         "url": "/random-solve/java/2025/06/02/1148.html",
         "teaser": null
       },{
         "title": "마법의 소라고둥",
         "excerpt":"개요 심심하면 아이폰 단축어로 이것저것 만드는데 제법 재밌다 오늘은 스폰지밥 에피소드 중 하나인 마법의 소라고둥을 따라서 질문에 랜덤으로 소라고둥이 답해주는걸 만들거다. 그런데 소라고동임 소라고둥임? 애니메이션은 소라고동이라고 하고 표준어는 소라고둥이다. 고민 끝에 표준어로 간다. 구현 1. 사진 준비 뭐 외부 API 쓸 거 아니면 단축어 만드는 법은 상당히 단순한 편이다. 조건문...","categories": ["one-pan/Shortcuts/"],
-        "tags": [],
+        "tags": ["단축어","마법의 소라고둥"],
         "url": "/one-pan/shortcuts/2025/06/02/Magic-Conch-Shell.html",
         "teaser": null
       },{
         "title": "WebP 변환기",
         "excerpt":"개요 jpg는 화질을 제법 깎아먹어서 용량이 가벼운 편이다. 하지만 지난 포스트를 작성하며 이미지를 더 가볍게 유지할 필요성을 느꼈고 webp로 변환하는게 좋겠다는 결론에 도달했다. 그러면 WebP 변환기를 만들어야겠지!!! 변환하며 화질을 살짝 열화시키면 더 효과가 좋을 것이다. 뭐 영화 보는 것도 아니고 고화질 유지할 필요는 없으니 파이썬을 선택한 이유는 간단하다. 딸깍 한...","categories": ["one-pan/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","WEBP 변환기"],
         "url": "/one-pan/python/2025/06/04/WebP-Converter.html",
         "teaser": null
       },{
         "title": "4676번 Haiku Review",
         "excerpt":"문제 4676번 Haiku Review - 백준 번역 하이쿠는 5/7/5 조의 일본 시다. 입력을 받아 하이쿠가 맞다면 Y 아니라면 잘못된 행의 숫자를 출력하시오. 설계 a, e, i, o, u, y 6개를 모음으로 치며 모음이 붙어있는 경우에는 1음절로 친다. 예제의 경우를 확인해보면 happy purple frog eating bugs in the marshes get indigestion...","categories": ["random-solve/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","알고리즘","백준",4676,"Haiku Review"],
         "url": "/random-solve/python/2025/06/04/4676.html",
         "teaser": null
       },{
         "title": "2784번 가로 세로 퍼즐",
         "excerpt":"문제 2784번 가로 세로 퍼즐 - 백준 설계 개똥아 똥쌌니 아니오 를 만드는 문제 생각보다… 조건이 복잡한건가? 일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고 출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데 가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가? 도통 알 수 없다. 단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면...","categories": ["random-solve/Java/"],
-        "tags": [],
+        "tags": ["JAVA","알고리즘","백준",2784,"가로 세로 퍼즐"],
         "url": "/random-solve/java/2025/06/04/2784.html",
         "teaser": null
       },{
         "title": "하드웨어 모니터",
         "excerpt":"개요 알리에서 3.5인치 모니터를 주웠다. 온도 체크하기가 불편해서 사봤는데 리소스 사용량도 보여주고 상당히 괜찮다. 제조사에서 드라이버를 제공해서 예쁜 테마를 가져다 그대로 쓸 수 있는데 다소 불안한 감이 있고 이런 건 또 직접해야 제맛이다. 필요없는 정보는 지우고 감성보다 기능성에 초점을 맞춘 새로운 테마를 만든다. 설계 turing-smart-screen-python 이 오픈소스 프로젝트는 소형 시스템...","categories": ["one-pan/Python/"],
-        "tags": [],
+        "tags": ["PYTHON","하드웨어 모니터","turing-smart-screen-python"],
         "url": "/one-pan/python/2025/06/09/Hardware-Monitor.html",
         "teaser": null
       },{
         "title": "21237번 Clockwise Fence",
         "excerpt":"문제 21237번 Clockwise Fence - 백준 번역 울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오. 시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다. 설계 신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다. 구현 NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고 방향 데이터를 받아서...","categories": ["random-solve/Java/"],
-        "tags": [],
+        "tags": ["JAVA","알고리즘","백준",21237,"Clockwise Fence","수학"],
         "url": "/random-solve/java/2025/06/10/21237.html",
         "teaser": null
       },{
         "title": "제비 뽑기",
         "excerpt":"개요 점심 먹고 커피를 누가 살지, 술 마시고 대표로 누가 결제할지 등 각종 내기할 때 준비물이 필요 없고 밸런스가 잘 맞는 게임은 가위바위보가 있다. 좀 더 익스트림한 경험을 원하면 사다리타기나 핀볼을 하기도 한다. 오늘은 단축어로 내기에 쓸 수 있는 제비뽑기를 만들어 볼 것이다. js를 사용하지 않으면 GUI가 극적이진 않지만 직접...","categories": ["one-pan/Shortcuts/"],
-        "tags": [],
+        "tags": ["단축어","제비 뽑기"],
         "url": "/one-pan/shortcuts/2025/06/11/Drawing-Lots.html",
         "teaser": null
       },{
         "title": "16256번 Painting the Wall",
         "excerpt":"문제 16256번 Painting the Wall - 백준 번역 정사각형 타일로 구성된 n * m 사이즈의 벽이 있다. 타일의 일부는 램프다.(0이면 램프 1이면 타일) 타일에 페인트를 칠하려 한다. 수직 또는 수평으로 연속된 타일이 있을 때 각 타일은 모두 다른 색의 페인트로 칠해야한다. 서로 다른 색상의 페인트 k개가 있을 때 모두 다른...","categories": ["random-solve/C++/"],
-        "tags": [],
+        "tags": ["C++","알고리즘","백준",16256,"Painting the Wall"],
         "url": "/random-solve/c++/2025/06/13/16256.html",
         "teaser": null
       },{
         "title": "24008번 Catch Them All",
         "excerpt":"문제 24008번 Catch Them All - 백준 번역 Codejamon GO 게임을 한다. 도시는 1부터 N까지 장소가 있으며 M개의 양방향 도로가 있고 시작 지점은 항상 1이다. Codejamon이 랜덤 장소에 등장하면 가장 빠른 경로로 이동해 잡는다. 잡은 즉시 다른 랜덤 위치에 Codejamon이 나타난다. 총 P마리 Codejamon을 잡을 때 기대 소요 시간을 구하시오....","categories": ["random-solve/Java/"],
-        "tags": [],
+        "tags": ["JAVA","알고리즘","백준",24008,"Catch Them All","최단거리"],
         "url": "/random-solve/java/2025/06/13/24008.html",
         "teaser": null
       }]

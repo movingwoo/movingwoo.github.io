@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>2784번 가로 세로 퍼즐 - 뭐라도 하겠지</title>
-<meta name="description" content="문제        2784번 가로 세로 퍼즐 - 백준     설계      개똥아 똥쌌니 아니오 를 만드는 문제  생각보다… 조건이 복잡한건가? 일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고 출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데 가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가? 도통 알 수 없다.  단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나? 대충 하나하나 다 갖다박아보자.     구현      1. 세로 단어 추출  일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다. 그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.  for (int i = 0 ; i &lt; 6 ; i++) { 	for (int j = 0 ; j &lt; 6 ; j++) { 		if (i == j) continue; 		for (int k = 0 ; k &lt; 6 ; k++) { 			if (i == k || j == k) continue; 			 			String horizontalWord1 = words.get(i); 			String horizontalWord2 = words.get(j); 			String horizontalWord3 = words.get(k); 			 			// 만든 단어 			Map&lt;String, Integer&gt; used = new HashMap&lt;&gt;(); 			 			int putCount = 0; 			// 세로 줄 단어 생성 			for (int l = 0 ; l &lt; 3 ; l++) { 				String verticalWord = &quot;&quot; + horizontalWord1.charAt(l) + horizontalWord2.charAt(l) + horizontalWord3.charAt(l); 				 				// 세로단어가 존재하지 않는 단어면 통과 				if (!words.contains(verticalWord)) break; 				 				used.put(verticalWord, used.getOrDefault(verticalWord, 0) + 1); 				putCount++; 			} 			 			// 3번 안넣었으면 굳이 더 볼 필요 없음 			if (putCount &lt; 3) continue; 			 		} 	} }   2. 단어가 모이면 비교  입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다. 입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고 세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.  List&lt;String&gt; words = new ArrayList&lt;&gt;(); // 비교 시 중복때문에 Set을 못써서 Map 사용 Map&lt;String, Integer&gt; count = new HashMap&lt;&gt;();  for (int i = 0 ; i &lt; 6 ; i++) { 	String word = br.readLine(); 	words.add(word); 	count.put(word, count.getOrDefault(word, 0) + 1); }  // ... 중략 ...  boolean valid = true; // 비교 for (Map.Entry&lt;String, Integer&gt; entry : used.entrySet()) { 	if (entry.getValue() != count.get(entry.getKey())) { 		valid = false; 		break; 	} }  if (valid) { 	result = true; 	bw.write(horizontalWord1); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord2); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord3); 	break exit; }      채점           반성      입력이 너무 적어서 아무 의미 없겠지만 생각해보자. 이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지? 가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나? 그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가… 이거 굉장히 곤란한 문제가 될 수 있겠다. 에잇 끔찍한 소리 치워 꼴도 보기 싫어     코드 확인      Link to GitHub">
+<meta name="description" content="백준 2784번 가로 세로 퍼즐 JAVA 문제풀이">
 
 
 
@@ -21,7 +21,7 @@
 <meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/06/04/2784.html">
 
 
-  <meta property="og:description" content="문제        2784번 가로 세로 퍼즐 - 백준     설계      개똥아 똥쌌니 아니오 를 만드는 문제  생각보다… 조건이 복잡한건가? 일단 모든 단어 6개가 들어가야하니 중복 체크가 필요하고 출력 시 사전순으로 앞서는 것을 출력하라고 되어있는데 가로3개-&gt;세로3개 순으로 사전순인가? 가로-&gt;세로-&gt;가로-&gt;세로-&gt;가로-&gt;세로 순인가? 도통 알 수 없다.  단어 6개 밖에 안들어오기 때문에 하나씩 넣으면서 시뮬레이션 돌려보면 되려나? 대충 하나하나 다 갖다박아보자.     구현      1. 세로 단어 추출  일단 사전 순서대로 들어온다고 하니 i, j, k 인덱스를 잡아서 순서대로 가로로 배치한다. 그리고 세로 단어를 뽑아서 존재하는 단어인지 확인한다.  for (int i = 0 ; i &lt; 6 ; i++) { 	for (int j = 0 ; j &lt; 6 ; j++) { 		if (i == j) continue; 		for (int k = 0 ; k &lt; 6 ; k++) { 			if (i == k || j == k) continue; 			 			String horizontalWord1 = words.get(i); 			String horizontalWord2 = words.get(j); 			String horizontalWord3 = words.get(k); 			 			// 만든 단어 			Map&lt;String, Integer&gt; used = new HashMap&lt;&gt;(); 			 			int putCount = 0; 			// 세로 줄 단어 생성 			for (int l = 0 ; l &lt; 3 ; l++) { 				String verticalWord = &quot;&quot; + horizontalWord1.charAt(l) + horizontalWord2.charAt(l) + horizontalWord3.charAt(l); 				 				// 세로단어가 존재하지 않는 단어면 통과 				if (!words.contains(verticalWord)) break; 				 				used.put(verticalWord, used.getOrDefault(verticalWord, 0) + 1); 				putCount++; 			} 			 			// 3번 안넣었으면 굳이 더 볼 필요 없음 			if (putCount &lt; 3) continue; 			 		} 	} }   2. 단어가 모이면 비교  입력으로 중복이 들어올 수 있어서 Set은 사용하면 안된다. 입력 받을때 단어 사용 횟수를 저장하는 Map을 만들고 세로단어 생성 후 나온 퍼즐의 Map과 비교해 유효한지 판단한다.  List&lt;String&gt; words = new ArrayList&lt;&gt;(); // 비교 시 중복때문에 Set을 못써서 Map 사용 Map&lt;String, Integer&gt; count = new HashMap&lt;&gt;();  for (int i = 0 ; i &lt; 6 ; i++) { 	String word = br.readLine(); 	words.add(word); 	count.put(word, count.getOrDefault(word, 0) + 1); }  // ... 중략 ...  boolean valid = true; // 비교 for (Map.Entry&lt;String, Integer&gt; entry : used.entrySet()) { 	if (entry.getValue() != count.get(entry.getKey())) { 		valid = false; 		break; 	} }  if (valid) { 	result = true; 	bw.write(horizontalWord1); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord2); 	bw.write(&quot;\n&quot;); 	bw.write(horizontalWord3); 	break exit; }      채점           반성      입력이 너무 적어서 아무 의미 없겠지만 생각해보자. 이거 입력이 터져 나가는 경우엔 어떻게 풀어야하지? 가로줄을 추가할 때마다 세로줄을 추출해서 접두사 검색을 해봐야하나? 그럼 백트래킹 같은 걸 끼얹고 접두사 검색을 위해 트라이를 써야하는건가… 이거 굉장히 곤란한 문제가 될 수 있겠다. 에잇 끔찍한 소리 치워 꼴도 보기 싫어     코드 확인      Link to GitHub">
+  <meta property="og:description" content="백준 2784번 가로 세로 퍼즐 JAVA 문제풀이">
 
 
 
@@ -198,7 +198,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     <div class="initial-content">
-      
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>2784번 가로 세로 퍼즐 | 뭐라도 하겠지</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="2784번 가로 세로 퍼즐" />
+<meta name="author" content="movingwoo" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="백준 2784번 가로 세로 퍼즐 JAVA 문제풀이" />
+<meta property="og:description" content="백준 2784번 가로 세로 퍼즐 JAVA 문제풀이" />
+<link rel="canonical" href="https://movingwoo.com/random-solve/java/2025/06/04/2784.html" />
+<meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/06/04/2784.html" />
+<meta property="og:site_name" content="뭐라도 하겠지" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-04T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="2784번 가로 세로 퍼즐" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-04T07:00:00+00:00","datePublished":"2025-06-04T07:00:00+00:00","description":"백준 2784번 가로 세로 퍼즐 JAVA 문제풀이","headline":"2784번 가로 세로 퍼즐","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/java/2025/06/04/2784.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/java/2025/06/04/2784.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
 
 
 

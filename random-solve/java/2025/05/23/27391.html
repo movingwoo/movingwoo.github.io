@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>27391번 Platform Placing - 뭐라도 하겠지</title>
-<meta name="description" content="문제        27391번 Platform Placing - 백준     설계      한글 문제 언제 나오나?  플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오.  대충 그리디 알고리즘 ㄱㄱ  당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다.  해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다.     구현      1. 입력 받기  제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다.  public static void main(String[] args) {     	     	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { 	         	        StringTokenizer st = new StringTokenizer(br.readLine(), &quot; &quot;); 	        int n = Integer.parseInt(st.nextToken()); 	        int s = Integer.parseInt(st.nextToken()); 	        int k = Integer.parseInt(st.nextToken()); 	        int result = 0; 	         	        int[] platforms = new int[n]; 	        for(int i = 0 ; i &lt; n ; i++) { 	        	platforms[i] = Integer.parseInt(br.readLine()); 	        } 	        // 오름차순 	        Arrays.sort(platforms); 	         	        int[] lengths = new int[n]; 	        // 최대길이로 일단 채우고 시작 	        Arrays.fill(lengths, k); 	         	    }catch(IOException e) { 	        e.printStackTrace(); 	    }     }   2. 플랫폼 배열 탐색  플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다.  for (int i = 1 ; i &lt; n ; i++) {     int dist = platforms[i] - platforms[i - 1];     // 플랫폼이 양쪽으로 펼쳐짐     int max = 2 * dist;      // 불가능한 경우     if (max &lt; 2 * s) {         bw.write(&quot;-1&quot;);         return;     }      // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정     if (lengths[i - 1] + lengths[i] &gt; max) {         lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1]));          // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함         if (lengths[i - 1] + lengths[i] &gt; max) {             lengths[i - 1] = Math.max(s, max - lengths[i]);         }     } }  for (int length : lengths) result += length; bw.write(String.valueOf(result));      채점           반성      기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고     코드 확인      Link to GitHub">
+<meta name="description" content="백준 27391번 Platform Placing JAVA 문제풀이">
 
 
 
@@ -21,7 +21,7 @@
 <meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/05/23/27391.html">
 
 
-  <meta property="og:description" content="문제        27391번 Platform Placing - 백준     설계      한글 문제 언제 나오나?  플랫폼을 설치하는데 x-l/2, x+l/2 크기를 차지한다. 양쪽으로 펼쳐진다는 뜻. 최소값과 최대값이 정해져 있고 플랫폼 사이의 공간이 있어도 되고 딱 붙어도 되지만 겹치는건 안된다. 모든 고정지점마다 플랫폼 하나 설치가 가능하다. 이때 플랫폼 길이의 총합이 최대가 되도록 하시오.  대충 그리디 알고리즘 ㄱㄱ  당연히 각 위치마다 최대 길이를 설치하는 것이 좋을 것이다. 고정 지점들을 정렬해 순차적으로 길이를 할당하되 이전 플랫폼과 겹치지 않는 한에서 가장 큰 값을 선택해 할당한다.  해결 불가능 시 -1 출력인데 두 지점 간격이 s보다 작을 경우 불가능 처리하면 되겠다.     구현      1. 입력 받기  제한시간은 항상 두려우니 버퍼로 입력받고 플랫폼 배열은 오름차순 정렬, 길이 배열은 최대값으로 채워둔다.  public static void main(String[] args) {     	     	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) { 	         	        StringTokenizer st = new StringTokenizer(br.readLine(), &quot; &quot;); 	        int n = Integer.parseInt(st.nextToken()); 	        int s = Integer.parseInt(st.nextToken()); 	        int k = Integer.parseInt(st.nextToken()); 	        int result = 0; 	         	        int[] platforms = new int[n]; 	        for(int i = 0 ; i &lt; n ; i++) { 	        	platforms[i] = Integer.parseInt(br.readLine()); 	        } 	        // 오름차순 	        Arrays.sort(platforms); 	         	        int[] lengths = new int[n]; 	        // 최대길이로 일단 채우고 시작 	        Arrays.fill(lengths, k); 	         	    }catch(IOException e) { 	        e.printStackTrace(); 	    }     }   2. 플랫폼 배열 탐색  플랫폼은 양쪽으로 펼쳐지므로 최대 길이는 2를 곱해서 봐야한다. 배치 불가능하면 -1을 즉시 출력하고 가능하면 현재길이를 우선적으로 조정, 현재길이를 최대로 줄여도 안되면 이전 플랫폼 길이를 줄인다.  for (int i = 1 ; i &lt; n ; i++) {     int dist = platforms[i] - platforms[i - 1];     // 플랫폼이 양쪽으로 펼쳐짐     int max = 2 * dist;      // 불가능한 경우     if (max &lt; 2 * s) {         bw.write(&quot;-1&quot;);         return;     }      // 이전 길이와 현재 길이의 합이 max를 넘지 않도록 조정     if (lengths[i - 1] + lengths[i] &gt; max) {         lengths[i] = Math.max(s, Math.min(lengths[i], max - lengths[i - 1]));          // 여전히 안 되면 lengths[i]를 최대한 줄여서 해결 안되면 length[i-1] 조절을 해야함         if (lengths[i - 1] + lengths[i] &gt; max) {             lengths[i - 1] = Math.max(s, max - lengths[i]);         }     } }  for (int length : lengths) result += length; bw.write(String.valueOf(result));      채점           반성      기분좋게 잘 해결되었다. C++ 하다가 Java 하니 잘쳐지는 것도 있고 그리디 알고리즘도 재밌고     코드 확인      Link to GitHub">
+  <meta property="og:description" content="백준 27391번 Platform Placing JAVA 문제풀이">
 
 
 
@@ -198,7 +198,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     <div class="initial-content">
-      
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>27391번 Platform Placing | 뭐라도 하겠지</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="27391번 Platform Placing" />
+<meta name="author" content="movingwoo" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="백준 27391번 Platform Placing JAVA 문제풀이" />
+<meta property="og:description" content="백준 27391번 Platform Placing JAVA 문제풀이" />
+<link rel="canonical" href="https://movingwoo.com/random-solve/java/2025/05/23/27391.html" />
+<meta property="og:url" content="https://movingwoo.com/random-solve/java/2025/05/23/27391.html" />
+<meta property="og:site_name" content="뭐라도 하겠지" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-05-23T06:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="27391번 Platform Placing" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-05-23T06:00:00+00:00","datePublished":"2025-05-23T06:00:00+00:00","description":"백준 27391번 Platform Placing JAVA 문제풀이","headline":"27391번 Platform Placing","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/java/2025/05/23/27391.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/java/2025/05/23/27391.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
 
 
 

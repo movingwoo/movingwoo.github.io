@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>랜덤 출력기 - 뭐라도 하겠지</title>
-<meta name="description" content="개요      백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데 랜덤 뽑아내는 기능이 필요해서 자급자족함     구현      1. 설계  백준에 문제가 몇개나 되지? 현시점 전체 문제는 3만개 이상으로 나온다. 웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지? 최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다.  언어는 72종 지원한다는데 내가 할 수 있는 언어만 나와야한다. 대충 java, c++, python 3종으로만 하자.  2. HTML 세팅  &lt;!DOCTYPE html&gt; &lt;html lang=&quot;ko&quot;&gt; &lt;head&gt;   &lt;meta charset=&quot;UTF-8&quot;&gt;   &lt;title&gt;랜덤 출력기&lt;/title&gt; &lt;/head&gt; &lt;body&gt;   &lt;h1&gt;랜덤 출력기&lt;/h1&gt;    &lt;label for=&quot;maxNumber&quot;&gt;최대 숫자 입력 (최소는 1000 고정): &lt;/label&gt;   &lt;input type=&quot;number&quot; id=&quot;maxNumber&quot; min=&quot;1000&quot;&gt;   &lt;button onclick=&quot;generateRandomNumbers()&quot;&gt;생성하기&lt;/button&gt;    &lt;h3&gt;결과&lt;/h3&gt;   &lt;p&gt;문제 번호: &lt;span id=&quot;randomNumber&quot;&gt;&lt;/span&gt;&lt;/p&gt;   &lt;p&gt;언어: &lt;span id=&quot;randomLanguage&quot;&gt;&lt;/span&gt;&lt;/p&gt;    &lt;script&gt;     // 스크립트     // 언어는 1부터 3까지 랜덤 뽑고 각 숫자에 할당   &lt;/script&gt; &lt;/body&gt; &lt;/html&gt;   3. 스크립트 작성  function generateRandomNumbers() {   const min = 1000;   const max = parseInt(document.querySelector(&#39;#maxNumber&#39;).value);    // 최대 숫자 예외처리   if (isNaN(max) || max &lt; min) {       alert(&quot;최소 1000 이상 숫자 입력&quot;);       return;   }    // 랜덤 숫자 추출   const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;   const randomLang = Math.floor(Math.random() * 3) + 1;    // 결과란에 배치   document.querySelector(&#39;#randomNumber&#39;).textContent = randomNum;   document.querySelector(&#39;#randomLanguage&#39;).textContent = randomLang === 1 ? &#39;java&#39; : randomLang === 2 ? &#39;c++&#39; : &#39;python&#39;; }      완성           반성      딱히?     코드 확인         직접 해보기   Link to GitHub">
+<meta name="description" content="JAVASCRIPT 랜덤 출력기 개발">
 
 
 
@@ -21,7 +21,7 @@
 <meta property="og:url" content="https://movingwoo.com/one-pan/javascript/2025/05/14/Random-Printer.html">
 
 
-  <meta property="og:description" content="개요      백준 랜덤 문제를 랜덤 언어로 푸는 포스팅을 작성하려는데 랜덤 뽑아내는 기능이 필요해서 자급자족함     구현      1. 설계  백준에 문제가 몇개나 되지? 현시점 전체 문제는 3만개 이상으로 나온다. 웹 크롤링을 통해 최대 숫자를 정할 수 있겠으나 굳이 이딴데 크롤링까지? 최소 1000부터 최대 숫자 지정해서 랜덤 문제 번호를 뽑아내면 되겠다.  언어는 72종 지원한다는데 내가 할 수 있는 언어만 나와야한다. 대충 java, c++, python 3종으로만 하자.  2. HTML 세팅  &lt;!DOCTYPE html&gt; &lt;html lang=&quot;ko&quot;&gt; &lt;head&gt;   &lt;meta charset=&quot;UTF-8&quot;&gt;   &lt;title&gt;랜덤 출력기&lt;/title&gt; &lt;/head&gt; &lt;body&gt;   &lt;h1&gt;랜덤 출력기&lt;/h1&gt;    &lt;label for=&quot;maxNumber&quot;&gt;최대 숫자 입력 (최소는 1000 고정): &lt;/label&gt;   &lt;input type=&quot;number&quot; id=&quot;maxNumber&quot; min=&quot;1000&quot;&gt;   &lt;button onclick=&quot;generateRandomNumbers()&quot;&gt;생성하기&lt;/button&gt;    &lt;h3&gt;결과&lt;/h3&gt;   &lt;p&gt;문제 번호: &lt;span id=&quot;randomNumber&quot;&gt;&lt;/span&gt;&lt;/p&gt;   &lt;p&gt;언어: &lt;span id=&quot;randomLanguage&quot;&gt;&lt;/span&gt;&lt;/p&gt;    &lt;script&gt;     // 스크립트     // 언어는 1부터 3까지 랜덤 뽑고 각 숫자에 할당   &lt;/script&gt; &lt;/body&gt; &lt;/html&gt;   3. 스크립트 작성  function generateRandomNumbers() {   const min = 1000;   const max = parseInt(document.querySelector(&#39;#maxNumber&#39;).value);    // 최대 숫자 예외처리   if (isNaN(max) || max &lt; min) {       alert(&quot;최소 1000 이상 숫자 입력&quot;);       return;   }    // 랜덤 숫자 추출   const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;   const randomLang = Math.floor(Math.random() * 3) + 1;    // 결과란에 배치   document.querySelector(&#39;#randomNumber&#39;).textContent = randomNum;   document.querySelector(&#39;#randomLanguage&#39;).textContent = randomLang === 1 ? &#39;java&#39; : randomLang === 2 ? &#39;c++&#39; : &#39;python&#39;; }      완성           반성      딱히?     코드 확인         직접 해보기   Link to GitHub">
+  <meta property="og:description" content="JAVASCRIPT 랜덤 출력기 개발">
 
 
 
@@ -198,7 +198,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     <div class="initial-content">
-      
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>랜덤 출력기 | 뭐라도 하겠지</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="랜덤 출력기" />
+<meta name="author" content="movingwoo" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="JAVASCRIPT 랜덤 출력기 개발" />
+<meta property="og:description" content="JAVASCRIPT 랜덤 출력기 개발" />
+<link rel="canonical" href="https://movingwoo.com/one-pan/javascript/2025/05/14/Random-Printer.html" />
+<meta property="og:url" content="https://movingwoo.com/one-pan/javascript/2025/05/14/Random-Printer.html" />
+<meta property="og:site_name" content="뭐라도 하겠지" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-05-14T23:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="랜덤 출력기" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-05-14T23:00:00+00:00","datePublished":"2025-05-14T23:00:00+00:00","description":"JAVASCRIPT 랜덤 출력기 개발","headline":"랜덤 출력기","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/one-pan/javascript/2025/05/14/Random-Printer.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/one-pan/javascript/2025/05/14/Random-Printer.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
 
 
 
