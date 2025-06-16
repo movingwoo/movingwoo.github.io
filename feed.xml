@@ -1,4 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-16T01:53:28+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">24008번 Catch Them All</title><link href="https://movingwoo.com/random-solve/java/2025/06/13/24008.html" rel="alternate" type="text/html" title="24008번 Catch Them All" /><published>2025-06-13T07:00:00+00:00</published><updated>2025-06-13T07:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/06/13/24008</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/06/13/24008.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-16T05:35:07+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">10722번 Binary Mobile Tree</title><link href="https://movingwoo.com/random-solve/c++/2025/06/16/10722.html" rel="alternate" type="text/html" title="10722번 Binary Mobile Tree" /><published>2025-06-16T05:00:00+00:00</published><updated>2025-06-16T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/c++/2025/06/16/10722</id><content type="html" xml:base="https://movingwoo.com/random-solve/c++/2025/06/16/10722.html"><![CDATA[<blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-06-16-10722/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/10722">10722번 Binary Mobile Tree - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>모빌의 크기를 구하는 문제인데 눈여겨볼 조건은 아래인 것 같다.</p>
+<ul>
+  <li><span style="color: orange;"><strong>양수는 구슬 음수는 막대</strong></span></li>
+  <li><span style="color: orange;"><strong>1번 막대가 루트 노드 (-1)</strong></span></li>
+  <li><span style="color: orange;"><strong>구슬은 질량만 있고 부피는 없음</strong></span></li>
+</ul>
+
+<p>DFS를 사용해서 탐색하며 질량과 막대너비를 전달하면 되겠지 아마</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>재귀호출하며 길이와 질량 정보를 받아 합친다.<br />
+<span style="color: orange;"><strong>왼쪽 질량 * 왼쪽 거리 == 오른쪽 질량 * 오른쪽 거리</strong></span> 공식에 따라 양쪽 거리를 구하고<br />
+서브트리가 반대로 퍼지는 걸 고려해서 좌우 폭을 구해 더해서 출력한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// DFS</span>
+<span class="n">tuple</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="kt">double</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span> <span class="n">DFS</span><span class="p">(</span><span class="kt">int</span> <span class="n">node</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">bar</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// 양수면 구슬, 질량만 있음</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">node</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">};</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 음수면 막대</span>
+    <span class="k">auto</span> <span class="p">[</span><span class="n">len</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">bar</span><span class="p">[</span><span class="o">-</span><span class="n">node</span><span class="p">];</span>
+
+
+    <span class="k">auto</span> <span class="p">[</span><span class="n">lm</span><span class="p">,</span> <span class="n">ll</span><span class="p">,</span> <span class="n">lr</span><span class="p">]</span> <span class="o">=</span> <span class="n">DFS</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">bar</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="p">[</span><span class="n">rm</span><span class="p">,</span> <span class="n">rl</span><span class="p">,</span> <span class="n">rr</span><span class="p">]</span> <span class="o">=</span> <span class="n">DFS</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">bar</span><span class="p">);</span>
+
+    <span class="kt">double</span> <span class="n">tm</span> <span class="o">=</span> <span class="n">lm</span> <span class="o">+</span> <span class="n">rm</span><span class="p">;</span>
+
+    <span class="c1">// 왼쪽 질량 * 왼쪽 거리 == 오른쪽 질량 * 오른쪽 거리</span>
+    <span class="kt">double</span> <span class="n">ldist</span> <span class="o">=</span> <span class="n">len</span> <span class="o">*</span> <span class="p">(</span><span class="n">rm</span> <span class="o">/</span> <span class="n">tm</span><span class="p">);</span>
+    <span class="kt">double</span> <span class="n">rdist</span> <span class="o">=</span> <span class="n">len</span> <span class="o">-</span> <span class="n">ldist</span><span class="p">;</span>
+
+    <span class="c1">// 서브트리가 반대로 퍼지는 경우를 고려해야함</span>
+    <span class="kt">double</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="o">-</span><span class="n">ldist</span> <span class="o">-</span> <span class="n">ll</span><span class="p">,</span> <span class="n">rdist</span> <span class="o">-</span> <span class="n">rl</span><span class="p">);</span>
+    <span class="kt">double</span> <span class="n">rw</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="o">-</span><span class="n">ldist</span> <span class="o">+</span> <span class="n">lr</span><span class="p">,</span> <span class="n">rdist</span> <span class="o">+</span> <span class="n">rr</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="n">tm</span><span class="p">,</span> <span class="o">-</span><span class="n">lw</span><span class="p">,</span> <span class="n">rw</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">// ... 중략 ...</span>
+
+<span class="c1">// 루트 노드는 -1</span>
+<span class="k">auto</span> <span class="p">[</span><span class="n">mass</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="n">DFS</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">bar</span><span class="p">);</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">"%.6f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">left</span> <span class="o">+</span> <span class="n">right</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-06-16-10722/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>auto 사용에 더 익숙해져야겠다.<br />
+좋은 건 잘 써먹어야지<br />
+엄청 깨끗하고 짧고 좋지 않은가?</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-06-16-10722.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/C++/" /><category term="C++" /><category term="알고리즘" /><category term="백준" /><category term="10722" /><category term="Binary Mobile Tree" /><category term="DFS" /><summary type="html"><![CDATA[백준 10722번 Binary Mobile Tree C++ 문제풀이]]></summary></entry><entry><title type="html">24008번 Catch Them All</title><link href="https://movingwoo.com/random-solve/java/2025/06/13/24008.html" rel="alternate" type="text/html" title="24008번 Catch Them All" /><published>2025-06-13T07:00:00+00:00</published><updated>2025-06-13T07:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/06/13/24008</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/06/13/24008.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -1252,175 +1341,4 @@ json 형식으로 작성한다해도 알아보기가 힘들고<br />
 <p>가능하면 쓸만한 놈 만든 경우엔 코드 공유 대신 단축어 자체를 공유하도록 해야겠다.</p>
 
 <p>업로드 전 단축어 포스트 단점 하나 더 찾음<br />
-소스코드가 없어서 포스트 내 글자수가 확 줄어들었다!</p>]]></content><author><name>movingwoo</name></author><category term="one-pan/Shortcuts/" /><category term="단축어" /><category term="마법의 소라고둥" /><summary type="html"><![CDATA[단축어 마법의 소라고둥 프로그램 개발]]></summary></entry><entry><title type="html">1148번 단어 만들기</title><link href="https://movingwoo.com/random-solve/java/2025/06/02/1148.html" rel="alternate" type="text/html" title="1148번 단어 만들기" /><published>2025-06-02T05:00:00+00:00</published><updated>2025-06-02T05:00:00+00:00</updated><id>https://movingwoo.com/random-solve/java/2025/06/02/1148</id><content type="html" xml:base="https://movingwoo.com/random-solve/java/2025/06/02/1148.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/1148">1148번 단어 만들기 - 백준</a></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p><span style="color: orange;"><strong>20만개</strong></span>의 사전 단어…<br />
-이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다?<br />
-이게 되남??</p>
-
-<p>믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다.<br />
-아니 또 시간이 문제가 아니라 메모리가 문제였네!<br />
-맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에</p>
-
-<p><span style="color: orange;"><strong>비트마스크 ㄱㄱ</strong></span></p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-단어와-사전">1. 단어와 사전</h5>
-
-<p>단어 클래스를 구현해 사전에 넣는다.<br />
-단어는 비트마스크와 문자 수를 가진다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-    	
-	<span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
-		<span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">))){</span>
-		
-		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Word</span><span class="o">&gt;</span> <span class="n">dictionary</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-		
-		<span class="c1">// 사전 채우기</span>
-		<span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
-			<span class="nc">String</span> <span class="n">word</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-			<span class="k">if</span> <span class="o">(</span><span class="n">word</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'-'</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
-
-			<span class="n">dictionary</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">Word</span><span class="o">(</span><span class="n">word</span><span class="o">));</span>
-		<span class="o">}</span>
-		
-	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
-<span class="o">}</span>
-
-<span class="c1">// Word class</span>
-<span class="kd">static</span> <span class="kd">class</span> <span class="nc">Word</span> <span class="o">{</span>
-	<span class="kt">int</span> <span class="n">mask</span><span class="o">;</span>
-	<span class="kt">int</span><span class="o">[]</span> <span class="n">count</span><span class="o">;</span>
-
-	<span class="nc">Word</span><span class="o">()</span> <span class="o">{</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">count</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">26</span><span class="o">];</span>
-	<span class="o">}</span>
-
-	<span class="nc">Word</span><span class="o">(</span><span class="nc">String</span> <span class="n">word</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">this</span><span class="o">();</span>
-		
-		<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">word</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
-			<span class="c1">// 무조건 대문자로 들어옴</span>
-			<span class="n">count</span><span class="o">[</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">]++;</span>
-			<span class="n">mask</span> <span class="o">|=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">));</span>
-		<span class="o">}</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h5 id="2-메인-루프">2. 메인 루프</h5>
-
-<p>퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다.<br />
-분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
-	<span class="nc">String</span> <span class="n">puzzle</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-	<span class="k">if</span> <span class="o">(</span><span class="n">puzzle</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'#'</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
-
-	<span class="c1">// 퍼즐판 비트마스크 변환</span>
-	<span class="kt">int</span><span class="o">[]</span> <span class="n">puzzleCount</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">26</span><span class="o">];</span>
-	<span class="kt">int</span> <span class="n">puzzleMask</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-	
-	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">puzzle</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
-		<span class="n">puzzleCount</span><span class="o">[</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">]++;</span>
-		<span class="n">puzzleMask</span> <span class="o">|=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">));</span>
-	<span class="o">}</span>
-
-	<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">center</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
-
-	<span class="c1">// 중심글자 하나씩 넣어보기</span>
-	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">puzzle</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
-		<span class="kt">int</span> <span class="n">centerMask</span> <span class="o">=</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">));</span>
-		<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-
-		<span class="k">for</span> <span class="o">(</span><span class="nc">Word</span> <span class="n">w</span> <span class="o">:</span> <span class="n">dictionary</span><span class="o">)</span> <span class="o">{</span>
-			<span class="c1">// 알파벳 체크</span>
-			<span class="k">if</span> <span class="o">((</span><span class="n">w</span><span class="o">.</span><span class="na">mask</span> <span class="o">&amp;</span> <span class="n">puzzleMask</span><span class="o">)</span> <span class="o">!=</span> <span class="n">w</span><span class="o">.</span><span class="na">mask</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
-			<span class="c1">// 중심글자 체크</span>
-			<span class="k">if</span> <span class="o">((</span><span class="n">w</span><span class="o">.</span><span class="na">mask</span> <span class="o">&amp;</span> <span class="n">centerMask</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
-
-			<span class="kt">boolean</span> <span class="n">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-			<span class="c1">// 개수 체크</span>
-			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-				<span class="k">if</span> <span class="o">(</span><span class="n">w</span><span class="o">.</span><span class="na">count</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">puzzleCount</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">{</span>
-					<span class="n">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-					<span class="k">break</span><span class="o">;</span>
-				<span class="o">}</span>
-			<span class="o">}</span>
-
-			<span class="k">if</span> <span class="o">(</span><span class="n">valid</span><span class="o">)</span> <span class="n">count</span><span class="o">++;</span>
-		<span class="o">}</span>
-
-		<span class="n">center</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="n">count</span><span class="o">);</span>
-	<span class="o">}</span>
-
-	<span class="c1">// 최소값 최대값 찾기</span>
-	<span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">center</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
-	<span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">center</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
-
-	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">&gt;</span> <span class="n">minLetters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">&gt;</span> <span class="n">maxLetters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-
-	<span class="k">for</span> <span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">e</span> <span class="o">:</span> <span class="n">center</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
-		<span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">==</span> <span class="n">min</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">minLetters</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">()))</span> <span class="o">{</span>
-			<span class="n">minLetters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">());</span>
-		<span class="o">}</span>
-
-		<span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">==</span> <span class="n">max</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">maxLetters</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">()))</span> <span class="o">{</span>
-			<span class="n">maxLetters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getKey</span><span class="o">());</span>
-		<span class="o">}</span>
-	<span class="o">}</span>
-
-	<span class="c1">// 알파벳 순 정렬</span>
-	<span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">minLetters</span><span class="o">);</span>
-	<span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">maxLetters</span><span class="o">);</span>
-
-	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">minLetters</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ch</span><span class="o">);</span>
-	<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">min</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
-	<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">maxLetters</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ch</span><span class="o">);</span>
-	<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">max</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-06-02-1148/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가<br />
-전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다.<br />
-어쨌든 20만개를 저장해서 순회하는 식이니 말이다.</p>
-
-<p>좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯?<br />
-하지만 어쨌든 풀었으니 그만둬야지</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-02-1148.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="random-solve/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="1148" /><category term="단어 만들기" /><category term="비트마스킹" /><summary type="html"><![CDATA[백준 1148번 단어 만들기 JAVA 문제풀이]]></summary></entry></feed>
+소스코드가 없어서 포스트 내 글자수가 확 줄어들었다!</p>]]></content><author><name>movingwoo</name></author><category term="one-pan/Shortcuts/" /><category term="단축어" /><category term="마법의 소라고둥" /><summary type="html"><![CDATA[단축어 마법의 소라고둥 프로그램 개발]]></summary></entry></feed>

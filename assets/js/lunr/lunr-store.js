@@ -256,4 +256,10 @@ var store = [{
         "tags": ["JAVA","알고리즘","백준",24008,"Catch Them All","최단거리"],
         "url": "/random-solve/java/2025/06/13/24008.html",
         "teaser": null
+      },{
+        "title": "10722번 Binary Mobile Tree",
+        "excerpt":"문제 10722번 Binary Mobile Tree - 백준 설계 모빌의 크기를 구하는 문제인데 눈여겨볼 조건은 아래인 것 같다. 양수는 구슬 음수는 막대 1번 막대가 루트 노드 (-1) 구슬은 질량만 있고 부피는 없음 DFS를 사용해서 탐색하며 질량과 막대너비를 전달하면 되겠지 아마 구현 재귀호출하며 길이와 질량 정보를 받아 합친다. 왼쪽 질량 * 왼쪽...","categories": ["random-solve/C++/"],
+        "tags": ["C++","알고리즘","백준",10722,"Binary Mobile Tree","DFS"],
+        "url": "/random-solve/c++/2025/06/16/10722.html",
+        "teaser": null
       }]
