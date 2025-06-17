@@ -1,0 +1,2319 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>하드웨어 모니터 - 뭐라도 하겠지</title>
+<meta name="description" content="PYTHON 하드웨어 모니터 프로그램 개발">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="뭐라도 하겠지">
+<meta property="og:title" content="하드웨어 모니터">
+<meta property="og:url" content="https://movingwoo.com/development/python/2025/06/09/Hardware-Monitor.html">
+
+
+  <meta property="og:description" content="PYTHON 하드웨어 모니터 프로그램 개발">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-06-09T23:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-06-17T06:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://movingwoo.com/development/python/2025/06/09/Hardware-Monitor.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "뭐라도 하겠지",
+      "url": "https://movingwoo.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/common/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/common/favicon_16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/common/favicon_180x180.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="뭐라도 하겠지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.querySelector('.head-content-btn');
+  const dropdownContent = document.querySelector('.game-dropdown-content');
+  let isOpen = false;
+
+  // 드롭다운 버튼 클릭 이벤트
+  dropdownBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    if (isOpen) {
+      const rect = dropdownBtn.getBoundingClientRect();
+      dropdownContent.style.top = rect.bottom + 'px';
+      dropdownContent.style.left = rect.left + 'px';
+      dropdownContent.classList.add('show');
+    } else {
+      dropdownContent.classList.remove('show');
+    }
+  });
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    if (isOpen && !dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+      isOpen = false;
+      dropdownContent.classList.remove('show');
+    }
+  });
+});
+</script>
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/common/favicon_180x180.png" alt="뭐라도 하겠지"></a>
+        
+        <a class="site-title" href="/">
+          뭐라도 하겠지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <div class="game-dropdown">
+              <button class="head-content-btn">
+                play <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="game-dropdown-content">
+                <a href="/play/Flappy%20Bird.html" target="_blank">Flappy Bird</a>
+                <a href="/play/Minesweeper.html" target="_blank">Minesweeper</a>
+                <a href="/play/Random%20Printer.html" target="_blank">Random Printer</a>
+                <a href="/play/Maze%20Generator.html" target="_blank">Maze Generator</a>
+                <a href="/play/Dungeon%20Generator.html" target="_blank">Dungeon Generator</a>
+              </div>
+            </div>
+          </li>
+          <li class="masthead__menu-item">
+            <button class="head-content-btn" onclick="window.location.href='/board?path='">
+              explorer
+            </button>
+          </li>
+        </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <h1 class="title__logo"><a href="https://movingwoo.com/">뭐라도 하겠지</a></h1>
+ -->
+
+
+
+<script src="/assets/js/search.js"></script>
+
+
+    <div class="initial-content">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>하드웨어 모니터 | 뭐라도 하겠지</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="하드웨어 모니터" />
+<meta name="author" content="movingwoo" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="PYTHON 하드웨어 모니터 프로그램 개발" />
+<meta property="og:description" content="PYTHON 하드웨어 모니터 프로그램 개발" />
+<link rel="canonical" href="https://movingwoo.com/development/python/2025/06/09/Hardware-Monitor.html" />
+<meta property="og:url" content="https://movingwoo.com/development/python/2025/06/09/Hardware-Monitor.html" />
+<meta property="og:site_name" content="뭐라도 하겠지" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-09T23:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="하드웨어 모니터" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-17T06:00:00+00:00","datePublished":"2025-06-09T23:00:00+00:00","description":"PYTHON 하드웨어 모니터 프로그램 개발","headline":"하드웨어 모니터","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/development/python/2025/06/09/Hardware-Monitor.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/development/python/2025/06/09/Hardware-Monitor.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
+
+
+
+<div class="home-layout">
+  <div class="home-sidebar">
+    
+
+
+
+
+
+
+
+<aside class="sidebar__left">
+  <div class="toc-wrapper">
+    <nav class="toc">
+      <header>
+        <h4 class="nav__title">
+          <span class="title-text">
+            <i class="fas fa-sitemap"></i> Archive
+          </span>
+          <a href="/board?path=" class="search-link" title="탐색">
+            <i class="fas fa-list-ul"></i>
+          </a>
+        </h4>
+      </header>
+
+      <ul class="toc__menu">
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="BOJ/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">BOJ</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/C++/" data-total-posts="7">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">C++</span>
+              
+              
+                <span class="post-count">7</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/c++/2025/06/16/10722.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 10722번 Binary Mobile Tree
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/c++/2025/06/13/16256.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 16256번 Painting the Wall
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/c++/2025/05/30/7663.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 7663번 Dreadful Deadlines
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FC%2B%2B%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/Java/" data-total-posts="8">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">8</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/java/2025/06/13/24008.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 24008번 Catch Them All
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/java/2025/06/10/21237.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 21237번 Clockwise Fence
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/java/2025/06/04/2784.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 2784번 가로 세로 퍼즐
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FJava%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/Python/" data-total-posts="9">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">9</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/python/2025/06/16/3655.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 3655번 먼저 가세요
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/python/2025/06/04/4676.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 4676번 Haiku Review
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/python/2025/06/02/11761.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 11761번 Shuffling Along
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FPython%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Development/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Development</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Java/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/java/2025/05/11/Bulls-and-Cows.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 숫자야구
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/JavaScript/" data-total-posts="8">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">JavaScript</span>
+              
+              
+                <span class="post-count">8</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/28/Dungeon-Generator-02.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 던전 생성기 02
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/27/Dungeon-Generator-01.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 던전 생성기 01
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/23/Maze-Generator-03.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 미로 생성기 03
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=Development%2FJavaScript%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Python/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/python/2025/06/09/Hardware-Monitor.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 하드웨어 모니터
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/python/2025/06/04/WebP-Converter.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> WebP 변환기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/python/2025/05/13/Clicker.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 클리커
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/ShellScript/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">ShellScript</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/shellscript/2025/05/12/File-Copier.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파일 복사기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shellscript/2025/04/28/Server-Manage-Console.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 서버 관리 콘솔
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Shortcuts/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Shortcuts</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/shortcuts/2025/06/11/Drawing-Lots.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 제비 뽑기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shortcuts/2025/06/02/Magic-Conch-Shell.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 마법의 소라고둥
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Zone of Exile/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Zone of Exile</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/2025/04/30/What-is-this.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 유배지 공고문
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Zone of Exile/AI-playground/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">AI-playground</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/Claude/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Claude</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/GPT/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">GPT</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/toc.js"></script> 
+  </div>
+
+  <div class="home-content">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="headline" content="하드웨어 모니터">
+      <meta itemprop="description" content="  개요  알리에서 3.5인치 모니터를 주웠다.온도 체크하기가 불편해서 사봤는데 리소스 사용량도 보여주고 상당히 괜찮다.제조사에서 드라이버를 제공해서 예쁜 테마를 가져다 그대로 쓸 수 있는데다소 불안한 감이 있고 이런 건 또 직접해야 제맛이다.필요없는 정보는 지우고 감성보다 기능성에 초점을 맞춘 새로운 테마를 만든다.  설계  turing-smart-screen-python이 오픈소스 프로젝트는 소형 시스템 모니터에 각종 정보를 보기 좋게 표시해주는 프로그램이다.능력자들이 밥을 다 차려놨으니 나는 숟가락만 들면 되는 것이다.소스코드를 다운로드 해 필요한 부분만 커스텀하고 사용할 수 있도록 하자.내게 필요한 정보는  CPU, GPU 온도  CPU 전체, 코어 별 사용량  GPU, VRAM 사용량  RAM 사용량  디스크 사용량필요 없는 정보는  날짜  날씨  네트워크 사용량  업타임아니 진짜 날짜 날씨는 왜 있지?메인 모니터나 휴대폰이 훨씬 잘 알려주는데  커스텀  1. 설치파이썬만 있으면 설치는 간편하다.pip install -r requirements.txtpip 의존성 설치 후 실행하면 켜진다.바로 실행하려면 main.py를, 설정 창을 띄우려면 configure.py를 실행한다.python configure.py2. 커스텀 테마 생성테마 파일은 turing-smart-screen-python\res\themes 폴더에 위치해있다.MyCustomTheme 폴더를 생성하고 내부에 theme.yaml 파일을 생성한다.구매한 3.5인치 모니터의 자체 프로그램 테마는 좀 다양한게 많아서 참고하려했더니.data 파일로 되어있어서 그냥 포기하고 새로 만들기로 한다.3.5인치 모니터의 크기는 480 X 320 이고 배경은 검은색으로 만들거라 그림판으로 검은색 사진을 만들어 background.png 로 넣어준다.뭐 없으면 알아서 까만화면 될 줄 알았는데 오류 나더라…yaml 수정은 즉각 반영되니 테마 에디터를 띄어두고 yaml을 수정하며 맞추면 된다.python theme-editor.py MyCustomTheme3. yaml 작성기본적으로 yaml만 잘 작성해주면 해당 정보들을 알아서 가져온다.디폴트 테마를 예시로 삼아서 잘 작성해보자.CPU와 디스크 쪽은 커스텀이 들어가야해서 머리아프다.갱신은 디스크 제외 1초로 통일했다.1초 마다 사용량을 갱신할 의미가 있을까 싶어서 60초로 설정했다.display:  DISPLAY_SIZE: &quot;3.5\&quot;&quot;  DISPLAY_ORIENTATION: &quot;landscape&quot;  DISPLAY_REVERSE: true  DISPLAY_RGB_LED: &quot;0, 0, 0&quot;static_images:  BACKGROUND:    PATH: background.png    X: 0    Y: 0    WIDTH: 480    HEIGHT: 320STATS:  CPU:    PERCENTAGE:      INTERVAL: 1      TEXT:        SHOW: true        X: 70        Y: 20        FONT: &quot;jetbrains-mono/JetBrainsMono-Bold.ttf&quot;        FONT_SIZE: 22        FONT_COLOR: &quot;255, 50, 0&quot;        BACKGROUND_COLOR: 0, 0, 0      GRAPH:        SHOW: true        X: 20        Y: 50        WIDTH: 200        HEIGHT: 20        MIN_VALUE: 0        MAX_VALUE: 100        BAR_COLOR: 255, 50, 0        BAR_OUTLINE: true        BAR_OUTLINE_COLOR: 255, 50, 0        BACKGROUND_COLOR: 0, 0, 0    TEMPERATURE:      INTERVAL: 1      TEXT:        SHOW: true        X: 155        Y: 20        FONT: &quot;jetbrains-mono/JetBrainsMono-Bold.ttf&quot;        FONT_SIZE: 22        FONT_COLOR: &quot;255, 50, 0&quot;        BACKGROUND_COLOR: 0, 0, 0    CORE_0:      GRAPH:        SHOW: true        X: 70        Y: 80        WIDTH: 150        HEIGHT: 10        MIN_VALUE: 0        MAX_VALUE: 100        BAR_COLOR: 255, 50, 0        BAR_OUTLINE: true        BAR_OUTLINE_COLOR: 255, 50, 0        BACKGROUND_COLOR: 0, 0, 0    CORE_1:      GRAPH:        SHOW: true        X: 70        Y: 95        WIDTH: 150        HEIGHT: 10        MIN_VALUE: 0        MAX_VALUE: 100        BAR_COLOR: 255, 50, 0        BAR_OUTLINE: true        BAR_OUTLINE_COLOR: 255, 50, 0        BACKGROUND_COLOR: 0, 0, 0### ... 후략 ... ###4. 파이썬 코드 커스텀theme.yaml을 읽어 파이썬 코드로 필요한 정보를 빼오는 식이다.코드를 수정하면 원하는 정보를 다양하게 가져올 수 있다는 것.우선 기본 테두리 설정이 너무 얇아서 테두리를 굵게 해준다.수정 대상 파일은 turing-smart-screen-python\library\lcd\lcd_comm.pyif bar_outline:    # Draw outline    # 테두리 두께 추가    outline_width = 3    draw.rectangle([0, 0, width - 1, height - 1], fill=None, outline=bar_color, width=outline_width)turing-smart-screen-python\library\stats.pymain.py 실행 시 스케쥴러를 통해 stats.py 를 주기적으로 호출한다.각 센서 데이터를 수집하니 가장 커스텀할게 많은 셈이다.하나하나 커스텀하자면 끝도 없을텐데 최대한 쓸 수 있는 기능은 그대로 가져다 쓰고싶기 때문에 최소한의 커스텀을 해보자.yaml 만드는 것으로 이미 지쳤다.우선 모든 CPU 코어를 한 눈에 볼 수 있게 코어 정보를 가져온다.CPU 클래스에 코어 확인 함수를 추가하고 퍼센티지 호출하는 부분 하단에 코어 확인 함수를 추가한다.@classmethoddef percentage(cls):    theme_data = config.THEME_DATA[&#39;STATS&#39;][&#39;CPU&#39;][&#39;PERCENTAGE&#39;]    cpu_percentage = sensors.Cpu.percentage(        interval=theme_data.get(&quot;INTERVAL&quot;, None)    )    save_last_value(cpu_percentage, cls.last_values_cpu_percentage,                    theme_data[&#39;LINE_GRAPH&#39;].get(&quot;HISTORY_SIZE&quot;, DEFAULT_HISTORY_SIZE))    # logger.debug(f&quot;CPU Percentage: {cpu_percentage}&quot;)    display_themed_progress_bar(theme_data[&#39;GRAPH&#39;], cpu_percentage)    display_themed_percent_radial_bar(theme_data[&#39;RADIAL&#39;], cpu_percentage)    display_themed_percent_value(theme_data[&#39;TEXT&#39;], cpu_percentage)    display_themed_line_graph(theme_data[&#39;LINE_GRAPH&#39;], cls.last_values_cpu_percentage)    # 코어 확인 함수    CPU.core_percentages()### ... 중략 ...# 코어 확인 위한 함수@classmethoddef core_percentages(cls):    # theme.yaml에 정의된 코어별 항목을 자동으로 순회    cpu_theme = config.THEME_DATA[&#39;STATS&#39;][&#39;CPU&#39;]    import psutil    core_percents = psutil.cpu_percent(percpu=True)    for idx, percent in enumerate(core_percents):        key = f&#39;CORE_{idx}&#39;        if key in cpu_theme and &#39;GRAPH&#39; in cpu_theme[key]:            display_themed_progress_bar(cpu_theme[key][&#39;GRAPH&#39;], percent)디스크의 경우는 C, D, E 드라이브를 사용 중인데각각 드라이브 사용량을 보여주기 위해 커스텀한다.기존 코드는 단일 디스크의 사용량, 남은용량 등의 정보를 가져오는데나는 3개의 사용량만 확인하면 되기 때문에 전체 주석 처리 후 아래 코드로 사용량만 확인하게끔 바꿔주었다.@classmethoddef stats(cls):    import psutil    disk_theme_data = config.THEME_DATA[&#39;STATS&#39;][&#39;DISK&#39;]    # C 드라이브    try:        c_usage = psutil.disk_usage(&#39;C:/&#39;).percent    except Exception:        c_usage = 0    display_themed_progress_bar(disk_theme_data[&#39;C&#39;][&#39;GRAPH&#39;], c_usage)    display_themed_percent_value(disk_theme_data[&#39;C&#39;][&#39;TEXT&#39;], c_usage)    # D 드라이브    try:        d_usage = psutil.disk_usage(&#39;D:/&#39;).percent    except Exception:        d_usage = 0    display_themed_progress_bar(disk_theme_data[&#39;D&#39;][&#39;GRAPH&#39;], d_usage)    display_themed_percent_value(disk_theme_data[&#39;D&#39;][&#39;TEXT&#39;], d_usage)    # E 드라이브     try:        e_usage = psutil.disk_usage(&#39;E:/&#39;).percent    except Exception:        e_usage = 0    display_themed_progress_bar(disk_theme_data[&#39;E&#39;][&#39;GRAPH&#39;], e_usage)    display_themed_percent_value(disk_theme_data[&#39;E&#39;][&#39;TEXT&#39;], e_usage)  완성  딱 내가 필요한 정보만 쑤셔박았다음 투박해 기능적이야자동 실행을 위해 작업 스케쥴러에 등록하고깔끔하게 보이기 위해 어항 케이스 안으로 쑤셔박으면 된다.  반성  cpu나 보드, 그래픽카드 제품 명도 넣는게 좋을까? 생각했는데별로 기능적으로 의미가 없을 것 같다.AI에 적당히 깔끔하게 백그라운드 만들어달라하고 거기에 맞추면 더 보기 좋을 것 같기도 하고…일단은 이대로 써보고 질리는 날이 오면 추가 커스텀 들어가야겠다.  코드 확인  파이썬 코드는 위 내용이 전부기 때문에 theme.yaml만 업로드Link to GitHub">
+      <meta itemprop="datePublished" content="2025-06-09T23:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-17T06:00:00+00:00">
+
+      <div class="page__inner-wrap">
+        
+          <header>
+            
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=Development" class="category-link">
+        Development
+      </a>
+      
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=Development%2FPython" class="category-link">
+        Python
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=Development%2FPython%2F" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">하드웨어 모니터
+</h1>
+            
+
+
+          </header>
+        
+
+        <section class="page__content" itemprop="text">
+          <blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img01.webp" alt="img01" /></p>
+
+<p>알리에서 3.5인치 모니터를 주웠다.<br />
+온도 체크하기가 불편해서 사봤는데 리소스 사용량도 보여주고 상당히 괜찮다.</p>
+
+<p>제조사에서 드라이버를 제공해서 예쁜 테마를 가져다 그대로 쓸 수 있는데<br />
+다소 불안한 감이 있고 이런 건 또 직접해야 제맛이다.<br />
+필요없는 정보는 지우고 감성보다 기능성에 초점을 맞춘 새로운 테마를 만든다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://github.com/mathoudebine/turing-smart-screen-python">turing-smart-screen-python</a></p>
+
+<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img02.webp" alt="img02" /></p>
+
+<p>이 오픈소스 프로젝트는 소형 시스템 모니터에 각종 정보를 보기 좋게 표시해주는 프로그램이다.<br />
+능력자들이 밥을 다 차려놨으니 나는 숟가락만 들면 되는 것이다.</p>
+
+<p>소스코드를 다운로드 해 필요한 부분만 커스텀하고 사용할 수 있도록 하자.</p>
+
+<p>내게 필요한 정보는</p>
+<ul>
+  <li>CPU, GPU 온도</li>
+  <li>CPU 전체, 코어 별 사용량</li>
+  <li>GPU, VRAM 사용량</li>
+  <li>RAM 사용량</li>
+  <li>디스크 사용량</li>
+</ul>
+
+<p>필요 없는 정보는</p>
+<ul>
+  <li>날짜</li>
+  <li>날씨</li>
+  <li>네트워크 사용량</li>
+  <li>업타임</li>
+</ul>
+
+<p>아니 진짜 날짜 날씨는 왜 있지?<br />
+메인 모니터나 휴대폰이 훨씬 잘 알려주는데</p>
+
+<blockquote>
+  <h4 id="커스텀">커스텀</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-설치">1. 설치</h5>
+
+<p>파이썬만 있으면 설치는 간편하다.</p>
+
+<div class="language-batch highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">pip</span> <span class="kd">install</span> <span class="na">-r </span><span class="kd">requirements</span>.txt
+</code></pre></div></div>
+
+<p>pip 의존성 설치 후 실행하면 켜진다.<br />
+바로 실행하려면 <span style="color: orange;"><strong>main.py</strong></span>를, 설정 창을 띄우려면 <span style="color: orange;"><strong>configure.py</strong></span>를 실행한다.</p>
+
+<div class="language-batch highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">python</span> <span class="kd">configure</span>.py
+</code></pre></div></div>
+
+<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img03.webp" alt="img03" /></p>
+
+<h5 id="2-커스텀-테마-생성">2. 커스텀 테마 생성</h5>
+
+<p>테마 파일은 <span style="color: orange;"><strong>turing-smart-screen-python\res\themes</strong></span> 폴더에 위치해있다.<br />
+MyCustomTheme 폴더를 생성하고 내부에 <span style="color: orange;"><strong>theme.yaml</strong></span> 파일을 생성한다.</p>
+
+<p>구매한 3.5인치 모니터의 자체 프로그램 테마는 좀 다양한게 많아서 참고하려했더니<br />
+.data 파일로 되어있어서 그냥 포기하고 새로 만들기로 한다.</p>
+
+<p>3.5인치 모니터의 크기는 480 X 320 이고 배경은 검은색으로 만들거라 그림판으로 검은색 사진을 만들어 <span style="color: orange;"><strong>background.png</strong></span> 로 넣어준다.<br />
+뭐 없으면 알아서 까만화면 될 줄 알았는데 오류 나더라…</p>
+
+<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img04.webp" alt="img04" /></p>
+
+<p>yaml 수정은 즉각 반영되니 테마 에디터를 띄어두고 yaml을 수정하며 맞추면 된다.</p>
+
+<div class="language-batch highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">python</span> <span class="kd">theme</span><span class="na">-editor</span>.py <span class="kd">MyCustomTheme</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img05.webp" alt="img05" /></p>
+
+<h5 id="3-yaml-작성">3. yaml 작성</h5>
+
+<p>기본적으로 yaml만 잘 작성해주면 해당 정보들을 알아서 가져온다.<br />
+디폴트 테마를 예시로 삼아서 잘 작성해보자.</p>
+
+<p>CPU와 디스크 쪽은 커스텀이 들어가야해서 머리아프다.</p>
+
+<p>갱신은 디스크 제외 1초로 통일했다.<br />
+1초 마다 사용량을 갱신할 의미가 있을까 싶어서 60초로 설정했다.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">display</span><span class="pi">:</span>
+  <span class="na">DISPLAY_SIZE</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.5</span><span class="se">\"</span><span class="s">"</span>
+  <span class="na">DISPLAY_ORIENTATION</span><span class="pi">:</span> <span class="s2">"</span><span class="s">landscape"</span>
+  <span class="na">DISPLAY_REVERSE</span><span class="pi">:</span> <span class="kc">true</span>
+  <span class="na">DISPLAY_RGB_LED</span><span class="pi">:</span> <span class="s2">"</span><span class="s">0,</span><span class="nv"> </span><span class="s">0,</span><span class="nv"> </span><span class="s">0"</span>
+
+<span class="na">static_images</span><span class="pi">:</span>
+  <span class="na">BACKGROUND</span><span class="pi">:</span>
+    <span class="na">PATH</span><span class="pi">:</span> <span class="s">background.png</span>
+    <span class="na">X</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">Y</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">WIDTH</span><span class="pi">:</span> <span class="m">480</span>
+    <span class="na">HEIGHT</span><span class="pi">:</span> <span class="m">320</span>
+
+<span class="na">STATS</span><span class="pi">:</span>
+  <span class="na">CPU</span><span class="pi">:</span>
+    <span class="na">PERCENTAGE</span><span class="pi">:</span>
+      <span class="na">INTERVAL</span><span class="pi">:</span> <span class="m">1</span>
+      <span class="na">TEXT</span><span class="pi">:</span>
+        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">X</span><span class="pi">:</span> <span class="m">70</span>
+        <span class="na">Y</span><span class="pi">:</span> <span class="m">20</span>
+        <span class="na">FONT</span><span class="pi">:</span> <span class="s2">"</span><span class="s">jetbrains-mono/JetBrainsMono-Bold.ttf"</span>
+        <span class="na">FONT_SIZE</span><span class="pi">:</span> <span class="m">22</span>
+        <span class="na">FONT_COLOR</span><span class="pi">:</span> <span class="s2">"</span><span class="s">255,</span><span class="nv"> </span><span class="s">50,</span><span class="nv"> </span><span class="s">0"</span>
+        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
+      <span class="na">GRAPH</span><span class="pi">:</span>
+        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">X</span><span class="pi">:</span> <span class="m">20</span>
+        <span class="na">Y</span><span class="pi">:</span> <span class="m">50</span>
+        <span class="na">WIDTH</span><span class="pi">:</span> <span class="m">200</span>
+        <span class="na">HEIGHT</span><span class="pi">:</span> <span class="m">20</span>
+        <span class="na">MIN_VALUE</span><span class="pi">:</span> <span class="m">0</span>
+        <span class="na">MAX_VALUE</span><span class="pi">:</span> <span class="m">100</span>
+        <span class="na">BAR_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
+        <span class="na">BAR_OUTLINE</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">BAR_OUTLINE_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
+        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
+    <span class="na">TEMPERATURE</span><span class="pi">:</span>
+      <span class="na">INTERVAL</span><span class="pi">:</span> <span class="m">1</span>
+      <span class="na">TEXT</span><span class="pi">:</span>
+        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">X</span><span class="pi">:</span> <span class="m">155</span>
+        <span class="na">Y</span><span class="pi">:</span> <span class="m">20</span>
+        <span class="na">FONT</span><span class="pi">:</span> <span class="s2">"</span><span class="s">jetbrains-mono/JetBrainsMono-Bold.ttf"</span>
+        <span class="na">FONT_SIZE</span><span class="pi">:</span> <span class="m">22</span>
+        <span class="na">FONT_COLOR</span><span class="pi">:</span> <span class="s2">"</span><span class="s">255,</span><span class="nv"> </span><span class="s">50,</span><span class="nv"> </span><span class="s">0"</span>
+        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
+    <span class="na">CORE_0</span><span class="pi">:</span>
+      <span class="na">GRAPH</span><span class="pi">:</span>
+        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">X</span><span class="pi">:</span> <span class="m">70</span>
+        <span class="na">Y</span><span class="pi">:</span> <span class="m">80</span>
+        <span class="na">WIDTH</span><span class="pi">:</span> <span class="m">150</span>
+        <span class="na">HEIGHT</span><span class="pi">:</span> <span class="m">10</span>
+        <span class="na">MIN_VALUE</span><span class="pi">:</span> <span class="m">0</span>
+        <span class="na">MAX_VALUE</span><span class="pi">:</span> <span class="m">100</span>
+        <span class="na">BAR_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
+        <span class="na">BAR_OUTLINE</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">BAR_OUTLINE_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
+        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
+    <span class="na">CORE_1</span><span class="pi">:</span>
+      <span class="na">GRAPH</span><span class="pi">:</span>
+        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">X</span><span class="pi">:</span> <span class="m">70</span>
+        <span class="na">Y</span><span class="pi">:</span> <span class="m">95</span>
+        <span class="na">WIDTH</span><span class="pi">:</span> <span class="m">150</span>
+        <span class="na">HEIGHT</span><span class="pi">:</span> <span class="m">10</span>
+        <span class="na">MIN_VALUE</span><span class="pi">:</span> <span class="m">0</span>
+        <span class="na">MAX_VALUE</span><span class="pi">:</span> <span class="m">100</span>
+        <span class="na">BAR_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
+        <span class="na">BAR_OUTLINE</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">BAR_OUTLINE_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
+        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
+
+<span class="c1">### ... 후략 ... ###</span>
+</code></pre></div></div>
+
+<h5 id="4-파이썬-코드-커스텀">4. 파이썬 코드 커스텀</h5>
+
+<p>theme.yaml을 읽어 파이썬 코드로 필요한 정보를 빼오는 식이다.<br />
+코드를 수정하면 원하는 정보를 다양하게 가져올 수 있다는 것.</p>
+
+<p>우선 기본 테두리 설정이 너무 얇아서 테두리를 굵게 해준다.<br />
+수정 대상 파일은 <span style="color: orange;"><strong>turing-smart-screen-python\library\lcd\lcd_comm.py</strong></span></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">bar_outline</span><span class="p">:</span>
+    <span class="c1"># Draw outline
+</span>    <span class="c1"># 테두리 두께 추가
+</span>    <span class="n">outline_width</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">draw</span><span class="p">.</span><span class="nf">rectangle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="n">bar_color</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">outline_width</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><span style="color: orange;"><strong>turing-smart-screen-python\library\stats.py</strong></span><br />
+main.py 실행 시 스케쥴러를 통해 stats.py 를 주기적으로 호출한다.<br />
+각 센서 데이터를 수집하니 가장 커스텀할게 많은 셈이다.</p>
+
+<p>하나하나 커스텀하자면 끝도 없을텐데 최대한 쓸 수 있는 기능은 그대로 가져다 쓰고싶기 때문에 최소한의 커스텀을 해보자.<br />
+yaml 만드는 것으로 이미 지쳤다.</p>
+
+<p>우선 모든 CPU 코어를 한 눈에 볼 수 있게 코어 정보를 가져온다.<br />
+CPU 클래스에 코어 확인 함수를 추가하고 퍼센티지 호출하는 부분 하단에 코어 확인 함수를 추가한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">percentage</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="n">theme_data</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">THEME_DATA</span><span class="p">[</span><span class="sh">'</span><span class="s">STATS</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">CPU</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">PERCENTAGE</span><span class="sh">'</span><span class="p">]</span>
+    <span class="n">cpu_percentage</span> <span class="o">=</span> <span class="n">sensors</span><span class="p">.</span><span class="n">Cpu</span><span class="p">.</span><span class="nf">percentage</span><span class="p">(</span>
+        <span class="n">interval</span><span class="o">=</span><span class="n">theme_data</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">INTERVAL</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="nf">save_last_value</span><span class="p">(</span><span class="n">cpu_percentage</span><span class="p">,</span> <span class="n">cls</span><span class="p">.</span><span class="n">last_values_cpu_percentage</span><span class="p">,</span>
+                    <span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">LINE_GRAPH</span><span class="sh">'</span><span class="p">].</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">HISTORY_SIZE</span><span class="sh">"</span><span class="p">,</span> <span class="n">DEFAULT_HISTORY_SIZE</span><span class="p">))</span>
+    <span class="c1"># logger.debug(f"CPU Percentage: {cpu_percentage}")
+</span>
+    <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">cpu_percentage</span><span class="p">)</span>
+    <span class="nf">display_themed_percent_radial_bar</span><span class="p">(</span><span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">RADIAL</span><span class="sh">'</span><span class="p">],</span> <span class="n">cpu_percentage</span><span class="p">)</span>
+    <span class="nf">display_themed_percent_value</span><span class="p">(</span><span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">TEXT</span><span class="sh">'</span><span class="p">],</span> <span class="n">cpu_percentage</span><span class="p">)</span>
+    <span class="nf">display_themed_line_graph</span><span class="p">(</span><span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">LINE_GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">cls</span><span class="p">.</span><span class="n">last_values_cpu_percentage</span><span class="p">)</span>
+
+    <span class="c1"># 코어 확인 함수
+</span>    <span class="n">CPU</span><span class="p">.</span><span class="nf">core_percentages</span><span class="p">()</span>
+
+<span class="c1">### ... 중략 ...
+</span>
+<span class="c1"># 코어 확인 위한 함수
+</span><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">core_percentages</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="c1"># theme.yaml에 정의된 코어별 항목을 자동으로 순회
+</span>    <span class="n">cpu_theme</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">THEME_DATA</span><span class="p">[</span><span class="sh">'</span><span class="s">STATS</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">CPU</span><span class="sh">'</span><span class="p">]</span>
+
+    <span class="kn">import</span> <span class="n">psutil</span>
+    <span class="n">core_percents</span> <span class="o">=</span> <span class="n">psutil</span><span class="p">.</span><span class="nf">cpu_percent</span><span class="p">(</span><span class="n">percpu</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">percent</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">core_percents</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">'</span><span class="s">CORE_</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="sh">'</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">cpu_theme</span> <span class="ow">and</span> <span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">cpu_theme</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+            <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">cpu_theme</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">percent</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>디스크의 경우는 C, D, E 드라이브를 사용 중인데<br />
+각각 드라이브 사용량을 보여주기 위해 커스텀한다.</p>
+
+<p>기존 코드는 단일 디스크의 사용량, 남은용량 등의 정보를 가져오는데<br />
+나는 3개의 사용량만 확인하면 되기 때문에 전체 주석 처리 후 아래 코드로 사용량만 확인하게끔 바꿔주었다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">stats</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="n">psutil</span>
+    <span class="n">disk_theme_data</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">THEME_DATA</span><span class="p">[</span><span class="sh">'</span><span class="s">STATS</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">DISK</span><span class="sh">'</span><span class="p">]</span>
+
+    <span class="c1"># C 드라이브
+</span>    <span class="k">try</span><span class="p">:</span>
+        <span class="n">c_usage</span> <span class="o">=</span> <span class="n">psutil</span><span class="p">.</span><span class="nf">disk_usage</span><span class="p">(</span><span class="sh">'</span><span class="s">C:/</span><span class="sh">'</span><span class="p">).</span><span class="n">percent</span>
+    <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
+        <span class="n">c_usage</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">c_usage</span><span class="p">)</span>
+    <span class="nf">display_themed_percent_value</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">TEXT</span><span class="sh">'</span><span class="p">],</span> <span class="n">c_usage</span><span class="p">)</span>
+
+    <span class="c1"># D 드라이브
+</span>    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d_usage</span> <span class="o">=</span> <span class="n">psutil</span><span class="p">.</span><span class="nf">disk_usage</span><span class="p">(</span><span class="sh">'</span><span class="s">D:/</span><span class="sh">'</span><span class="p">).</span><span class="n">percent</span>
+    <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
+        <span class="n">d_usage</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">D</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">d_usage</span><span class="p">)</span>
+    <span class="nf">display_themed_percent_value</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">D</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">TEXT</span><span class="sh">'</span><span class="p">],</span> <span class="n">d_usage</span><span class="p">)</span>
+
+    <span class="c1"># E 드라이브 
+</span>    <span class="k">try</span><span class="p">:</span>
+        <span class="n">e_usage</span> <span class="o">=</span> <span class="n">psutil</span><span class="p">.</span><span class="nf">disk_usage</span><span class="p">(</span><span class="sh">'</span><span class="s">E:/</span><span class="sh">'</span><span class="p">).</span><span class="n">percent</span>
+    <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
+        <span class="n">e_usage</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">E</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">e_usage</span><span class="p">)</span>
+    <span class="nf">display_themed_percent_value</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">E</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">TEXT</span><span class="sh">'</span><span class="p">],</span> <span class="n">e_usage</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="완성">완성</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img06.webp" alt="img06" /></p>
+
+<p>딱 내가 필요한 정보만 쑤셔박았다<br />
+음 투박해 기능적이야</p>
+
+<p>자동 실행을 위해 작업 스케쥴러에 등록하고<br />
+깔끔하게 보이기 위해 어항 케이스 안으로 쑤셔박으면 된다.</p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>cpu나 보드, 그래픽카드 제품 명도 넣는게 좋을까? 생각했는데<br />
+별로 기능적으로 의미가 없을 것 같다.</p>
+
+<p>AI에 적당히 깔끔하게 백그라운드 만들어달라하고 거기에 맞추면 더 보기 좋을 것 같기도 하고…<br />
+일단은 이대로 써보고 질리는 날이 오면 추가 커스텀 들어가야겠다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p>파이썬 코드는 위 내용이 전부기 때문에 theme.yaml만 업로드</p>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/Python/2025-06-10-Hardware%20Monitor-theme.yaml">Link to GitHub</a></p>
+
+
+          
+        </section>
+
+        <footer class="page__meta">
+          
+          
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-17">June 17, 2025</time></p>
+
+
+        </footer>
+
+        
+
+        
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "하드웨어 모니터",
+        url: "/development/python/2025/06/09/Hardware-Monitor.html",
+        date: "2025-06-09",
+        categories: ["Development/Python/"]
+      },
+      allPosts: [
+        
+        
+          
+          
+          {
+            title: "3655번 먼저 가세요",
+            url: "/boj/python/2025/06/16/3655.html",
+            date: "2025-06-16",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "10722번 Binary Mobile Tree",
+            url: "/boj/c++/2025/06/16/10722.html",
+            date: "2025-06-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "24008번 Catch Them All",
+            url: "/boj/java/2025/06/13/24008.html",
+            date: "2025-06-13",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16256번 Painting the Wall",
+            url: "/boj/c++/2025/06/13/16256.html",
+            date: "2025-06-13",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "제비 뽑기",
+            url: "/development/shortcuts/2025/06/11/Drawing-Lots.html",
+            date: "2025-06-11",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21237번 Clockwise Fence",
+            url: "/boj/java/2025/06/10/21237.html",
+            date: "2025-06-10",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "하드웨어 모니터",
+            url: "/development/python/2025/06/09/Hardware-Monitor.html",
+            date: "2025-06-09",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2784번 가로 세로 퍼즐",
+            url: "/boj/java/2025/06/04/2784.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "4676번 Haiku Review",
+            url: "/boj/python/2025/06/04/4676.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "WebP 변환기",
+            url: "/development/python/2025/06/04/WebP-Converter.html",
+            date: "2025-06-04",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "마법의 소라고둥",
+            url: "/development/shortcuts/2025/06/02/Magic-Conch-Shell.html",
+            date: "2025-06-02",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1148번 단어 만들기",
+            url: "/boj/java/2025/06/02/1148.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11761번 Shuffling Along",
+            url: "/boj/python/2025/06/02/11761.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7663번 Dreadful Deadlines",
+            url: "/boj/c++/2025/05/30/7663.html",
+            date: "2025-05-30",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "6862번 Tin Can Telephone",
+            url: "/boj/java/2025/05/30/6862.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15654번 N과 M (5)",
+            url: "/boj/python/2025/05/30/15654.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21308번 Ternary Machine",
+            url: "/boj/python/2025/05/30/21308.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11982번 Angry Cows (Gold)",
+            url: "/boj/java/2025/05/28/11982.html",
+            date: "2025-05-28",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16085번 Гэмт хэрэг",
+            url: "/boj/c++/2025/05/28/16085.html",
+            date: "2025-05-28",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 02",
+            url: "/development/javascript/2025/05/28/Dungeon-Generator-02.html",
+            date: "2025-05-28",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7106번 Wonderful Fours",
+            url: "/boj/python/2025/05/27/7106.html",
+            date: "2025-05-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 01",
+            url: "/development/javascript/2025/05/27/Dungeon-Generator-01.html",
+            date: "2025-05-27",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "5101번 Sequences",
+            url: "/boj/python/2025/05/23/5101.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "27391번 Platform Placing",
+            url: "/boj/java/2025/05/23/27391.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "25245번 Amusement Arcade",
+            url: "/boj/c++/2025/05/23/25245.html",
+            date: "2025-05-23",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 03",
+            url: "/development/javascript/2025/05/23/Maze-Generator-03.html",
+            date: "2025-05-23",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26489번 Gum Gum for Jay Jay",
+            url: "/boj/python/2025/05/22/26489.html",
+            date: "2025-05-22",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 02",
+            url: "/development/javascript/2025/05/21/Maze-Generator-02.html",
+            date: "2025-05-21",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26226번 Autocomplete",
+            url: "/boj/c++/2025/05/21/26226.html",
+            date: "2025-05-21",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 01",
+            url: "/development/javascript/2025/05/20/Maze-Generator-01.html",
+            date: "2025-05-20",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15936번 Hypercube",
+            url: "/boj/java/2025/05/20/15936.html",
+            date: "2025-05-20",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "29348번 Скользкий путь",
+            url: "/boj/c++/2025/05/16/29348.html",
+            date: "2025-05-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18382번 2048",
+            url: "/boj/python/2025/05/15/18382.html",
+            date: "2025-05-15",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "랜덤 출력기",
+            url: "/development/javascript/2025/05/14/Random-Printer.html",
+            date: "2025-05-14",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파이썬으로 CLI TODO 리스트 만들어보기",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html",
+            date: "2025-05-14",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "플래피 버드",
+            url: "/development/javascript/2025/05/13/Flappy-Bird.html",
+            date: "2025-05-13",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "클리커",
+            url: "/development/python/2025/05/13/Clicker.html",
+            date: "2025-05-13",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파일 복사기",
+            url: "/development/shellscript/2025/05/12/File-Copier.html",
+            date: "2025-05-12",
+            categories: ["Development/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "숫자야구",
+            url: "/development/java/2025/05/11/Bulls-and-Cows.html",
+            date: "2025-05-11",
+            categories: ["Development/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴, 어떻게 보내면 좋을까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "프로그래머를 위한 생산성 툴 TOP 5 🧰",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "AI 시대의 개발자, 어떻게 준비해야 할까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "유배지 공고문",
+            url: "/zone%20of%20exile/2025/04/30/What-is-this.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/"]
+          },
+          
+        
+          
+          
+          {
+            title: "지뢰찾기",
+            url: "/development/javascript/2025/04/29/Minesweeper.html",
+            date: "2025-04-29",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "서버 관리 콘솔",
+            url: "/development/shellscript/2025/04/28/Server-Manage-Console.html",
+            date: "2025-04-28",
+            categories: ["Development/ShellScript/"]
+          }
+          
+        
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
+      </div>
+
+      
+      
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+    </article>
+
+    
+    
+  </div>
+</div>
+
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 1rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .home-content {
+    padding: 0;
+  }
+}
+</style>
+
+    </div>
+
+    
+    
+    <div class="page__footer">
+  <div class="page__footer-copyright">
+    Visit: <a href="https://github.com/movingwoo/movingwoo.github.io">https://github.com/movingwoo/movingwoo.github.io</a>
+    <br>
+    <span class="theme-credit">Theme customized from Minimal Mistakes by Michael Rose (MIT License).</span>
+  </div>
+</div>
+
+    <div class="scroll-button">
+  <div class="scroll-button__container">
+    <button class="scroll-button__area scroll-button__area--top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="위로">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="scroll-button__area scroll-button__area--bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="아래로">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.scroll-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.scroll-button__container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(220, 20, 60, 0.6);
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-button__area {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button__area--top {
+  top: 0;
+}
+
+.scroll-button__area--bottom {
+  bottom: 0;
+}
+
+.scroll-button__area:focus {
+  outline: none;
+}
+
+.scroll-button__area:hover {
+  color: rgba(220, 20, 60, 1);
+}
+
+.scroll-button__area:hover i {
+  transform: scale(1.2);
+}
+
+.scroll-button__area i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll-button {
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .scroll-button__container {
+    width: 50px;
+    height: 50px;
+  }
+}
+</style> 
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+});
+</script>
+
+
+  </body>
+</html>

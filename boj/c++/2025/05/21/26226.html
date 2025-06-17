@@ -9,22 +9,19 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>뭐라도 하겠지</title>
-<meta name="description" content="개발, C++, JAVA, Python, Shortcut, 백준">
+<!-- begin _includes/seo.html --><title>26226번 Autocomplete - 뭐라도 하겠지</title>
+<meta name="description" content="백준 26226번 Autocomplete C++ 문제풀이">
 
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="뭐라도 하겠지">
-<meta property="og:url" content="https://movingwoo.com/board">
+<meta property="og:title" content="26226번 Autocomplete">
+<meta property="og:url" content="https://movingwoo.com/boj/c++/2025/05/21/26226.html">
 
 
-  <meta property="og:description" content="개발, C++, JAVA, Python, Shortcut, 백준">
-
-
-
+  <meta property="og:description" content="백준 26226번 Autocomplete C++ 문제풀이">
 
 
 
@@ -32,9 +29,16 @@
 
 
 
+  <meta property="article:published_time" content="2025-05-21T06:00:00+00:00">
 
 
-<link rel="canonical" href="https://movingwoo.com/board">
+
+  <meta property="article:modified_time" content="2025-06-17T06:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://movingwoo.com/boj/c++/2025/05/21/26226.html">
 
 
 
@@ -91,7 +95,7 @@
 
   </head>
 
-  <body class="layout--single wide">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -195,20 +199,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="initial-content">
       <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>뭐라도 하겠지 | 개발, C++, JAVA, Python, Shortcut, 백준</title>
+<title>26226번 Autocomplete | 뭐라도 하겠지</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="뭐라도 하겠지" />
+<meta property="og:title" content="26226번 Autocomplete" />
+<meta name="author" content="movingwoo" />
 <meta property="og:locale" content="ko_KR" />
-<meta name="description" content="개발, C++, JAVA, Python, Shortcut, 백준" />
-<meta property="og:description" content="개발, C++, JAVA, Python, Shortcut, 백준" />
-<link rel="canonical" href="https://movingwoo.com/board" />
-<meta property="og:url" content="https://movingwoo.com/board" />
+<meta name="description" content="백준 26226번 Autocomplete C++ 문제풀이" />
+<meta property="og:description" content="백준 26226번 Autocomplete C++ 문제풀이" />
+<link rel="canonical" href="https://movingwoo.com/boj/c++/2025/05/21/26226.html" />
+<meta property="og:url" content="https://movingwoo.com/boj/c++/2025/05/21/26226.html" />
 <meta property="og:site_name" content="뭐라도 하겠지" />
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-05-21T06:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="뭐라도 하겠지" />
+<meta property="twitter:title" content="26226번 Autocomplete" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"개발, C++, JAVA, Python, Shortcut, 백준","headline":"뭐라도 하겠지","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"}},"url":"https://movingwoo.com/board"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-17T06:00:00+00:00","datePublished":"2025-05-21T06:00:00+00:00","description":"백준 26226번 Autocomplete C++ 문제풀이","headline":"26226번 Autocomplete","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/boj/c++/2025/05/21/26226.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/boj/c++/2025/05/21/26226.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1276,16 +1282,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      
-      
-      
-      
+      <meta itemprop="headline" content="26226번 Autocomplete">
+      <meta itemprop="description" content="  문제  26226번 Autocomplete - 백준  설계  앗 영어 문제단어를 비교하는 문제이다.두 단어가 “비슷하다”고 말하는 조건은 다음과 같다.  대소문자 구분 없이 비교했을 때 완전히 같음  대소문자를 구분하면 서로 다른 문자의 위치가 K개 이하단어의 길이 최대 2000, 단어 사전 1000개, 질의 1000개다.생각보다 숫자가 좀 크다?  구현  1. 시간 초과의 역사2000 * 1000 * 1000 = 2000000000이런 미친 숫자가!문제의 제한시간은 1초다.탐색범위를 최대한 줄여야한다.K는 최대 5기 때문에 빠른 탈출 트리거로 사용할 수 있는데나머지 숫자는 커서 잘 생각해야한다.아래는 시간 초과난 경우  문자열 전체 비교하면 터져서 소문자 변환 후 별도 저장했지만 터짐  마스킹 처리 후 비트기반 xor 연산했지만 터짐  K가 작기 때문에 가능한 모든 마스크 조합을 만들어봤지만 터짐  bitset 구조로 바꿨는데 터짐  다 때려치우고 소문자 정렬 후 이진탐색했는데 터짐결국 초심으로 돌아가 단순하게 후보군 필터링 후 해시 기반 탐색하니 통과되었다.2. 입력 받아 필터링 후 탐색int main() {    ios::sync_with_stdio(false);    cin.tie(nullptr);    int K, W, Q;    cin &gt;&gt; K &gt;&gt; W;    // 소문자 + 길이 기준    unordered_map&lt;string, unordered_map&lt;int, vector&lt;string&gt;&gt;&gt; words;    for (int i = 0; i &lt; W; ++i) {        string word;        cin &gt;&gt; word;        string lower = toLower(word);        int length = word.size();        words[lower][length].push_back(word);    }    cin &gt;&gt; Q;    for (int i = 0; i &lt; Q; ++i) {        string query;        cin &gt;&gt; query;        string lowerQuery = toLower(query);        int length = query.size();        int result = 0;        // 소문자 + 길이 일치하는 단어만 대상으로 필터링        if (words.count(lowerQuery) &amp;&amp; words[lowerQuery].count(length)) {            const vector&lt;string&gt;&amp; list = words[lowerQuery][length];            for (const string&amp; target : list) {                int cnt = caseDifference(query, target, K);                if (cnt &lt;= K) {                    result++;                }            }        }        cout &lt;&lt; result &lt;&lt; &#39;\n&#39;;    }    return 0;}  채점    반성  괜시리 머리 굴려서 살 붙이며 비대해지는 것 보다 가끔은 초심으로 돌아갈 필요가 있다.그건 그렇고 왜 쉬운 문제는 안나오지?처음에 조건보고 할만한데? 하고 덤볐다가 피봤다.  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-05-21T06:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-17T06:00:00+00:00">
 
       <div class="page__inner-wrap">
         
           <header>
-             
             
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=BOJ" class="category-link">
+        BOJ
+      </a>
+      
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=BOJ%2FC%2B%2B" class="category-link">
+        C++
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=BOJ%2FC%2B%2B%2F" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">26226번 Autocomplete
+</h1>
             
 
 
@@ -1293,448 +1326,134 @@ document.addEventListener('DOMContentLoaded', function() {
         
 
         <section class="page__content" itemprop="text">
-          <div class="board-container">
-  <div class="board-header">
-    <div class="breadcrumb"></div>
+          <blockquote>
+  <h4 id="문제">문제</h4>
+  <hr />
+</blockquote>
 
-<script src="/assets/js/breadcrumb.js"></script> 
-  </div>
-  <div class="board-list">
-    
-      <div class="board-item" data-categories="BOJ/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/python/2025/06/16/3655.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 3655번 먼저 가세요
-          </a>
-          <span class="board-date">2025-06-16</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/C++/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/c++/2025/06/16/10722.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 10722번 Binary Mobile Tree
-          </a>
-          <span class="board-date">2025-06-16</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Java/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/java/2025/06/13/24008.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 24008번 Catch Them All
-          </a>
-          <span class="board-date">2025-06-13</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/C++/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/c++/2025/06/13/16256.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 16256번 Painting the Wall
-          </a>
-          <span class="board-date">2025-06-13</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/Shortcuts/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/shortcuts/2025/06/11/Drawing-Lots.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 제비 뽑기
-          </a>
-          <span class="board-date">2025-06-11</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Java/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/java/2025/06/10/21237.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 21237번 Clockwise Fence
-          </a>
-          <span class="board-date">2025-06-10</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/python/2025/06/09/Hardware-Monitor.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 하드웨어 모니터
-          </a>
-          <span class="board-date">2025-06-09</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Java/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/java/2025/06/04/2784.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 2784번 가로 세로 퍼즐
-          </a>
-          <span class="board-date">2025-06-04</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/python/2025/06/04/4676.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 4676번 Haiku Review
-          </a>
-          <span class="board-date">2025-06-04</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/python/2025/06/04/WebP-Converter.html" class="board-title">
-            <i class="fas fa-file-alt"></i> WebP 변환기
-          </a>
-          <span class="board-date">2025-06-04</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/Shortcuts/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/shortcuts/2025/06/02/Magic-Conch-Shell.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 마법의 소라고둥
-          </a>
-          <span class="board-date">2025-06-02</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Java/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/java/2025/06/02/1148.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 1148번 단어 만들기
-          </a>
-          <span class="board-date">2025-06-02</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/python/2025/06/02/11761.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 11761번 Shuffling Along
-          </a>
-          <span class="board-date">2025-06-02</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/C++/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/c++/2025/05/30/7663.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 7663번 Dreadful Deadlines
-          </a>
-          <span class="board-date">2025-05-30</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Java/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/java/2025/05/30/6862.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 6862번 Tin Can Telephone
-          </a>
-          <span class="board-date">2025-05-30</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/python/2025/05/30/15654.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 15654번 N과 M (5)
-          </a>
-          <span class="board-date">2025-05-30</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/python/2025/05/30/21308.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 21308번 Ternary Machine
-          </a>
-          <span class="board-date">2025-05-30</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Java/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/java/2025/05/28/11982.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 11982번 Angry Cows (Gold)
-          </a>
-          <span class="board-date">2025-05-28</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/C++/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/c++/2025/05/28/16085.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 16085번 Гэмт хэрэг
-          </a>
-          <span class="board-date">2025-05-28</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/JavaScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/javascript/2025/05/28/Dungeon-Generator-02.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 던전 생성기 02
-          </a>
-          <span class="board-date">2025-05-28</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/python/2025/05/27/7106.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 7106번 Wonderful Fours
-          </a>
-          <span class="board-date">2025-05-27</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/JavaScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/javascript/2025/05/27/Dungeon-Generator-01.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 던전 생성기 01
-          </a>
-          <span class="board-date">2025-05-27</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/python/2025/05/23/5101.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 5101번 Sequences
-          </a>
-          <span class="board-date">2025-05-23</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Java/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/java/2025/05/23/27391.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 27391번 Platform Placing
-          </a>
-          <span class="board-date">2025-05-23</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/C++/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/c++/2025/05/23/25245.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 25245번 Amusement Arcade
-          </a>
-          <span class="board-date">2025-05-23</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/JavaScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/javascript/2025/05/23/Maze-Generator-03.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 미로 생성기 03
-          </a>
-          <span class="board-date">2025-05-23</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/python/2025/05/22/26489.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 26489번 Gum Gum for Jay Jay
-          </a>
-          <span class="board-date">2025-05-22</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/JavaScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/javascript/2025/05/21/Maze-Generator-02.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 미로 생성기 02
-          </a>
-          <span class="board-date">2025-05-21</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/C++/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/c++/2025/05/21/26226.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 26226번 Autocomplete
-          </a>
-          <span class="board-date">2025-05-21</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/JavaScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/javascript/2025/05/20/Maze-Generator-01.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 미로 생성기 01
-          </a>
-          <span class="board-date">2025-05-20</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Java/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/java/2025/05/20/15936.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 15936번 Hypercube
-          </a>
-          <span class="board-date">2025-05-20</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/C++/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/c++/2025/05/16/29348.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 29348번 Скользкий путь
-          </a>
-          <span class="board-date">2025-05-16</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="BOJ/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/boj/python/2025/05/15/18382.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 18382번 2048
-          </a>
-          <span class="board-date">2025-05-15</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/JavaScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/javascript/2025/05/14/Random-Printer.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 랜덤 출력기
-          </a>
-          <span class="board-date">2025-05-14</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Zone of Exile/AI-playground/GPT/" style="display: none;">
-        <div class="board-content">
-          <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기
-          </a>
-          <span class="board-date">2025-05-14</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/JavaScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/javascript/2025/05/13/Flappy-Bird.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 플래피 버드
-          </a>
-          <span class="board-date">2025-05-13</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/Python/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/python/2025/05/13/Clicker.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 클리커
-          </a>
-          <span class="board-date">2025-05-13</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/ShellScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/shellscript/2025/05/12/File-Copier.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 파일 복사기
-          </a>
-          <span class="board-date">2025-05-12</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/Java/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/java/2025/05/11/Bulls-and-Cows.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 숫자야구
-          </a>
-          <span class="board-date">2025-05-11</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Zone of Exile/AI-playground/GPT/" style="display: none;">
-        <div class="board-content">
-          <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 즐거운 연휴
-          </a>
-          <span class="board-date">2025-05-01</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Zone of Exile/AI-playground/Claude/" style="display: none;">
-        <div class="board-content">
-          <a href="/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?
-          </a>
-          <span class="board-date">2025-05-01</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Zone of Exile/AI-playground/GPT/" style="display: none;">
-        <div class="board-content">
-          <a href="/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰
-          </a>
-          <span class="board-date">2025-04-30</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Zone of Exile/AI-playground/Claude/" style="display: none;">
-        <div class="board-content">
-          <a href="/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html" class="board-title">
-            <i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?
-          </a>
-          <span class="board-date">2025-04-30</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Zone of Exile/" style="display: none;">
-        <div class="board-content">
-          <a href="/zone%20of%20exile/2025/04/30/What-is-this.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 유배지 공고문
-          </a>
-          <span class="board-date">2025-04-30</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/JavaScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/javascript/2025/04/29/Minesweeper.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 지뢰찾기
-          </a>
-          <span class="board-date">2025-04-29</span>
-        </div>
-      </div>
-    
-      <div class="board-item" data-categories="Development/ShellScript/" style="display: none;">
-        <div class="board-content">
-          <a href="/development/shellscript/2025/04/28/Server-Manage-Console.html" class="board-title">
-            <i class="fas fa-file-alt"></i> 서버 관리 콘솔
-          </a>
-          <span class="board-date">2025-04-28</span>
-        </div>
-      </div>
-    
-    <div class="board-item no-data" style="display: none;">
-      <div class="board-content">
-        <span class="board-title">No Data</span>
-      </div>
-    </div>
-  </div>
-  <div class="board-controls">
-    <div class="board-controls-inner">
-      <div class="search-container">
-        <input type="text" id="board-search-input" placeholder="제목 검색" class="search-input" />
-        <button class="search-button" type="button">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-      <ul class="pagination"></ul>
-    </div>
-  </div>
-</div>
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-21-26226/img01.webp" alt="img01" /></p>
 
-<script src="/assets/js/board.js"></script>
+<p><a href="https://www.acmicpc.net/problem/26226">26226번 Autocomplete - 백준</a></p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>앗 영어 문제</p>
+
+<p>단어를 비교하는 문제이다.<br />
+두 단어가 “비슷하다”고 말하는 조건은 다음과 같다.</p>
+<ul>
+  <li>대소문자 구분 없이 비교했을 때 완전히 같음</li>
+  <li>대소문자를 구분하면 서로 다른 문자의 위치가 K개 이하</li>
+</ul>
+
+<p>단어의 길이 최대 2000, 단어 사전 1000개, 질의 1000개다.<br />
+생각보다 숫자가 좀 크다?</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-시간-초과의-역사">1. 시간 초과의 역사</h5>
+
+<p><span style="color: orange;"><strong>2000 * 1000 * 1000 = 2000000000</strong></span><br />
+<span style="color: red;"><strong>이런 미친 숫자가!</strong></span></p>
+
+<p>문제의 제한시간은 1초다.<br />
+탐색범위를 최대한 줄여야한다.<br />
+K는 최대 5기 때문에 빠른 탈출 트리거로 사용할 수 있는데<br />
+나머지 숫자는 커서 잘 생각해야한다.</p>
+
+<p>아래는 시간 초과난 경우</p>
+<ol>
+  <li>문자열 전체 비교하면 터져서 소문자 변환 후 별도 저장했지만 터짐</li>
+  <li>마스킹 처리 후 비트기반 xor 연산했지만 터짐</li>
+  <li>K가 작기 때문에 가능한 모든 마스크 조합을 만들어봤지만 터짐</li>
+  <li>bitset 구조로 바꿨는데 터짐</li>
+  <li>다 때려치우고 소문자 정렬 후 이진탐색했는데 터짐</li>
+</ol>
+
+<p>결국 초심으로 돌아가 단순하게 후보군 필터링 후 해시 기반 탐색하니 통과되었다.</p>
+
+<h5 id="2-입력-받아-필터링-후-탐색">2. 입력 받아 필터링 후 탐색</h5>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">nullptr</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">K</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Q</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">K</span> <span class="o">&gt;&gt;</span> <span class="n">W</span><span class="p">;</span>
+
+    <span class="c1">// 소문자 + 길이 기준</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&gt;&gt;</span> <span class="n">words</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">word</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">word</span><span class="p">;</span>
+
+        <span class="n">string</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">toLower</span><span class="p">(</span><span class="n">word</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">word</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+
+        <span class="n">words</span><span class="p">[</span><span class="n">lower</span><span class="p">][</span><span class="n">length</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">word</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">Q</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Q</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">query</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">query</span><span class="p">;</span>
+
+        <span class="n">string</span> <span class="n">lowerQuery</span> <span class="o">=</span> <span class="n">toLower</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+        <span class="c1">// 소문자 + 길이 일치하는 단어만 대상으로 필터링</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">words</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">lowerQuery</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">words</span><span class="p">[</span><span class="n">lowerQuery</span><span class="p">].</span><span class="n">count</span><span class="p">(</span><span class="n">length</span><span class="p">))</span> <span class="p">{</span>
+
+            <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">lowerQuery</span><span class="p">][</span><span class="n">length</span><span class="p">];</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">target</span> <span class="o">:</span> <span class="n">list</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="n">caseDifference</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">K</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&lt;=</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">result</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/random-solve/C++/2025-05-21-26226/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>괜시리 머리 굴려서 살 붙이며 비대해지는 것 보다 가끔은 초심으로 돌아갈 필요가 있다.</p>
+
+<p>그건 그렇고 왜 쉬운 문제는 안나오지?<br />
+처음에 조건보고 할만한데? 하고 덤볐다가 피봤다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-05-21-26226.cpp">Link to GitHub</a></p>
 
 
           
@@ -1744,16 +1463,515 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
 
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-17">June 17, 2025</time></p>
+
 
         </footer>
 
         
 
         
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "26226번 Autocomplete",
+        url: "/boj/c++/2025/05/21/26226.html",
+        date: "2025-05-21",
+        categories: ["BOJ/C++/"]
+      },
+      allPosts: [
+        
+        
+          
+          
+          {
+            title: "3655번 먼저 가세요",
+            url: "/boj/python/2025/06/16/3655.html",
+            date: "2025-06-16",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "10722번 Binary Mobile Tree",
+            url: "/boj/c++/2025/06/16/10722.html",
+            date: "2025-06-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "24008번 Catch Them All",
+            url: "/boj/java/2025/06/13/24008.html",
+            date: "2025-06-13",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16256번 Painting the Wall",
+            url: "/boj/c++/2025/06/13/16256.html",
+            date: "2025-06-13",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "제비 뽑기",
+            url: "/development/shortcuts/2025/06/11/Drawing-Lots.html",
+            date: "2025-06-11",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21237번 Clockwise Fence",
+            url: "/boj/java/2025/06/10/21237.html",
+            date: "2025-06-10",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "하드웨어 모니터",
+            url: "/development/python/2025/06/09/Hardware-Monitor.html",
+            date: "2025-06-09",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2784번 가로 세로 퍼즐",
+            url: "/boj/java/2025/06/04/2784.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "4676번 Haiku Review",
+            url: "/boj/python/2025/06/04/4676.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "WebP 변환기",
+            url: "/development/python/2025/06/04/WebP-Converter.html",
+            date: "2025-06-04",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "마법의 소라고둥",
+            url: "/development/shortcuts/2025/06/02/Magic-Conch-Shell.html",
+            date: "2025-06-02",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1148번 단어 만들기",
+            url: "/boj/java/2025/06/02/1148.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11761번 Shuffling Along",
+            url: "/boj/python/2025/06/02/11761.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7663번 Dreadful Deadlines",
+            url: "/boj/c++/2025/05/30/7663.html",
+            date: "2025-05-30",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "6862번 Tin Can Telephone",
+            url: "/boj/java/2025/05/30/6862.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15654번 N과 M (5)",
+            url: "/boj/python/2025/05/30/15654.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21308번 Ternary Machine",
+            url: "/boj/python/2025/05/30/21308.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11982번 Angry Cows (Gold)",
+            url: "/boj/java/2025/05/28/11982.html",
+            date: "2025-05-28",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16085번 Гэмт хэрэг",
+            url: "/boj/c++/2025/05/28/16085.html",
+            date: "2025-05-28",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 02",
+            url: "/development/javascript/2025/05/28/Dungeon-Generator-02.html",
+            date: "2025-05-28",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7106번 Wonderful Fours",
+            url: "/boj/python/2025/05/27/7106.html",
+            date: "2025-05-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 01",
+            url: "/development/javascript/2025/05/27/Dungeon-Generator-01.html",
+            date: "2025-05-27",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "5101번 Sequences",
+            url: "/boj/python/2025/05/23/5101.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "27391번 Platform Placing",
+            url: "/boj/java/2025/05/23/27391.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "25245번 Amusement Arcade",
+            url: "/boj/c++/2025/05/23/25245.html",
+            date: "2025-05-23",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 03",
+            url: "/development/javascript/2025/05/23/Maze-Generator-03.html",
+            date: "2025-05-23",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26489번 Gum Gum for Jay Jay",
+            url: "/boj/python/2025/05/22/26489.html",
+            date: "2025-05-22",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 02",
+            url: "/development/javascript/2025/05/21/Maze-Generator-02.html",
+            date: "2025-05-21",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26226번 Autocomplete",
+            url: "/boj/c++/2025/05/21/26226.html",
+            date: "2025-05-21",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 01",
+            url: "/development/javascript/2025/05/20/Maze-Generator-01.html",
+            date: "2025-05-20",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15936번 Hypercube",
+            url: "/boj/java/2025/05/20/15936.html",
+            date: "2025-05-20",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "29348번 Скользкий путь",
+            url: "/boj/c++/2025/05/16/29348.html",
+            date: "2025-05-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18382번 2048",
+            url: "/boj/python/2025/05/15/18382.html",
+            date: "2025-05-15",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "랜덤 출력기",
+            url: "/development/javascript/2025/05/14/Random-Printer.html",
+            date: "2025-05-14",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파이썬으로 CLI TODO 리스트 만들어보기",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html",
+            date: "2025-05-14",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "플래피 버드",
+            url: "/development/javascript/2025/05/13/Flappy-Bird.html",
+            date: "2025-05-13",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "클리커",
+            url: "/development/python/2025/05/13/Clicker.html",
+            date: "2025-05-13",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파일 복사기",
+            url: "/development/shellscript/2025/05/12/File-Copier.html",
+            date: "2025-05-12",
+            categories: ["Development/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "숫자야구",
+            url: "/development/java/2025/05/11/Bulls-and-Cows.html",
+            date: "2025-05-11",
+            categories: ["Development/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴, 어떻게 보내면 좋을까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "프로그래머를 위한 생산성 툴 TOP 5 🧰",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "AI 시대의 개발자, 어떻게 준비해야 할까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "유배지 공고문",
+            url: "/zone%20of%20exile/2025/04/30/What-is-this.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/"]
+          },
+          
+        
+          
+          
+          {
+            title: "지뢰찾기",
+            url: "/development/javascript/2025/04/29/Minesweeper.html",
+            date: "2025-04-29",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "서버 관리 콘솔",
+            url: "/development/shellscript/2025/04/28/Server-Manage-Console.html",
+            date: "2025-04-28",
+            categories: ["Development/ShellScript/"]
+          }
+          
+        
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
       </div>
 
       
       
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
       
     </article>
 
