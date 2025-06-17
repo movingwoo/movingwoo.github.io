@@ -13,25 +13,25 @@ var store = [{
       },{
         "title": "AI 시대의 개발자, 어떻게 준비해야 할까?",
         "excerpt":"본 포스트는 AI가 제작한 포스트입니다. 주제: IT 자유 들어가며 최근 AI 기술의 급속한 발전으로 인해 소프트웨어 개발 분야에서도 큰 변화가 일어나고 있습니다. ChatGPT, GitHub Copilot과 같은 도구들이 개발자의 일상에 깊숙이 자리잡으면서, 많은 개발자들이 “AI가 개발자의 일자리를 대체할까?”라는 질문을 던지고 있습니다. 이 글에서는 AI 시대에 개발자가 어떻게 준비해야 하는지에 대해 이야기해보려...","categories": ["AI-playground/Claude/"],
-        "tags": [],
+        "tags": ["AI","Claude"],
         "url": "/ai-playground/claude/2025/04/30/Claude.html",
         "teaser": null
       },{
         "title": "프로그래머를 위한 생산성 툴 TOP 5 🧰",
         "excerpt":"본 포스트는 AI가 제작한 포스트입니다. 주제: IT 자유 “좋은 도구는 개발자의 시간을 아껴준다.” - 모든 개발자의 마음속 명언 개발은 단순한 코드 작성이 아닌, 문제 해결과 창조적 사고의 연속입니다. 그렇기에 생산성을 높이는 툴은 단순한 ‘보조도구’가 아니라 ‘생산성의 핵심’이라 할 수 있습니다. 이번 포스트에서는 실제 개발자들이 애용하는 툴들 중, 생산성을 크게 향상시켜주는...","categories": ["AI-playground/GPT/"],
-        "tags": [],
+        "tags": ["AI","GPT"],
         "url": "/ai-playground/gpt/2025/04/30/GPT.html",
         "teaser": null
       },{
         "title": "즐거운 연휴, 어떻게 보내면 좋을까?",
         "excerpt":"본 포스트는 AI가 제작한 포스트입니다. 주제: 즐거운 연휴 조건: 한글 1000자 이상 즐거운 연휴, 어떻게 보내면 좋을까? 연휴가 시작되면 많은 사람들이 “이번 연휴는 어떻게 보내야 할까?”라는 고민에 빠지곤 합니다. 짧은 시간을 어떻게 하면 가장 의미있고 즐겁게 보낼 수 있을지, 몇 가지 아이디어를 공유해보려 합니다. 1. 가족과 함께하는 시간 연휴의 가장...","categories": ["AI-playground/Claude/"],
-        "tags": [],
+        "tags": ["AI","Claude"],
         "url": "/ai-playground/claude/2025/05/01/Claude.html",
         "teaser": null
       },{
         "title": "즐거운 연휴",
         "excerpt":"본 포스트는 AI가 제작한 포스트입니다. 주제: 즐거운 연휴 조건: 한글 1000자 이상 연휴는 언제나 우리 삶에 작은 쉼표가 되어준다. 바쁜 일상 속에서 벗어나 마음껏 쉬고, 가족이나 친구들과 함께 시간을 보내는 소중한 기회다. 이번 연휴도 예외는 아니었다. 나는 오랜만에 느긋하게 아침을 맞이했고, 따뜻한 커피 한 잔과 함께 여유로운 하루를 시작했다. 첫째...","categories": ["AI-playground/GPT/"],
-        "tags": [],
+        "tags": ["AI","GPT"],
         "url": "/ai-playground/gpt/2025/05/01/GPT.html",
         "teaser": null
       },{
@@ -61,7 +61,7 @@ var store = [{
       },{
         "title": "파이썬으로 CLI TODO 리스트 만들어보기",
         "excerpt":"본 포스트는 AI가 제작한 포스트입니다. 명령: (지금까지 작성한 포스트를 학습 시킨 후) 유사한 양식과 주제로 포스트를 한 번 써봐. 파이썬으로 CLI TODO 리스트 만들어보기 요즘도 종이에 할 일 적고 잊는 사람? 나는 그랬다. 매일 “뭐 하지?” 하면서 검색창에 TODO 쳐보다가, 아니 그냥 내가 하나 만들자 싶어서 만든, CLI 기반 TODO...","categories": ["AI-playground/GPT/"],
-        "tags": [],
+        "tags": ["AI","GPT"],
         "url": "/ai-playground/gpt/2025/05/14/GPT.html",
         "teaser": null
       },{

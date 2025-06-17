@@ -33,7 +33,7 @@
 
 
 
-  <meta property="article:modified_time" content="2025-06-02T03:00:00+00:00">
+  <meta property="article:modified_time" content="2025-06-16T01:00:00+00:00">
 
 
 
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="11761번 Shuffling Along" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-02T03:00:00+00:00","datePublished":"2025-06-02T03:00:00+00:00","description":"백준 11761번 Shuffling Along PYTHON 문제풀이","headline":"11761번 Shuffling Along","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/python/2025/06/02/11761.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/python/2025/06/02/11761.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-16T01:00:00+00:00","datePublished":"2025-06-02T03:00:00+00:00","description":"백준 11761번 Shuffling Along PYTHON 문제풀이","headline":"11761번 Shuffling Along","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/python/2025/06/02/11761.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/python/2025/06/02/11761.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1183,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <meta itemprop="headline" content="11761번 Shuffling Along">
       <meta itemprop="description" content="  문제  11761번 Shuffling Along - 백준  번역  덱을 절반을 나눠서 교차로 셔플한다.ABCDEFGH의 카드를 예시로 할때A가 위로 오면 아웃셔플 (AEBFCGDH)E가 위로 오면 인셔플 (EAFBGCHD)셔플을 여러번 하면 원래 덱 상태로 돌아오는데덱 수와 셔플 방식이 주어지면 몇 회만에 원래 덱으로 돌아오는지 구하시오.홀수인 경우 아웃셔플은 왼쪽에 1장, 인셔플은 오른쪽에 1장 더 준다.  설계  단순 구현 문제로 보인다.인셔플과 아웃셔플 함수를 두고 개수세며 섞기만 하면 끝인가?n이 작아서 충분히 가능할 것 같다.  구현  홀수일때 아웃셔플은 왼쪽이 한 장 많고 인셔플은 오른쪽이 한 장 많다.중간점만 잘 체크해주기# 아웃셔플def out_shuffle(deck):    # 왼쪽이 더 많게    mid = (n + 1) // 2      left = deck[:mid]    right = deck[mid:]    result = []    for i in range(n):        if i % 2 == 0:            result.append(left[i // 2])        else:            result.append(right[i // 2])    return result# 인셔플def in_shuffle(deck):    # 오른쪽이 더 많게    mid = n // 2    left = deck[:mid]    right = deck[mid:]        result = []    for i in range(n):        if i % 2 == 0:            result.append(right[i // 2])        else:            result.append(left[i // 2])    return result호출하며 카운트를 센다.str_n, o = input().split()n = int(str_n)deck = list(range(n))shuffled_deck = deckcnt = 0while True:    if o == &#39;in&#39;:        shuffled_deck = in_shuffle(shuffled_deck)    elif o == &#39;out&#39;:        shuffled_deck = out_shuffle(shuffled_deck)        cnt += 1    if shuffled_deck == deck:        breakprint(cnt)  채점    반성  n이 작아서 단순 시뮬레이션으로 통과 가능했다.만약 엄청나게 컸다면?전체 덱의 셔플 주기를 찾아서 순환 길이들의 최소공배수를 찾아야할 것이다.휴~~~ 간단한 문제라서 다행이야  코드 확인  Link to GitHub">
       <meta itemprop="datePublished" content="2025-06-02T03:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-06-02T03:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-16T01:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1350,7 +1350,7 @@ n이 작아서 충분히 가능할 것 같다.</p>
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-02">June 2, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-16">June 16, 2025</time></p>
 
 
         </footer>

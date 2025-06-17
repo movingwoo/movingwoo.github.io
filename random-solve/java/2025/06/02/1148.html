@@ -33,7 +33,7 @@
 
 
 
-  <meta property="article:modified_time" content="2025-06-02T05:00:00+00:00">
+  <meta property="article:modified_time" content="2025-06-16T01:00:00+00:00">
 
 
 
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="1148번 단어 만들기" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-02T05:00:00+00:00","datePublished":"2025-06-02T05:00:00+00:00","description":"백준 1148번 단어 만들기 JAVA 문제풀이","headline":"1148번 단어 만들기","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/java/2025/06/02/1148.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/java/2025/06/02/1148.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-16T01:00:00+00:00","datePublished":"2025-06-02T05:00:00+00:00","description":"백준 1148번 단어 만들기 JAVA 문제풀이","headline":"1148번 단어 만들기","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/java/2025/06/02/1148.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/java/2025/06/02/1148.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1183,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <meta itemprop="headline" content="1148번 단어 만들기">
       <meta itemprop="description" content="  문제  1148번 단어 만들기 - 백준  설계  20만개의 사전 단어…이해가 안가는 점이 단어가 20만개인데 문제 분류가 구현/문자열이다?이게 되남??믿을 수 없어서 20만개 순회하는 로직으로 제출해보니 메모리 초과가 났다.아니 또 시간이 문제가 아니라 메모리가 문제였네!맵과 리스트와 셋을 마구 쑤셔박으니 메모리가 터질 수 밖에비트마스크 ㄱㄱ  구현  1. 단어와 사전단어 클래스를 구현해 사전에 넣는다.단어는 비트마스크와 문자 수를 가진다.public static void main(String[] args) {    		try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in));		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))){				List&lt;Word&gt; dictionary = new ArrayList&lt;&gt;();				// 사전 채우기		while (true) {			String word = br.readLine();			if (word.charAt(0) == &#39;-&#39;) break;			dictionary.add(new Word(word));		}			} catch (IOException e) {}}// Word classstatic class Word {	int mask;	int[] count;	Word() {		this.count = new int[26];	}	Word(String word) {		this();				for (char c : word.toCharArray()) {			// 무조건 대문자로 들어옴			count[c - &#39;A&#39;]++;			mask |= (1 &lt;&lt; (c - &#39;A&#39;));		}	}}2. 메인 루프퍼즐판을 입력받으면 단어와 마찬가지로 비트마스크와 단어 수를 계산한다.분해한 퍼즐판의 각 알파벳을 중앙글자로 삼아서 비교하고 최소, 최대 알파벳을 찾아 정렬 후 출력한다.while (true) {	String puzzle = br.readLine();	if (puzzle.charAt(0) == &#39;#&#39;) break;	// 퍼즐판 비트마스크 변환	int[] puzzleCount = new int[26];	int puzzleMask = 0;		for (char c : puzzle.toCharArray()) {		puzzleCount[c - &#39;A&#39;]++;		puzzleMask |= (1 &lt;&lt; (c - &#39;A&#39;));	}	Map&lt;Character, Integer&gt; center = new HashMap&lt;&gt;();	// 중심글자 하나씩 넣어보기	for (char c : puzzle.toCharArray()) {		int centerMask = (1 &lt;&lt; (c - &#39;A&#39;));		int count = 0;		for (Word w : dictionary) {			// 알파벳 체크			if ((w.mask &amp; puzzleMask) != w.mask) continue;			// 중심글자 체크			if ((w.mask &amp; centerMask) == 0) continue;			boolean valid = true;			// 개수 체크			for (int i = 0; i &lt; 26; i++) {				if (w.count[i] &gt; puzzleCount[i]) {					valid = false;					break;				}			}			if (valid) count++;		}		center.put(c, count);	}	// 최소값 최대값 찾기	int min = Collections.min(center.values());	int max = Collections.max(center.values());	List&lt;Character&gt; minLetters = new ArrayList&lt;&gt;();	List&lt;Character&gt; maxLetters = new ArrayList&lt;&gt;();	for (Map.Entry&lt;Character, Integer&gt; e : center.entrySet()) {		if (e.getValue() == min &amp;&amp; !minLetters.contains(e.getKey())) {			minLetters.add(e.getKey());		}		if (e.getValue() == max &amp;&amp; !maxLetters.contains(e.getKey())) {			maxLetters.add(e.getKey());		}	}	// 알파벳 순 정렬	Collections.sort(minLetters);	Collections.sort(maxLetters);	for (char ch : minLetters) sb.append(ch);	sb.append(&quot; &quot;).append(min).append(&quot; &quot;);	for (char ch : maxLetters) sb.append(ch);	sb.append(&quot; &quot;).append(max).append(&quot;\n&quot;);}  채점    반성  처음에 단순하게 20만개 사전 만든 후 순회하는 코드를 짰다가전체적인 틀을 유지하며 비트마스크로 바꿨더니 효율적으로 보이진 않는다.어쨌든 20만개를 저장해서 순회하는 식이니 말이다.좀 더 빠르게 찾거나 사전을 압축하거나 할 수 있으면 더 빠를듯?하지만 어쨌든 풀었으니 그만둬야지  코드 확인  Link to GitHub">
       <meta itemprop="datePublished" content="2025-06-02T05:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-06-02T05:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-16T01:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1405,7 +1405,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-02">June 2, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-16">June 16, 2025</time></p>
 
 
         </footer>

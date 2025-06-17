@@ -33,7 +33,7 @@
 
 
 
-  <meta property="article:modified_time" content="2025-05-30T06:00:00+00:00">
+  <meta property="article:modified_time" content="2025-06-16T01:00:00+00:00">
 
 
 
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="7663번 Dreadful Deadlines" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-05-30T06:00:00+00:00","datePublished":"2025-05-30T06:00:00+00:00","description":"백준 7663번 Dreadful Deadlines C++ 문제풀이","headline":"7663번 Dreadful Deadlines","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/c++/2025/05/30/7663.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/c++/2025/05/30/7663.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-16T01:00:00+00:00","datePublished":"2025-05-30T06:00:00+00:00","description":"백준 7663번 Dreadful Deadlines C++ 문제풀이","headline":"7663번 Dreadful Deadlines","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/c++/2025/05/30/7663.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/c++/2025/05/30/7663.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1183,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <meta itemprop="headline" content="7663번 Dreadful Deadlines">
       <meta itemprop="description" content="  문제  7663번 Dreadful Deadlines - 백준  번역  데이빗은 과제를 n개 해야한다.한 번 시작한 과제는 끝까지 달려야하고 한 번에 하나만 처리할 수 있다.이때 데이빗이 데드라인 안에 과제를 끝낼 수 있는 가장 늦은 시간은 언제인가?  설계  또 다시 난이도를 알 수 없는 문제인데 번역해보니 그렇게 어려울 것 같진 않다?우리에겐 그리디 알고리즘이 있으니까!그리디… 그리디만 있다면…  구현  여러 케이스 들어오니 while문에 집어넣고x와 t가 따로 들어오는걸 모아서 튜플로 만들어준다.while(true){    int n;    cin &gt;&gt; n;    if (n == 0) break;    vector&lt;int&gt; x(n);    vector&lt;int&gt; t(n);    vector&lt;tuple&lt;int, int&gt;&gt; assignments;    for (int i = 0 ; i &lt; n ; i++) {        cin &gt;&gt; x[i];    }    for (int i = 0 ; i &lt; n ; i++) {        cin &gt;&gt; t[i];    }    // 튜플로 만들어 넣기    for (int i = 0; i &lt; n; ++i) {        assignments.push_back(make_tuple(x[i], t[i]));    }}놀다가 제일 늦게 하고싶기 때문에 마감시간이 제일 늦은 순서로 정렬 후 탐색한다.시간이 모자라면 불가능 처리// 늦게 시작하고 싶으니 마감시간이 제일 늦은 과제부터 거꾸로 확인sort(assignments.begin(), assignments.end(), compare);int time = INT_MAX; // 과제 하나씩 체크for (const auto&amp; assignment : assignments) {    int xi = get&lt;0&gt;(assignment);    int ti = get&lt;1&gt;(assignment);    time = min(time, ti);    time -= xi;}// 시간이 부족하면 impossibleif (time &lt; 0) cout &lt;&lt; &quot;impossible\n&quot;;else cout &lt;&lt; time &lt;&lt; &#39;\n&#39;;// ... 중략 ...// 커스텀 정렬 함수bool compare(const tuple&lt;int, int&gt;&amp; a, const tuple&lt;int, int&gt;&amp; b) {    return get&lt;1&gt;(a) &gt; get&lt;1&gt;(b); }  채점    반성  이번엔 climits 헤더 빼먹어서 컴파일 에러 발생정신을 못차리니 오늘은 쉬어야지java문제 풀고 c문제 푸니 느끼는데 진짜 입출력이 사기다.java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데  코드 확인  Link to GitHub">
       <meta itemprop="datePublished" content="2025-05-30T06:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-05-30T06:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-16T01:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1346,7 +1346,7 @@ java였으면 테스트 케이스 사이 공백도 따로 처리해줬을텐데<
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-30">May 30, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-16">June 16, 2025</time></p>
 
 
         </footer>

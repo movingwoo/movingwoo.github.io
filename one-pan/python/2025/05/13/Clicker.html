@@ -33,7 +33,7 @@
 
 
 
-  <meta property="article:modified_time" content="2025-05-13T03:00:00+00:00">
+  <meta property="article:modified_time" content="2025-06-16T01:00:00+00:00">
 
 
 
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="클리커" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-05-13T03:00:00+00:00","datePublished":"2025-05-13T03:00:00+00:00","description":"PYTHON 클리커 프로그램 개발","headline":"클리커","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/one-pan/python/2025/05/13/Clicker.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/one-pan/python/2025/05/13/Clicker.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-16T01:00:00+00:00","datePublished":"2025-05-13T03:00:00+00:00","description":"PYTHON 클리커 프로그램 개발","headline":"클리커","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/one-pan/python/2025/05/13/Clicker.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/one-pan/python/2025/05/13/Clicker.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1183,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <meta itemprop="headline" content="클리커">
       <meta itemprop="description" content="  탄생 비화  화면을 인식하고 다양한 입력을 받고 싶은데 어떡하지?GUI 뚝딱 만들어내는게 파이썬이 간단해보여서 기초 문법을 공부할 겸 만들어봄  구현 포인트  1. 메인# 프로그램의 시작점# C나 java의 main()과 같음if __name__ == &quot;__main__&quot;:    # 파이썬은 들여쓰기가 아주 중요함    # 스페이스 4칸이 국룰이라고 함    # 탭 누르면 4칸 들여쓰기가 됨    root = tk.Tk()  # tkinter 창을 생성    clicker = Clicker(root)  # 게임 객체를 생성    root.mainloop()  # 창을 표시하고 이벤트 루프를 시작, 없으면 창이 열렸다가 바로 닫힘    # 만약 창을 닫으면?    # 1. root.mainloop() 종료    # 2. clicker 객체가 더 이상 사용되지 않음    # 3. __del__ 함수가 자동으로 호출됨    # 4. self.running = False로 설정되어 자동 클릭 스레드가 종료됨2. 초기화# 초기화 함수, 이름이 반드시 __init__이어야 동작함# self는 js로 치면 this# root는 외부 인자, tkinter로 만든 GUI 객체def __init__(self, root):       self.root = root  # 메인 창 객체를 저장    self.root.title(&quot;Clicker&quot;)  # 창의 제목    self.root.geometry(&quot;800x600&quot;)  # 창의 크기        # 게임이 진행될 캔버스를 생성    self.canvas = tk.Canvas(root, width=800, height=600, bg=&quot;white&quot;)    self.canvas.pack()  # 캔버스를 창에 배치해야 보임    # 현재 실행 중인 파일의 경로    current_dir = os.path.dirname(os.path.abspath(__file__))    self.image_path = os.path.join(current_dir, &quot;target.png&quot;)  # 이미지 파일의 전체 경로를 생성        # 이미지 파일을 열고 tkinter에서 사용할 수 있는 형태로 변환    self.image = Image.open(self.image_path)    self.tk_image = ImageTk.PhotoImage(self.image)    # 이미지 객체와 점수 텍스트를 저장할 변수를 초기화    # 파이썬은 타입 선언만 하면 안되고 값 할당을 해야함    self.image_obj = None    self.score_text = None        # 초기 이미지와 점수를 화면에 표시    self.update_image()    self.update_score()    # 자동 클릭을 위한 스레드 시작    # 스레드를 분리하지 않으면 클릭 함수가 실행되는 동안 GUI 창이 멈춤    self.running = True  # 스레드 실행 상태를 저장, 프로그램 종료 시 스레드 종료    threading.Thread(target=self.auto_click, daemon=True).start()  # 백그라운드에서 자동 클릭 스레드 실행3. 클릭# 자동으로 이미지를 클릭하는 함수def auto_click(self):    global CLICK_COUNT  # 전역 변수 CLICK_COUNT를 사용, global 선언하지 않으면 지역변수로 처리    while self.running:  # running이 True인 동안 계속 실행        try:            # 화면에서 이미지 찾기 (70% 일치도)            location = pyautogui.locateOnScreen(self.image_path, confidence=0.7)            if location:                 # 이미지의 중앙 좌표를 계산                center_x = location.left + location.width // 2                center_y = location.top + location.height // 2                pyautogui.click(center_x, center_y)  # 해당 위치 클릭                CLICK_COUNT += 1  # 클릭 횟수 증가                # 이미지 위치 변경                self.root.after(0, self.update_image)            time.sleep(0.1)  # 0.1초 대기 (클릭 간격 조절)        except Exception as e:            if str(e):  # 오류 메시지가 있을 때만 출력                print(f&quot;자동 클릭 중 오류 발생: {e}&quot;)            time.sleep(0.5)  # 오류 발생 시 0.5초 대기  완성    반성  이미지 생성 위치는 이미지의 크기를 고려하여 동적으로 정할 수 있을 것 같다.그리고 마우스가 번쩍번쩍 움직여서 종료 트리거를 따로 만들어주는게 좋을지도?지금은 Alt+F4로만 종료하는데 다른 키 입력이나 우클릭 등 간단하게 종료할 수 있도록 하는게 좋겠지.pyautogui.click() 함수는 실제 반환 값이 없다고 한다.예외 또한 거의 발생시키지 않고 클릭을 안하면 그만이라서 진짜 클릭 되었는지 판단하기 어렵다고 한다.따라서 클릭 성공과 실패를 위해선 UI 변화를 주고 변화를 통한 클릭 여부 판단을 해야할 듯 하다.클릭 여부 판정 코드가 없는 지금은 클릭 이벤트를 빼버려도 이미지가 위치를 바꾸는지라…아무튼 클릭은 잘 해주고 있으니 이번에 배운 것을 다음에 응용하면 되겠다.  코드 확인  Link to GitHub">
       <meta itemprop="datePublished" content="2025-05-13T03:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-05-13T03:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-16T01:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1357,7 +1357,7 @@ GUI 뚝딱 만들어내는게 파이썬이 간단해보여서 기초 문법을 �
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-05-13">May 13, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-16">June 16, 2025</time></p>
 
 
         </footer>

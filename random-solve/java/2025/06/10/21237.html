@@ -33,7 +33,7 @@
 
 
 
-  <meta property="article:modified_time" content="2025-06-10T01:00:00+00:00">
+  <meta property="article:modified_time" content="2025-06-16T01:00:00+00:00">
 
 
 
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="21237번 Clockwise Fence" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-10T01:00:00+00:00","datePublished":"2025-06-10T01:00:00+00:00","description":"백준 21237번 Clockwise Fence JAVA 문제풀이","headline":"21237번 Clockwise Fence","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/java/2025/06/10/21237.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/java/2025/06/10/21237.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-16T01:00:00+00:00","datePublished":"2025-06-10T01:00:00+00:00","description":"백준 21237번 Clockwise Fence JAVA 문제풀이","headline":"21237번 Clockwise Fence","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/java/2025/06/10/21237.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/java/2025/06/10/21237.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1183,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <meta itemprop="headline" content="21237번 Clockwise Fence">
       <meta itemprop="description" content="  문제  21237번 Clockwise Fence - 백준  번역  울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오.시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다.  설계  신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다.  구현  NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고방향 데이터를 받아서 순회하며 신발끈 공식으로 면적을 구한다.int N = Integer.parseInt(br.readLine());			// 방향Map&lt;Character, Integer&gt; dx = new HashMap&lt;&gt;();dx.put(&#39;N&#39;, 0);dx.put(&#39;E&#39;, 1);dx.put(&#39;S&#39;, 0);dx.put(&#39;W&#39;, -1);Map&lt;Character, Integer&gt; dy = new HashMap&lt;&gt;();dy.put(&#39;N&#39;, 1);dy.put(&#39;E&#39;, 0);dy.put(&#39;S&#39;, -1);dy.put(&#39;W&#39;, 0);while(N-- &gt; 0) {	char[] fences = br.readLine().toCharArray();		int x = 0;	int y = 0;	int result = 0;		for(int i = 0 ; i &lt; fences.length ; i++) {		int nx = x + dx.get(fences[i]);		int ny = y + dy.get(fences[i]);		// 신발끈 공식		result += x * ny - y * nx;		// 이전 좌표 갱신		x = nx;		y = ny;	}	// 음수면 시계 방향 아니면 반시계 방향	if(result &lt; 0) bw.write(&quot;CW\n&quot;);	else bw.write(&quot;CCW\n&quot;);}  채점    반성  파이썬 하다가 자바 보니까 코드가 못났다.점점 파이썬에 스며드는 중이다.  코드 확인  Link to GitHub">
       <meta itemprop="datePublished" content="2025-06-10T01:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-06-10T01:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-16T01:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1326,7 +1326,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-10">June 10, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-16">June 16, 2025</time></p>
 
 
         </footer>

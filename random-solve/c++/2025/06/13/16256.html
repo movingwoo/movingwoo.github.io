@@ -33,7 +33,7 @@
 
 
 
-  <meta property="article:modified_time" content="2025-06-13T01:00:00+00:00">
+  <meta property="article:modified_time" content="2025-06-16T01:00:00+00:00">
 
 
 
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="16256번 Painting the Wall" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-13T01:00:00+00:00","datePublished":"2025-06-13T01:00:00+00:00","description":"백준 16256번 Painting the Wall C++ 문제풀이","headline":"16256번 Painting the Wall","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/c++/2025/06/13/16256.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/c++/2025/06/13/16256.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-16T01:00:00+00:00","datePublished":"2025-06-13T01:00:00+00:00","description":"백준 16256번 Painting the Wall C++ 문제풀이","headline":"16256번 Painting the Wall","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/random-solve/c++/2025/06/13/16256.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/random-solve/c++/2025/06/13/16256.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1183,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <meta itemprop="headline" content="16256번 Painting the Wall">
       <meta itemprop="description" content="  문제  16256번 Painting the Wall - 백준  번역  정사각형 타일로 구성된 n * m 사이즈의 벽이 있다.타일의 일부는 램프다.(0이면 램프 1이면 타일)타일에 페인트를 칠하려 한다.수직 또는 수평으로 연속된 타일이 있을 때 각 타일은 모두 다른 색의 페인트로 칠해야한다.서로 다른 색상의 페인트 k개가 있을 때 모두 다른 색상으로 벽을 칠할 수 있으면 YES와 페인트칠 한 예시를불가능하면 NO를 출력한다.k개의 페인트를 모두 사용할 필요는 없다.  설계  페인트칠 불가능한 조건부터 생각해보자.타일이 연속된 구간 중 가장 긴 구간의 길이가 k보다 크면 색칠이 불가능하다.가령 1 1 1 인 경우 연속 구간의 페인트 색은 모두 달라야 하기 때문에 k가 3보다 작다면 NO를 출력해야한다.구간 확인 후 색칠이 가능하면 각 연속 구간 내 1부터 k까지 칠해서 출력한다.  구현  1. 불가능한 경우타일이 연속되는 구간을 확인해 k와 비교해서 페인트칠 가능한지 확인한다.vector&lt;vector&lt;int&gt;&gt; wall(n, vector&lt;int&gt;(m));for (int i = 0; i &lt; n; ++i) {    for (int j = 0; j &lt; m; ++j) {        cin &gt;&gt; wall[i][j];    }}bool paintable = true;// 연속된 행 방향 타일 구간 탐색for (int i = 0 ; i &lt; n &amp;&amp; paintable ; ++i) {    int cnt = 0;    for (int j = 0 ; j &lt;= m ; ++j) {         if (j &lt; m &amp;&amp; wall[i][j] == 1) {            cnt++;        } else {            if (cnt &gt; k) {                paintable = false;                break;            }            cnt = 0;        }    }}// 연속된 열 방향 타일 구간 탐색for (int j = 0 ; j &lt; m &amp;&amp; paintable ; ++j) {    int cnt = 0;    for (int i = 0 ; i &lt;= n ; ++i) {        if (i &lt; n &amp;&amp; wall[i][j] == 1) {            cnt++;        } else {            if (cnt &gt; k) {                paintable = false;                break;            }                        cnt = 0;        }    }}if (!paintable) {    cout &lt;&lt; &quot;NO\n&quot;;    continue;}2. 가능한 경우색칠이 가능하면 겹치지 않게 숫자를 매긴다.겹치지만 않으면 되므로 mod 연산으로 대충 뿌려준다.// 가능하면 페인트칠vector&lt;vector&lt;int&gt;&gt; painted_wall(n, vector&lt;int&gt;(m, 0));for (int i = 0; i &lt; n; ++i){    for (int j = 0; j &lt; m; ++j) {        if (wall[i][j] == 1) {            // 모든 행열 구간에서 중복되지 않게            painted_wall[i][j] = ((i + j) % k) + 1;        }    }}    cout &lt;&lt; &quot;YES\n&quot;;for (int i = 0 ; i &lt; n ; ++i) {    for (int j = 0 ; j &lt; m ; ++j) {        cout &lt;&lt; painted_wall[i][j] &lt;&lt; &quot; &quot;;    }    cout &lt;&lt; &quot;\n&quot;;}  채점    반성  벡터가 아니라 배열로 쓰면 더 나았으려나?java면 배열로 했겠지만 C++라서 벡터를 사용한건데  코드 확인  Link to GitHub">
       <meta itemprop="datePublished" content="2025-06-13T01:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-06-13T01:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-16T01:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1376,7 +1376,7 @@ java면 배열로 했겠지만 C++라서 벡터를 사용한건데</p>
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-13">June 13, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-06-16">June 16, 2025</time></p>
 
 
         </footer>
