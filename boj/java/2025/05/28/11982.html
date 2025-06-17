@@ -33,7 +33,7 @@
 
 
 
-  <meta property="article:modified_time" content="2025-06-17T06:00:00+00:00">
+  <meta property="article:modified_time" content="2025-06-17T08:00:00+00:00">
 
 
 
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="11982번 Angry Cows (Gold)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-17T06:00:00+00:00","datePublished":"2025-05-28T08:00:00+00:00","description":"백준 11982번 Angry Cows (Gold) JAVA 문제풀이","headline":"11982번 Angry Cows (Gold)","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/boj/java/2025/05/28/11982.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/boj/java/2025/05/28/11982.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-06-17T08:00:00+00:00","datePublished":"2025-05-28T08:00:00+00:00","description":"백준 11982번 Angry Cows (Gold) JAVA 문제풀이","headline":"11982번 Angry Cows (Gold)","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/boj/java/2025/05/28/11982.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/boj/java/2025/05/28/11982.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1283,9 +1283,9 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
       <meta itemprop="headline" content="11982번 Angry Cows (Gold)">
-      <meta itemprop="description" content="  문제  11982번 Angry Cows (Gold) - 백준  번역  오 뭔가 재밌어보이는 문제‘Angry Cows’ 라는 게임이 있다.소를 쏴서 건초더미를 폭발시키는 게임이다.R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다.R이 0이 될 때까지 폭발이 계속된다.이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오.  설계  예체 출력이 실수형이라 골치가 아픈데…1차 시도) 우선 건초더미를 정렬해 이진탐색실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다.솔직히 시간초과 날 것 같았음2차 시도)문제 알고리즘 분류대로 DP 활용소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고두 포인터로 구간 분할해 최소 반경을 구한다.  구현  1. 건초 배열, DP 배열2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다.int N = Integer.parseInt(br.readLine());long[] hayBales = new long[N];for (int i = 0; i &lt; N; i++) {	// 소숫점 처리를 위해 2배 스케일링 	hayBales[i] = Long.parseLong(br.readLine()) * 2;}// 오름차순Arrays.sort(hayBales);long[] leftDP = new long[N];long[] rightDP = new long[N];// 큰 값으로 초기화 (2 더하면 오버플로우남)Arrays.fill(leftDP, Long.MAX_VALUE - 2);Arrays.fill(rightDP, Long.MAX_VALUE - 2);2. DP2배 스케일링되어 있기 때문에 2씩 조절해야한다.// 2배 스케일링해서 2씩 조절함// 왼쪽 전파 DPleftDP[0] = -2;  int last = 0;for (int i = 1; i &lt; N; i++) {	// last를 오른쪽으로 밀며 폭발이 닿을 때까지	while (last + 1 &lt; i &amp;&amp; hayBales[i] - hayBales[last+1] &gt; leftDP[last+1] + 2) {		last++;	}	// hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽	leftDP[i] = Math.min(hayBales[i] - hayBales[last], leftDP[last+1] + 2);}// 오른쪽 전파 DPrightDP[N-1] = -2;last = N - 1;for (int i = N - 2; i &gt;= 0; i--) {	// 왼쪽으로 밀며 체크	while (last - 1 &gt; i &amp;&amp; hayBales[last-1] - hayBales[i] &gt; rightDP[last-1] + 2) {		last--;	}		// 한 단계 줄인 값과 비교	rightDP[i] = Math.min(hayBales[last] - hayBales[i], rightDP[last-1] + 2);}3. 두 포인터구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다.// 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음long best = Long.MAX_VALUE;int i = 0;int j = N - 1;while (i &lt; j) {	// i~j 구간의 가운데와 전파에 필요한 직경 비교	long need = Math.max((hayBales[j] - hayBales[i]) / 2, Math.max(leftDP[i], rightDP[j]) + 2);	best = Math.min(best, need);	// 어느 쪽 DP가 더 작은가에 따라 포인터 이동	if (leftDP[i+1] &lt; rightDP[j-1]) {		i++;	} else {		j--;	}}// 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기bw.write(best % 2 == 0 ? String.format(&quot;%d.0\n&quot;, best/2) : String.format(&quot;%d.5\n&quot;, best/2));bw.flush();  채점    반성  코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다.번역해보니 문제가 다르더라… 날먹 실패다음에 언젠가 걸리면 풀겠지 뭐항상 고급문제를 풀면 시간초과가 걸리적거린다.가장 효율적인 방안을 바로 찾기가 쉽지 않다.  코드 확인  Link to GitHub">
+      <meta itemprop="description" content="  문제  11982번 Angry Cows (Gold) - 백준  번역  오 뭔가 재밌어보이는 문제‘Angry Cows’ 라는 게임이 있다.소를 쏴서 건초더미를 폭발시키는 게임이다.R의 힘으로 쏘면 x - R, x + R 범위의 건초더미를 폭발시키고폭발한 건초더미는 R - 1의 힘으로 다시 폭발한다.R이 0이 될 때까지 폭발이 계속된다.이때 소 하나를 쏴서 모든 건초더미를 날릴 수 있는 R을 구하시오.  설계  예체 출력이 실수형이라 골치가 아픈데…1차 시도) 우선 건초더미를 정렬해 이진탐색실수단위로 정확도를 판단해야해서 여러번 돌리고 건초더미에 쏠 경우, 가운데의 쏠 경우를 모두 고려해야했다.솔직히 시간초과 날 것 같았음2차 시도)문제 알고리즘 분류대로 DP 활용소숫점 계산을 위해 2배 스케일링 후 DP로 왼쪽, 오른쪽 전파에 필요한 최소 범위를 계산하고두 포인터로 구간 분할해 최소 반경을 구한다.  구현  1. 건초 배열, DP 배열2배 스케일링해도 int 범위 내지만 오버플로우 날 수 있을 것 같아서 long으로 처리한다.int N = Integer.parseInt(br.readLine());long[] hayBales = new long[N];for (int i = 0; i &lt; N; i++) {	// 소숫점 처리를 위해 2배 스케일링 	hayBales[i] = Long.parseLong(br.readLine()) * 2;}// 오름차순Arrays.sort(hayBales);long[] leftDP = new long[N];long[] rightDP = new long[N];// 큰 값으로 초기화 (2 더하면 오버플로우남)Arrays.fill(leftDP, Long.MAX_VALUE - 2);Arrays.fill(rightDP, Long.MAX_VALUE - 2);2. DP점화식을 세워보자.왼쪽 전파 DP와 오른쪽 전파 DP로 나눈다.  왼쪽 전파 DP          0부터 i까지 왼쪽에서 폭발이 전파되어 i번째 건초더미에 도달하기 위한 최소 반지름      leftDP[i] = min(hayBales[i] - hayBales[k], leftDP[k] + 2)        오른쪽 전파 DP          반대로 오른쪽에서 i번째 건초더미까지 도달하기 위한 최소 반지름      rightDP[i] = min(hayBales[k] − hayBales[i], rightDP[k] + 2)      2배 스케일링되어 있기 때문에 2씩 조절해야한다.// 2배 스케일링해서 2씩 조절함// 왼쪽 전파 DPleftDP[0] = -2;  int last = 0;for (int i = 1; i &lt; N; i++) {	// last를 오른쪽으로 밀며 폭발이 닿을 때까지	while (last + 1 &lt; i &amp;&amp; hayBales[i] - hayBales[last+1] &gt; leftDP[last+1] + 2) {		last++;	}	// hayBales 직접 연결 범위, DP[last+1]에 한 단계 추가한 값 중 작은 쪽	leftDP[i] = Math.min(hayBales[i] - hayBales[last], leftDP[last+1] + 2);}// 오른쪽 전파 DPrightDP[N-1] = -2;last = N - 1;for (int i = N - 2; i &gt;= 0; i--) {	// 왼쪽으로 밀며 체크	while (last - 1 &gt; i &amp;&amp; hayBales[last-1] - hayBales[i] &gt; rightDP[last-1] + 2) {		last--;	}		// 한 단계 줄인 값과 비교	rightDP[i] = Math.min(hayBales[last] - hayBales[i], rightDP[last-1] + 2);}3. 두 포인터구간을 분할해 DP값과 구간 절반 거리를 비교하며 최소 범위를 찾아낸다.// 두 포인터로 분할점 i &lt; j를 탐색하며 최적 반경을 찾음long best = Long.MAX_VALUE;int i = 0;int j = N - 1;while (i &lt; j) {	// i~j 구간의 가운데와 전파에 필요한 직경 비교	long need = Math.max((hayBales[j] - hayBales[i]) / 2, Math.max(leftDP[i], rightDP[j]) + 2);	best = Math.min(best, need);	// 어느 쪽 DP가 더 작은가에 따라 포인터 이동	if (leftDP[i+1] &lt; rightDP[j-1]) {		i++;	} else {		j--;	}}// 2배 스케일링 된 상태이므로 나눠서 소숫점 붙이기bw.write(best % 2 == 0 ? String.format(&quot;%d.0\n&quot;, best/2) : String.format(&quot;%d.5\n&quot;, best/2));bw.flush();  채점    반성  코드 그대로 Angry Cows Silver 문제에 붙였는데 런타임에러가 떨어졌다.번역해보니 문제가 다르더라… 날먹 실패다음에 언젠가 걸리면 풀겠지 뭐항상 고급문제를 풀면 시간초과가 걸리적거린다.가장 효율적인 방안을 바로 찾기가 쉽지 않다.  코드 확인  Link to GitHub">
       <meta itemprop="datePublished" content="2025-05-28T08:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-06-17T06:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-06-17T08:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1395,6 +1395,23 @@ R이 0이 될 때까지 폭발이 계속된다.<br />
 </code></pre></div></div>
 
 <h5 id="2-dp">2. DP</h5>
+
+<p>점화식을 세워보자.<br />
+왼쪽 전파 DP와 오른쪽 전파 DP로 나눈다.</p>
+<ul>
+  <li>왼쪽 전파 DP
+    <ul>
+      <li>0부터 i까지 왼쪽에서 폭발이 전파되어 i번째 건초더미에 도달하기 위한 최소 반지름</li>
+      <li>leftDP[i] = min(hayBales[i] - hayBales[k], leftDP[k] + 2)</li>
+    </ul>
+  </li>
+  <li>오른쪽 전파 DP
+    <ul>
+      <li>반대로 오른쪽에서 i번째 건초더미까지 도달하기 위한 최소 반지름</li>
+      <li>rightDP[i] = min(hayBales[k] − hayBales[i], rightDP[k] + 2)</li>
+    </ul>
+  </li>
+</ul>
 
 <p>2배 스케일링되어 있기 때문에 2씩 조절해야한다.</p>
 
