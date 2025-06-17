@@ -1,4 +1,178 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-17T06:28:13+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">3655번 먼저 가세요</title><link href="https://movingwoo.com/boj/python/2025/06/16/3655.html" rel="alternate" type="text/html" title="3655번 먼저 가세요" /><published>2025-06-16T08:00:00+00:00</published><updated>2025-06-17T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/16/3655</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/16/3655.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-17T07:15:20+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">5430번 AC</title><link href="https://movingwoo.com/boj/java/2025/06/17/5430.html" rel="alternate" type="text/html" title="5430번 AC" /><published>2025-06-17T07:00:00+00:00</published><updated>2025-06-17T07:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/17/5430</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/17/5430.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Java/2025-06-17-5410/img01.webp" alt="img01" /></p>
+
+<p>과거의 나는 이걸 왜 틀렸을까?<br />
+틀린 문제를 파헤쳐보는 시간 <span style="color: orange;"><strong>이왜틀?</strong></span></p>
+
+<p>대부분 java로 틀렸던 문제들이라 웬만하면 java로 다시 해결하지 않을까 싶다.<br />
+아무튼 이 문제는 5년 전에 런타임 에러 1회 이후로 손을 안댄 것 같은데…</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span><span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span><span class="n">z</span><span class="o">){</span>
+		<span class="k">try</span> <span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span><span class="o">=</span><span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+				<span class="nc">BufferedWriter</span> <span class="n">bw</span><span class="o">=</span><span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">));)</span> <span class="o">{</span>
+			<span class="kt">int</span> <span class="n">tc</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+			<span class="k">while</span><span class="o">(</span><span class="n">tc</span><span class="o">--&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="kt">char</span><span class="o">[]</span> <span class="n">p</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">();</span>
+				<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+				<span class="kt">boolean</span> <span class="n">chk</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+				<span class="nc">String</span> <span class="n">q</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+				<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">q</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="n">q</span><span class="o">.</span><span class="na">length</span><span class="o">()-</span><span class="mi">1</span><span class="o">),</span><span class="s">","</span><span class="o">);</span>
+				<span class="nc">Deque</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">deq</span><span class="o">=</span><span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+				<span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="n">deq</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">()));</span>
+				<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+					<span class="kt">char</span> <span class="n">c</span><span class="o">=</span><span class="n">p</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+					<span class="k">if</span><span class="o">(</span><span class="n">c</span><span class="o">==</span><span class="sc">'R'</span><span class="o">)</span> <span class="o">{</span>
+						<span class="nc">Stack</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stk</span><span class="o">=</span><span class="k">new</span> <span class="nc">Stack</span><span class="o">&lt;&gt;();</span>
+						<span class="k">while</span><span class="o">(!</span><span class="n">deq</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="n">stk</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">deq</span><span class="o">.</span><span class="na">pollFirst</span><span class="o">());</span>
+						<span class="k">while</span><span class="o">(!</span><span class="n">stk</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="n">deq</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">stk</span><span class="o">.</span><span class="na">pop</span><span class="o">());</span>
+					<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+						<span class="k">if</span><span class="o">(</span><span class="n">deq</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+							<span class="n">chk</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+							<span class="k">break</span><span class="o">;</span>
+						<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+							<span class="n">deq</span><span class="o">.</span><span class="na">pollFirst</span><span class="o">();</span>
+						<span class="o">}</span>
+					<span class="o">}</span>
+				<span class="o">}</span>
+				<span class="k">if</span><span class="o">(</span><span class="n">chk</span><span class="o">)</span> <span class="o">{</span>
+					<span class="nc">StringBuilder</span> <span class="n">sb</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+					<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"["</span><span class="o">);</span>
+					<span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+						<span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">deq</span><span class="o">.</span><span class="na">pollFirst</span><span class="o">();</span>
+						<span class="k">if</span><span class="o">(</span><span class="n">deq</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+							<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="s">"]"</span><span class="o">);</span>
+							<span class="k">break</span><span class="o">;</span>
+						<span class="o">}</span>
+						<span class="k">else</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="s">","</span><span class="o">);</span>
+					<span class="o">}</span>
+					<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
+				<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+					<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"error\n"</span><span class="o">);</span>
+				<span class="o">}</span>
+				
+			<span class="o">}</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span><span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>디큐를 쓴 건 좋은데 마지막에 <span style="color: orange;"><strong>deq.pollFirst() 이전에 널체크</strong></span>를 했어야 하지 않을까?<br />
+모르겠고 머리아프니 새로 짜는게 낫겠다.<br />
+주석도 하나도 없어서 보기 싫다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>입력이 고약한게 java 쓰기 싫은데… 그래도 java로 마무리 지어야겠다.<br />
+<span style="color: orange;"><strong>그냥 잘 받아서 잘 출력</strong></span>하면 그만인데 왜 틀렸을까</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-그지같은-입력-받기">1. 그지같은 입력 받기</h5>
+
+<p>무조건 깔끔하게 짜는게 목표라서 스캐너를 사용한다.<br />
+숫자 리스트는 앞 뒤 대괄호를 떼어주고 분해해서 deque에 넣는다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+		
+<span class="kt">int</span> <span class="no">T</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">());</span>
+
+<span class="k">while</span><span class="o">(</span><span class="no">T</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kt">char</span><span class="o">[]</span> <span class="n">p</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">();</span>
+	<span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span> <span class="c1">// n은 쓸데없음</span>
+	<span class="nc">String</span> <span class="n">x</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+	<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span> <span class="c1">// 앞뒤 대괄호 제거</span>
+	
+	<span class="c1">// deque</span>
+	<span class="nc">Deque</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">deque</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+	
+	<span class="k">if</span><span class="o">(!</span><span class="n">x</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+		<span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="s">","</span><span class="o">);</span>
+		<span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">deque</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">()));</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="2-명령-수행하여-출력">2. 명령 수행하여 출력</h5>
+
+<p>커서 역할을 할 불 값을 두고 R 명령어 시 변경한다.<br />
+D 명령어 시 예외처리해주며 poll 한다.</p>
+
+<p>출력 시에는 앞 뒤에 다시 대괄호가 붙어야한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">boolean</span> <span class="n">front</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+<span class="kt">boolean</span> <span class="n">error</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+<span class="k">for</span><span class="o">(</span><span class="kt">char</span> <span class="n">oper</span> <span class="o">:</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">oper</span> <span class="o">==</span> <span class="sc">'R'</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">front</span> <span class="o">=</span> <span class="o">!</span><span class="n">front</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">// poll 할때만 error check</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">oper</span> <span class="o">==</span> <span class="sc">'D'</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">deque</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">error</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+		
+		<span class="k">if</span> <span class="o">(</span><span class="n">front</span><span class="o">)</span> <span class="n">deque</span><span class="o">.</span><span class="na">pollFirst</span><span class="o">();</span>
+		<span class="k">else</span> <span class="n">deque</span><span class="o">.</span><span class="na">pollLast</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">error</span><span class="o">)</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"error"</span><span class="o">);</span>
+<span class="k">else</span> <span class="o">{</span>
+	<span class="nc">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+	<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"["</span><span class="o">);</span>
+	
+	<span class="c1">// deque 출력</span>
+	<span class="k">while</span><span class="o">(!</span><span class="n">deque</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+		<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="n">sb</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> <span class="s">""</span> <span class="o">:</span> <span class="s">","</span><span class="o">));</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">front</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">deque</span><span class="o">.</span><span class="na">pollFirst</span><span class="o">());</span>
+		<span class="k">else</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">deque</span><span class="o">.</span><span class="na">pollLast</span><span class="o">());</span>
+	<span class="o">}</span>
+	
+	<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"]"</span><span class="o">);</span>
+	<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Java/2025-06-17-5410/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>입력도 그지같은데 출력도 그지같아서 대괄호 출력 부분에서 실수가 나서 한 번 틀렸다.<br />
+5년 전의 나야 내가 너를 구원했단다… 그곳에서는 편안하렴…</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-17-5430.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="5430" /><category term="AC" /><category term="구현" /><summary type="html"><![CDATA[백준 5430번 AC JAVA 문제풀이]]></summary></entry><entry><title type="html">3655번 먼저 가세요</title><link href="https://movingwoo.com/boj/python/2025/06/16/3655.html" rel="alternate" type="text/html" title="3655번 먼저 가세요" /><published>2025-06-16T08:00:00+00:00</published><updated>2025-06-17T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/16/3655</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/16/3655.html"><![CDATA[<blockquote>
   <h4 id="문제">문제</h4>
   <hr />
 </blockquote>
@@ -1263,148 +1437,4 @@ aeiouy 중 하나 이상(+)의 연속된 그룹을 찾는 정규식이다.</p>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-06-04-4676.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="4676" /><category term="Haiku Review" /><summary type="html"><![CDATA[백준 4676번 Haiku Review PYTHON 문제풀이]]></summary></entry><entry><title type="html">WebP 변환기</title><link href="https://movingwoo.com/development/python/2025/06/04/WebP-Converter.html" rel="alternate" type="text/html" title="WebP 변환기" /><published>2025-06-04T02:00:00+00:00</published><updated>2025-06-17T06:00:00+00:00</updated><id>https://movingwoo.com/development/python/2025/06/04/WebP%20Converter</id><content type="html" xml:base="https://movingwoo.com/development/python/2025/06/04/WebP-Converter.html"><![CDATA[<blockquote>
-  <h4 id="개요">개요</h4>
-  <hr />
-</blockquote>
-
-<p>jpg는 화질을 제법 깎아먹어서 용량이 가벼운 편이다.<br />
-하지만 지난 포스트를 작성하며 이미지를 더 가볍게 유지할 필요성을 느꼈고<br />
-<span style="color: orange;"><strong>webp</strong></span>로 변환하는게 좋겠다는 결론에 도달했다.</p>
-
-<p>그러면 WebP 변환기를 만들어야겠지!!!</p>
-
-<p>변환하며 화질을 살짝 열화시키면 더 효과가 좋을 것이다.<br />
-뭐 영화 보는 것도 아니고 고화질 유지할 필요는 없으니</p>
-
-<p>파이썬을 선택한 이유는 간단하다.<br />
-딸깍 한 번 하면 필요한 라이브러리가 설치되니까.</p>
-
-<p>자바로 하면 TwelveMonkeys 같은 외부 라이브러리 끌어와야하고<br />
-C++하면 libwebp 빌드부터가 귀찮다.</p>
-
-<p>편하게 쓰려고 내가 파이썬을 배웠지</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>webp로 변환할 타겟 폴더를 선택하는게 좋나, 타겟 이미지가 있는 폴더에 소스코드를 넣어두고 실행시키는게 좋나?<br />
-고민 끝에 더 생각없이 쓰려면 후자가 쉽고 빠를 것 같아 후자로 한다.</p>
-
-<p>현재 폴더의 모든 이미지를 타겟 폴더에 webp로 뱉어내도록 한다.</p>
-
-<p>하는 김에 용량 얼마나 줄였는지 디스플레이도 해주면 좋겠다.</p>
-
-<blockquote>
-  <h4 id="구현-포인트">구현 포인트</h4>
-  <hr />
-</blockquote>
-
-<p><span style="color: orange;"><strong>Pillow</strong></span> 라이브러리를 사용한다.</p>
-
-<h5 id="1-기초-코드">1. 기초 코드</h5>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">import</span> <span class="n">os</span>
-
-<span class="c1"># 실행 경로
-</span><span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="nf">getcwd</span><span class="p">()</span>
-
-<span class="c1"># 폴더 내 파일들을 대상으로 변환
-</span><span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
-    <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-    <span class="n">webp_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">splitext</span><span class="p">(</span><span class="n">img_path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="sh">"</span><span class="s">.webp</span><span class="sh">"</span>
-    <span class="n">Image</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="n">img_path</span><span class="p">).</span><span class="nf">save</span><span class="p">(</span><span class="n">webp_path</span><span class="p">,</span> <span class="sh">"</span><span class="s">WEBP</span><span class="sh">"</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span> <span class="c1"># 80% 품질
-</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">변환 완료</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h5 id="2-세부-설정">2. 세부 설정</h5>
-
-<p>예외처리를 위해 이미지 확장자를 제한한다.<br />
-jpg와 png, gif 3종류면 되겠지 뭐.</p>
-
-<p>그리고 변환 전후로 용량을 확인해 print 시 표시해준다.</p>
-
-<p>gif 파일은 그냥 변환하면 애니메이션이 사라지므로 따로 분기를 태워준다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># jpg, png, gif
-</span><span class="k">if</span> <span class="n">filename</span><span class="p">.</span><span class="nf">lower</span><span class="p">().</span><span class="nf">endswith</span><span class="p">((</span><span class="sh">"</span><span class="s">.jpg</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.jpeg</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.png</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.gif</span><span class="sh">"</span><span class="p">)):</span>
-    <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-    <span class="n">webp_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">target_folder</span><span class="p">,</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="sh">"</span><span class="s">.webp</span><span class="sh">"</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="n">Image</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">img</span><span class="p">:</span>
-        <span class="c1"># gif는 애니메이션 때문에 특수 처리
-</span>        <span class="k">if</span> <span class="n">img</span><span class="p">.</span><span class="nb">format</span> <span class="o">==</span> <span class="sh">"</span><span class="s">GIF</span><span class="sh">"</span> <span class="ow">and</span> <span class="nf">getattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="sh">"</span><span class="s">is_animated</span><span class="sh">"</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
-            <span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">durations</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="c1"># 그냥 변환하면 너무 느려서 duration 직접 추출
-</span>            <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">ImageSequence</span><span class="p">.</span><span class="nc">Iterator</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
-                <span class="n">frames</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="nf">copy</span><span class="p">())</span>
-                <span class="n">durations</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">info</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">duration</span><span class="sh">"</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span> 
-
-            <span class="n">frames</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">save</span><span class="p">(</span>
-                <span class="n">webp_path</span><span class="p">,</span>
-                <span class="sh">"</span><span class="s">WEBP</span><span class="sh">"</span><span class="p">,</span>
-                <span class="n">save_all</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                <span class="n">append_images</span><span class="o">=</span><span class="n">frames</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
-                <span class="n">duration</span><span class="o">=</span><span class="n">durations</span><span class="p">,</span>
-                <span class="n">loop</span><span class="o">=</span><span class="n">img</span><span class="p">.</span><span class="n">info</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">loop</span><span class="sh">"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                <span class="n">quality</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="c1"># 애니메이션 없으면 그냥 변환
-</span>        <span class="k">else</span><span class="p">:</span>
-            <span class="n">img</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">webp_path</span><span class="p">,</span> <span class="sh">"</span><span class="s">WEBP</span><span class="sh">"</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
-
-    <span class="c1"># 용량 확인 (kb)
-</span>    <span class="n">before_size</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">getsize</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span>
-    <span class="n">after_size</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">getsize</span><span class="p">(</span><span class="n">webp_path</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span>
-
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s"> 변환 완료</span><span class="sh">"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">after_size</span> <span class="o">&gt;</span> <span class="n">before_size</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">↑↑증가↑↑ </span><span class="si">{</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">before_size</span> <span class="o">/</span> <span class="n">after_size</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">% (</span><span class="si">{</span><span class="n">before_size</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">kb -&gt; </span><span class="si">{</span><span class="n">after_size</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">kb)</span><span class="sh">"</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">↓↓감소↓↓ </span><span class="si">{</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">after_size</span> <span class="o">/</span> <span class="n">before_size</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">% (</span><span class="si">{</span><span class="n">before_size</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">kb -&gt; </span><span class="si">{</span><span class="n">after_size</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">kb)</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="완성">완성</h4>
-  <hr />
-</blockquote>
-
-<p>테스트 이미지 파일 몇개 넣어놓고 돌려보았다.</p>
-
-<p><img src="/assets/images/posts/one-pan/Python/2025-06-04-WebP Converter/img01.webp" alt="img01" /></p>
-
-<p><span style="color: red;"><strong>gif는 용량이 오히려 늘어날 수 있다!!!</strong></span><br />
-변환해보고 webp가 오히려 용량이 많은 경우 gif를 그대로 써야겠다.</p>
-
-<p>늘어난 파일 제외하고 테스트 이미지 파일 압축 시 용량변화는 아래와 같다.</p>
-
-<p><img src="/assets/images/posts/one-pan/Python/2025-06-04-WebP Converter/img02.webp" alt="img02" /></p>
-
-<p><span style="color: orange;"><strong>18.1mb에서 4.51mb로 줄였으니 75% 가량 줄인 셈이다!!!</strong></span><br />
-홀리 지져스 크라이스트</p>
-
-<p>이제 그동안 올린 이미지 파일도 전체 용량 줄이기에 들어가자.<br />
-쌓이면 답도 없으니 이미지가 하나라도 적은 지금 작업해야한다…</p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>더 발전 시킬 수 있을거란 마음이 계속 생긴다.<br />
-하지만 이런건 적당히 끊어줘야한다.<br />
-잘 돌아가고 목적을 달성했으면 됐지.<br />
-여기서 칼같이 끊어야겠다.<br />
-이것 말고도 할게 많단 말이야.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/Python/2025-06-04-WebP%20Converter.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/Python/" /><category term="PYTHON" /><category term="WEBP 변환기" /><summary type="html"><![CDATA[PYTHON WEBP 변환기 프로그램 개발]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-06-04-4676.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="4676" /><category term="Haiku Review" /><summary type="html"><![CDATA[백준 4676번 Haiku Review PYTHON 문제풀이]]></summary></entry></feed>

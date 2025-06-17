@@ -274,4 +274,10 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",3655,"먼저 가세요","정렬"],
         "url": "/boj/python/2025/06/16/3655.html",
         "teaser": null
+      },{
+        "title": "5430번 AC",
+        "excerpt":"이왜틀? 과거의 나는 이걸 왜 틀렸을까? 틀린 문제를 파헤쳐보는 시간 이왜틀? 대부분 java로 틀렸던 문제들이라 웬만하면 java로 다시 해결하지 않을까 싶다. 아무튼 이 문제는 5년 전에 런타임 에러 1회 이후로 손을 안댄 것 같은데… import java.io.*; import java.util.*; public class Main{ public static void main(String[]z){ try (BufferedReader br=new BufferedReader(new InputStreamReader(System.in));...","categories": ["BOJ/Java/"],
+        "tags": ["JAVA","알고리즘","백준",5430,"AC","구현"],
+        "url": "/boj/java/2025/06/17/5430.html",
+        "teaser": null
       }]
