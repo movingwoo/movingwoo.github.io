@@ -25,7 +25,7 @@
     
     if (!savedPath) {
       // 세션스토리지가 비어있으면 기본 설정 카테고리 열기
-      const defaultPath = 'one-pan/'; 
+      const defaultPath = 'Development/'; 
       currentOpenRootPath = defaultPath;
       openFolder(defaultPath);
       updateAllPostCounts(defaultPath);
