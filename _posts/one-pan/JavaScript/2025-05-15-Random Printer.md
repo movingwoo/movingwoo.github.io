@@ -2,7 +2,7 @@
 title: "랜덤 출력기"
 description: "JAVASCRIPT 랜덤 출력기 개발"
 date: "2025-05-15 08:00:00 +0900"
-last_modified_at: "2025-05-15 08:00:00 +0900"
+last_modified_at: "2025-06-16 10:00:00 +0900"
 categories: 
   - one-pan/JavaScript/
 tags: [JAVASCRIPT, 랜덤 출력기]

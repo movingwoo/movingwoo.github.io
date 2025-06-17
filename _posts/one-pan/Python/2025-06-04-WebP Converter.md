@@ -2,7 +2,7 @@
 title: "WebP 변환기"
 description: "PYTHON WEBP 변환기 프로그램 개발"
 date: "2025-06-04 11:00:00 +0900"
-last_modified_at: "2025-06-04 11:00:00 +0900"
+last_modified_at: "2025-06-16 10:00:00 +0900"
 categories: 
   - one-pan/Python/
 tags: [PYTHON, WEBP 변환기]

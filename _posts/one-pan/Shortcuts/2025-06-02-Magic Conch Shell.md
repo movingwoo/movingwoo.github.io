@@ -2,7 +2,7 @@
 title: "마법의 소라고둥"
 description: "단축어 마법의 소라고둥 프로그램 개발"
 date: "2025-06-02 17:00:00 +0900"
-last_modified_at: "2025-06-02 17:00:00 +0900"
+last_modified_at: "2025-06-16 10:00:00 +0900"
 categories: 
   - one-pan/Shortcuts/
 tags: [단축어, 마법의 소라고둥]

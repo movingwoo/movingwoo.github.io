@@ -2,7 +2,7 @@
 title: "서버 관리 콘솔"
 description: "SHELL 서버 관리 콘솔 프로그램 개발"
 date: "2025-04-28 20:00:00 +0900"
-last_modified_at: "2025-04-28 20:00:00 +0900"
+last_modified_at: "2025-06-16 10:00:00 +0900"
 categories: 
   - one-pan/ShellScript/
 tags: [SHELL, 서버 관리 콘솔]
