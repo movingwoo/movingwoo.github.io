@@ -280,4 +280,10 @@ var store = [{
         "tags": ["JAVA","알고리즘","백준",5430,"AC","구현"],
         "url": "/boj/java/2025/06/17/5430.html",
         "teaser": null
+      },{
+        "title": "18870번 좌표 압축",
+        "excerpt":"이왜틀? 18870번 좌표 압축 - 백준 4년 전의 기록이다. 화려한 시간초과의 향연! import java.util.*; import java.io.*; public class Main{ public static void main(String[] args){ try{ BufferedReader br=new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out)); int n=Integer.parseInt(br.readLine()); StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); int[] arr=new int[n]; int[] result=new int[n]; int idx=0; while(st.hasMoreTokens()){ arr[idx++]=Integer.parseInt(st.nextToken()); }...","categories": ["BOJ/Java/"],
+        "tags": ["JAVA","알고리즘","백준",18870,"좌표 압축","정렬"],
+        "url": "/boj/java/2025/06/18/18870.html",
+        "teaser": null
       }]

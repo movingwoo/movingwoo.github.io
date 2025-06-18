@@ -1,4 +1,118 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-17T08:36:41+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">5430번 AC</title><link href="https://movingwoo.com/boj/java/2025/06/17/5430.html" rel="alternate" type="text/html" title="5430번 AC" /><published>2025-06-17T07:00:00+00:00</published><updated>2025-06-17T07:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/17/5430</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/17/5430.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-18T00:55:13+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">18870번 좌표 압축</title><link href="https://movingwoo.com/boj/java/2025/06/18/18870.html" rel="alternate" type="text/html" title="18870번 좌표 압축" /><published>2025-06-18T00:00:00+00:00</published><updated>2025-06-18T00:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/18/18870</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/18/18870.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Java/2025-06-18-18870/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/18870">18870번 좌표 압축 - 백준</a></p>
+
+<p>4년 전의 기록이다.<br />
+화려한 시간초과의 향연!</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+			
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+		<span class="k">try</span><span class="o">{</span>
+				<span class="nc">BufferedReader</span> <span class="n">br</span><span class="o">=</span><span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+				<span class="nc">BufferedWriter</span> <span class="n">bw</span><span class="o">=</span><span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">));</span>
+
+				<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+				<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+
+				<span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
+				<span class="kt">int</span><span class="o">[]</span> <span class="n">result</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
+
+				<span class="kt">int</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+				<span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">()){</span>
+					<span class="n">arr</span><span class="o">[</span><span class="n">idx</span><span class="o">++]=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+				<span class="o">}</span>
+
+				<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+					<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">j</span><span class="o">++){</span>
+						<span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="o">&amp;&amp;</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]&gt;</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]){</span>
+							<span class="n">result</span><span class="o">[</span><span class="n">i</span><span class="o">]++;</span>
+						<span class="o">}</span>
+					<span class="o">}</span>
+				<span class="o">}</span>
+
+				<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="nl">i:</span><span class="n">result</span><span class="o">)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="s">" "</span><span class="o">);</span>
+				<span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+
+			<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">){</span><span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>전체 순회하며 결과 배열에 숫자를 하나씩 더해간다.<br />
+좀 더 시간을 줄일 수 있게 접근해야한다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>중복되는 요소가 있으니 <span style="color: orange;"><strong>Set을 활용해 중복을 거르고 정렬</strong></span>한다.<br />
+TreeSet을 쓰면 되겠다.<br />
+그 후 <span style="color: orange;"><strong>순서 인덱스를 매핑해서 원래 배열과 비교</strong></span>해 인덱스를 뽑아주면 된다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>트리셋은 자동 정렬이 되니 손댈 필요가 없다.<br />
+맵에 인덱스를 value로 저장 후 원래 배열을 순회하며 맵에서 꺼내다 출력한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 처음 입력받을 배열</span>
+<span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
+<span class="c1">// 중복제거 및 정렬용 트리셋</span>
+<span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TreeSet</span><span class="o">&lt;&gt;();</span>
+<span class="c1">// 압축 매핑용 맵</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="kt">int</span> <span class="n">token</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+	<span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">token</span><span class="o">;</span>
+	<span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 맵에 매핑</span>
+<span class="nc">Iterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">set</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+<span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">iter</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+	<span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">iter</span><span class="o">.</span><span class="na">next</span><span class="o">(),</span> <span class="n">idx</span><span class="o">++);</span>
+<span class="o">}</span>
+
+<span class="c1">// 출력</span>
+<span class="nc">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">])).</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Java/2025-06-18-18870/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>이상하다 4년전이면 컬렉션 쓰는 법 정도는 알았을 텐데…</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-18-18870.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="18870" /><category term="좌표 압축" /><category term="정렬" /><summary type="html"><![CDATA[백준 18870번 좌표 압축 JAVA 문제풀이]]></summary></entry><entry><title type="html">5430번 AC</title><link href="https://movingwoo.com/boj/java/2025/06/17/5430.html" rel="alternate" type="text/html" title="5430번 AC" /><published>2025-06-17T07:00:00+00:00</published><updated>2025-06-17T07:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/17/5430</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/17/5430.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -1351,90 +1465,4 @@ CPU 클래스에 코어 확인 함수를 추가하고 퍼센티지 호출하는 
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-04-2784.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="2784" /><category term="가로 세로 퍼즐" /><summary type="html"><![CDATA[백준 2784번 가로 세로 퍼즐 JAVA 문제풀이]]></summary></entry><entry><title type="html">4676번 Haiku Review</title><link href="https://movingwoo.com/boj/python/2025/06/04/4676.html" rel="alternate" type="text/html" title="4676번 Haiku Review" /><published>2025-06-04T05:00:00+00:00</published><updated>2025-06-17T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/04/4676</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/04/4676.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-06-04-4676/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/4676">4676번 Haiku Review - 백준</a></p>
-
-<blockquote>
-  <h4 id="번역">번역</h4>
-  <hr />
-</blockquote>
-
-<p>하이쿠는 5/7/5 조의 일본 시다.<br />
-입력을 받아 하이쿠가 맞다면 Y 아니라면 잘못된 행의 숫자를 출력하시오.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p><span style="color: orange;"><strong>a, e, i, o, u, y</strong></span> 6개를 모음으로 치며 모음이 붙어있는 경우에는 1음절로 친다.</p>
-
-<p>예제의 경우를 확인해보면<br />
-h<span style="color: orange;"><strong>a</strong></span>pp<span style="color: orange;"><strong>y</strong></span> p<span style="color: orange;"><strong>u</strong></span>rpl<span style="color: orange;"><strong>e</strong></span> fr<span style="color: orange;"><strong>o</strong></span>g<br />
-<span style="color: orange;"><strong>ea</strong></span>t<span style="color: orange;"><strong>i</strong></span>ng b<span style="color: orange;"><strong>u</strong></span>gs <span style="color: orange;"><strong>i</strong></span>n th<span style="color: orange;"><strong>e</strong></span> m<span style="color: orange;"><strong>a</strong></span>rsh<span style="color: orange;"><strong>e</strong></span>s<br />
-g<span style="color: orange;"><strong>e</strong></span>t <span style="color: orange;"><strong>i</strong></span>nd<span style="color: orange;"><strong>i</strong></span>g<span style="color: orange;"><strong>e</strong></span>sti<span style="color: orange;"><strong>o</strong></span>n</p>
-
-<p>그래서 Y로 볼 수 있다.</p>
-
-<p>아니 이거 정규식 짜면 한 방 아닌가?</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>정규식은 <span style="color: orange;"><strong>[aeiouy]+</strong></span> 을 사용한다.<br />
-aeiouy 중 하나 이상(+)의 연속된 그룹을 찾는 정규식이다.</p>
-
-<p>자동으로 찾아주니 분기만 잘 태워주면 끝</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">re</span>
-
-<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-    <span class="n">haikus</span> <span class="o">=</span> <span class="nf">input</span><span class="p">().</span><span class="nf">strip</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">haikus</span> <span class="o">==</span> <span class="sh">'</span><span class="s">e/o/i</span><span class="sh">'</span><span class="p">:</span>
-        <span class="k">break</span>
-
-    <span class="n">haiku</span> <span class="o">=</span> <span class="n">haikus</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">/</span><span class="sh">'</span><span class="p">)</span>
-    <span class="n">jo</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-
-        <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">re</span><span class="p">.</span><span class="nf">findall</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">[aeiouy]+</span><span class="sh">'</span><span class="p">,</span> <span class="n">haiku</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">!=</span> <span class="n">jo</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-            <span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-            <span class="k">break</span>
-
-        <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
-    
-    <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">Y</span><span class="sh">'</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-06-04-4676/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>예전에 정규식으로 XSS 방지 스크립트 짜던 기억이 떠오른다.<br />
-힘들었는데 진짜…</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-06-04-4676.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="4676" /><category term="Haiku Review" /><summary type="html"><![CDATA[백준 4676번 Haiku Review PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-04-2784.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="2784" /><category term="가로 세로 퍼즐" /><summary type="html"><![CDATA[백준 2784번 가로 세로 퍼즐 JAVA 문제풀이]]></summary></entry></feed>
