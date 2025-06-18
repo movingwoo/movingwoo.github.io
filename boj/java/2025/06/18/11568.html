@@ -1372,7 +1372,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>A[i] 앞에 있는 원소들 중 <span style="color: orange;"><strong>A[j] &lt; A[i]</strong></span> 인 경우만 고려한다.<br />
 그 중 가장 긴 부분수열에 A[i]를 붙인다.</p>
 
-<p>기본적으로 자기 자신을 포함하니 <span style="color: orange;"><strong>dp[i] = 1</strong></span> 에서 시작
+<p>기본적으로 자기 자신을 포함하니 <span style="color: orange;"><strong>dp[i] = 1</strong></span> 에서 시작<br />
 <span style="color: orange;"><strong>dp[i] = arr[j] &lt; arr[i] ? max(dp[i], dp[j] + 1) : dp[i]</strong></span></p>
 
 <blockquote>
