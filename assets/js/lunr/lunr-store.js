@@ -286,4 +286,10 @@ var store = [{
         "tags": ["JAVA","알고리즘","백준",18870,"좌표 압축","정렬"],
         "url": "/boj/java/2025/06/18/18870.html",
         "teaser": null
+      },{
+        "title": "11568번 민균이의 계략",
+        "excerpt":"이왜틀? 11568번 민균이의 계략 - 백준 5년전 틀렸습니다를 받은 문제. 당시 코드를 보자. int n=Integer.parseInt(br.readLine()); int[] arr=new int[n]; StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); for(int i=0;i&lt;n;i++) arr[i]=Integer.parseInt(st.nextToken()); int cm=1; for(int i=0;i&lt;n-1;i++) { int cnt=1; int bf=arr[i]; for(int j=i+1;j&lt;n;j++) { if(arr[j]&gt;bf) { cnt++; bf=arr[j]; } } if(cnt&gt;cm) cm=cnt; } bw.write(cm+\"\"); 그리디로 푼 것...","categories": ["BOJ/Java/"],
+        "tags": ["JAVA","알고리즘","백준",11568,"민균이의 계략","DP"],
+        "url": "/boj/java/2025/06/18/11568.html",
+        "teaser": null
       }]
