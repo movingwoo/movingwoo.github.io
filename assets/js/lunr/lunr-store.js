@@ -298,4 +298,10 @@ var store = [{
         "tags": ["C++","알고리즘","백준",17456,"필살! 60단 컴보","DP"],
         "url": "/boj/c++/2025/06/19/17456.html",
         "teaser": null
+      },{
+        "title": "코드 시뮬레이터",
+        "excerpt":"개요 Jekyll 블로그는 정적이라 뭔가 구현하는데 한계가 좀 많다. 마개조하고싶은데 뭘 할 수 있을까 고민하다가 떠오른 코드 시뮬레이터. 원래 구상으론 내가 할 줄 아는 언어들을 전부 집어넣어 기능을 구현하고 싶었는데 현실적으로 상당한 제약이 있다. JS는 손 댈 것도 없다. 대충 떠올려봐도 eval 박아넣으면 바로 가능하다. 보안 상 이슈가 있겠지만… C++을...","categories": ["Development/Python/"],
+        "tags": ["PYTHON","코드 시뮬레이터","Pyodide"],
+        "url": "/development/python/2025/06/19/Code-Simulator.html",
+        "teaser": null
       }]

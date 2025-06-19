@@ -1,4 +1,250 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-19T02:45:59+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">17456번 필살! 60단 컴보</title><link href="https://movingwoo.com/boj/c++/2025/06/19/17456.html" rel="alternate" type="text/html" title="17456번 필살! 60단 컴보" /><published>2025-06-19T02:00:00+00:00</published><updated>2025-06-19T02:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/06/19/17456</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/06/19/17456.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-19T07:35:26+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">코드 시뮬레이터</title><link href="https://movingwoo.com/development/python/2025/06/19/Code-Simulator.html" rel="alternate" type="text/html" title="코드 시뮬레이터" /><published>2025-06-19T07:00:00+00:00</published><updated>2025-06-19T07:00:00+00:00</updated><id>https://movingwoo.com/development/python/2025/06/19/Code%20Simulator</id><content type="html" xml:base="https://movingwoo.com/development/python/2025/06/19/Code-Simulator.html"><![CDATA[<blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p>Jekyll 블로그는 정적이라 뭔가 구현하는데 한계가 좀 많다.<br />
+마개조하고싶은데 뭘 할 수 있을까 고민하다가 떠오른 코드 시뮬레이터.</p>
+
+<p>원래 구상으론 내가 할 줄 아는 언어들을 전부 집어넣어 기능을 구현하고 싶었는데<br />
+현실적으로 상당한 제약이 있다.</p>
+
+<p>JS는 손 댈 것도 없다.<br />
+대충 떠올려봐도 <span style="color: orange;"><strong>eval</strong></span> 박아넣으면 바로 가능하다.<br />
+보안 상 이슈가 있겠지만…</p>
+
+<p>C++을 실행시키려면 코드를 컴파일해서 결과를 제공해야하는데 이건 <span style="color: orange;"><strong>정적 환경에서는 불가능</strong></span>하다.<br />
+Java도 브라우저에 <span style="color: orange;"><strong>JVM이 없으므로 불가능</strong></span>하다.<br />
+Java Applet이 있었지만 보안 이슈로 퇴출되었고 JS로 돌려서 실행시키는 법도 있지만 무슨 의미가 있을까…</p>
+
+<p>Python은 <span style="color: orange;"><strong>Pyodide</strong></span>를 이용하면 브라우저에서 실행이 가능하다고 한다.<br />
+그렇다면 Python 코드 시뮬레이터를 만들어보자!</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://pyodide.org/en/stable/">Pyodide</a></p>
+
+<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img01.webp" alt="img01" /></p>
+
+<p>Pyodide 소개 페이지다.<br />
+브라우저에서 Python을 사용할 수 있다.<br />
+CPython을 Wasm으로 포팅했다고 한다.</p>
+
+<p>적용법은 아주 간단하다.</p>
+
+<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img02.webp" alt="img02" /></p>
+
+<p>CDN 경로에 pyodide.js를 붙이면 정상적으로 로드된다.<br />
+js에 스크립트 태그와 함께 집어넣으면 된다.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-html-작성">1. html 작성</h5>
+
+<p>코드를 입력할 부분과 실행버튼, 결과를 표시할 부분을 작성한다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"ko"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Code Simulator<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;style&gt;</span>
+    <span class="nt">body</span> <span class="p">{</span>
+      <span class="nl">max-width</span><span class="p">:</span> <span class="m">1200px</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nt">h1</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#000000</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nt">textarea</span> <span class="p">{</span>
+      <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+      <span class="nl">height</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+      <span class="nl">font-size</span><span class="p">:</span> <span class="m">1em</span><span class="p">;</span>
+      <span class="nl">padding</span><span class="p">:</span> <span class="m">1rem</span><span class="p">;</span>
+      <span class="nl">background</span><span class="p">:</span> <span class="m">#ffffff</span><span class="p">;</span>
+      <span class="nl">border</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#000000</span><span class="p">;</span>
+      <span class="nl">resize</span><span class="p">:</span> <span class="n">vertical</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nt">button</span> <span class="p">{</span>
+      <span class="nl">cursor</span><span class="p">:</span> <span class="nb">pointer</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nt">pre</span> <span class="p">{</span>
+      <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+      <span class="nl">font-size</span><span class="p">:</span> <span class="m">1em</span><span class="p">;</span>
+      <span class="nl">padding</span><span class="p">:</span> <span class="m">1rem</span><span class="p">;</span>
+      <span class="nl">background</span><span class="p">:</span> <span class="m">#ffffff</span><span class="p">;</span>
+      <span class="nl">border</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#000000</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;h1&gt;</span>Python Code Simulator<span class="nt">&lt;/h1&gt;</span>
+
+  <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">"code"</span> <span class="na">placeholder=</span><span class="s">"Python 코드 입력"</span><span class="nt">&gt;</span>print("Hello World!!")<span class="nt">&lt;/textarea&gt;</span>
+  <span class="nt">&lt;br/&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"run()"</span><span class="nt">&gt;</span>실행<span class="nt">&lt;/button&gt;</span>
+  <span class="c">&lt;!-- 결과가 깨져서 pre 태그로 처리 --&gt;</span>
+  <span class="nt">&lt;pre</span> <span class="na">id=</span><span class="s">"output"</span><span class="nt">&gt;</span>실행 결과 표시 창<span class="nt">&lt;/pre&gt;</span>
+
+  <span class="nt">&lt;script&gt;</span>
+    <span class="c1">// 스크립트 작성</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<h5 id="2-스크립트-작성">2. 스크립트 작성</h5>
+
+<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img03.webp" alt="img03" /></p>
+
+<p>사용 가이드 페이지를 확인해보면 초기화 방법이 나와있다.<br />
+async 함수를 사용하여 비동기로 초기화한다.<br />
+페이지 로드 시 1회 초기화 하도록 설정하고, 코드를 전달해서 결과를 받아 뿌려준다.</p>
+
+<p>그냥 사용 시 개발자도구 콘솔에 결과를 뿌려주는데<br />
+print를 재정의해서 변수로 저장해 내 마음대로 컨트롤 할 수 있게 한다.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Pyodide 인스턴스를 전역 변수로 저장</span>
+<span class="kd">let</span> <span class="nx">pyodide</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="c1">// 광클시 중복실행 방지용</span>
+<span class="kd">let</span> <span class="nx">isRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+<span class="c1">// 초기화 함수</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">load</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nf">loadPyodide</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// 페이지 로드 시 Pyodide 초기화</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="k">async </span><span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">pyodide</span> <span class="o">=</span> <span class="k">await</span> <span class="nf">load</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// 코드 실행 함수</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="k">if </span><span class="p">(</span><span class="nx">isRunning</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+  <span class="nx">isRunning</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  
+  <span class="kd">const</span> <span class="nx">code_value</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#code</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">output_area</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#output</span><span class="dl">"</span><span class="p">);</span>
+  
+  <span class="c1">// 로드되는데 시간이 걸릴 수 있어서 그동안 보여줄 메시지</span>
+  <span class="nx">output_area</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">실행 중...</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="k">try</span> <span class="p">{</span>
+
+    <span class="c1">// 초기화 되지 않았다면 기다리기</span>
+    <span class="k">while </span><span class="p">(</span><span class="o">!</span><span class="nx">pyodide</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">await</span> <span class="k">new</span> <span class="nc">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="nf">setTimeout</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
+    <span class="p">}</span>
+    
+    <span class="kd">let</span> <span class="nx">stdout</span> <span class="o">=</span> <span class="dl">""</span><span class="p">;</span>
+    
+    <span class="c1">// 그냥 사용하면 개발자도구 콘솔에 출력됨</span>
+    <span class="c1">// print를 재정의하여 stdout 변수로 저장</span>
+    <span class="nx">pyodide</span><span class="p">.</span><span class="nx">globals</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="dl">"</span><span class="s2">print</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">stdout</span> <span class="o">+=</span> <span class="nx">args</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="dl">"</span><span class="s2"> </span><span class="dl">"</span><span class="p">)</span> <span class="o">+</span> <span class="dl">"</span><span class="se">\n</span><span class="dl">"</span><span class="p">;</span>
+    <span class="p">});</span>
+    
+    <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">pyodide</span><span class="p">.</span><span class="nf">runPythonAsync</span><span class="p">(</span><span class="nx">code_value</span><span class="p">);</span>
+    
+    <span class="k">if </span><span class="p">(</span><span class="nx">stdout</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">output_area</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">stdout</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// stdout이 잘못되었을 경우 Python에서 undefined를 반환했는지 확인 필요</span>
+      <span class="nx">output_area</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">result</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="dl">"</span><span class="s2">undefined</span><span class="dl">"</span> <span class="p">:</span> <span class="nx">result</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">output_area</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">err</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">finally</span><span class="p">{</span>
+    <span class="nx">isRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="3-입력-받기">3. 입력 받기</h5>
+
+<p>코드 입력 시 결과 출력은 문제 없는데 input을 직접 받지 못해 오류가 난다.<br />
+print()와 마찬가지로 input()을 재정의해서 사용자 입력을 받을 수 있도록 한다.</p>
+
+<p>실제 대화형 처럼 하려면 너무 복잡해진다.<br />
+그냥 알고리즘 문제 풀 때처럼 입력 한 번 받을 수 있게만 한다.<br />
+지속적으로 입력 받는건 다음에 시간나면 해보기로 하자.</p>
+
+<p>구현은 최대한 간단하게<br />
+input 입력란을 별도로 두고 해당 textarea에 작성된 값을 input으로 삼아 코드를 실행시킨다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">"input"</span> <span class="na">placeholder=</span><span class="s">"사용자 입력"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
+</code></pre></div></div>
+
+<p>여러 줄을 전송할 경우 전체를 한 번에 받아들여서 오류가 난다.<br />
+한 줄 씩 처리할 수 있도록 줄단위로 나눠줄 필요가 있다.</p>
+
+<p>입력이 input() 요구보다 모자란 경우에 EOF Exception을 던지는 것으로 예외처리한다.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 여러 줄 전송하기 위해 라인 별 저장</span>
+<span class="kd">const</span> <span class="nx">input_values</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#input</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sr">/</span><span class="se">\r?\n</span><span class="sr">/</span><span class="p">);</span>
+
+<span class="c1">// ... 중략 ...</span>
+
+<span class="kd">let</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="c1">// input을 재정의하여 사용자 입력 값 전달</span>
+<span class="nx">pyodide</span><span class="p">.</span><span class="nx">globals</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="dl">"</span><span class="s2">input</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">index</span> <span class="o">&lt;</span> <span class="nx">input_values</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">input_values</span><span class="p">[</span><span class="nx">index</span><span class="o">++</span><span class="p">];</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nc">Error</span><span class="p">(</span><span class="dl">"</span><span class="s2">EOF Exception</span><span class="dl">"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="완성">완성</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img04.webp" alt="img04" /></p>
+
+<p><span style="color: orange;"><strong>Hello World!!</strong></span></p>
+
+<p>사용자 입력 테스트도 해봐야겠다.<br />
+가장 최근에 파이썬으로 푼 문제인 백준 3655번으로 테스트 해보자.<br />
+위쪽에 내 코드를 넣고, 아래쪽 사용자 입력에 예제를 집어넣는다.</p>
+
+<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img05.webp" alt="img05" /></p>
+
+<p>스무스하게 작동한다.</p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>파이썬이 웹에서도 동작하는 세상이라니<br />
+누가 감히 알았겠는가<br />
+<span style="color: red;"><strong>이것은 파이썬이 위대한 것인가 JS가 위대한 것인가?</strong></span></p>
+
+<p>찾아보니 <span style="color: orange;"><strong>PyScript</strong></span>를 사용하면 아예 <span style="color: orange;"><strong>py-script</strong></span> 태그를 통해 파이썬 문법을 그대로 쓰는 방법도 있다고 한다.<br />
+내부에서 Pyodide를 사용하며 동작하는 일종의 프레임워크로 볼 수 있다고 한다.<br />
+그럼 이제 js를 몰라도 파이썬으로 웹 앱을 만들 수 있다는 소리인가?<br />
+기술의 발전은 정말이지 두렵다…</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/Development/Python/2025-06-19-Code%20Simulator.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/Python/" /><category term="PYTHON" /><category term="코드 시뮬레이터" /><category term="Pyodide" /><summary type="html"><![CDATA[PYTHON 코드 시뮬레이터 프로그램 개발]]></summary></entry><entry><title type="html">17456번 필살! 60단 컴보</title><link href="https://movingwoo.com/boj/c++/2025/06/19/17456.html" rel="alternate" type="text/html" title="17456번 필살! 60단 컴보" /><published>2025-06-19T02:00:00+00:00</published><updated>2025-06-19T02:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/06/19/17456</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/06/19/17456.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀!</h4>
   <hr />
 </blockquote>
@@ -1244,96 +1490,4 @@ js를 사용하지 않으면 GUI가 극적이진 않지만 직접 만들어서 �
 
 <p>사파리에서 링크 실행</p>
 
-<p><a href="https://www.icloud.com/shortcuts/1846ec094ab34bf79d689d4dcbd32a36">제비 뽑기 - iCloud Link</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/Shortcuts/" /><category term="단축어" /><category term="제비 뽑기" /><summary type="html"><![CDATA[단축어 제비 뽑기 프로그램 개발]]></summary></entry><entry><title type="html">21237번 Clockwise Fence</title><link href="https://movingwoo.com/boj/java/2025/06/10/21237.html" rel="alternate" type="text/html" title="21237번 Clockwise Fence" /><published>2025-06-10T01:00:00+00:00</published><updated>2025-06-17T06:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/10/21237</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/10/21237.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-06-10-21237/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/21237">21237번 Clockwise Fence - 백준</a></p>
-
-<blockquote>
-  <h4 id="번역">번역</h4>
-  <hr />
-</blockquote>
-
-<p>울타리를 설치했는데 울타리가 시계 방향으로 설치되었는지 반시계 방향으로 설치되었는지 구하시오.<br />
-시작점과 도착점은 같으며 울타리가 하나의 영역을 감싸고 있는게 보장된다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>신발끈 공식을 써서 양수면 반시계 방향, 음수면 시계 방향이다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>NSWE 형식으로 방향이 들어오니 Map으로 방향 별 더할 좌표를 구성해두고<br />
-방향 데이터를 받아서 순회하며 신발끈 공식으로 면적을 구한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-			
-<span class="c1">// 방향</span>
-<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">dx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
-<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'N'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
-<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'E'</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
-<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'S'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
-<span class="n">dx</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'W'</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
-
-<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">dy</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
-<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'N'</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
-<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'E'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
-<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'S'</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
-<span class="n">dy</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'W'</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
-
-<span class="k">while</span><span class="o">(</span><span class="no">N</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-	<span class="kt">char</span><span class="o">[]</span> <span class="n">fences</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">();</span>
-	
-	<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-	<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-	
-	<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fences</span><span class="o">.</span><span class="na">length</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-		<span class="kt">int</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fences</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-		<span class="kt">int</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fences</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-
-		<span class="c1">// 신발끈 공식</span>
-		<span class="n">result</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">ny</span> <span class="o">-</span> <span class="n">y</span> <span class="o">*</span> <span class="n">nx</span><span class="o">;</span>
-
-		<span class="c1">// 이전 좌표 갱신</span>
-		<span class="n">x</span> <span class="o">=</span> <span class="n">nx</span><span class="o">;</span>
-		<span class="n">y</span> <span class="o">=</span> <span class="n">ny</span><span class="o">;</span>
-	<span class="o">}</span>
-
-	<span class="c1">// 음수면 시계 방향 아니면 반시계 방향</span>
-	<span class="k">if</span><span class="o">(</span><span class="n">result</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"CW\n"</span><span class="o">);</span>
-	<span class="k">else</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"CCW\n"</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Java/2025-06-10-21237/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>파이썬 하다가 자바 보니까 코드가 못났다.<br />
-점점 파이썬에 스며드는 중이다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-10-21237.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="21237" /><category term="Clockwise Fence" /><category term="수학" /><summary type="html"><![CDATA[백준 21237번 Clockwise Fence JAVA 문제풀이]]></summary></entry></feed>
+<p><a href="https://www.icloud.com/shortcuts/1846ec094ab34bf79d689d4dcbd32a36">제비 뽑기 - iCloud Link</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/Shortcuts/" /><category term="단축어" /><category term="제비 뽑기" /><summary type="html"><![CDATA[단축어 제비 뽑기 프로그램 개발]]></summary></entry></feed>
