@@ -1,4 +1,209 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-18T01:52:29+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">11568번 민균이의 계략</title><link href="https://movingwoo.com/boj/java/2025/06/18/11568.html" rel="alternate" type="text/html" title="11568번 민균이의 계략" /><published>2025-06-18T01:00:00+00:00</published><updated>2025-06-18T01:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/18/11568</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/18/11568.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-19T02:45:21+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">17456번 필살! 60단 컴보</title><link href="https://movingwoo.com/boj/c++/2025/06/19/17456.html" rel="alternate" type="text/html" title="17456번 필살! 60단 컴보" /><published>2025-06-19T02:00:00+00:00</published><updated>2025-06-19T02:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/06/19/17456</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/06/19/17456.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀!</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/C++/2025-06-19-17456/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/17456">17456번 필살! 60단 컴보 - 백준</a></p>
+
+<p>5년 전이긴 한데 이 문제는 아직도 기억이 생생하다?<br />
+당시 이런 고난이도 문제는 익숙하지 않았는데 풀어보겠다고 난리를 피웠다?<br />
+제출 현황을 보면 C만 통과해서 Java로는 못푸는 문제인가! 하고 생각 했는데<br />
+지금보니 아직도 Java는 한개도 안보인다?</p>
+
+<p>우선 C++로 풀어보고 Java로 포팅해서 되는지 확인한다?</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>2진수로 바꿔서 세면 그만이긴 한데, 정수 a, b, c의 범위가 <span style="color: orange;"><strong>2^60</strong></span> 이다.<br />
+숫자가 너무 커서 그냥 세면 시간초과가 날 수 밖에 없다.<br />
+따라서 적당히 전처리를 해야한다.</p>
+
+<p>순서대로 보자.<br />
+<span style="color: orange;"><strong>1. 테스트케이스 돌리기 전에 최대 60비트까지 가능한 모든 패턴을 계산하는 전처리를 진행한다.</strong></span><br />
+<span style="color: orange;"><strong>2. c의 점수를 계산한다.</strong></span><br />
+<span style="color: orange;"><strong>3. 0 ~ b 구간 점수와 0 ~ a - 1 구간 점수의 차를 계산한다.</strong></span></p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-전처리">1. 전처리</h5>
+
+<p>0부터 60비트 수까지 가능한 모든 패턴을 계산한다.<br />
+테스트케이스도 최대 30만개라서 미리 해놓지 않으면 안된다.</p>
+
+<p>dp[i][j] 는 0 ≤ n &lt; 2^i 중에서 f(n) ≥ j인 개수이며 f(n)은 n의 이진 표현에서 연속된 1 구간들의 길이 제곱 합(실제 점수)이다.<br />
+점화식은 <span style="color: orange;"><strong>dp[i][j] = dp[i - 1][j] + Σ(k = 1 to i) dp[i - k - 1][max(0, j - k^2)]</strong></span></p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 전처리 시작, 가능한 모든 패턴을 미리 계산</span>
+<span class="n">ull</span> <span class="n">dp</span><span class="p">[</span><span class="n">MAX_BITS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">MAX_SCORE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+<span class="c1">// dp[i][j] = 0 ≤ n &lt; 2^i 중에서 f(n) ≥ j인 개수, f(n)은 n의 이진 표현에서 연속된 1 구간들의 길이 제곱 합</span>
+<span class="c1">// 점화식: dp[i][j] = dp[i - 1][j] + Σ(k = 1 to i) dp[i - k - 1][max(0, j - k^2)]</span>
+
+<span class="c1">// 점수 0은 0비트에서만 가능하므로 1개</span>
+<span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">MAX_SCORE</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 0비트에서는 0보다 큰 점수가 존재하지 않음</span>
+  <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// i비트 수까지 확장</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">MAX_BITS</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">MAX_SCORE</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+      
+    <span class="c1">// 1. 최상위 비트를 0으로 두는 경우 (0xxx 형태)</span>
+    <span class="c1">// 연속 1구간이 아니므로 i-1 비트로 j 이상 만드는 경우의 수</span>
+    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+
+    <span class="c1">// 2. 최상위 비트에서 연속 k개의 1을 쓰는 경우 (110xxx 형태)</span>
+    <span class="c1">// 그 다음 비트가 있다면 0으로 강제, 길이 k의 연속 1 구간이 생성되고, 그 다음부터는 새로운 구간</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// k개의 1 다음에 남는 비트 수</span>
+      <span class="kt">int</span> <span class="n">zero_bit</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>          
+      <span class="k">if</span> <span class="p">(</span><span class="n">zero_bit</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// k == i일 때 모든 비트가 1</span>
+        <span class="n">zero_bit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="c1">// 앞 연속구간 점수 k^2를 제외하고 남은 필요 점수</span>
+      <span class="kt">int</span> <span class="n">need_score</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="n">k</span> <span class="o">*</span> <span class="n">k</span><span class="p">;</span>                
+      <span class="k">if</span> <span class="p">(</span><span class="n">need_score</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">need_score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="c1">// 남은 비트들로 필요 점수 이상 만들 수 있는 경우의 수</span>
+      <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dp</span><span class="p">[</span><span class="n">zero_bit</span><span class="p">][</span><span class="n">need_score</span><span class="p">];</span>         
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// 전처리 종료</span>
+</code></pre></div></div>
+
+<h5 id="2-c의-점수-구하기">2. c의 점수 구하기</h5>
+
+<p>1로 끝나는 경우 남은 점수 추가에 유의한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">c_score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// c의 점수 계산 (연속된 1 구간 길이의 제곱 함)</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_BITS</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 1이면 길이증가, 0이면 점수추가</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">))</span> <span class="p">{</span>
+    <span class="o">++</span><span class="n">len</span><span class="p">;</span>  
+  <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">c_score</span> <span class="o">+=</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">;</span>
+    <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 1이 남은 경우 점수 추가</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">c_score</span> <span class="o">+=</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="3-구간-점수-차-계산">3. 구간 점수 차 계산</h5>
+
+<p>0부터 특정 구간까지 c의 점수보다 높은 점수를 받은 경우의 수를 찾는 함수를 만든다.<br />
+그 다음 <span style="color: orange;"><strong>0부터 b 구간까지 찾은 수에서 0부터 a-1 구간까지 찾은 수를 빼면</strong></span> 찾는 답이 나온다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ull</span> <span class="nf">find_score</span><span class="p">(</span><span class="n">ull</span> <span class="n">dp</span><span class="p">[</span><span class="n">MAX_BITS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">MAX_SCORE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ull</span> <span class="n">target</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c_score</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// 60^2를 넘을 경우 예외처리</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">c_score</span> <span class="o">&gt;</span> <span class="n">MAX_SCORE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">ull</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">// 최상위 비트부터</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">MAX_BITS</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="n">bit</span> <span class="o">=</span> <span class="p">(</span><span class="n">target</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="c1">// 1이면 0으로 바꿔서 더 작은 수 계산</span>
+    <span class="c1">// 0이면 점수추가</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">bit</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="kt">int</span> <span class="n">need_score</span> <span class="o">=</span> <span class="n">c_score</span> <span class="o">-</span> <span class="p">(</span><span class="n">score</span> <span class="o">+</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">need_score</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">need_score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="c1">// i비트로 필요 점수 이상 만들 수 있는 경우의 수</span>
+      <span class="n">count</span> <span class="o">+=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">need_score</span><span class="p">];</span>
+      <span class="o">++</span><span class="n">len</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">score</span> <span class="o">+=</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">;</span>
+          <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// 1이 남은 경우 점수 추가</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">score</span> <span class="o">+=</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">;</span>
+  
+  <span class="c1">// 전달받은 a - 1과 b도 포함</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="n">c_score</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">++</span><span class="n">count</span><span class="p">;</span>
+  <span class="p">}</span>
+  
+  <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ... 중략 ...</span>
+
+<span class="c1">// 0 ~ b 구간 점수와 0 ~ a - 1 구간 점수의 차</span>
+<span class="n">ull</span> <span class="n">sector_b</span> <span class="o">=</span> <span class="n">find_score</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c_score</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="c1">// a가 0이면 0 처리</span>
+<span class="n">ull</span> <span class="n">sector_a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">find_score</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_score</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">sector_b</span> <span class="o">-</span> <span class="n">sector_a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="1차-채점c">1차 채점(C++)</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/C++/2025-06-19-17456/img02.webp" alt="img02" /></p>
+
+<p>C++로는 통과했다.<br />
+5년전 나의 원혼을 달래기 위해 이 코드를 그대로 Java로 포팅해서 2차 시도를 해보자.<br />
+PyPy로 통과한 이력은 보이는데 Java로는 불가능한 것인가??</p>
+
+<blockquote>
+  <h4 id="2차-채점java">2차 채점(Java)</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/C++/2025-06-19-17456/img03.webp" alt="img03" /></p>
+
+<p><span style="color: red;"><strong>이게되네</strong></span><br />
+흑흑 이거 Java로도 풀 수 있는 문제였어<br />
+그냥 옛날의 내가 최적화하지 못한 것 뿐이야</p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>다이나믹 프로그래밍 딱지 붙은 문제는 당분간 피하는게 좋겠다.<br />
+뇌가 녹아내릴 것 같다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/C%2B%2B/2025-06-19-17456.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/C++/" /><category term="C++" /><category term="알고리즘" /><category term="백준" /><category term="17456" /><category term="필살! 60단 컴보" /><summary type="html"><![CDATA[백준 17456번 필살! 60단 컴보 C++ 문제풀이]]></summary></entry><entry><title type="html">11568번 민균이의 계략</title><link href="https://movingwoo.com/boj/java/2025/06/18/11568.html" rel="alternate" type="text/html" title="11568번 민균이의 계략" /><published>2025-06-18T01:00:00+00:00</published><updated>2025-06-18T01:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/18/11568</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/18/11568.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -1131,308 +1336,4 @@ js를 사용하지 않으면 GUI가 극적이진 않지만 직접 만들어서 �
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-10-21237.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="21237" /><category term="Clockwise Fence" /><category term="수학" /><summary type="html"><![CDATA[백준 21237번 Clockwise Fence JAVA 문제풀이]]></summary></entry><entry><title type="html">하드웨어 모니터</title><link href="https://movingwoo.com/development/python/2025/06/09/Hardware-Monitor.html" rel="alternate" type="text/html" title="하드웨어 모니터" /><published>2025-06-09T23:00:00+00:00</published><updated>2025-06-17T06:00:00+00:00</updated><id>https://movingwoo.com/development/python/2025/06/09/Hardware%20Monitor</id><content type="html" xml:base="https://movingwoo.com/development/python/2025/06/09/Hardware-Monitor.html"><![CDATA[<blockquote>
-  <h4 id="개요">개요</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img01.webp" alt="img01" /></p>
-
-<p>알리에서 3.5인치 모니터를 주웠다.<br />
-온도 체크하기가 불편해서 사봤는데 리소스 사용량도 보여주고 상당히 괜찮다.</p>
-
-<p>제조사에서 드라이버를 제공해서 예쁜 테마를 가져다 그대로 쓸 수 있는데<br />
-다소 불안한 감이 있고 이런 건 또 직접해야 제맛이다.<br />
-필요없는 정보는 지우고 감성보다 기능성에 초점을 맞춘 새로운 테마를 만든다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://github.com/mathoudebine/turing-smart-screen-python">turing-smart-screen-python</a></p>
-
-<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img02.webp" alt="img02" /></p>
-
-<p>이 오픈소스 프로젝트는 소형 시스템 모니터에 각종 정보를 보기 좋게 표시해주는 프로그램이다.<br />
-능력자들이 밥을 다 차려놨으니 나는 숟가락만 들면 되는 것이다.</p>
-
-<p>소스코드를 다운로드 해 필요한 부분만 커스텀하고 사용할 수 있도록 하자.</p>
-
-<p>내게 필요한 정보는</p>
-<ul>
-  <li>CPU, GPU 온도</li>
-  <li>CPU 전체, 코어 별 사용량</li>
-  <li>GPU, VRAM 사용량</li>
-  <li>RAM 사용량</li>
-  <li>디스크 사용량</li>
-</ul>
-
-<p>필요 없는 정보는</p>
-<ul>
-  <li>날짜</li>
-  <li>날씨</li>
-  <li>네트워크 사용량</li>
-  <li>업타임</li>
-</ul>
-
-<p>아니 진짜 날짜 날씨는 왜 있지?<br />
-메인 모니터나 휴대폰이 훨씬 잘 알려주는데</p>
-
-<blockquote>
-  <h4 id="커스텀">커스텀</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-설치">1. 설치</h5>
-
-<p>파이썬만 있으면 설치는 간편하다.</p>
-
-<div class="language-batch highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">pip</span> <span class="kd">install</span> <span class="na">-r </span><span class="kd">requirements</span>.txt
-</code></pre></div></div>
-
-<p>pip 의존성 설치 후 실행하면 켜진다.<br />
-바로 실행하려면 <span style="color: orange;"><strong>main.py</strong></span>를, 설정 창을 띄우려면 <span style="color: orange;"><strong>configure.py</strong></span>를 실행한다.</p>
-
-<div class="language-batch highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">python</span> <span class="kd">configure</span>.py
-</code></pre></div></div>
-
-<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img03.webp" alt="img03" /></p>
-
-<h5 id="2-커스텀-테마-생성">2. 커스텀 테마 생성</h5>
-
-<p>테마 파일은 <span style="color: orange;"><strong>turing-smart-screen-python\res\themes</strong></span> 폴더에 위치해있다.<br />
-MyCustomTheme 폴더를 생성하고 내부에 <span style="color: orange;"><strong>theme.yaml</strong></span> 파일을 생성한다.</p>
-
-<p>구매한 3.5인치 모니터의 자체 프로그램 테마는 좀 다양한게 많아서 참고하려했더니<br />
-.data 파일로 되어있어서 그냥 포기하고 새로 만들기로 한다.</p>
-
-<p>3.5인치 모니터의 크기는 480 X 320 이고 배경은 검은색으로 만들거라 그림판으로 검은색 사진을 만들어 <span style="color: orange;"><strong>background.png</strong></span> 로 넣어준다.<br />
-뭐 없으면 알아서 까만화면 될 줄 알았는데 오류 나더라…</p>
-
-<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img04.webp" alt="img04" /></p>
-
-<p>yaml 수정은 즉각 반영되니 테마 에디터를 띄어두고 yaml을 수정하며 맞추면 된다.</p>
-
-<div class="language-batch highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">python</span> <span class="kd">theme</span><span class="na">-editor</span>.py <span class="kd">MyCustomTheme</span>
-</code></pre></div></div>
-
-<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img05.webp" alt="img05" /></p>
-
-<h5 id="3-yaml-작성">3. yaml 작성</h5>
-
-<p>기본적으로 yaml만 잘 작성해주면 해당 정보들을 알아서 가져온다.<br />
-디폴트 테마를 예시로 삼아서 잘 작성해보자.</p>
-
-<p>CPU와 디스크 쪽은 커스텀이 들어가야해서 머리아프다.</p>
-
-<p>갱신은 디스크 제외 1초로 통일했다.<br />
-1초 마다 사용량을 갱신할 의미가 있을까 싶어서 60초로 설정했다.</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">display</span><span class="pi">:</span>
-  <span class="na">DISPLAY_SIZE</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.5</span><span class="se">\"</span><span class="s">"</span>
-  <span class="na">DISPLAY_ORIENTATION</span><span class="pi">:</span> <span class="s2">"</span><span class="s">landscape"</span>
-  <span class="na">DISPLAY_REVERSE</span><span class="pi">:</span> <span class="kc">true</span>
-  <span class="na">DISPLAY_RGB_LED</span><span class="pi">:</span> <span class="s2">"</span><span class="s">0,</span><span class="nv"> </span><span class="s">0,</span><span class="nv"> </span><span class="s">0"</span>
-
-<span class="na">static_images</span><span class="pi">:</span>
-  <span class="na">BACKGROUND</span><span class="pi">:</span>
-    <span class="na">PATH</span><span class="pi">:</span> <span class="s">background.png</span>
-    <span class="na">X</span><span class="pi">:</span> <span class="m">0</span>
-    <span class="na">Y</span><span class="pi">:</span> <span class="m">0</span>
-    <span class="na">WIDTH</span><span class="pi">:</span> <span class="m">480</span>
-    <span class="na">HEIGHT</span><span class="pi">:</span> <span class="m">320</span>
-
-<span class="na">STATS</span><span class="pi">:</span>
-  <span class="na">CPU</span><span class="pi">:</span>
-    <span class="na">PERCENTAGE</span><span class="pi">:</span>
-      <span class="na">INTERVAL</span><span class="pi">:</span> <span class="m">1</span>
-      <span class="na">TEXT</span><span class="pi">:</span>
-        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
-        <span class="na">X</span><span class="pi">:</span> <span class="m">70</span>
-        <span class="na">Y</span><span class="pi">:</span> <span class="m">20</span>
-        <span class="na">FONT</span><span class="pi">:</span> <span class="s2">"</span><span class="s">jetbrains-mono/JetBrainsMono-Bold.ttf"</span>
-        <span class="na">FONT_SIZE</span><span class="pi">:</span> <span class="m">22</span>
-        <span class="na">FONT_COLOR</span><span class="pi">:</span> <span class="s2">"</span><span class="s">255,</span><span class="nv"> </span><span class="s">50,</span><span class="nv"> </span><span class="s">0"</span>
-        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
-      <span class="na">GRAPH</span><span class="pi">:</span>
-        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
-        <span class="na">X</span><span class="pi">:</span> <span class="m">20</span>
-        <span class="na">Y</span><span class="pi">:</span> <span class="m">50</span>
-        <span class="na">WIDTH</span><span class="pi">:</span> <span class="m">200</span>
-        <span class="na">HEIGHT</span><span class="pi">:</span> <span class="m">20</span>
-        <span class="na">MIN_VALUE</span><span class="pi">:</span> <span class="m">0</span>
-        <span class="na">MAX_VALUE</span><span class="pi">:</span> <span class="m">100</span>
-        <span class="na">BAR_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
-        <span class="na">BAR_OUTLINE</span><span class="pi">:</span> <span class="kc">true</span>
-        <span class="na">BAR_OUTLINE_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
-        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
-    <span class="na">TEMPERATURE</span><span class="pi">:</span>
-      <span class="na">INTERVAL</span><span class="pi">:</span> <span class="m">1</span>
-      <span class="na">TEXT</span><span class="pi">:</span>
-        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
-        <span class="na">X</span><span class="pi">:</span> <span class="m">155</span>
-        <span class="na">Y</span><span class="pi">:</span> <span class="m">20</span>
-        <span class="na">FONT</span><span class="pi">:</span> <span class="s2">"</span><span class="s">jetbrains-mono/JetBrainsMono-Bold.ttf"</span>
-        <span class="na">FONT_SIZE</span><span class="pi">:</span> <span class="m">22</span>
-        <span class="na">FONT_COLOR</span><span class="pi">:</span> <span class="s2">"</span><span class="s">255,</span><span class="nv"> </span><span class="s">50,</span><span class="nv"> </span><span class="s">0"</span>
-        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
-    <span class="na">CORE_0</span><span class="pi">:</span>
-      <span class="na">GRAPH</span><span class="pi">:</span>
-        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
-        <span class="na">X</span><span class="pi">:</span> <span class="m">70</span>
-        <span class="na">Y</span><span class="pi">:</span> <span class="m">80</span>
-        <span class="na">WIDTH</span><span class="pi">:</span> <span class="m">150</span>
-        <span class="na">HEIGHT</span><span class="pi">:</span> <span class="m">10</span>
-        <span class="na">MIN_VALUE</span><span class="pi">:</span> <span class="m">0</span>
-        <span class="na">MAX_VALUE</span><span class="pi">:</span> <span class="m">100</span>
-        <span class="na">BAR_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
-        <span class="na">BAR_OUTLINE</span><span class="pi">:</span> <span class="kc">true</span>
-        <span class="na">BAR_OUTLINE_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
-        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
-    <span class="na">CORE_1</span><span class="pi">:</span>
-      <span class="na">GRAPH</span><span class="pi">:</span>
-        <span class="na">SHOW</span><span class="pi">:</span> <span class="kc">true</span>
-        <span class="na">X</span><span class="pi">:</span> <span class="m">70</span>
-        <span class="na">Y</span><span class="pi">:</span> <span class="m">95</span>
-        <span class="na">WIDTH</span><span class="pi">:</span> <span class="m">150</span>
-        <span class="na">HEIGHT</span><span class="pi">:</span> <span class="m">10</span>
-        <span class="na">MIN_VALUE</span><span class="pi">:</span> <span class="m">0</span>
-        <span class="na">MAX_VALUE</span><span class="pi">:</span> <span class="m">100</span>
-        <span class="na">BAR_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
-        <span class="na">BAR_OUTLINE</span><span class="pi">:</span> <span class="kc">true</span>
-        <span class="na">BAR_OUTLINE_COLOR</span><span class="pi">:</span> <span class="s">255, 50, </span><span class="m">0</span>
-        <span class="na">BACKGROUND_COLOR</span><span class="pi">:</span> <span class="s">0, 0, </span><span class="m">0</span>
-
-<span class="c1">### ... 후략 ... ###</span>
-</code></pre></div></div>
-
-<h5 id="4-파이썬-코드-커스텀">4. 파이썬 코드 커스텀</h5>
-
-<p>theme.yaml을 읽어 파이썬 코드로 필요한 정보를 빼오는 식이다.<br />
-코드를 수정하면 원하는 정보를 다양하게 가져올 수 있다는 것.</p>
-
-<p>우선 기본 테두리 설정이 너무 얇아서 테두리를 굵게 해준다.<br />
-수정 대상 파일은 <span style="color: orange;"><strong>turing-smart-screen-python\library\lcd\lcd_comm.py</strong></span></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">bar_outline</span><span class="p">:</span>
-    <span class="c1"># Draw outline
-</span>    <span class="c1"># 테두리 두께 추가
-</span>    <span class="n">outline_width</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">draw</span><span class="p">.</span><span class="nf">rectangle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="n">bar_color</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">outline_width</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><span style="color: orange;"><strong>turing-smart-screen-python\library\stats.py</strong></span><br />
-main.py 실행 시 스케쥴러를 통해 stats.py 를 주기적으로 호출한다.<br />
-각 센서 데이터를 수집하니 가장 커스텀할게 많은 셈이다.</p>
-
-<p>하나하나 커스텀하자면 끝도 없을텐데 최대한 쓸 수 있는 기능은 그대로 가져다 쓰고싶기 때문에 최소한의 커스텀을 해보자.<br />
-yaml 만드는 것으로 이미 지쳤다.</p>
-
-<p>우선 모든 CPU 코어를 한 눈에 볼 수 있게 코어 정보를 가져온다.<br />
-CPU 클래스에 코어 확인 함수를 추가하고 퍼센티지 호출하는 부분 하단에 코어 확인 함수를 추가한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@classmethod</span>
-<span class="k">def</span> <span class="nf">percentage</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-    <span class="n">theme_data</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">THEME_DATA</span><span class="p">[</span><span class="sh">'</span><span class="s">STATS</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">CPU</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">PERCENTAGE</span><span class="sh">'</span><span class="p">]</span>
-    <span class="n">cpu_percentage</span> <span class="o">=</span> <span class="n">sensors</span><span class="p">.</span><span class="n">Cpu</span><span class="p">.</span><span class="nf">percentage</span><span class="p">(</span>
-        <span class="n">interval</span><span class="o">=</span><span class="n">theme_data</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">INTERVAL</span><span class="sh">"</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="nf">save_last_value</span><span class="p">(</span><span class="n">cpu_percentage</span><span class="p">,</span> <span class="n">cls</span><span class="p">.</span><span class="n">last_values_cpu_percentage</span><span class="p">,</span>
-                    <span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">LINE_GRAPH</span><span class="sh">'</span><span class="p">].</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">HISTORY_SIZE</span><span class="sh">"</span><span class="p">,</span> <span class="n">DEFAULT_HISTORY_SIZE</span><span class="p">))</span>
-    <span class="c1"># logger.debug(f"CPU Percentage: {cpu_percentage}")
-</span>
-    <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">cpu_percentage</span><span class="p">)</span>
-    <span class="nf">display_themed_percent_radial_bar</span><span class="p">(</span><span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">RADIAL</span><span class="sh">'</span><span class="p">],</span> <span class="n">cpu_percentage</span><span class="p">)</span>
-    <span class="nf">display_themed_percent_value</span><span class="p">(</span><span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">TEXT</span><span class="sh">'</span><span class="p">],</span> <span class="n">cpu_percentage</span><span class="p">)</span>
-    <span class="nf">display_themed_line_graph</span><span class="p">(</span><span class="n">theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">LINE_GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">cls</span><span class="p">.</span><span class="n">last_values_cpu_percentage</span><span class="p">)</span>
-
-    <span class="c1"># 코어 확인 함수
-</span>    <span class="n">CPU</span><span class="p">.</span><span class="nf">core_percentages</span><span class="p">()</span>
-
-<span class="c1">### ... 중략 ...
-</span>
-<span class="c1"># 코어 확인 위한 함수
-</span><span class="nd">@classmethod</span>
-<span class="k">def</span> <span class="nf">core_percentages</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-    <span class="c1"># theme.yaml에 정의된 코어별 항목을 자동으로 순회
-</span>    <span class="n">cpu_theme</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">THEME_DATA</span><span class="p">[</span><span class="sh">'</span><span class="s">STATS</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">CPU</span><span class="sh">'</span><span class="p">]</span>
-
-    <span class="kn">import</span> <span class="n">psutil</span>
-    <span class="n">core_percents</span> <span class="o">=</span> <span class="n">psutil</span><span class="p">.</span><span class="nf">cpu_percent</span><span class="p">(</span><span class="n">percpu</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">percent</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">core_percents</span><span class="p">):</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">'</span><span class="s">CORE_</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="sh">'</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">cpu_theme</span> <span class="ow">and</span> <span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">cpu_theme</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
-            <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">cpu_theme</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">percent</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>디스크의 경우는 C, D, E 드라이브를 사용 중인데<br />
-각각 드라이브 사용량을 보여주기 위해 커스텀한다.</p>
-
-<p>기존 코드는 단일 디스크의 사용량, 남은용량 등의 정보를 가져오는데<br />
-나는 3개의 사용량만 확인하면 되기 때문에 전체 주석 처리 후 아래 코드로 사용량만 확인하게끔 바꿔주었다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@classmethod</span>
-<span class="k">def</span> <span class="nf">stats</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="n">psutil</span>
-    <span class="n">disk_theme_data</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">THEME_DATA</span><span class="p">[</span><span class="sh">'</span><span class="s">STATS</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">DISK</span><span class="sh">'</span><span class="p">]</span>
-
-    <span class="c1"># C 드라이브
-</span>    <span class="k">try</span><span class="p">:</span>
-        <span class="n">c_usage</span> <span class="o">=</span> <span class="n">psutil</span><span class="p">.</span><span class="nf">disk_usage</span><span class="p">(</span><span class="sh">'</span><span class="s">C:/</span><span class="sh">'</span><span class="p">).</span><span class="n">percent</span>
-    <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
-        <span class="n">c_usage</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">c_usage</span><span class="p">)</span>
-    <span class="nf">display_themed_percent_value</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">TEXT</span><span class="sh">'</span><span class="p">],</span> <span class="n">c_usage</span><span class="p">)</span>
-
-    <span class="c1"># D 드라이브
-</span>    <span class="k">try</span><span class="p">:</span>
-        <span class="n">d_usage</span> <span class="o">=</span> <span class="n">psutil</span><span class="p">.</span><span class="nf">disk_usage</span><span class="p">(</span><span class="sh">'</span><span class="s">D:/</span><span class="sh">'</span><span class="p">).</span><span class="n">percent</span>
-    <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
-        <span class="n">d_usage</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">D</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">d_usage</span><span class="p">)</span>
-    <span class="nf">display_themed_percent_value</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">D</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">TEXT</span><span class="sh">'</span><span class="p">],</span> <span class="n">d_usage</span><span class="p">)</span>
-
-    <span class="c1"># E 드라이브 
-</span>    <span class="k">try</span><span class="p">:</span>
-        <span class="n">e_usage</span> <span class="o">=</span> <span class="n">psutil</span><span class="p">.</span><span class="nf">disk_usage</span><span class="p">(</span><span class="sh">'</span><span class="s">E:/</span><span class="sh">'</span><span class="p">).</span><span class="n">percent</span>
-    <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
-        <span class="n">e_usage</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="nf">display_themed_progress_bar</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">E</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">GRAPH</span><span class="sh">'</span><span class="p">],</span> <span class="n">e_usage</span><span class="p">)</span>
-    <span class="nf">display_themed_percent_value</span><span class="p">(</span><span class="n">disk_theme_data</span><span class="p">[</span><span class="sh">'</span><span class="s">E</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">TEXT</span><span class="sh">'</span><span class="p">],</span> <span class="n">e_usage</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="완성">완성</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/one-pan/Python/2025-06-10-Hardware Monitor/img06.webp" alt="img06" /></p>
-
-<p>딱 내가 필요한 정보만 쑤셔박았다<br />
-음 투박해 기능적이야</p>
-
-<p>자동 실행을 위해 작업 스케쥴러에 등록하고<br />
-깔끔하게 보이기 위해 어항 케이스 안으로 쑤셔박으면 된다.</p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>cpu나 보드, 그래픽카드 제품 명도 넣는게 좋을까? 생각했는데<br />
-별로 기능적으로 의미가 없을 것 같다.</p>
-
-<p>AI에 적당히 깔끔하게 백그라운드 만들어달라하고 거기에 맞추면 더 보기 좋을 것 같기도 하고…<br />
-일단은 이대로 써보고 질리는 날이 오면 추가 커스텀 들어가야겠다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p>파이썬 코드는 위 내용이 전부기 때문에 theme.yaml만 업로드</p>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/one-pan/Python/2025-06-10-Hardware%20Monitor-theme.yaml">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/Python/" /><category term="PYTHON" /><category term="하드웨어 모니터" /><category term="turing-smart-screen-python" /><summary type="html"><![CDATA[PYTHON 하드웨어 모니터 프로그램 개발]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-10-21237.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="21237" /><category term="Clockwise Fence" /><category term="수학" /><summary type="html"><![CDATA[백준 21237번 Clockwise Fence JAVA 문제풀이]]></summary></entry></feed>
