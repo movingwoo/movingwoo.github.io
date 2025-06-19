@@ -159,7 +159,7 @@ async function run() {
     
     // 그냥 사용하면 개발자도구 콘솔에 출력됨
     // print를 재정의하여 stdout 변수로 저장
-    pyodide.globals.set("print", function(...args) {
+    pyodide.globals.set("print", (...args) => {
       stdout += args.join(" ") + "\n";
     });
     
