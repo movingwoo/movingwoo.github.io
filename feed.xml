@@ -1,4 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-24T07:35:17+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">16172번 나는 친구가 적다 (Large)</title><link href="https://movingwoo.com/boj/java/2025/06/24/16172.html" rel="alternate" type="text/html" title="16172번 나는 친구가 적다 (Large)" /><published>2025-06-24T06:00:00+00:00</published><updated>2025-06-24T06:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/24/16172</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/24/16172.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-24T08:19:47+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">8436번 Kamil</title><link href="https://movingwoo.com/boj/java/2025/06/24/8436.html" rel="alternate" type="text/html" title="8436번 Kamil" /><published>2025-06-24T08:00:00+00:00</published><updated>2025-06-24T08:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/24/8436</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/24/8436.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-8436/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/8436">8436번 Kamil - 백준</a></p>
+
+<p>4년 전 틀린 문제.<br />
+문제가 조금 복잡하게 써 있지만 이해하면 간단한 문제인데 왜 틀렸을까?</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span><span class="o">[]</span> <span class="n">a</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">();</span>
+<span class="kt">int</span> <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+	<span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="sc">'T'</span><span class="o">||</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="sc">'D'</span><span class="o">||</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="sc">'L'</span><span class="o">||</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="sc">'F'</span><span class="o">)</span> <span class="n">r</span><span class="o">++;</span>
+<span class="o">}</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">r</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><span style="color: red;"><strong>이런 멍청이!!!</strong></span><br />
+숫자를 구하고 2를 곱하는 실수를 저질렀다.<br />
+경우의 수를 구하려면 제곱해야하는 것인데…</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>카밀이 잘못 발음하는 경우는 3가지이다.</p>
+<ul>
+  <li>K를 T로</li>
+  <li>G를 D로</li>
+  <li>R을 L 또는 F로<br />
+그 반대 경우는 없다.</li>
+</ul>
+
+<p>즉, T D L F 발음의 경우 각각 K G R R 일 수 있다.<br />
+그러니 T D L F 개수만큼 2를 제곱하면 된다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">();</span>
+<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'T'</span> <span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'D'</span> <span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'L'</span> <span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'F'</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">count</span><span class="o">++;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%.0f"</span><span class="o">,</span> <span class="nc">Math</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">count</span><span class="o">)));</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-8436/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>브론즈 문제 몇 개 조져주니 상당히 힐링이 된다.<br />
+항상 어렵게만 살 수 없는 법이다.<br />
+이제 다시 내일부터는 난이도 있는 문제에 들이받아봐야지.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-24-8436.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="8436" /><category term="Kamil" /><category term="구현" /><summary type="html"><![CDATA[백준 8436번 Kamil JAVA 문제풀이]]></summary></entry><entry><title type="html">16172번 나는 친구가 적다 (Large)</title><link href="https://movingwoo.com/boj/java/2025/06/24/16172.html" rel="alternate" type="text/html" title="16172번 나는 친구가 적다 (Large)" /><published>2025-06-24T06:00:00+00:00</published><updated>2025-06-24T06:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/24/16172</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/24/16172.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -1406,151 +1484,4 @@ D 명령어 시 예외처리해주며 poll 한다.</p>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-17-5430.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="5430" /><category term="AC" /><category term="구현" /><summary type="html"><![CDATA[백준 5430번 AC JAVA 문제풀이]]></summary></entry><entry><title type="html">3655번 먼저 가세요</title><link href="https://movingwoo.com/boj/python/2025/06/16/3655.html" rel="alternate" type="text/html" title="3655번 먼저 가세요" /><published>2025-06-16T08:00:00+00:00</published><updated>2025-06-17T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/16/3655</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/16/3655.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-06-16-3655/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/3655">3655번 먼저 가세요 - 백준</a></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>쉬워보였는데 생각할게 좀 많다.<br />
-양보를 하게되면 그룹의 첫 사람과 마지막 사람의 순서차이 * 5초만큼 이득이다.<br />
-공식 잘 만들면 되려나 싶어서 계산해봤는데 너무 복잡하다.<br />
-고려할게 너무 많다.</p>
-
-<p>그렇다면 그리디는 어떨까?<br />
-큐를 만들어서 넣고 만지작거리는데 너무 오래걸릴 것 같은 예감<br />
-그리디도 결국 시뮬레이션인데 넣다 뺐다 하다보니 이게 맞나 싶다.</p>
-
-<p>복잡한 두번째 예제를 보며 다시 정리를 해보자.</p>
-
-<p><span style="color: orange;"><strong>Ab9AAb2bC2</strong></span></p>
-
-<p>양보받은 경우를 가정하고 그룹별로 정리한다면?<br />
-그룹의 가장 마지막 사람이 앞으로 당겨오는 느낌으로 정리해야한다.<br />
-양보를 하면서 손해가 발생하면 절대 안된다.</p>
-
-<p><span style="color: orange;"><strong>9AAAbbbC22</strong></span></p>
-
-<p>이렇게 하고 각 그룹의 이득을 계산해보면(처음 줄의 마지막 인덱스와 정리 후 마지막 인덱스의 차)<br />
-<span style="color: orange;"><strong>A - 1</strong></span><br />
-<span style="color: orange;"><strong>b - 1</strong></span><br />
-<span style="color: orange;"><strong>9 - 2</strong></span><br />
-<span style="color: orange;"><strong>2 - 0</strong></span><br />
-<span style="color: orange;"><strong>C - 1</strong></span></p>
-
-<p>여기에 시간 5초와 각 그룹원의 수를 곱해주면<br />
-<span style="color: orange;"><strong>1 * 5 * 3 + 1 * 5 * 3 + 2 * 5 * 1 + 0 * 5 * 2 + 1 * 5 * 1 = 45</strong></span><br />
-정답이 나왔다.</p>
-
-<p>결국 정렬이 관건으로 보인다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-정렬">1. 정렬</h5>
-
-<p>각 그룹의 전체 인원 수와 최초 상태에서의 마지막 인덱스를 찾아서 리스트로 만든 후 정렬한다.<br />
-분명 sort 함수를 쓰면 될건데…</p>
-
-<p>Java나 C는 정렬함수를 커스텀해봤는데 Python은 해본 적이 없다.<br />
-일단 그냥 선택정렬을 직접 구현하고 풀고 난 다음에 공부하자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-<span class="n">people</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">input</span><span class="p">().</span><span class="nf">strip</span><span class="p">())</span>
-
-<span class="n">count</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">last_index</span> <span class="o">=</span> <span class="p">{}</span>
-
-<span class="c1"># 각 그룹 별 인원 수 카운팅
-</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-
-    <span class="k">if</span> <span class="n">people</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">count</span><span class="p">:</span>
-        <span class="n">count</span><span class="p">[</span><span class="n">people</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">count</span><span class="p">[</span><span class="n">people</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
-    
-    <span class="c1"># 그룹의 마지막 인덱스
-</span>    <span class="n">last_index</span><span class="p">[</span><span class="n">people</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span>
-
-
-<span class="n">groups</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">last_index</span><span class="p">.</span><span class="nf">items</span><span class="p">())</span>
-
-<span class="c1"># 그룹의 마지막 인덱스 기준으로 선택 정렬 
-</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)):</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">groups</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">groups</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">idx</span> <span class="o">=</span> <span class="n">j</span>
-
-    <span class="n">groups</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">groups</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">groups</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-</code></pre></div></div>
-
-<h5 id="2-절약시간-구하기">2. 절약시간 구하기</h5>
-
-<p>위에서 예제로 확인했듯이 실제 절약된 시간은 (저장해둔 마지막 인덱스 - 현재 마지막 인덱스) * 5 * 인원 수 이다.<br />
-정렬한 리스트와 미리 찾아둔 값을 비교하여 계산한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="c1"># 실제 절약된 시간 = (저장해둔 마지막 인덱스 - 현재 마지막 인덱스) * 5 * 인원 수
-</span><span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-    <span class="n">group_count</span> <span class="o">=</span> <span class="n">count</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
-    <span class="n">last_group_idx</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">+</span> <span class="n">group_count</span> <span class="o">-</span> <span class="mi">1</span>
-
-    <span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="n">index</span> <span class="o">-</span> <span class="n">last_group_idx</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">group_count</span>
-
-    <span class="n">result</span> <span class="o">+=</span> <span class="n">time</span>
-    <span class="n">idx</span> <span class="o">+=</span> <span class="n">group_count</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/Python/2025-06-16-3655/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>파이썬 sort 함수를 쓰면 어떻게 되는지 확인한다.<br />
-람다식을 쓰면 이렇게 된다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">groups</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">last_index</span><span class="p">.</span><span class="nf">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p>이걸 def로 풀어쓰면 아래와 같다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">get_last_index</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="n">groups</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">last_index</span><span class="p">.</span><span class="nf">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">get_last_index</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>풀어쓰니 모양이 익숙한게 자바랑 비슷해보인다.<br />
-다음에 정렬할 일 있으면 활용할 수 있겠다.</p>
-
-<p>쉬운문제인줄 알고 대충 풀다가 어? 어? 하면서 갈아엎느라 유독 변수명이 개판된거 같다.<br />
-원래 변수명 신경쓰는 편은 아니지만 맘에 걸린다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Python/2025-06-16-3655.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="3655" /><category term="먼저 가세요" /><category term="정렬" /><summary type="html"><![CDATA[백준 3655번 먼저 가세요 PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-17-5430.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="5430" /><category term="AC" /><category term="구현" /><summary type="html"><![CDATA[백준 5430번 AC JAVA 문제풀이]]></summary></entry></feed>

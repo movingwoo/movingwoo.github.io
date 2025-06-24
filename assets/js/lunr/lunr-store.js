@@ -328,4 +328,10 @@ var store = [{
         "tags": ["JAVA","알고리즘","백준",28682,"재우야 임관하자","구현"],
         "url": "/boj/java/2025/06/24/28682.html",
         "teaser": null
+      },{
+        "title": "8436번 Kamil",
+        "excerpt":"이왜틀? 8436번 Kamil - 백준 4년 전 틀린 문제. 문제가 조금 복잡하게 써 있지만 이해하면 간단한 문제인데 왜 틀렸을까? char[] a=br.readLine().toCharArray(); int r=0; for(int i=0;i&lt;a.length;i++){ if(a[i]=='T'||a[i]=='D'||a[i]=='L'||a[i]=='F') r++; } bw.write(r*2+\"\"); 이런 멍청이!!! 숫자를 구하고 2를 곱하는 실수를 저질렀다. 경우의 수를 구하려면 제곱해야하는 것인데… 설계 카밀이 잘못 발음하는 경우는 3가지이다. K를 T로...","categories": ["BOJ/Java/"],
+        "tags": ["JAVA","알고리즘","백준",8436,"Kamil","구현"],
+        "url": "/boj/java/2025/06/24/8436.html",
+        "teaser": null
       }]
