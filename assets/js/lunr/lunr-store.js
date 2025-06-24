@@ -304,4 +304,10 @@ var store = [{
         "tags": ["PYTHON","코드 시뮬레이터","Pyodide"],
         "url": "/development/python/2025/06/19/Code-Simulator.html",
         "teaser": null
+      },{
+        "title": "16221번 모독",
+        "excerpt":"이왜틀? 16221번 모독 - 백준 예전에 하스스톤 해 본 사람은 다 아는 모독 각. 매 케이스 마다 모독으로 죽는 하수인이 몇 개인지 출력하는 문제다. 모독이 무엇인가? 카드를 확인해보도록 하자. 5년 전 답안을 볼까? int q=Integer.parseInt(br.readLine()); int[] arr=new int[q+1]; for(int i=0;i&lt;q;i++) { StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); int t=Integer.parseInt(st.nextToken()); int k=Integer.parseInt(st.nextToken()); if(t==1)...","categories": ["BOJ/C++/"],
+        "tags": ["C++","알고리즘","백준",16221,"모독","펜윅트리","이진탐색"],
+        "url": "/boj/c++/2025/06/24/16221.html",
+        "teaser": null
       }]
