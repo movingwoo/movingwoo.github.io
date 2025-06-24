@@ -1,4 +1,124 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-24T02:46:35+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">16221번 모독</title><link href="https://movingwoo.com/boj/c++/2025/06/24/16221.html" rel="alternate" type="text/html" title="16221번 모독" /><published>2025-06-24T02:00:00+00:00</published><updated>2025-06-24T02:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/06/24/16221</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/06/24/16221.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-24T04:15:03+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">12833번 XORXORXOR</title><link href="https://movingwoo.com/boj/java/2025/06/24/12833.html" rel="alternate" type="text/html" title="12833번 XORXORXOR" /><published>2025-06-24T04:00:00+00:00</published><updated>2025-06-24T04:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/24/12833</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/24/12833.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-12833/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/12833">12833번 XORXORXOR - 백준</a></p>
+
+<p>당분간 틀린 브론즈 문제로 힐링해야지.<br />
+5년 전 시간초과다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span> <span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span><span class="o">=</span><span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+	<span class="nc">BufferedWriter</span> <span class="n">bw</span><span class="o">=</span><span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">));)</span> <span class="o">{</span>
+	<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+	<span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+	<span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+	<span class="kt">int</span> <span class="n">c</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+	<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">c</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="n">a</span><span class="o">^=</span><span class="n">b</span><span class="o">;</span>
+	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">a</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
+<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">){</span><span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();}</span>
+</code></pre></div></div>
+
+<p>XOR 연산을 실제로 C번 진행해서 시간초과가 난다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>C가 최대 10^9인데 제한시간이 0.2초라서 시뮬레이션하면 터진다.</p>
+
+<p>XOR을 2번하면 원래대로 돌아오므로 <span style="color: orange;"><strong>C가 짝수면 A, 홀수면 A ^ B</strong></span> 를 출력한다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>버퍼드리더로 충분할 것 같긴 한데 빠른 입력 만들어둔걸 또 가져와서 쓰자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">{</span>
+
+	<span class="nc">InputReader</span> <span class="n">ir</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputReader</span><span class="o">();</span>
+	
+	<span class="kt">int</span> <span class="no">A</span> <span class="o">=</span> <span class="n">ir</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+	<span class="kt">int</span> <span class="no">B</span> <span class="o">=</span> <span class="n">ir</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+	<span class="kt">int</span> <span class="no">C</span> <span class="o">=</span> <span class="n">ir</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+	
+	<span class="k">if</span> <span class="o">(</span><span class="no">C</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">A</span><span class="o">);</span>
+	<span class="k">else</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">A</span> <span class="o">^</span> <span class="no">B</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 빠른 입출력 구현</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">InputReader</span> <span class="o">{</span>
+	
+	<span class="kd">private</span> <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">buf</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">20</span><span class="o">];</span>
+	
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">ptr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">buflen</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+	<span class="kt">int</span> <span class="nf">nextInt</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+		<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+		<span class="kt">boolean</span> <span class="n">negative</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+		
+		<span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">c</span> <span class="o">=</span> <span class="n">read</span><span class="o">();</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">&gt;</span> <span class="sc">' '</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+		
+		<span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'-'</span><span class="o">)</span> <span class="o">{</span> 
+			<span class="n">negative</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="n">c</span> <span class="o">=</span> <span class="n">read</span><span class="o">();</span> 
+		<span class="o">}</span>
+		
+		<span class="k">while</span><span class="o">(</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="sc">'0'</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="sc">'9'</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'0'</span><span class="o">);</span>
+			<span class="n">c</span><span class="o">=</span> <span class="n">read</span><span class="o">();</span>
+		<span class="o">}</span>
+		
+		<span class="k">return</span> <span class="n">negative</span> <span class="o">?</span> <span class="o">-</span><span class="n">x</span> <span class="o">:</span> <span class="n">x</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">private</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">buflen</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">buflen</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buf</span><span class="o">);</span>
+			<span class="n">ptr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">buflen</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		
+		<span class="k">return</span> <span class="n">buf</span><span class="o">[</span><span class="n">ptr</span><span class="o">++]</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-12833/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>뭔가 불만족스러운 속도는 출력에 신경을 쓰지 않아서인가…<br />
+빠른 출력 코드도 찾아와서 다음에 써먹어야겠다.<br />
+분명히 예전에 해둔게 있을건데</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-24-12833.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="12833" /><category term="XORXORXOR" /><category term="애드훅" /><summary type="html"><![CDATA[백준 12833번 XORXORXOR JAVA 문제풀이]]></summary></entry><entry><title type="html">16221번 모독</title><link href="https://movingwoo.com/boj/c++/2025/06/24/16221.html" rel="alternate" type="text/html" title="16221번 모독" /><published>2025-06-24T02:00:00+00:00</published><updated>2025-06-24T02:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/06/24/16221</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/06/24/16221.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -1478,146 +1598,4 @@ D 명령어 시 예외처리해주며 poll 한다.</p>
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-13-24008.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="24008" /><category term="Catch Them All" /><category term="최단거리" /><summary type="html"><![CDATA[백준 24008번 Catch Them All JAVA 문제풀이]]></summary></entry><entry><title type="html">16256번 Painting the Wall</title><link href="https://movingwoo.com/boj/c++/2025/06/13/16256.html" rel="alternate" type="text/html" title="16256번 Painting the Wall" /><published>2025-06-13T01:00:00+00:00</published><updated>2025-06-17T06:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/06/13/16256</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/06/13/16256.html"><![CDATA[<blockquote>
-  <h4 id="문제">문제</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/C++/2025-06-13-16256/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/16256">16256번 Painting the Wall - 백준</a></p>
-
-<blockquote>
-  <h4 id="번역">번역</h4>
-  <hr />
-</blockquote>
-
-<p>정사각형 타일로 구성된 n * m 사이즈의 벽이 있다.<br />
-타일의 일부는 램프다.(0이면 램프 1이면 타일)</p>
-
-<p>타일에 페인트를 칠하려 한다.<br />
-<span style="color: orange;"><strong>수직 또는 수평으로 연속된 타일이 있을 때 각 타일은 모두 다른 색의 페인트로 칠해야한다.</strong></span><br />
-서로 다른 색상의 페인트 k개가 있을 때 모두 다른 색상으로 벽을 칠할 수 있으면 YES와 페인트칠 한 예시를<br />
-불가능하면 NO를 출력한다.</p>
-
-<p>k개의 페인트를 모두 사용할 필요는 없다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>페인트칠 불가능한 조건부터 생각해보자.<br />
-<span style="color: orange;"><strong>타일이 연속된 구간 중 가장 긴 구간의 길이가 k보다 크면 색칠이 불가능</strong></span>하다.<br />
-가령 1 1 1 인 경우 연속 구간의 페인트 색은 모두 달라야 하기 때문에 k가 3보다 작다면 NO를 출력해야한다.</p>
-
-<p>구간 확인 후 색칠이 가능하면 각 연속 구간 내 1부터 k까지 칠해서 출력한다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-불가능한-경우">1. 불가능한 경우</h5>
-
-<p>타일이 연속되는 구간을 확인해 k와 비교해서 페인트칠 가능한지 확인한다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">wall</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">));</span>
-
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kt">bool</span> <span class="n">paintable</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-
-<span class="c1">// 연속된 행 방향 타일 구간 탐색</span>
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">paintable</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span> 
-        <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="o">&amp;&amp;</span> <span class="n">wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">paintable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-                <span class="k">break</span><span class="p">;</span>
-            <span class="p">}</span>
-
-            <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 연속된 열 방향 타일 구간 탐색</span>
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="o">&amp;&amp;</span> <span class="n">paintable</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">paintable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-                <span class="k">break</span><span class="p">;</span>
-            <span class="p">}</span>
-            
-            <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">paintable</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"NO</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-    <span class="k">continue</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="2-가능한-경우">2. 가능한 경우</h5>
-
-<p>색칠이 가능하면 겹치지 않게 숫자를 매긴다.<br />
-겹치지만 않으면 되므로 mod 연산으로 대충 뿌려준다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 가능하면 페인트칠</span>
-<span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">painted_wall</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
-
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// 모든 행열 구간에서 중복되지 않게</span>
-            <span class="n">painted_wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>    
-
-<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"YES</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">painted_wall</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/random-solve/C++/2025-06-13-16256/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>벡터가 아니라 배열로 쓰면 더 나았으려나?<br />
-java면 배열로 했겠지만 C++라서 벡터를 사용한건데</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/C%2B%2B/2025-06-13-16256.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/C++/" /><category term="C++" /><category term="알고리즘" /><category term="백준" /><category term="16256" /><category term="Painting the Wall" /><summary type="html"><![CDATA[백준 16256번 Painting the Wall C++ 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/random-solve/Java/2025-06-13-24008.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="24008" /><category term="Catch Them All" /><category term="최단거리" /><summary type="html"><![CDATA[백준 24008번 Catch Them All JAVA 문제풀이]]></summary></entry></feed>

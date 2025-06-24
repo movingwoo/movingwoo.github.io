@@ -310,4 +310,10 @@ var store = [{
         "tags": ["C++","알고리즘","백준",16221,"모독","펜윅트리","이진탐색"],
         "url": "/boj/c++/2025/06/24/16221.html",
         "teaser": null
+      },{
+        "title": "12833번 XORXORXOR",
+        "excerpt":"이왜틀? 12833번 XORXORXOR - 백준 당분간 틀린 브론즈 문제로 힐링해야지. 5년 전 시간초과다. try (BufferedReader br=new BufferedReader(new InputStreamReader(System.in)); BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));) { StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); int a=Integer.parseInt(st.nextToken()); int b=Integer.parseInt(st.nextToken()); int c=Integer.parseInt(st.nextToken()); for(int i=0;i&lt;c;i++) a^=b; bw.write(a+\"\"); }catch(Exception e){e.printStackTrace();} XOR 연산을 실제로 C번 진행해서 시간초과가 난다. 설계 C가 최대 10^9인데...","categories": ["BOJ/Java/"],
+        "tags": ["JAVA","알고리즘","백준",12833,"XORXORXOR","애드훅"],
+        "url": "/boj/java/2025/06/24/12833.html",
+        "teaser": null
       }]
