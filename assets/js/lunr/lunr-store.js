@@ -322,4 +322,10 @@ var store = [{
         "tags": ["JAVA","알고리즘","백준",16172,"나는 친구가 적다 (Large)","KMP"],
         "url": "/boj/java/2025/06/24/16172.html",
         "teaser": null
+      },{
+        "title": "28682번 재우야 임관하자",
+        "excerpt":"이왜틀? 28682번 재우야 임관하자 - 백준 1년 전? 내가 1년 전에 이런 걸 했다고???? 하라는 대로 단순 구현하는 문제인데 어디가 잘못되었지?? try(BufferedReader br = new BufferedReader( new InputStreamReader( System.in)); BufferedWriter bw = new BufferedWriter( new OutputStreamWriter( System.out))){ StringBuilder sb=new StringBuilder(); int n=Integer.parseInt(br.readLine()); for(int i=0;i&lt;n;i++) { if(i!=0) sb.append(\" \"); sb.append(\"swimming\"); }...","categories": ["BOJ/Java/"],
+        "tags": ["JAVA","알고리즘","백준",28682,"재우야 임관하자","구현"],
+        "url": "/boj/java/2025/06/24/28682.html",
+        "teaser": null
       }]
