@@ -316,4 +316,10 @@ var store = [{
         "tags": ["JAVA","알고리즘","백준",12833,"XORXORXOR","애드훅"],
         "url": "/boj/java/2025/06/24/12833.html",
         "teaser": null
+      },{
+        "title": "16172번 나는 친구가 적다 (Large)",
+        "excerpt":"이왜틀? 16172번 나는 친구가 적다 (Large) - 백준 요것도 5년전 시간초과다. 대체로 경향이 단순 시뮬레이션으로 소스 넣어보고 시간초과뜨면 도망갔던 것으로 보인다. String a=br.readLine().replaceAll(\"[0-9]\",\"\"); String b=br.readLine(); bw.write(a.contains(b)?\"1\":\"0\"); 입력받은 S의 숫자를 replaceAll로 제거하고 contain을 사용했다. Small 문제는 이걸로 통과했나본데 Large의 경우 S와 K가 20만개까지 있을 수 있어 택도 없다. 설계 문제 자체가...","categories": ["BOJ/Java/"],
+        "tags": ["JAVA","알고리즘","백준",16172,"나는 친구가 적다 (Large)","KMP"],
+        "url": "/boj/java/2025/06/24/16172.html",
+        "teaser": null
       }]
