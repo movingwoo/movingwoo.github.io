@@ -31,6 +31,40 @@ document.addEventListener('DOMContentLoaded', function() {
     return element;
   }
 
+  // 제목 추가
+  function createTitleElement() {
+    const titleContainer = document.createElement('div');
+    titleContainer.className = 'post-navigation__title-container';
+    
+    const titleElement = document.createElement('h4');
+    titleElement.className = 'post-navigation__title';
+    titleElement.textContent = '현재 카테고리 포스트';
+    
+    // 현재 카테고리 경로 생성
+    const currentCategory = currentPost.categories && currentPost.categories.length > 0 
+      ? currentPost.categories[0] 
+      : null;
+    
+    if (currentCategory) {
+      const moreLink = document.createElement('a');
+      moreLink.className = 'post-navigation__more-link';
+      moreLink.href = `/board?path=${encodeURIComponent(currentCategory)}`;
+      
+      const iconElement = document.createElement('i');
+      iconElement.className = 'fas fa-ellipsis-h';
+      moreLink.appendChild(iconElement);
+      
+      moreLink.appendChild(document.createTextNode('더보기'));
+      
+      titleContainer.appendChild(titleElement);
+      titleContainer.appendChild(moreLink);
+    } else {
+      titleContainer.appendChild(titleElement);
+    }
+    
+    return titleContainer;
+  }
+
   function findAdjacentPosts() {
     // 필수 데이터가 없는 경우 빈 배열 반환
     if (!currentPost || !allPosts || !Array.isArray(allPosts)) {
@@ -93,6 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
     while (container.firstChild) {
       container.removeChild(container.firstChild); // 기존 내용 제거
     } 
+
+    // 제목 추가
+    container.appendChild(createTitleElement());
 
     if (adjacentPosts.next.length === 0 && adjacentPosts.previous.length === 0) {
       // 포스트가 하나만 있는 경우
