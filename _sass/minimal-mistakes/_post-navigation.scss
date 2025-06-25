@@ -19,11 +19,51 @@
     text-align: left;
     display: block;
   }
+
+  &__title-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 0 0.5em 0;
+    padding-bottom: 1rem;
+    gap: 4rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: $text-color;
+  }
+
+  &__more-link {
+    font-size: 0.9em;
+    color: #3498db !important;
+    font-style: italic;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+
+    .fas {
+      margin-right: 0.3em;
+      width: 1em;
+      text-align: center;
+      transition: color 0.2s ease-in-out;
+    }
+
+    &:hover {
+      color: $text-color !important;
+      
+      .fas {
+        color: $text-color !important;
+      }
+    }
+  }
   
   &__item {
     padding: 0.3em 0;
     margin: 0.2em 0;
     display: block;
+    width: fit-content; // 클릭 범위 조절
     text-decoration: none;
     color: $text-color;
     transition: color 0.2s ease-in-out;
