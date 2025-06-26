@@ -352,4 +352,10 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",9924,"The Euclidean Algorithm","구현"],
         "url": "/boj/python/2025/06/26/9924.html",
         "teaser": null
+      },{
+        "title": "2909번 캔디 구매",
+        "excerpt":"이왜틀? 2909번 캔디 구매 - 백준 빠른 번호의 낮은 레벨 문제는 테스트 케이스가 아주 많다는 것 어떤 반례의 함정에 빠져 틀렸을까? StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); long candy=Long.parseLong(st.nextToken()); long zero=Long.parseLong(st.nextToken()); long money=1; for(long i=0;i&lt;zero;i++) { money*=10; } long price=candy/money*money; if(candy%money&gt;=money/2) candy=price+money; else candy=price; bw.write(candy+\"\"); 음 잘 모르겠다 나름 짱구 잘 굴린...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",2909,"캔디 구매","구현"],
+        "url": "/boj/python/2025/06/26/2909.html",
+        "teaser": null
       }]

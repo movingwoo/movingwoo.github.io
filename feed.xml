@@ -1,4 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-26T03:48:36+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">9924번 The Euclidean Algorithm</title><link href="https://movingwoo.com/boj/python/2025/06/26/9924.html" rel="alternate" type="text/html" title="9924번 The Euclidean Algorithm" /><published>2025-06-26T03:00:00+00:00</published><updated>2025-06-26T03:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/26/9924</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/26/9924.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-26T05:00:50+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">2909번 캔디 구매</title><link href="https://movingwoo.com/boj/python/2025/06/26/2909.html" rel="alternate" type="text/html" title="2909번 캔디 구매" /><published>2025-06-26T05:00:00+00:00</published><updated>2025-06-26T05:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/26/2909</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/26/2909.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-26-2909/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/2909">2909번 캔디 구매 - 백준</a></p>
+
+<p>빠른 번호의 낮은 레벨 문제는 테스트 케이스가 아주 많다는 것<br />
+어떤 반례의 함정에 빠져 틀렸을까?</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+<span class="kt">long</span> <span class="n">candy</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+<span class="kt">long</span> <span class="n">zero</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+<span class="kt">long</span> <span class="n">money</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">long</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">zero</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">money</span><span class="o">*=</span><span class="mi">10</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kt">long</span> <span class="n">price</span><span class="o">=</span><span class="n">candy</span><span class="o">/</span><span class="n">money</span><span class="o">*</span><span class="n">money</span><span class="o">;</span>
+
+<span class="k">if</span><span class="o">(</span><span class="n">candy</span><span class="o">%</span><span class="n">money</span><span class="o">&gt;=</span><span class="n">money</span><span class="o">/</span><span class="mi">2</span><span class="o">)</span> <span class="n">candy</span><span class="o">=</span><span class="n">price</span><span class="o">+</span><span class="n">money</span><span class="o">;</span>
+<span class="k">else</span> <span class="n">candy</span><span class="o">=</span><span class="n">price</span><span class="o">;</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">candy</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>음 잘 모르겠다 나름 짱구 잘 굴린 것 같은데<br />
+얼추 맞지 않나?</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>일단 파이썬으로 깔끔하게 다시 짜보자.<br />
+decimal을 사용해 반올림한다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span><span class="p">,</span> <span class="n">ROUND_HALF_UP</span>
+
+<span class="n">C</span><span class="p">,</span> <span class="n">K</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+
+<span class="n">shift</span> <span class="o">=</span> <span class="nc">Decimal</span><span class="p">(</span><span class="sh">'</span><span class="s">1e{}</span><span class="sh">'</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="nc">Decimal</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">/</span> <span class="n">shift</span><span class="p">).</span><span class="nf">to_integral_value</span><span class="p">(</span><span class="n">rounding</span><span class="o">=</span><span class="n">ROUND_HALF_UP</span><span class="p">)</span> <span class="o">*</span> <span class="n">shift</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="nf">int</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-26-2909/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>괜히 뻘짓하지말고 Math.round를 썼으면 통과했으려나?<br />
+큰 수에서 걸릴 일은 K가 9라서 없었을텐데<br />
+작은 수에서 걸렸나?</p>
+
+<p>뭐 풀었으니 그냥 넘어가야지.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-06-26-2909.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="2909" /><category term="캔디 구매" /><category term="구현" /><summary type="html"><![CDATA[백준 2909번 캔디 구매 PYTHON 문제풀이]]></summary></entry><entry><title type="html">9924번 The Euclidean Algorithm</title><link href="https://movingwoo.com/boj/python/2025/06/26/9924.html" rel="alternate" type="text/html" title="9924번 The Euclidean Algorithm" /><published>2025-06-26T03:00:00+00:00</published><updated>2025-06-26T03:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/26/9924</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/26/9924.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -1275,209 +1351,4 @@ input 입력란을 별도로 두고 해당 textarea에 작성된 값을 input으
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/Development/Python/2025-06-19-Code%20Simulator.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/Python/" /><category term="PYTHON" /><category term="코드 시뮬레이터" /><category term="Pyodide" /><summary type="html"><![CDATA[PYTHON 코드 시뮬레이터 프로그램 개발]]></summary></entry><entry><title type="html">17456번 필살! 60단 컴보</title><link href="https://movingwoo.com/boj/c++/2025/06/19/17456.html" rel="alternate" type="text/html" title="17456번 필살! 60단 컴보" /><published>2025-06-19T02:00:00+00:00</published><updated>2025-06-19T02:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/06/19/17456</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/06/19/17456.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀!</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/C++/2025-06-19-17456/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/17456">17456번 필살! 60단 컴보 - 백준</a></p>
-
-<p>5년 전이긴 한데 이 문제는 아직도 기억이 생생하다?<br />
-당시 이런 고난이도 문제는 익숙하지 않았는데 풀어보겠다고 난리를 피웠다?<br />
-제출 현황을 보면 C만 통과해서 Java로는 못푸는 문제인가! 하고 생각 했는데<br />
-지금보니 아직도 Java는 한개도 안보인다?</p>
-
-<p>우선 C++로 풀어보고 Java로 포팅해서 되는지 확인한다?</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>2진수로 바꿔서 세면 그만이긴 한데, 정수 a, b, c의 범위가 <span style="color: orange;"><strong>2^60</strong></span> 이다.<br />
-숫자가 너무 커서 그냥 세면 시간초과가 날 수 밖에 없다.<br />
-따라서 적당히 전처리를 해야한다.</p>
-
-<p>순서대로 보자.<br />
-<span style="color: orange;"><strong>1. 테스트케이스 돌리기 전에 최대 60비트까지 가능한 모든 패턴을 계산하는 전처리를 진행한다.</strong></span><br />
-<span style="color: orange;"><strong>2. c의 점수를 계산한다.</strong></span><br />
-<span style="color: orange;"><strong>3. 0 ~ b 구간 점수와 0 ~ a - 1 구간 점수의 차를 계산한다.</strong></span></p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-전처리">1. 전처리</h5>
-
-<p>0부터 60비트 수까지 가능한 모든 패턴을 계산한다.<br />
-테스트케이스도 최대 30만개라서 미리 해놓지 않으면 안된다.</p>
-
-<p>dp[i][j] 는 0 ≤ n &lt; 2^i 중에서 f(n) ≥ j인 개수이며 f(n)은 n의 이진 표현에서 연속된 1 구간들의 길이 제곱 합(실제 점수)이다.<br />
-점화식은 <span style="color: orange;"><strong>dp[i][j] = dp[i - 1][j] + Σ(k = 1 to i) dp[i - k - 1][max(0, j - k^2)]</strong></span></p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 전처리 시작, 가능한 모든 패턴을 미리 계산</span>
-<span class="n">ull</span> <span class="n">dp</span><span class="p">[</span><span class="n">MAX_BITS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">MAX_SCORE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
-<span class="c1">// dp[i][j] = 0 ≤ n &lt; 2^i 중에서 f(n) ≥ j인 개수, f(n)은 n의 이진 표현에서 연속된 1 구간들의 길이 제곱 합</span>
-<span class="c1">// 점화식: dp[i][j] = dp[i - 1][j] + Σ(k = 1 to i) dp[i - k - 1][max(0, j - k^2)]</span>
-
-<span class="c1">// 점수 0은 0비트에서만 가능하므로 1개</span>
-<span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-
-<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">MAX_SCORE</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// 0비트에서는 0보다 큰 점수가 존재하지 않음</span>
-  <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// i비트 수까지 확장</span>
-<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">MAX_BITS</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">MAX_SCORE</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-      
-    <span class="c1">// 1. 최상위 비트를 0으로 두는 경우 (0xxx 형태)</span>
-    <span class="c1">// 연속 1구간이 아니므로 i-1 비트로 j 이상 만드는 경우의 수</span>
-    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
-
-    <span class="c1">// 2. 최상위 비트에서 연속 k개의 1을 쓰는 경우 (110xxx 형태)</span>
-    <span class="c1">// 그 다음 비트가 있다면 0으로 강제, 길이 k의 연속 1 구간이 생성되고, 그 다음부터는 새로운 구간</span>
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// k개의 1 다음에 남는 비트 수</span>
-      <span class="kt">int</span> <span class="n">zero_bit</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>          
-      <span class="k">if</span> <span class="p">(</span><span class="n">zero_bit</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// k == i일 때 모든 비트가 1</span>
-        <span class="n">zero_bit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="p">}</span>
-
-      <span class="c1">// 앞 연속구간 점수 k^2를 제외하고 남은 필요 점수</span>
-      <span class="kt">int</span> <span class="n">need_score</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="n">k</span> <span class="o">*</span> <span class="n">k</span><span class="p">;</span>                
-      <span class="k">if</span> <span class="p">(</span><span class="n">need_score</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">need_score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="p">}</span>
-
-      <span class="c1">// 남은 비트들로 필요 점수 이상 만들 수 있는 경우의 수</span>
-      <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dp</span><span class="p">[</span><span class="n">zero_bit</span><span class="p">][</span><span class="n">need_score</span><span class="p">];</span>         
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="c1">// 전처리 종료</span>
-</code></pre></div></div>
-
-<h5 id="2-c의-점수-구하기">2. c의 점수 구하기</h5>
-
-<p>1로 끝나는 경우 남은 점수 추가에 유의한다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">c_score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="c1">// c의 점수 계산 (연속된 1 구간 길이의 제곱 함)</span>
-<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_BITS</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// 1이면 길이증가, 0이면 점수추가</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">))</span> <span class="p">{</span>
-    <span class="o">++</span><span class="n">len</span><span class="p">;</span>  
-  <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">c_score</span> <span class="o">+=</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">;</span>
-    <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 1이 남은 경우 점수 추가</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">c_score</span> <span class="o">+=</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="3-구간-점수-차-계산">3. 구간 점수 차 계산</h5>
-
-<p>0부터 특정 구간까지 c의 점수보다 높은 점수를 받은 경우의 수를 찾는 함수를 만든다.<br />
-그 다음 <span style="color: orange;"><strong>0부터 b 구간까지 찾은 수에서 0부터 a-1 구간까지 찾은 수를 빼면</strong></span> 찾는 답이 나온다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ull</span> <span class="nf">find_score</span><span class="p">(</span><span class="n">ull</span> <span class="n">dp</span><span class="p">[</span><span class="n">MAX_BITS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">MAX_SCORE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ull</span> <span class="n">target</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c_score</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="c1">// 60^2를 넘을 경우 예외처리</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">c_score</span> <span class="o">&gt;</span> <span class="n">MAX_SCORE</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">ull</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-  <span class="c1">// 최상위 비트부터</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">MAX_BITS</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">bool</span> <span class="n">bit</span> <span class="o">=</span> <span class="p">(</span><span class="n">target</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">;</span>
-
-    <span class="c1">// 1이면 0으로 바꿔서 더 작은 수 계산</span>
-    <span class="c1">// 0이면 점수추가</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">bit</span><span class="p">)</span> <span class="p">{</span>
-
-      <span class="kt">int</span> <span class="n">need_score</span> <span class="o">=</span> <span class="n">c_score</span> <span class="o">-</span> <span class="p">(</span><span class="n">score</span> <span class="o">+</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">need_score</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">need_score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="p">}</span>
-
-      <span class="c1">// i비트로 필요 점수 이상 만들 수 있는 경우의 수</span>
-      <span class="n">count</span> <span class="o">+=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">need_score</span><span class="p">];</span>
-      <span class="o">++</span><span class="n">len</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">score</span> <span class="o">+=</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">;</span>
-          <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="c1">// 1이 남은 경우 점수 추가</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">score</span> <span class="o">+=</span> <span class="n">len</span> <span class="o">*</span> <span class="n">len</span><span class="p">;</span>
-  
-  <span class="c1">// 전달받은 a - 1과 b도 포함</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="n">c_score</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">++</span><span class="n">count</span><span class="p">;</span>
-  <span class="p">}</span>
-  
-  <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// ... 중략 ...</span>
-
-<span class="c1">// 0 ~ b 구간 점수와 0 ~ a - 1 구간 점수의 차</span>
-<span class="n">ull</span> <span class="n">sector_b</span> <span class="o">=</span> <span class="n">find_score</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c_score</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-<span class="c1">// a가 0이면 0 처리</span>
-<span class="n">ull</span> <span class="n">sector_a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">find_score</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_score</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-
-<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">sector_b</span> <span class="o">-</span> <span class="n">sector_a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="1차-채점c">1차 채점(C++)</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/C++/2025-06-19-17456/img02.webp" alt="img02" /></p>
-
-<p>C++로는 통과했다.<br />
-5년전 나의 원혼을 달래기 위해 이 코드를 그대로 Java로 포팅해서 2차 시도를 해보자.<br />
-PyPy로 통과한 이력은 보이는데 Java로는 불가능한 것인가??</p>
-
-<blockquote>
-  <h4 id="2차-채점java">2차 채점(Java)</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/C++/2025-06-19-17456/img03.webp" alt="img03" /></p>
-
-<p><span style="color: red;"><strong>이게되네</strong></span><br />
-흑흑 이거 Java로도 풀 수 있는 문제였어<br />
-그냥 옛날의 내가 최적화하지 못한 것 뿐이야</p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>다이나믹 프로그래밍 딱지 붙은 문제는 당분간 피하는게 좋겠다.<br />
-뇌가 녹아내릴 것 같다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/C%2B%2B/2025-06-19-17456.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/C++/" /><category term="C++" /><category term="알고리즘" /><category term="백준" /><category term="17456" /><category term="필살! 60단 컴보" /><category term="DP" /><summary type="html"><![CDATA[백준 17456번 필살! 60단 컴보 C++ 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/Development/Python/2025-06-19-Code%20Simulator.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/Python/" /><category term="PYTHON" /><category term="코드 시뮬레이터" /><category term="Pyodide" /><summary type="html"><![CDATA[PYTHON 코드 시뮬레이터 프로그램 개발]]></summary></entry></feed>
