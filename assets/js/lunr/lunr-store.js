@@ -334,4 +334,10 @@ var store = [{
         "tags": ["JAVA","알고리즘","백준",8436,"Kamil","구현"],
         "url": "/boj/java/2025/06/24/8436.html",
         "teaser": null
+      },{
+        "title": "1168번 요세푸스 문제 2",
+        "excerpt":"이왜틀? 1168번 요세푸스 문제 2 - 백준 5년 전 메모리 초과 이건 소스 안봐도 알 것 같다. 단순 시뮬레이션으로 접근했다가 메모리 터졌겠지. StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); int people=Integer.parseInt(st.nextToken()); int num=Integer.parseInt(st.nextToken()); Queue&lt;Integer&gt; que=new LinkedList&lt;&gt;(); for(int i=1;i&lt;=people;i++){ que.add(i); } StringBuilder sb=new StringBuilder(); sb.append(\"&lt;\"); while(!que.isEmpty()){ for(int i=1;i&lt;=num;i++){ if(i!=num){ que.add(que.poll()); }else{ sb.append(que.poll()+(que.isEmpty()?\"&gt;\":\", \")); }...","categories": ["BOJ/Java/"],
+        "tags": ["JAVA","알고리즘","백준",1168,"요세푸스 문제 2","세그먼트트리"],
+        "url": "/boj/java/2025/06/26/1168.html",
+        "teaser": null
       }]
