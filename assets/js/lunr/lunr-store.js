@@ -340,4 +340,16 @@ var store = [{
         "tags": ["JAVA","알고리즘","백준",1168,"요세푸스 문제 2","세그먼트트리"],
         "url": "/boj/java/2025/06/26/1168.html",
         "teaser": null
+      },{
+        "title": "9298번 Ant Entrapment",
+        "excerpt":"이왜틀? 남은 문제들은 파이썬으로 조져주자. 자바코드 많이보니까 멀미난다. 9298번 Ant Entrapment - 백준 아니 이게 뭐지? 왜 이렇게 많이 틀렸지? Scanner sc=new Scanner(System.in); int t=sc.nextInt(); for(int k=1;k&lt;=t;k++) { int n=sc.nextInt(); double maxx=Double.MIN_VALUE; double minx=Double.MAX_VALUE; double maxy=Double.MIN_VALUE; double miny=Double.MAX_VALUE; for(int i=0;i&lt;n;i++) { double x=sc.nextDouble(); double y=sc.nextDouble(); if(x&gt;maxx) maxx=x; if(x&lt;minx) minx=x; if(y&gt;maxy)...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",9298,"Ant Entrapment","기하학"],
+        "url": "/boj/python/2025/06/26/9298.html",
+        "teaser": null
+      },{
+        "title": "9924번 The Euclidean Algorithm",
+        "excerpt":"이왜틀? 9924번 The Euclidean Algorithm - 백준 이건 또 무슨일이래 브론즈 3문제에서 무슨 사고가 일어난거지? String[] arr=br.readLine().split(\" \"); int a=Integer.parseInt(arr[0]); int b=Integer.parseInt(arr[arr.length-1]); if(b&gt;a) { int t=b; b=a; a=t; } int c=0; while(true) { if(a%b==0) { c+=a/b-1; break; }else { c+=a/b; int t=a%b; a=b; b=t; } } bw.write(c+\"\"); 이상한데… 맞는 것...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",9924,"The Euclidean Algorithm","구현"],
+        "url": "/boj/python/2025/06/26/9924.html",
+        "teaser": null
       }]
