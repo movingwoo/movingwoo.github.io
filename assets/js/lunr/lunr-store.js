@@ -358,4 +358,16 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",2909,"캔디 구매","구현"],
         "url": "/boj/python/2025/06/26/2909.html",
         "teaser": null
+      },{
+        "title": "14551번 Card Game Contest",
+        "excerpt":"이왜틀? 14551번 Card Game Contest - 백준 또 1년 전 틀렸습니다가 우수수 떨어진 문제. 뭐가 문제였을까? StringBuilder sb=new StringBuilder(); StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); int n=Integer.parseInt(st.nextToken()); BigInteger m=new BigInteger(st.nextToken()); if(n==0) sb.append(1); else { BigInteger r=new BigInteger(\"1\"); while(n--&gt;0) { String t=br.readLine(); if(!t.equals(\"0\")) r=r.multiply(new BigInteger(t)); } sb.append(r.remainder(m).toString()); } bw.write(sb.toString()); BigInteger를 사용했으니 오버플로우는 없을테고...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",14551,"Card Game Contest","구현"],
+        "url": "/boj/python/2025/06/27/14551.html",
+        "teaser": null
+      },{
+        "title": "6976번 Divisibility by 11",
+        "excerpt":"이왜틀? 6976번 Divisibility by 11 - 백준 4년 전 메모리 초과 문제. int t=Integer.parseInt(br.readLine()); for(int q=0;q&lt;t;q++){ if(q!=0) bw.write(\"\\n\"); BigInteger a=new BigInteger(br.readLine()); BigInteger b=a; StringBuilder sb=new StringBuilder(); sb.append(a.toString()+\"\\n\"); while(true){ if(b.toString().equals(\"11\")) break; b=b.divide(BigInteger.TEN).subtract(b.mod(BigInteger.TEN)); sb.append(b.toString()+\"\\n\"); } sb.append(\"The number \"+a.toString()+\" is divisible by 11.\\n\"); bw.write(sb.toString()); } 방식 자체는 맞는 것 같지만 메모리 초과다. 설계...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",6976,"Divisibility by 11","구현"],
+        "url": "/boj/python/2025/06/27/6976.html",
+        "teaser": null
       }]

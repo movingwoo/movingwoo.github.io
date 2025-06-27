@@ -1,4 +1,181 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-26T05:00:50+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">2909번 캔디 구매</title><link href="https://movingwoo.com/boj/python/2025/06/26/2909.html" rel="alternate" type="text/html" title="2909번 캔디 구매" /><published>2025-06-26T05:00:00+00:00</published><updated>2025-06-26T05:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/26/2909</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/26/2909.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-27T05:59:53+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">6976번 Divisibility by 11</title><link href="https://movingwoo.com/boj/python/2025/06/27/6976.html" rel="alternate" type="text/html" title="6976번 Divisibility by 11" /><published>2025-06-27T05:00:00+00:00</published><updated>2025-06-27T05:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/27/6976</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/27/6976.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-27-6976/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/6976">6976번 Divisibility by 11 - 백준</a></p>
+
+<p>4년 전 메모리 초과 문제.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">t</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">q</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">q</span><span class="o">&lt;</span><span class="n">t</span><span class="o">;</span><span class="n">q</span><span class="o">++){</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">q</span><span class="o">!=</span><span class="mi">0</span><span class="o">)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
+    <span class="nc">BigInteger</span> <span class="n">a</span><span class="o">=</span><span class="k">new</span> <span class="nc">BigInteger</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+    <span class="nc">BigInteger</span> <span class="n">b</span><span class="o">=</span><span class="n">a</span><span class="o">;</span>
+    <span class="nc">StringBuilder</span> <span class="n">sb</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+    <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
+    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"11"</span><span class="o">))</span> <span class="k">break</span><span class="o">;</span>
+        <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="o">.</span><span class="na">divide</span><span class="o">(</span><span class="nc">BigInteger</span><span class="o">.</span><span class="na">TEN</span><span class="o">).</span><span class="na">subtract</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">mod</span><span class="o">(</span><span class="nc">BigInteger</span><span class="o">.</span><span class="na">TEN</span><span class="o">));</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"The number "</span><span class="o">+</span><span class="n">a</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">" is divisible by 11.\n"</span><span class="o">);</span>
+    <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>방식 자체는 맞는 것 같지만 메모리 초과다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>최대 50자리라는 엄청나게 큰 숫자.<br />
+일반적인 숫자 자료형으로는 해결할 수 없겠지.<br />
+<span style="color: orange;"><strong>하지만 파이썬이 등장한다면 어떨까?</strong></span></p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>파이썬은 신이고 무적이라서 그냥 연산이 가능하다.<br />
+<span style="color: orange;"><strong>진짜 파이썬은 전설이다…</strong></span></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">T</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="nf">if </span><span class="p">(</span><span class="n">t</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="nf">print</span><span class="p">()</span>
+
+    <span class="n">string_num</span> <span class="o">=</span> <span class="nf">input</span><span class="p">().</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">string_num</span><span class="p">)</span>
+
+    <span class="nf">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">99</span><span class="p">:</span>
+        <span class="n">remain</span> <span class="o">=</span> <span class="n">num</span> <span class="o">%</span> <span class="mi">10</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="o">//</span> <span class="mi">10</span> <span class="o">-</span> <span class="n">remain</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+        
+    <span class="nf">if </span><span class="p">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">11</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The number {} is divisible by 11.</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">string_num</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The number {} is not divisible by 11.</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">string_num</span><span class="p">))</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-27-6976/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>테스트 케이스가 여럿인 경우 출력 사이에 공백 한 줄이 필요하다.<br />
+연산은 두자리 수가 되면 멈춰야한다.<br />
+조건들이 헷갈려서 자꾸 틀렸다.</p>
+
+<p>아니 그러고보니 그러면 저 자바 코드도 틀린게 맞네.<br />
+메모리 초과가 아니었어도 넌 나가리였어.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-06-27-6976.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="6976" /><category term="Divisibility by 11" /><category term="구현" /><summary type="html"><![CDATA[백준 6976번 Divisibility by 11 PYTHON 문제풀이]]></summary></entry><entry><title type="html">14551번 Card Game Contest</title><link href="https://movingwoo.com/boj/python/2025/06/27/14551.html" rel="alternate" type="text/html" title="14551번 Card Game Contest" /><published>2025-06-27T04:00:00+00:00</published><updated>2025-06-27T04:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/27/14551</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/27/14551.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-27-14551/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/14551">14551번 Card Game Contest - 백준</a></p>
+
+<p>또 1년 전 틀렸습니다가 우수수 떨어진 문제.<br />
+뭐가 문제였을까?</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">StringBuilder</span> <span class="n">sb</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+<span class="nc">BigInteger</span> <span class="n">m</span><span class="o">=</span><span class="k">new</span> <span class="nc">BigInteger</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+<span class="k">if</span><span class="o">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="k">else</span> <span class="o">{</span>
+    <span class="nc">BigInteger</span> <span class="n">r</span><span class="o">=</span><span class="k">new</span> <span class="nc">BigInteger</span><span class="o">(</span><span class="s">"1"</span><span class="o">);</span>
+    <span class="k">while</span><span class="o">(</span><span class="n">n</span><span class="o">--&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">t</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+        <span class="k">if</span><span class="o">(!</span><span class="n">t</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"0"</span><span class="o">))</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="na">multiply</span><span class="o">(</span><span class="k">new</span> <span class="nc">BigInteger</span><span class="o">(</span><span class="n">t</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">remainder</span><span class="o">(</span><span class="n">m</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
+<span class="o">}</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>BigInteger를 사용했으니 오버플로우는 없을테고<br />
+이것도 일단은 맞지 않나??<br />
+애초에 나머지 연산을 미리하면되는데 BigInteger는 왜 쓴거지?</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>문제가 한글로 쓰인게 맞나 싶은데<br />
+요지는 모든 정수 A를 곱하되 0은 1로 처리하면 된다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="k">while</span> <span class="n">N</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">A</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">*=</span> <span class="n">A</span>
+        <span class="n">result</span> <span class="o">%=</span> <span class="n">M</span>
+
+    <span class="n">N</span> <span class="o">-=</span> <span class="mi">1</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">result</span> <span class="o">%</span> <span class="n">M</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-27-14551/img02.webp" alt="img02" /></p>
+
+<p>아하… 풀어보고 알았다.<br />
+<span style="color: orange;"><strong>Java 코드는 틀린 게 맞다.</strong></span><br />
+0 1을 입력하면 경우의 수는 1이지만 1 모듈로 연산으로 0이 답인데 나는 1을 출력했다.</p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>틀리는 이유가 이렇게 잘 보이는데 왜 1년 전에는 몰랐을까</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-06-27-14551.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="14551" /><category term="Card Game Contest" /><category term="구현" /><summary type="html"><![CDATA[백준 14551번 Card Game Contest PYTHON 문제풀이]]></summary></entry><entry><title type="html">2909번 캔디 구매</title><link href="https://movingwoo.com/boj/python/2025/06/26/2909.html" rel="alternate" type="text/html" title="2909번 캔디 구매" /><published>2025-06-26T05:00:00+00:00</published><updated>2025-06-26T05:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/26/2909</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/26/2909.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -870,485 +1047,4 @@ Small 문제는 이걸로 통과했나본데 Large의 경우 S와 K가 20만개�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-24-12833.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="12833" /><category term="XORXORXOR" /><category term="애드훅" /><summary type="html"><![CDATA[백준 12833번 XORXORXOR JAVA 문제풀이]]></summary></entry><entry><title type="html">16221번 모독</title><link href="https://movingwoo.com/boj/c++/2025/06/24/16221.html" rel="alternate" type="text/html" title="16221번 모독" /><published>2025-06-24T02:00:00+00:00</published><updated>2025-06-24T02:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/06/24/16221</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/06/24/16221.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/C++/2025-06-24-16221/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/16221">16221번 모독 - 백준</a></p>
-
-<p>예전에 하스스톤 해 본 사람은 다 아는 모독 각.<br />
-매 케이스 마다 모독으로 죽는 하수인이 몇 개인지 출력하는 문제다.<br />
-모독이 무엇인가?<br />
-카드를 확인해보도록 하자.</p>
-
-<p><img src="/assets/images/posts/BOJ/C++/2025-06-24-16221/img02.webp" alt="img02" width="300" style="height: auto;" /></p>
-
-<p>5년 전 답안을 볼까?</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">q</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-<span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">q</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">q</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-	<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-	<span class="kt">int</span> <span class="n">t</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	<span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	<span class="k">if</span><span class="o">(</span><span class="n">t</span><span class="o">==</span><span class="mi">1</span><span class="o">)</span> <span class="n">arr</span><span class="o">[</span><span class="n">k</span><span class="o">]++;</span>
-	<span class="k">else</span> <span class="n">arr</span><span class="o">[</span><span class="n">k</span><span class="o">]--;</span>
-	<span class="kt">long</span> <span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-	<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">q</span><span class="o">;</span><span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
-		<span class="k">if</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">c</span><span class="o">+=</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
-		<span class="k">else</span> <span class="k">break</span><span class="o">;</span>
-	<span class="o">}</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">c</span><span class="o">+</span><span class="s">"\n"</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>심플한 접근, 심플한 시간초과</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p><span style="color: orange;"><strong>Q와 K가 100만</strong></span>이다.<br />
-시간초과를 어떻게 피할 수 있을 것인가?</p>
-
-<p>문제 분류가 세그먼트 트리라 아무 생각없이 구현했다가 시간초과에 걸렸다.<br />
-자바가 문제인가 해서 빠른 입출력을 직접 구현해도 시간초과 나는 걸 보고 로직 자체에 문제가 있다는 걸 알았다.</p>
-
-<p>C++로 시간초과가 나지 않아야 Java로 건드릴 수나 있겠다 싶어서 언어 전환<br />
-극단적인 케이스에서 시뮬레이션을 돌리면 터질 수 밖에 없는 구조인데 어떻게 시간을 단축 시킬 것인가?</p>
-
-<p>결국 <span style="color: orange;"><strong>펜윅트리 + 이진탐색</strong></span>으로 해결 봤다.</p>
-
-<blockquote>
-  <h4 id="c-구현">C++ 구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-초기화">1. 초기화</h5>
-
-<p>우선 C++로 구현한다.</p>
-
-<p>update 함수는 펜윅트리에 값을 추가하거나 제거한다.<br />
-처음에 필드에 하수인이 없으므로 update 함수를 통해 트리를 초기화한다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 하수인</span>
-<span class="kt">int</span> <span class="n">minions_bit</span><span class="p">[</span><span class="mi">1000001</span><span class="p">];</span>
-<span class="c1">// 전장에 없는 체력</span>
-<span class="kt">int</span> <span class="n">absent_bit</span><span class="p">[</span><span class="mi">1000001</span><span class="p">];</span>
-<span class="kt">int</span> <span class="n">check</span><span class="p">[</span><span class="mi">1000001</span><span class="p">];</span>
-
-<span class="c1">// BIT에 값 추가, 제거</span>
-<span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">bit</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000001</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">bit</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n</span><span class="p">;</span>
-        <span class="n">i</span> <span class="o">+=</span> <span class="n">i</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">i</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">nullptr</span><span class="p">);</span>
-
-    <span class="c1">// 초기화</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">update</span><span class="p">(</span><span class="n">absent_bit</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="2-하수인-상태-반영-및-구간합-계산">2. 하수인 상태 반영 및 구간합 계산</h5>
-
-<p>T에 따라서 하수인을 추가하거나 제거한다.<br />
-absent 트리는 check 배열을 통해 해당 하수인 존재 여부를 확인 후 업데이트 한다.</p>
-
-<p>하수인 배치가 끝나면 모독각을 봐야한다.<br />
-이진탐색으로 전장에 없는 가장 작은 체력을 찾는다.<br />
-모독으로는 그 체력 아래까지 하수인이 전부 죽기 때문에 그 아래 체력까지의 하수인 수를 구해서 출력한다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1~i까지 합</span>
-<span class="kt">int</span> <span class="nf">bit_sum</span><span class="p">(</span><span class="kt">int</span> <span class="n">bit</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">result</span> <span class="o">+=</span> <span class="n">bit</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-        <span class="n">i</span> <span class="o">-=</span> <span class="n">i</span> <span class="o">&amp;</span> <span class="o">-</span><span class="n">i</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// ... 중략 ...</span>
-        
-<span class="c1">// 1이면 하수인 추가 2면 제거</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">T</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">check</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">++</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-		<span class="c1">// 하수인 처음 추가될때만 제거</span>
-		<span class="n">update</span><span class="p">(</span><span class="n">absent_bit</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-	<span class="p">}</span>
-	<span class="n">update</span><span class="p">(</span><span class="n">minions_bit</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-	<span class="n">update</span><span class="p">(</span><span class="n">minions_bit</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-
-	<span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">check</span><span class="p">[</span><span class="n">K</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-		<span class="c1">// 하수인 마지막 제거될때만 추가</span>
-		<span class="n">update</span><span class="p">(</span><span class="n">absent_bit</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-	<span class="p">}</span>
-	
-<span class="p">}</span>
-
-<span class="c1">// 이진 탐색</span>
-<span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">bitMask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">20</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="k">while</span> <span class="p">(</span><span class="n">bitMask</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">+</span> <span class="n">bitMask</span><span class="p">;</span>
-	
-	<span class="c1">// 없는 체력이 있으면</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="mi">1000001</span> <span class="o">&amp;&amp;</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">absent_bit</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-		<span class="n">sum</span> <span class="o">+=</span> <span class="n">absent_bit</span><span class="p">[</span><span class="n">t</span><span class="p">];</span>
-		<span class="n">idx</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
-	<span class="p">}</span>
-	<span class="n">bitMask</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 실제 체력 보정</span>
-<span class="o">++</span><span class="n">idx</span><span class="p">;</span>
-
-<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">bit_sum</span><span class="p">(</span><span class="n">minions_bit</span><span class="p">,</span> <span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="c-채점">C++ 채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/C++/2025-06-24-16221/img03.webp" alt="img03" /></p>
-
-<p>아 뭐지 왜이렇게 문제 빡세지<br />
-이제 이대로 자바로 포팅해본다.</p>
-
-<blockquote>
-  <h4 id="java-구현">Java 구현</h4>
-  <hr />
-</blockquote>
-
-<p>특별한 유틸을 쓴게 없기 때문에 간단하게 포팅할 수 있다.<br />
-빠른 입출력은 구현해둔게 있기 때문에 그대로 가져가서 쓴다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 빠른 입출력 구현</span>
-<span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">InputReader</span> <span class="o">{</span>
-	
-	<span class="kd">private</span> <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">buf</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">20</span><span class="o">];</span>
-	
-	<span class="kd">private</span> <span class="kt">int</span> <span class="n">ptr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="kt">int</span> <span class="n">buflen</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-
-	<span class="kt">int</span> <span class="nf">nextInt</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
-		<span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-		<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-		<span class="kt">boolean</span> <span class="n">negative</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-		
-		<span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
-			<span class="n">c</span> <span class="o">=</span> <span class="n">read</span><span class="o">();</span>
-			<span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">&gt;</span> <span class="sc">' '</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
-		<span class="o">}</span>
-		
-		<span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'-'</span><span class="o">)</span> <span class="o">{</span> 
-			<span class="n">negative</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-			<span class="n">c</span> <span class="o">=</span> <span class="n">read</span><span class="o">();</span> 
-		<span class="o">}</span>
-		
-		<span class="k">while</span><span class="o">(</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="sc">'0'</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="sc">'9'</span><span class="o">)</span> <span class="o">{</span>
-			<span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'0'</span><span class="o">);</span>
-			<span class="n">c</span><span class="o">=</span> <span class="n">read</span><span class="o">();</span>
-		<span class="o">}</span>
-		
-		<span class="k">return</span> <span class="n">negative</span> <span class="o">?</span> <span class="o">-</span><span class="n">x</span> <span class="o">:</span> <span class="n">x</span><span class="o">;</span>
-	<span class="o">}</span>
-
-	<span class="kd">private</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
-		<span class="k">if</span> <span class="o">(</span><span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">buflen</span><span class="o">)</span> <span class="o">{</span>
-			<span class="n">buflen</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buf</span><span class="o">);</span>
-			<span class="n">ptr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-			<span class="k">if</span> <span class="o">(</span><span class="n">buflen</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-				<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
-			<span class="o">}</span>
-		<span class="o">}</span>
-		
-		<span class="k">return</span> <span class="n">buf</span><span class="o">[</span><span class="n">ptr</span><span class="o">++]</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="o">;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="java-채점">Java 채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/C++/2025-06-24-16221/img04.webp" alt="img04" /></p>
-
-<p>드디어 성공</p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>바빠서 깨작깨작 만져서 그런가 집중도 제대로 못해서 그런지 상당히 까다로웠다<br />
-그냥 내가 못해서 시간초과난건데 이건 Java가 구려서 그래 하면서 애꿎은 Java 탓만 하고 있었네…</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/C%2B%2B/2025-06-24-16221.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/C++/" /><category term="C++" /><category term="알고리즘" /><category term="백준" /><category term="16221" /><category term="모독" /><category term="펜윅트리" /><category term="이진탐색" /><summary type="html"><![CDATA[백준 16221번 모독 C++ 문제풀이]]></summary></entry><entry><title type="html">코드 시뮬레이터</title><link href="https://movingwoo.com/development/python/2025/06/19/Code-Simulator.html" rel="alternate" type="text/html" title="코드 시뮬레이터" /><published>2025-06-19T07:00:00+00:00</published><updated>2025-06-19T07:00:00+00:00</updated><id>https://movingwoo.com/development/python/2025/06/19/Code%20Simulator</id><content type="html" xml:base="https://movingwoo.com/development/python/2025/06/19/Code-Simulator.html"><![CDATA[<blockquote>
-  <h4 id="개요">개요</h4>
-  <hr />
-</blockquote>
-
-<p>Jekyll 블로그는 정적이라 뭔가 구현하는데 한계가 좀 많다.<br />
-마개조하고싶은데 뭘 할 수 있을까 고민하다가 떠오른 코드 시뮬레이터.</p>
-
-<p>원래 구상으론 내가 할 줄 아는 언어들을 전부 집어넣어 기능을 구현하고 싶었는데<br />
-현실적으로 상당한 제약이 있다.</p>
-
-<p>JS는 손 댈 것도 없다.<br />
-대충 떠올려봐도 <span style="color: orange;"><strong>eval</strong></span> 박아넣으면 바로 가능하다.<br />
-보안 상 이슈가 있겠지만…</p>
-
-<p>C++을 실행시키려면 코드를 컴파일해서 결과를 제공해야하는데 이건 <span style="color: orange;"><strong>정적 환경에서는 불가능</strong></span>하다.<br />
-Java도 브라우저에 <span style="color: orange;"><strong>JVM이 없으므로 불가능</strong></span>하다.<br />
-Java Applet이 있었지만 보안 이슈로 퇴출되었고 JS로 돌려서 실행시키는 법도 있지만 무슨 의미가 있을까…</p>
-
-<p>Python은 <span style="color: orange;"><strong>Pyodide</strong></span>를 이용하면 브라우저에서 실행이 가능하다고 한다.<br />
-그렇다면 Python 코드 시뮬레이터를 만들어보자!</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://pyodide.org/en/stable/">Pyodide</a></p>
-
-<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img01.webp" alt="img01" /></p>
-
-<p>Pyodide 소개 페이지다.<br />
-브라우저에서 Python을 사용할 수 있다.<br />
-CPython을 Wasm으로 포팅했다고 한다.</p>
-
-<p>적용법은 아주 간단하다.</p>
-
-<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img02.webp" alt="img02" /></p>
-
-<p>CDN 경로에 pyodide.js를 붙이면 정상적으로 로드된다.<br />
-js에 스크립트 태그와 함께 집어넣으면 된다.</p>
-
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
-</span></code></pre></div></div>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-html-작성">1. html 작성</h5>
-
-<p>코드를 입력할 부분과 실행버튼, 결과를 표시할 부분을 작성한다.</p>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"ko"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span> <span class="nt">/&gt;</span>
-  <span class="nt">&lt;title&gt;</span>Code Simulator<span class="nt">&lt;/title&gt;</span>
-  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-  <span class="nt">&lt;style&gt;</span>
-    <span class="nt">body</span> <span class="p">{</span>
-      <span class="nl">max-width</span><span class="p">:</span> <span class="m">1200px</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="nt">h1</span> <span class="p">{</span>
-      <span class="nl">color</span><span class="p">:</span> <span class="m">#000000</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="nt">textarea</span> <span class="p">{</span>
-      <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
-      <span class="nl">height</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
-      <span class="nl">font-size</span><span class="p">:</span> <span class="m">1em</span><span class="p">;</span>
-      <span class="nl">padding</span><span class="p">:</span> <span class="m">1rem</span><span class="p">;</span>
-      <span class="nl">background</span><span class="p">:</span> <span class="m">#ffffff</span><span class="p">;</span>
-      <span class="nl">border</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#000000</span><span class="p">;</span>
-      <span class="nl">resize</span><span class="p">:</span> <span class="n">vertical</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="nt">button</span> <span class="p">{</span>
-      <span class="nl">cursor</span><span class="p">:</span> <span class="nb">pointer</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="nt">pre</span> <span class="p">{</span>
-      <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
-      <span class="nl">font-size</span><span class="p">:</span> <span class="m">1em</span><span class="p">;</span>
-      <span class="nl">padding</span><span class="p">:</span> <span class="m">1rem</span><span class="p">;</span>
-      <span class="nl">background</span><span class="p">:</span> <span class="m">#ffffff</span><span class="p">;</span>
-      <span class="nl">border</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#000000</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="nt">&lt;/style&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body&gt;</span>
-  <span class="nt">&lt;h1&gt;</span>Python Code Simulator<span class="nt">&lt;/h1&gt;</span>
-
-  <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">"code"</span> <span class="na">placeholder=</span><span class="s">"Python 코드 입력"</span><span class="nt">&gt;</span>print("Hello World!!")<span class="nt">&lt;/textarea&gt;</span>
-  <span class="nt">&lt;br/&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"run()"</span><span class="nt">&gt;</span>실행<span class="nt">&lt;/button&gt;</span>
-  <span class="c">&lt;!-- 결과가 깨져서 pre 태그로 처리 --&gt;</span>
-  <span class="nt">&lt;pre</span> <span class="na">id=</span><span class="s">"output"</span><span class="nt">&gt;</span>실행 결과 표시 창<span class="nt">&lt;/pre&gt;</span>
-
-  <span class="nt">&lt;script&gt;</span>
-    <span class="c1">// 스크립트 작성</span>
-  <span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</code></pre></div></div>
-
-<h5 id="2-스크립트-작성">2. 스크립트 작성</h5>
-
-<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img03.webp" alt="img03" /></p>
-
-<p>사용 가이드 페이지를 확인해보면 초기화 방법이 나와있다.<br />
-async 함수를 사용하여 비동기로 초기화한다.<br />
-페이지 로드 시 1회 초기화 하도록 설정하고, 코드를 전달해서 결과를 받아 뿌려준다.</p>
-
-<p>그냥 사용 시 개발자도구 콘솔에 결과를 뿌려주는데<br />
-print를 재정의해서 변수로 저장해 내 마음대로 컨트롤 할 수 있게 한다.</p>
-
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Pyodide 인스턴스를 전역 변수로 저장</span>
-<span class="kd">let</span> <span class="nx">pyodide</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-<span class="c1">// 광클시 중복실행 방지용</span>
-<span class="kd">let</span> <span class="nx">isRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-
-<span class="c1">// 초기화 함수</span>
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">load</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nf">loadPyodide</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="c1">// 페이지 로드 시 Pyodide 초기화</span>
-<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="k">async </span><span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">pyodide</span> <span class="o">=</span> <span class="k">await</span> <span class="nf">load</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="c1">// 코드 실행 함수</span>
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-
-  <span class="k">if </span><span class="p">(</span><span class="nx">isRunning</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-
-  <span class="nx">isRunning</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-  
-  <span class="kd">const</span> <span class="nx">code_value</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#code</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">output_area</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#output</span><span class="dl">"</span><span class="p">);</span>
-  
-  <span class="c1">// 로드되는데 시간이 걸릴 수 있어서 그동안 보여줄 메시지</span>
-  <span class="nx">output_area</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">실행 중...</span><span class="dl">"</span><span class="p">;</span>
-
-  <span class="k">try</span> <span class="p">{</span>
-
-    <span class="c1">// 초기화 되지 않았다면 기다리기</span>
-    <span class="k">while </span><span class="p">(</span><span class="o">!</span><span class="nx">pyodide</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">await</span> <span class="k">new</span> <span class="nc">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="nf">setTimeout</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
-    <span class="p">}</span>
-    
-    <span class="kd">let</span> <span class="nx">stdout</span> <span class="o">=</span> <span class="dl">""</span><span class="p">;</span>
-    
-    <span class="c1">// 그냥 사용하면 개발자도구 콘솔에 출력됨</span>
-    <span class="c1">// print를 재정의하여 stdout 변수로 저장</span>
-    <span class="nx">pyodide</span><span class="p">.</span><span class="nx">globals</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="dl">"</span><span class="s2">print</span><span class="dl">"</span><span class="p">,</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">stdout</span> <span class="o">+=</span> <span class="nx">args</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="dl">"</span><span class="s2"> </span><span class="dl">"</span><span class="p">)</span> <span class="o">+</span> <span class="dl">"</span><span class="se">\n</span><span class="dl">"</span><span class="p">;</span>
-    <span class="p">});</span>
-    
-    <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">pyodide</span><span class="p">.</span><span class="nf">runPythonAsync</span><span class="p">(</span><span class="nx">code_value</span><span class="p">);</span>
-    
-    <span class="k">if </span><span class="p">(</span><span class="nx">stdout</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">output_area</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">stdout</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="c1">// stdout이 잘못되었을 경우 Python에서 undefined를 반환했는지 확인 필요</span>
-      <span class="nx">output_area</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">result</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="dl">"</span><span class="s2">undefined</span><span class="dl">"</span> <span class="p">:</span> <span class="nx">result</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">output_area</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">err</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">finally</span><span class="p">{</span>
-    <span class="nx">isRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h5 id="3-입력-받기">3. 입력 받기</h5>
-
-<p>코드 입력 시 결과 출력은 문제 없는데 input을 직접 받지 못해 오류가 난다.<br />
-print()와 마찬가지로 input()을 재정의해서 사용자 입력을 받을 수 있도록 한다.</p>
-
-<p>실제 대화형 처럼 하려면 너무 복잡해진다.<br />
-그냥 알고리즘 문제 풀 때처럼 입력 한 번 받을 수 있게만 한다.<br />
-지속적으로 입력 받는건 다음에 시간나면 해보기로 하자.</p>
-
-<p>구현은 최대한 간단하게<br />
-input 입력란을 별도로 두고 해당 textarea에 작성된 값을 input으로 삼아 코드를 실행시킨다.</p>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">"input"</span> <span class="na">placeholder=</span><span class="s">"사용자 입력"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
-</code></pre></div></div>
-
-<p>여러 줄을 전송할 경우 전체를 한 번에 받아들여서 오류가 난다.<br />
-한 줄 씩 처리할 수 있도록 줄단위로 나눠줄 필요가 있다.</p>
-
-<p>입력이 input() 요구보다 모자란 경우에 EOF Exception을 던지는 것으로 예외처리한다.</p>
-
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 여러 줄 전송하기 위해 라인 별 저장</span>
-<span class="kd">const</span> <span class="nx">input_values</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#input</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sr">/</span><span class="se">\r?\n</span><span class="sr">/</span><span class="p">);</span>
-
-<span class="c1">// ... 중략 ...</span>
-
-<span class="kd">let</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="c1">// input을 재정의하여 사용자 입력 값 전달</span>
-<span class="nx">pyodide</span><span class="p">.</span><span class="nx">globals</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="dl">"</span><span class="s2">input</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">if </span><span class="p">(</span><span class="nx">index</span> <span class="o">&lt;</span> <span class="nx">input_values</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">input_values</span><span class="p">[</span><span class="nx">index</span><span class="o">++</span><span class="p">];</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nc">Error</span><span class="p">(</span><span class="dl">"</span><span class="s2">EOF Exception</span><span class="dl">"</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">});</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="완성">완성</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img04.webp" alt="img04" /></p>
-
-<p><span style="color: orange;"><strong>Hello World!!</strong></span></p>
-
-<p>사용자 입력 테스트도 해봐야겠다.<br />
-가장 최근에 파이썬으로 푼 문제인 백준 3655번으로 테스트 해보자.<br />
-위쪽에 내 코드를 넣고, 아래쪽 사용자 입력에 예제를 집어넣는다.</p>
-
-<p><img src="/assets/images/posts/Development/Python/2025-06-19-Code Simulator/img05.webp" alt="img05" /></p>
-
-<p>스무스하게 작동한다.</p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>파이썬이 웹에서도 동작하는 세상이라니<br />
-누가 감히 알았겠는가<br />
-<span style="color: red;"><strong>이것은 파이썬이 위대한 것인가 JS가 위대한 것인가?</strong></span></p>
-
-<p>찾아보니 <span style="color: orange;"><strong>PyScript</strong></span>를 사용하면 아예 <span style="color: orange;"><strong>py-script</strong></span> 태그를 통해 파이썬 문법을 그대로 쓰는 방법도 있다고 한다.<br />
-내부에서 Pyodide를 사용하며 동작하는 일종의 프레임워크로 볼 수 있다고 한다.<br />
-그럼 이제 js를 몰라도 파이썬으로 웹 앱을 만들 수 있다는 소리인가?<br />
-기술의 발전은 정말이지 두렵다…</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/Development/Python/2025-06-19-Code%20Simulator.html">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/Python/" /><category term="PYTHON" /><category term="코드 시뮬레이터" /><category term="Pyodide" /><summary type="html"><![CDATA[PYTHON 코드 시뮬레이터 프로그램 개발]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-24-12833.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="12833" /><category term="XORXORXOR" /><category term="애드훅" /><summary type="html"><![CDATA[백준 12833번 XORXORXOR JAVA 문제풀이]]></summary></entry></feed>
