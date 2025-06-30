@@ -1,4 +1,395 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-27T05:59:53+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">6976번 Divisibility by 11</title><link href="https://movingwoo.com/boj/python/2025/06/27/6976.html" rel="alternate" type="text/html" title="6976번 Divisibility by 11" /><published>2025-06-27T05:00:00+00:00</published><updated>2025-06-27T05:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/27/6976</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/27/6976.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-06-30T07:06:38+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">8660번 Sumy i różnice</title><link href="https://movingwoo.com/boj/python/2025/06/30/8660.html" rel="alternate" type="text/html" title="8660번 Sumy i różnice" /><published>2025-06-30T07:00:00+00:00</published><updated>2025-06-30T07:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/30/8660</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/30/8660.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-30-8660/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/8660">8660번 Sumy i różnice - 백준</a></p>
+
+<p>틀린 문제 중 마지막 브론즈따리 문제<br />
+더 이상의 힐링은 없다.<br />
+소스를 보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+<span class="kt">long</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+<span class="kt">long</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+<span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">()){</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">().</span><span class="na">charAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)==</span><span class="sc">'-'</span><span class="o">)</span> <span class="n">a</span><span class="o">++;</span>
+    <span class="k">else</span> <span class="n">b</span><span class="o">++;</span>
+<span class="o">}</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>아~~~~ 접근은 좋았는데 아깝네~~~~</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>a - b &gt; a + b<br />
+당연하겠지만 <span style="color: orange;"><strong>b가 음수</strong></span>면 성립한다.</p>
+
+<p><span style="color: orange;"><strong>a != b인 쌍 중 b &lt; 0 인 것</strong></span>만 세면 된다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">sys</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="nf">readline</span><span class="p">())</span>
+
+<span class="n">neg</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">a</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="nf">readline</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">neg</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># a != b
+</span><span class="nf">print</span><span class="p">(</span><span class="n">neg</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-30-8660/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p><span style="color: orange;"><strong>브론즈 끝!</strong></span><br />
+실버의 세계로 들어간다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-06-30-8660.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="8660" /><category term="Sumy i różnice" /><category term="구현" /><summary type="html"><![CDATA[백준 8660번 Sumy i różnice PYTHON 문제풀이]]></summary></entry><entry><title type="html">8711번 Odchudzanie</title><link href="https://movingwoo.com/boj/python/2025/06/30/8711.html" rel="alternate" type="text/html" title="8711번 Odchudzanie" /><published>2025-06-30T06:00:00+00:00</published><updated>2025-06-30T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/30/8711</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/30/8711.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-30-8711/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/8711">8711번 Odchudzanie - 백준</a></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+<span class="kt">long</span> <span class="n">a</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+<span class="kt">long</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+<span class="kt">long</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+<span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">()){</span>
+    <span class="kt">long</span> <span class="n">t</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">&gt;</span><span class="n">t</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">a</span><span class="o">=</span><span class="n">t</span><span class="o">;</span>
+        <span class="n">b</span><span class="o">=</span><span class="n">i</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">i</span><span class="o">++;</span>
+<span class="o">}</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">b</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>뭐지? 뭔짓을 한거야<br />
+내 소스를 이해를 못하겠다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>가장 큰 구간 차이를 계산해야한다.<br />
+단순히 min max 값 구하는 걸로는 안되고<br />
+<span style="color: orange;"><strong>시간의 흐름</strong></span>이 있기 때문에 최고값을 갱신하며 현재 무게와의 차를 계산한다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>n이 3 * 10^6이라 제법 크다.<br />
+저만큼 연산을 해야한다는 뜻.<br />
+그냥 input()을 사용하니 메모리 초과가 나서 <span style="color: orange;"><strong>sys.stdin</strong></span>을 사용하고<br />
+PyPy가 퍼포먼스가 더 잘나올 것 같으니 <span style="color: orange;"><strong>PyPy</strong></span>로 돌린다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">sys</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="nf">readline</span><span class="p">())</span>
+
+<span class="nb">max</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="n">w</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="nf">readline</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">w</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">max</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
+        <span class="nb">max</span> <span class="o">=</span> <span class="n">k</span>
+        
+    <span class="c1"># 지금까지의 최대 무게와 현재 무게의 비교
+</span>    <span class="k">if</span> <span class="nb">max</span> <span class="o">-</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">result</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">max</span> <span class="o">-</span> <span class="n">k</span>
+        
+<span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-30-8711/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>드디어 처음으로 PyPy로 제대로 제출해본건가?</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-06-30-8711.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="8711" /><category term="Odchudzanie" /><category term="구현" /><summary type="html"><![CDATA[백준 8711번 Odchudzanie PYTHON 문제풀이]]></summary></entry><entry><title type="html">8713번 Znak działania</title><link href="https://movingwoo.com/boj/python/2025/06/30/8713.html" rel="alternate" type="text/html" title="8713번 Znak działania" /><published>2025-06-30T04:00:00+00:00</published><updated>2025-06-30T04:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/30/8713</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/30/8713.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-30-8713/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/8713">8713번 Znak działania - 백준</a></p>
+
+<p>1번 틀리고 도망갔다.<br />
+<span style="color: orange;"><strong>어째서 튀었지? 왜 맞서싸우지 않았지?</strong></span><br />
+상대는 기껏해야 브론즈인데!</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+<span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+<span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+
+<span class="kt">int</span> <span class="n">q</span><span class="o">=</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">;</span>
+<span class="kt">int</span> <span class="n">w</span><span class="o">=</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="o">;</span>
+<span class="kt">int</span> <span class="n">r</span><span class="o">=</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">;</span>
+<span class="kt">int</span> <span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+<span class="k">if</span><span class="o">(</span><span class="n">q</span><span class="o">==</span><span class="n">w</span><span class="o">)</span> <span class="n">c</span><span class="o">++;</span>
+<span class="k">if</span><span class="o">(</span><span class="n">w</span><span class="o">==</span><span class="n">r</span><span class="o">)</span> <span class="n">c</span><span class="o">++;</span>
+<span class="k">if</span><span class="o">(</span><span class="n">q</span><span class="o">==</span><span class="n">r</span><span class="o">)</span> <span class="n">c</span><span class="o">++;</span>
+
+<span class="k">if</span><span class="o">(</span><span class="n">c</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"NIE"</span><span class="o">);</span>
+<span class="k">else</span><span class="o">{</span>
+    <span class="nc">StringBuilder</span> <span class="n">sb</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">q</span><span class="o">&gt;</span><span class="n">w</span><span class="o">&amp;&amp;</span><span class="n">q</span><span class="o">&gt;</span><span class="n">r</span><span class="o">){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"("</span><span class="o">);</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">a</span><span class="o">+(</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">?</span><span class="s">")+"</span><span class="o">:</span><span class="s">"+"</span><span class="o">));</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">b</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"("</span><span class="o">);</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">b</span><span class="o">+(</span><span class="n">b</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">?</span><span class="s">")="</span><span class="o">:</span><span class="s">"="</span><span class="o">));</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
+        <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">w</span><span class="o">&gt;</span><span class="n">q</span><span class="o">&amp;&amp;</span><span class="n">w</span><span class="o">&gt;</span><span class="n">r</span><span class="o">){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"("</span><span class="o">);</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">a</span><span class="o">+(</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">?</span><span class="s">")-"</span><span class="o">:</span><span class="s">"-"</span><span class="o">));</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">b</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"("</span><span class="o">);</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">b</span><span class="o">+(</span><span class="n">b</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">?</span><span class="s">")="</span><span class="o">:</span><span class="s">"="</span><span class="o">));</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
+        <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"("</span><span class="o">);</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">a</span><span class="o">+(</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">?</span><span class="s">")*"</span><span class="o">:</span><span class="s">"*"</span><span class="o">));</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">b</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"("</span><span class="o">);</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">b</span><span class="o">+(</span><span class="n">b</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">?</span><span class="s">")="</span><span class="o">:</span><span class="s">"="</span><span class="o">));</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
+        <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><span style="color: red;"><strong>맙소사 이게 무어람?</strong></span><br />
+도망친 이유를 알 것 같다.<br />
+지금 나도 도망치고 싶다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>깨끗하게 처음부터 하는 걸로 치자.<br />
+조건은 아래와 같다.</p>
+<ul>
+  <li>두 정수 연산 결과는 최대한 커져야 한다.</li>
+  <li>사용하는 연산 기호는 +, -, * 3개이다.</li>
+  <li>최대가 될 수 있는 경우가 많다면 NIE를 출력한다.</li>
+  <li>음수인 경우 출력 시 괄호로 감싼다.</li>
+</ul>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>뭐 음수일때 조건 따져서 하는 것 보다<br />
+수가 그리 크지 않으니 <span style="color: orange;"><strong>그냥 계산 다 때려보는게 빠르고 정확</strong></span>하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+
+<span class="nb">sum</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="n">sub</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+<span class="n">mul</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+<span class="nb">max</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="nb">sum</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">mul</span><span class="p">)</span>
+<span class="n">count</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">mul</span><span class="p">].</span><span class="nf">count</span><span class="p">(</span><span class="nb">max</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">NIE</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="sh">'</span><span class="s">(</span><span class="sh">'</span> <span class="k">if</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}{</span><span class="n">a</span><span class="si">}{</span><span class="sh">'</span><span class="s">)</span><span class="sh">'</span> <span class="k">if</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}{</span><span class="sh">'</span><span class="s">+</span><span class="sh">'</span> <span class="k">if</span> <span class="nb">max</span> <span class="o">==</span> <span class="nb">sum</span> <span class="k">else</span> <span class="sh">'</span><span class="s">-</span><span class="sh">'</span> <span class="k">if</span> <span class="nb">max</span> <span class="o">==</span> <span class="n">sub</span> <span class="k">else</span> <span class="sh">'</span><span class="s">*</span><span class="sh">'</span><span class="si">}{</span><span class="sh">'</span><span class="s">(</span><span class="sh">'</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}{</span><span class="n">b</span><span class="si">}{</span><span class="sh">'</span><span class="s">)</span><span class="sh">'</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}</span><span class="s">=</span><span class="si">{</span><span class="sh">'</span><span class="s">(</span><span class="sh">'</span> <span class="k">if</span> <span class="nb">max</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}{</span><span class="nb">max</span><span class="si">}{</span><span class="sh">'</span><span class="s">)</span><span class="sh">'</span> <span class="k">if</span> <span class="nb">max</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-30-8713/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>파이썬은 들여쓰기에 민감해서 printf가 질질 늘어졌다.<br />
+너무 보기싫었는데 이것도 방법이 다 있더라.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="sh">'</span><span class="s">(</span><span class="sh">'</span> <span class="k">if</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}{</span><span class="n">a</span><span class="si">}{</span><span class="sh">'</span><span class="s">)</span><span class="sh">'</span> <span class="k">if</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}</span><span class="sh">"</span>
+    <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="sh">'</span><span class="s">+</span><span class="sh">'</span> <span class="k">if</span> <span class="nb">max</span> <span class="o">==</span> <span class="nb">sum</span> <span class="k">else</span> <span class="sh">'</span><span class="s">-</span><span class="sh">'</span> <span class="k">if</span> <span class="nb">max</span> <span class="o">==</span> <span class="n">sub</span> <span class="k">else</span> <span class="sh">'</span><span class="s">*</span><span class="sh">'</span><span class="si">}</span><span class="sh">"</span>
+    <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="sh">'</span><span class="s">(</span><span class="sh">'</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}{</span><span class="n">b</span><span class="si">}{</span><span class="sh">'</span><span class="s">)</span><span class="sh">'</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}</span><span class="sh">"</span>
+    <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="sh">'</span><span class="s">=(</span><span class="sh">'</span> <span class="k">if</span> <span class="nb">max</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">'</span><span class="s">=</span><span class="sh">'</span><span class="si">}{</span><span class="nb">max</span><span class="si">}{</span><span class="sh">'</span><span class="s">)</span><span class="sh">'</span> <span class="k">if</span> <span class="nb">max</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="sh">''</span><span class="si">}</span><span class="sh">"</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>이렇게 적당히 끊어놓으면 풜씬 보기 좋아진다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-06-30-8713.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="8713" /><category term="Znak działania" /><category term="구현" /><summary type="html"><![CDATA[백준 8713번 Znak działania PYTHON 문제풀이]]></summary></entry><entry><title type="html">2391번 Sascha</title><link href="https://movingwoo.com/boj/python/2025/06/30/2391.html" rel="alternate" type="text/html" title="2391번 Sascha" /><published>2025-06-30T03:00:00+00:00</published><updated>2025-06-30T03:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/30/2391</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/30/2391.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-30-2391/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/2391">2391번 Sascha - 백준</a></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">w</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span> <span class="c1">// 발음한 단어</span>
+<span class="nc">String</span> <span class="n">r</span><span class="o">=</span><span class="s">""</span><span class="o">;</span> <span class="c1">// 제출단어</span>
+<span class="kt">int</span> <span class="n">c</span><span class="o">=</span><span class="n">w</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="c1">// 바꾼횟수</span>
+<span class="kt">int</span> <span class="n">d</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="c1">// 총횟수</span>
+<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span> <span class="c1">// 사전수</span>
+
+<span class="k">while</span><span class="o">(</span><span class="n">n</span><span class="o">--&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="n">s</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span> <span class="c1">// 사전단어</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">set</span><span class="o">=</span><span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+    <span class="kt">int</span> <span class="n">e</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">w</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)!=</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">w</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)+</span><span class="s">" "</span><span class="o">+</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+            <span class="n">e</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">set</span><span class="o">.</span><span class="na">size</span><span class="o">()&lt;</span><span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">c</span><span class="o">=</span><span class="n">set</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+        <span class="n">r</span><span class="o">=</span><span class="n">s</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">set</span><span class="o">.</span><span class="na">size</span><span class="o">()==</span><span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">d</span><span class="o">&gt;</span><span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">d</span><span class="o">=</span><span class="n">e</span><span class="o">;</span>
+            <span class="n">r</span><span class="o">=</span><span class="n">s</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">r</span><span class="o">+</span><span class="s">"\n"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>와 이럴수가 1년 전 내가 주석을 다 남겨뒀다니<br />
+어지간히 답답했나보다<br />
+근데 Set을 왜쓴거지?<br />
+계속 틀려서 정신이 나가버린 것인가?</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>Sascha가 발음한 단어와 사전단어를 비교해서 다른 횟수를 key로 Map에 담으면 간단하지 않을까?<br />
+파이썬이니까 <span style="color: orange;"><strong>dict</strong></span>를 사용하면 되겠다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>만약 동일한 수일 경우 입력 사전 순 가장 앞서는 단어 하나만 출력하면 된다.<br />
+따라서 key가 중복되지 않을 경우에만 최초로 삽입한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    
+    <span class="n">sascha_word</span> <span class="o">=</span> <span class="nf">input</span><span class="p">().</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">().</span><span class="nf">strip</span><span class="p">())</span>
+
+    <span class="n">dictionary</span> <span class="o">=</span> <span class="nf">defaultdict</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="nf">input</span><span class="p">().</span><span class="nf">strip</span><span class="p">()</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">sascha_char</span><span class="p">,</span> <span class="n">word_char</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">sascha_word</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">sascha_char</span> <span class="o">!=</span> <span class="n">word_char</span><span class="p">:</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="c1"># 최초 사전 입력 유지
+</span>        <span class="k">if</span> <span class="n">count</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">word</span>
+        
+    <span class="nf">print</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="nf">min</span><span class="p">(</span><span class="n">dictionary</span><span class="p">.</span><span class="nf">keys</span><span class="p">())])</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-06-30-2391/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>예전에도 이런 경우가 있었던 것 같다.<br />
+Map 쓰면 바로 해결될 문제를 안쓰고 뻘짓한 기억이 있는 것 같은데<br />
+왜 그랬지? 1년 전이면 큰 문제 없었을텐데</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-06-30-2391.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="2391" /><category term="Sascha" /><category term="구현" /><summary type="html"><![CDATA[백준 2391번 Sascha PYTHON 문제풀이]]></summary></entry><entry><title type="html">6976번 Divisibility by 11</title><link href="https://movingwoo.com/boj/python/2025/06/27/6976.html" rel="alternate" type="text/html" title="6976번 Divisibility by 11" /><published>2025-06-27T05:00:00+00:00</published><updated>2025-06-27T05:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/06/27/6976</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/06/27/6976.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -638,413 +1029,4 @@ K번째 타겟을 반환하는 getDead 함수는 실제 위치를 확인 후 제
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-26-1168.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="1168" /><category term="요세푸스 문제 2" /><category term="세그먼트트리" /><summary type="html"><![CDATA[백준 1168번 요세푸스 문제 2 JAVA 문제풀이]]></summary></entry><entry><title type="html">8436번 Kamil</title><link href="https://movingwoo.com/boj/java/2025/06/24/8436.html" rel="alternate" type="text/html" title="8436번 Kamil" /><published>2025-06-24T08:00:00+00:00</published><updated>2025-06-24T08:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/24/8436</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/24/8436.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-8436/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/8436">8436번 Kamil - 백준</a></p>
-
-<p>4년 전 틀린 문제.<br />
-문제가 조금 복잡하게 써 있지만 이해하면 간단한 문제인데 왜 틀렸을까?</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span><span class="o">[]</span> <span class="n">a</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">();</span>
-<span class="kt">int</span> <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
-	<span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="sc">'T'</span><span class="o">||</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="sc">'D'</span><span class="o">||</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="sc">'L'</span><span class="o">||</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="sc">'F'</span><span class="o">)</span> <span class="n">r</span><span class="o">++;</span>
-<span class="o">}</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">r</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p><span style="color: red;"><strong>이런 멍청이!!!</strong></span><br />
-숫자를 구하고 2를 곱하는 실수를 저질렀다.<br />
-경우의 수를 구하려면 제곱해야하는 것인데…</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>카밀이 잘못 발음하는 경우는 3가지이다.</p>
-<ul>
-  <li>K를 T로</li>
-  <li>G를 D로</li>
-  <li>R을 L 또는 F로<br />
-그 반대 경우는 없다.</li>
-</ul>
-
-<p>즉, T D L F 발음의 경우 각각 K G R R 일 수 있다.<br />
-그러니 T D L F 개수만큼 2를 제곱하면 된다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">();</span>
-<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-
-<span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
-	<span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'T'</span> <span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'D'</span> <span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'L'</span> <span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'F'</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">count</span><span class="o">++;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%.0f"</span><span class="o">,</span> <span class="nc">Math</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">count</span><span class="o">)));</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-8436/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>브론즈 문제 몇 개 조져주니 상당히 힐링이 된다.<br />
-항상 어렵게만 살 수 없는 법이다.<br />
-이제 다시 내일부터는 난이도 있는 문제에 들이받아봐야지.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-24-8436.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="8436" /><category term="Kamil" /><category term="구현" /><summary type="html"><![CDATA[백준 8436번 Kamil JAVA 문제풀이]]></summary></entry><entry><title type="html">16172번 나는 친구가 적다 (Large)</title><link href="https://movingwoo.com/boj/java/2025/06/24/16172.html" rel="alternate" type="text/html" title="16172번 나는 친구가 적다 (Large)" /><published>2025-06-24T06:00:00+00:00</published><updated>2025-06-24T06:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/24/16172</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/24/16172.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-16172/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/16172">16172번 나는 친구가 적다 (Large) - 백준</a></p>
-
-<p>요것도 5년전 시간초과다.<br />
-대체로 경향이 단순 시뮬레이션으로 소스 넣어보고 시간초과뜨면 도망갔던 것으로 보인다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">a</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">replaceAll</span><span class="o">(</span><span class="s">"[0-9]"</span><span class="o">,</span><span class="s">""</span><span class="o">);</span>
-<span class="nc">String</span> <span class="n">b</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">b</span><span class="o">)?</span><span class="s">"1"</span><span class="o">:</span><span class="s">"0"</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p>입력받은 S의 숫자를 replaceAll로 제거하고 contain을 사용했다.<br />
-Small 문제는 이걸로 통과했나본데 Large의 경우 S와 K가 20만개까지 있을 수 있어 택도 없다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>문제 자체가 한글로 되어있고 쉬워보여서 코드 제출이 많은 경우<br />
-통과해선 안되는 코드를 저격하기위해 <span style="color: orange;"><strong>수많은 반례</strong></span>가 존재한다.</p>
-
-<p>이 문제도 그런 류에 속한다.<br />
-처음에 특별한 알고리즘을 쓸 일 있나 싶어서 포인터를 2개 두고 S와 K를 시간복잡도 O(N) 으로 탐색하려했는데<br />
-자꾸 무슨 반례에 걸렸는지 틀렸습니다를 뿜어내기 시작…</p>
-
-<p>화가났지만 <span style="color: orange;"><strong>KMP 알고리즘</strong></span>을 써서 통과했다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// KMP 배열</span>
-<span class="kt">int</span><span class="o">[]</span> <span class="n">kmp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">K</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
-
-<span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> 
-
-<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">kmp</span><span class="o">.</span><span class="na">length</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-	
-	<span class="k">if</span> <span class="o">(</span><span class="no">K</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="no">K</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">idx</span><span class="o">))</span> <span class="o">{</span>
-		<span class="n">kmp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="o">++</span><span class="n">idx</span><span class="o">;</span> 
-	<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">idx</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-		<span class="c1">// aabc abc 같은 패턴</span>
-		<span class="n">idx</span> <span class="o">=</span> <span class="n">kmp</span><span class="o">[</span><span class="n">idx</span> <span class="o">-</span><span class="mi">1</span><span class="o">];</span> 
-		<span class="n">i</span><span class="o">--;</span>
-	<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
-		<span class="n">kmp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kt">boolean</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-
-<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">S</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-	<span class="k">if</span> <span class="o">(</span><span class="nc">Character</span><span class="o">.</span><span class="na">isLetter</span><span class="o">(</span><span class="no">S</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)))</span> <span class="o">{</span>
-		
-		<span class="k">while</span><span class="o">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="no">S</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">!=</span> <span class="no">K</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">))</span> <span class="o">{</span>
-			<span class="n">j</span> <span class="o">=</span> <span class="n">kmp</span><span class="o">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
-		<span class="o">}</span>
-		
-		<span class="k">if</span> <span class="o">(</span><span class="no">S</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="no">K</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">))</span> <span class="o">{</span>
-			<span class="n">j</span><span class="o">++;</span>
-			<span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="no">K</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
-				<span class="n">result</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-			<span class="o">}</span>
-		<span class="o">}</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-16172/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>진짜 무슨 예제가 자꾸 틀렸던 걸까?<br />
-이것저것 만들어서 넣어봤는데 알 수가 없다.<br />
-<span style="color: red;"><strong>브론즈 문제 무서워…</strong></span></p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-24-16172.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="16172" /><category term="나는 친구가 적다 (Large)" /><category term="KMP" /><summary type="html"><![CDATA[백준 16172번 나는 친구가 적다 (Large) JAVA 문제풀이]]></summary></entry><entry><title type="html">28682번 재우야 임관하자</title><link href="https://movingwoo.com/boj/java/2025/06/24/28682.html" rel="alternate" type="text/html" title="28682번 재우야 임관하자" /><published>2025-06-24T06:00:00+00:00</published><updated>2025-06-24T06:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/24/28682</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/24/28682.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-28682/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/28682">28682번 재우야 임관하자 - 백준</a></p>
-
-<p>1년 전?<br />
-내가 1년 전에 이런 걸 했다고????<br />
-하라는 대로 단순 구현하는 문제인데 어디가 잘못되었지??</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span> <span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span> <span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span> 
-	<span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span> <span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">))){</span>
-	<span class="nc">StringBuilder</span> <span class="n">sb</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
-	<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-	<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-		<span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">!=</span><span class="mi">0</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
-		<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"swimming"</span><span class="o">);</span>
-	<span class="o">}</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
-	<span class="n">sb</span><span class="o">.</span><span class="na">setLength</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
-	<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-	<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
-		<span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">!=</span><span class="mi">0</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
-		<span class="nc">String</span> <span class="n">s</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">();</span>
-		<span class="k">if</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"bowling"</span><span class="o">))</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"soccer"</span><span class="o">);</span>
-		<span class="k">else</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"bowling"</span><span class="o">);</span>
-	<span class="o">}</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
-<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span><span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();}</span>
-</code></pre></div></div>
-
-<p>????<br />
-하라는 대로 안한거 아닌가 이거???<br />
-<span style="color: red;"><strong>왜 시키는 대로 하지 않는거지?</strong></span></p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p><span style="color: orange;"><strong>몬티홀 문제</strong></span><br />
-대충 정리하면 바꾸는게 이득이라는 뜻이다.<br />
-온갖 매체를 통해 소개된 유명한 문제이다.</p>
-
-<p>여기서는 swimming, bowling, soccer 3가지가 있다.<br />
-간단하게 처음에 swimming을 출력하고<br />
-그다음 입력이 bowling으로 들어오면 soccer, 아니면 bowling을 출력한다.</p>
-
-<p>문제에서 매 출력마다 flush를 요구하니 잘 해주도록 하자.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
-<span class="nc">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
-
-<span class="c1">// 1. swimming 출력</span>
-<span class="c1">// 문제에서 n은 1500이라 명시됨</span>
-<span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
-
-<span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"swimming"</span><span class="o">);</span>
-<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1500</span> <span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" swimming"</span><span class="o">);</span>
-
-<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
-
-<span class="c1">// 2. 입력에 따라 bowling 또는 soccer 출력</span>
-<span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">(),</span> <span class="s">" "</span><span class="o">);</span>
-<span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
-
-<span class="k">while</span> <span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="o">{</span>
-	<span class="k">if</span> <span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">().</span><span class="na">charAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'s'</span><span class="o">)</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"bowling "</span><span class="o">);</span>
-	<span class="k">else</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"soccer "</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">sb</span><span class="o">.</span><span class="na">length</span><span class="o">()-</span><span class="mi">1</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
-<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
-
-<span class="n">sc</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-28682/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-28682/img03.webp" alt="img03" /></p>
-
-<p>아니 뭐야 왜케 많이 틀렸어!!!<br />
-<span style="color: red;"><strong>나 오늘 로또 사러 가?!?!?!?!</strong></span></p>
-
-<p>사실 print 안하고 println 해서 다틀렸다.<br />
-세상에서 제일 재수없는 사람인줄 알았네</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-24-28682.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="28682" /><category term="재우야 임관하자" /><category term="구현" /><summary type="html"><![CDATA[백준 28682번 재우야 임관하자 JAVA 문제풀이]]></summary></entry><entry><title type="html">12833번 XORXORXOR</title><link href="https://movingwoo.com/boj/java/2025/06/24/12833.html" rel="alternate" type="text/html" title="12833번 XORXORXOR" /><published>2025-06-24T04:00:00+00:00</published><updated>2025-06-24T04:00:00+00:00</updated><id>https://movingwoo.com/boj/java/2025/06/24/12833</id><content type="html" xml:base="https://movingwoo.com/boj/java/2025/06/24/12833.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-12833/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/12833">12833번 XORXORXOR - 백준</a></p>
-
-<p>당분간 틀린 브론즈 문제로 힐링해야지.<br />
-5년 전 시간초과다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span> <span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span><span class="o">=</span><span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
-	<span class="nc">BufferedWriter</span> <span class="n">bw</span><span class="o">=</span><span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">));)</span> <span class="o">{</span>
-	<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-	<span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	<span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	<span class="kt">int</span> <span class="n">c</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-	<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">c</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="n">a</span><span class="o">^=</span><span class="n">b</span><span class="o">;</span>
-	<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">a</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
-<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">){</span><span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();}</span>
-</code></pre></div></div>
-
-<p>XOR 연산을 실제로 C번 진행해서 시간초과가 난다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>C가 최대 10^9인데 제한시간이 0.2초라서 시뮬레이션하면 터진다.</p>
-
-<p>XOR을 2번하면 원래대로 돌아오므로 <span style="color: orange;"><strong>C가 짝수면 A, 홀수면 A ^ B</strong></span> 를 출력한다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>버퍼드리더로 충분할 것 같긴 한데 빠른 입력 만들어둔걸 또 가져와서 쓰자.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">{</span>
-
-	<span class="nc">InputReader</span> <span class="n">ir</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputReader</span><span class="o">();</span>
-	
-	<span class="kt">int</span> <span class="no">A</span> <span class="o">=</span> <span class="n">ir</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
-	<span class="kt">int</span> <span class="no">B</span> <span class="o">=</span> <span class="n">ir</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
-	<span class="kt">int</span> <span class="no">C</span> <span class="o">=</span> <span class="n">ir</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
-	
-	<span class="k">if</span> <span class="o">(</span><span class="no">C</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">A</span><span class="o">);</span>
-	<span class="k">else</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">A</span> <span class="o">^</span> <span class="no">B</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="c1">// 빠른 입출력 구현</span>
-<span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">InputReader</span> <span class="o">{</span>
-	
-	<span class="kd">private</span> <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">buf</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">20</span><span class="o">];</span>
-	
-	<span class="kd">private</span> <span class="kt">int</span> <span class="n">ptr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="kt">int</span> <span class="n">buflen</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-
-	<span class="kt">int</span> <span class="nf">nextInt</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
-		<span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-		<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-		<span class="kt">boolean</span> <span class="n">negative</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-		
-		<span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
-			<span class="n">c</span> <span class="o">=</span> <span class="n">read</span><span class="o">();</span>
-			<span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">&gt;</span> <span class="sc">' '</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
-		<span class="o">}</span>
-		
-		<span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'-'</span><span class="o">)</span> <span class="o">{</span> 
-			<span class="n">negative</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-			<span class="n">c</span> <span class="o">=</span> <span class="n">read</span><span class="o">();</span> 
-		<span class="o">}</span>
-		
-		<span class="k">while</span><span class="o">(</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="sc">'0'</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="sc">'9'</span><span class="o">)</span> <span class="o">{</span>
-			<span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'0'</span><span class="o">);</span>
-			<span class="n">c</span><span class="o">=</span> <span class="n">read</span><span class="o">();</span>
-		<span class="o">}</span>
-		
-		<span class="k">return</span> <span class="n">negative</span> <span class="o">?</span> <span class="o">-</span><span class="n">x</span> <span class="o">:</span> <span class="n">x</span><span class="o">;</span>
-	<span class="o">}</span>
-
-	<span class="kd">private</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
-		<span class="k">if</span> <span class="o">(</span><span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">buflen</span><span class="o">)</span> <span class="o">{</span>
-			<span class="n">buflen</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buf</span><span class="o">);</span>
-			<span class="n">ptr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-			<span class="k">if</span> <span class="o">(</span><span class="n">buflen</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-				<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
-			<span class="o">}</span>
-		<span class="o">}</span>
-		
-		<span class="k">return</span> <span class="n">buf</span><span class="o">[</span><span class="n">ptr</span><span class="o">++]</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="o">;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Java/2025-06-24-12833/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>뭔가 불만족스러운 속도는 출력에 신경을 쓰지 않아서인가…<br />
-빠른 출력 코드도 찾아와서 다음에 써먹어야겠다.<br />
-분명히 예전에 해둔게 있을건데</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-24-12833.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="12833" /><category term="XORXORXOR" /><category term="애드훅" /><summary type="html"><![CDATA[백준 12833번 XORXORXOR JAVA 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Java/2025-06-26-1168.java">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Java/" /><category term="JAVA" /><category term="알고리즘" /><category term="백준" /><category term="1168" /><category term="요세푸스 문제 2" /><category term="세그먼트트리" /><summary type="html"><![CDATA[백준 1168번 요세푸스 문제 2 JAVA 문제풀이]]></summary></entry></feed>

@@ -370,4 +370,28 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",6976,"Divisibility by 11","구현"],
         "url": "/boj/python/2025/06/27/6976.html",
         "teaser": null
+      },{
+        "title": "2391번 Sascha",
+        "excerpt":"이왜틀? 2391번 Sascha - 백준 String w=br.readLine(); // 발음한 단어 String r=\"\"; // 제출단어 int c=w.length(); // 바꾼횟수 int d=0; // 총횟수 int n=Integer.parseInt(br.readLine()); // 사전수 while(n--&gt;0) { String s=br.readLine(); // 사전단어 Set&lt;String&gt; set=new HashSet&lt;&gt;(); int e=0; for(int i=0;i&lt;s.length();i++) { if(w.charAt(i)!=s.charAt(i)) { set.add(w.charAt(i)+\" \"+s.charAt(i)); e++; } } if(set.size()&lt;c) { c=set.size();...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",2391,"Sascha","구현"],
+        "url": "/boj/python/2025/06/30/2391.html",
+        "teaser": null
+      },{
+        "title": "8713번 Znak działania",
+        "excerpt":"이왜틀? 8713번 Znak działania - 백준 1번 틀리고 도망갔다. 어째서 튀었지? 왜 맞서싸우지 않았지? 상대는 기껏해야 브론즈인데! StringTokenizer st=new StringTokenizer(br.readLine()); int a=Integer.parseInt(st.nextToken()); int b=Integer.parseInt(st.nextToken()); int q=a+b; int w=a-b; int r=a*b; int c=0; if(q==w) c++; if(w==r) c++; if(q==r) c++; if(c&gt;0) bw.write(\"NIE\"); else{ StringBuilder sb=new StringBuilder(); if(q&gt;w&amp;&amp;q&gt;r){ if(a&lt;0) sb.append(\"(\"); sb.append(a+(a&lt;0?\")+\":\"+\")); if(b&lt;0) sb.append(\"(\");...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",8713,"Znak działania","구현"],
+        "url": "/boj/python/2025/06/30/8713.html",
+        "teaser": null
+      },{
+        "title": "8711번 Odchudzanie",
+        "excerpt":"이왜틀? 8711번 Odchudzanie - 백준 int n=Integer.parseInt(br.readLine()); StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); long a=Long.MAX_VALUE; long b=1; long i=1; while(st.hasMoreTokens()){ long t=Long.parseLong(st.nextToken()); if(a&gt;t) { a=t; b=i; } i++; } bw.write(b+\"\"); 뭐지? 뭔짓을 한거야 내 소스를 이해를 못하겠다. 설계 가장 큰 구간 차이를 계산해야한다. 단순히 min max 값 구하는 걸로는 안되고 시간의 흐름이...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",8711,"Odchudzanie","구현"],
+        "url": "/boj/python/2025/06/30/8711.html",
+        "teaser": null
+      },{
+        "title": "8660번 Sumy i różnice",
+        "excerpt":"이왜틀? 8660번 Sumy i różnice - 백준 틀린 문제 중 마지막 브론즈따리 문제 더 이상의 힐링은 없다. 소스를 보자. int n=Integer.parseInt(br.readLine()); StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); long a=0; long b=0; while(st.hasMoreTokens()){ if(st.nextToken().charAt(0)=='-') a++; else b++; } bw.write(a*b+\"\"); 아~~~~ 접근은 좋았는데 아깝네~~~~ 설계 a - b &gt; a + b 당연하겠지만 b가...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",8660,"Sumy i różnice","구현"],
+        "url": "/boj/python/2025/06/30/8660.html",
+        "teaser": null
       }]
