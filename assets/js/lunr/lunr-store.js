@@ -394,4 +394,34 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",8660,"Sumy i różnice","구현"],
         "url": "/boj/python/2025/06/30/8660.html",
         "teaser": null
+      },{
+        "title": "11504번 돌려 돌려 돌림판!",
+        "excerpt":"이왜틀? 11504번 돌려 돌려 돌림판! - 백준 실버 조지기 시작 단순 구현 문제인데 왜 틀렸을까? int t=Integer.parseInt(br.readLine()); while(t--&gt;0) { StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); int dn=Integer.parseInt(st.nextToken()); int ys=Integer.parseInt(st.nextToken()); st=new StringTokenizer(br.readLine(),\" \"); StringBuilder sb=new StringBuilder(); while(st.hasMoreTokens()) sb.append(st.nextToken()); long x=Long.parseLong(sb.toString()); st=new StringTokenizer(br.readLine(),\" \"); sb.setLength(0); while(st.hasMoreTokens()) sb.append(st.nextToken()); long y=Long.parseLong(sb.toString()); Deque&lt;String&gt; que=new LinkedList&lt;&gt;(); Stack&lt;String&gt; stk=new...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",11504,"돌려 돌려 돌림판!","브루트포스"],
+        "url": "/boj/python/2025/07/01/11504.html",
+        "teaser": null
+      },{
+        "title": "15464번 The Bovine Shuffle",
+        "excerpt":"이왜틀? 15464번 The Bovine Shuffle - 백준 int n=Integer.parseInt(br.readLine()); int[][] arr=new int[n][2]; StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); for(int i=0;i&lt;n;i++) arr[i][0]=Integer.parseInt(st.nextToken()); st=new StringTokenizer(br.readLine(),\" \"); for(int i=0;i&lt;n;i++) arr[i][1]=Integer.parseInt(st.nextToken()); Arrays.sort(arr,new Comparator&lt;int[]&gt;() { @Override public int compare(int[] a,int[] b) { return a[0]-b[0]; } }); for(int i=0;i&lt;n;i++) bw.write(arr[i][1]+\"\\n\"); 좀 주석이랑 엔터 좀 해두지 좀 정렬 시도는...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",15464,"The Bovine Shuffle","구현"],
+        "url": "/boj/python/2025/07/01/15464.html",
+        "teaser": null
+      },{
+        "title": "1388번 바닥 장식",
+        "excerpt":"이왜틀? 1388번 바닥 장식 - 백준 이상하네 숫자가 크지도 않고 그냥 전체 탐색하면서 세어도 문제 없을 것 같은데 StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); int r=Integer.parseInt(st.nextToken()); int c=Integer.parseInt(st.nextToken()); char[][] arr=new char[r][c]; int s=0; for(int i=0;i&lt;r;i++) { String l=br.readLine(); s+=l.split(\"\\\\|\").length; for(int j=0;j&lt;c;j++) { arr[i][j]=l.charAt(j); } } for(int i=0;i&lt;c;i++) { StringBuilder sb=new StringBuilder(); for(int...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",1388,"바닥 장식","DFS"],
+        "url": "/boj/python/2025/07/01/1388.html",
+        "teaser": null
+      },{
+        "title": "1359번 복권",
+        "excerpt":"이왜틀? 1359번 복권 - 백준 아니 뭔 짓을 한거야 StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); long a=Long.parseLong(st.nextToken()); long b=Long.parseLong(st.nextToken()); long c=Long.parseLong(st.nextToken()); long r=f(a)/(f(a-1)*f(b)); r=f(r)/(f(r-1)*f(c)); bw.write((double)1/r+\"\"); static long f(long a){ if(a==1) return a; else return a*f(a-1); } 조합 계산을 시도한 것 같은데… 런타임에러고 나발이고 계산 자체가 틀렸구만 설계 1부터 N까지의 수 중에 서로...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",1359,"복권","구현"],
+        "url": "/boj/python/2025/07/01/1359.html",
+        "teaser": null
+      },{
+        "title": "1812번 사탕",
+        "excerpt":"이왜틀? 1812번 사탕 - 백준 int n=Integer.parseInt(br.readLine()); int[] arr=new int[n]; int s=0; for(int i=0;i&lt;n;i++) { arr[i]=Integer.parseInt(br.readLine()); s+=arr[i]; } s/=2; for(int i=0;i&lt;n;i++) { int t=0; for(int j=0;j&lt;n;j+=2) { int m=(i+j)%n; t+=arr[m]; if(t-s&gt;0) bw.write(t-s+\"\\n\"); } } 전체 사탕 수 구한 것 까지는 이해하겠는데 그 뒤에 뭘 하고 싶었던 건지 잘 모르겠다. 설계...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",1812,"사탕","구현"],
+        "url": "/boj/python/2025/07/01/1812.html",
+        "teaser": null
       }]

@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           
           
-          <li class="toc__item depth-1" data-path="BOJ/Python/" data-total-posts="18">
+          <li class="toc__item depth-1" data-path="BOJ/Python/" data-total-posts="23">
             <div class="toc__menu-title">
               <span class="folder-toggle">
                 <i class="fas fa-folder-open"></i>
@@ -462,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <span class="folder-name">Python</span>
               
               
-                <span class="post-count">18</span>
+                <span class="post-count">23</span>
               
             </div>
             
@@ -470,20 +470,20 @@ document.addEventListener('DOMContentLoaded', function() {
               <ul class="toc__menu posts-list">
                 
                   <li>
-                    <a href="/boj/python/2025/06/30/8660.html" class="toc__link">
-                      <i class="fas fa-file-alt"></i> 8660번 Sumy i różnice
+                    <a href="/boj/python/2025/07/01/1812.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 1812번 사탕
                     </a>
                   </li>
                 
                   <li>
-                    <a href="/boj/python/2025/06/30/8711.html" class="toc__link">
-                      <i class="fas fa-file-alt"></i> 8711번 Odchudzanie
+                    <a href="/boj/python/2025/07/01/1359.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 1359번 복권
                     </a>
                   </li>
                 
                   <li>
-                    <a href="/boj/python/2025/06/30/8713.html" class="toc__link">
-                      <i class="fas fa-file-alt"></i> 8713번 Znak działania
+                    <a href="/boj/python/2025/07/01/1388.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 1388번 바닥 장식
                     </a>
                   </li>
                 
@@ -1282,7 +1282,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/boj/python/2025/06/30/8660.html" rel="permalink">8660번 Sumy i różnice
+        <a href="/boj/python/2025/07/01/1812.html" rel="permalink">1812번 사탕
 </a>
       
     </h2>
@@ -1296,14 +1296,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-8660번 Sumy i różnice - 백준
-
-틀린 문제 중 마지막 브론즈따리 문제
-더 이상의 힐링은 없다.
-소스를 보자.
+1812번 사탕 - 백준
 
 int n=Integer.parseInt(br.readLine());
-StringTokenizer st=new StringTok...</p>
+int[] arr=new int[n];
+int s=0;
+for(int i=0;i&lt;n;i++) {
+  arr[i]=Integer.parseInt(br.re...</p>
   </article>
 </div>
 
@@ -1317,7 +1316,7 @@ StringTokenizer st=new StringTok...</p>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/boj/python/2025/06/30/8711.html" rel="permalink">8711번 Odchudzanie
+        <a href="/boj/python/2025/07/01/1359.html" rel="permalink">1359번 복권
 </a>
       
     </h2>
@@ -1331,11 +1330,13 @@ StringTokenizer st=new StringTok...</p>
 
 
 
-8711번 Odchudzanie - 백준
+1359번 복권 - 백준
 
-int n=Integer.parseInt(br.readLine());
+아니 뭔 짓을 한거야
+
 StringTokenizer st=new StringTokenizer(br.readLine()," ");
-long a=Long.MAX_VALU...</p>
+long a=Long.parseLong(st.nextToken());
+long b=Long.pars...</p>
   </article>
 </div>
 
@@ -1349,7 +1350,7 @@ long a=Long.MAX_VALU...</p>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/boj/python/2025/06/30/8713.html" rel="permalink">8713번 Znak działania
+        <a href="/boj/python/2025/07/01/1388.html" rel="permalink">1388번 바닥 장식
 </a>
       
     </h2>
@@ -1363,14 +1364,12 @@ long a=Long.MAX_VALU...</p>
 
 
 
-8713번 Znak działania - 백준
+1388번 바닥 장식 - 백준
 
-1번 틀리고 도망갔다.
-어째서 튀었지? 왜 맞서싸우지 않았지?
-상대는 기껏해야 브론즈인데!
+이상하네 숫자가 크지도 않고 그냥 전체 탐색하면서 세어도 문제 없을 것 같은데
 
-StringTokenizer st=new StringTokenizer(br.readLine());
-int a=In...</p>
+StringTokenizer st=new StringTokenizer(br.readLine()," ");
+int r=Integer.parseI...</p>
   </article>
 </div>
 
@@ -1384,7 +1383,7 @@ int a=In...</p>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/boj/python/2025/06/30/2391.html" rel="permalink">2391번 Sascha
+        <a href="/boj/python/2025/07/01/15464.html" rel="permalink">15464번 The Bovine Shuffle
 </a>
       
     </h2>
@@ -1398,13 +1397,11 @@ int a=In...</p>
 
 
 
-2391번 Sascha - 백준
+15464번 The Bovine Shuffle - 백준
 
-String w=br.readLine(); // 발음한 단어
-String r=""; // 제출단어
-int c=w.length(); // 바꾼횟수
-int d=0; // 총횟수
-int n=Integer.parseInt(br....</p>
+int n=Integer.parseInt(br.readLine());
+int[][] arr=new int[n][2];
+StringTokenizer st=new StringTokenizer(br.re...</p>
   </article>
 </div>
 
@@ -1418,7 +1415,7 @@ int n=Integer.parseInt(br....</p>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/boj/python/2025/06/27/6976.html" rel="permalink">6976번 Divisibility by 11
+        <a href="/boj/python/2025/07/01/11504.html" rel="permalink">11504번 돌려 돌려 돌림판!
 </a>
       
     </h2>
@@ -1432,14 +1429,14 @@ int n=Integer.parseInt(br....</p>
 
 
 
-6976번 Divisibility by 11 - 백준
+11504번 돌려 돌려 돌림판! - 백준
 
-4년 전 메모리 초과 문제.
+실버 조지기 시작
+단순 구현 문제인데 왜 틀렸을까?
 
 int t=Integer.parseInt(br.readLine());
-for(int q=0;q&lt;t;q++){
-    if(q!=0) bw.write("\n");
- ...</p>
+while(t--&gt;0) {
+    StringTokenizer st=new Stri...</p>
   </article>
 </div>
 
