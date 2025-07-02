@@ -442,4 +442,16 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",16194,"카드 구매하기 2","DP"],
         "url": "/boj/python/2025/07/02/16194.html",
         "teaser": null
+      },{
+        "title": "11973번 Angry Cows (Silver)",
+        "excerpt":"이왜틀? 11973번 Angry Cows (Silver) - 백준 아 이 문제 그거다. 골드 풀고 소스 그대로 집어넣었다가 틀린 문제. 골드랑 완전히 다른 문제라 틀린 문제다. 그냥 새로 풀어야한다는 뜻 번역 골드랑 비슷한데 조금 다르다. 소를 날리면 반지름 R 범위 내 건초더미를 폭발시킨다. K마리의 소를 날려 N개의 건초더미를 터뜨릴때 필요한 힘 R의...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",11973,"Angry Cows (Silver)","이분탐색"],
+        "url": "/boj/python/2025/07/02/11973.html",
+        "teaser": null
+      },{
+        "title": "12730번 Saving the Universe (Large)",
+        "excerpt":"이왜틀? 12730번 Saving the Universe (Large) - 백준 이왜틀 마지막 실버문제 int n=Integer.parseInt(br.readLine()); Map&lt;String,Integer&gt; se=new HashMap&lt;String,Integer&gt;(); for(int i=0;i&lt;n;i++) se.put(br.readLine(), 0); int m=Integer.parseInt(br.readLine()); for(int i=0;i&lt;m;i++){ String c=br.readLine(); if(se.containsKey(c)) se.put(c, se.get(c)+1); } int u=Integer.MAX_VALUE; Iterator&lt;String&gt; e=se.keySet().iterator(); while(e.hasNext()){ String y=(String)e.next(); if(se.containsKey(y)){ int v=se.get(y); if(u&gt;=v) u=v; } } bw.write(\"Case #\"+k+\": \"+(u==m?u-1:u)+\"\\n\"); 제일 적게 등장한...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",12730,"Saving the Universe (Large)","구현"],
+        "url": "/boj/python/2025/07/02/12730.html",
+        "teaser": null
       }]
