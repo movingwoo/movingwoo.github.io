@@ -424,4 +424,22 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",1812,"사탕","구현"],
         "url": "/boj/python/2025/07/01/1812.html",
         "teaser": null
+      },{
+        "title": "1913번 달팽이",
+        "excerpt":"이왜틀? 1913번 달팽이 - 백준 달팽이 그리는 것만 있으면 아주 기초적인 문제인데 좌표를 구하는게 추가되었다. import java.util.*;interface Main{static void main(String[]z){Scanner s=new Scanner(System.in);int n=s.nextInt(),y=s.nextInt(),g=1,i=n/2,j=n/2,k=1;int[][]a=new int[n][n];a[i][j]=k;boolean u=true;h:for(;;){if(u){for(int l=1;l&lt;=g;l++){a[--i][j]=++k;if(k==n*n)break h;}for(int l=1;l&lt;=g;l++){a[i][++j]=++k;if(k==n*n)break h;}u=!u;g++;}else{for(int l=1;l&lt;=g;l++){a[++i][j]=++k;if(k==n*n)break h;}for(int l=1;l&lt;=g;l++){a[i][--j]=++k;if(k==n*n)break h;}u=!u;g++;}}for(int m=0;m&lt;n;m++){for(int l=0;l&lt;n;l++){k=a[m][l];System.out.print(k+(l==n-1?\"\\n\":\" \"));if(k==y){i=m+1;j=l+1;}}}System.out.print(i+\" \"+j);}} 미친 뭔 짓을 한거임 대체 뭐가 문제였을까? 세상에 불만이 많았나? 때려치고 처음부터 풀자....","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",1913,"달팽이","구현"],
+        "url": "/boj/python/2025/07/02/1913.html",
+        "teaser": null
+      },{
+        "title": "14569번 시간표 짜기",
+        "excerpt":"이왜틀? 14569번 시간표 짜기 - 백준 int n=Integer.parseInt(br.readLine()); List&lt;String[]&gt; clas=new ArrayList&lt;&gt;(); for(int i=0;i&lt;n;i++) { StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); int ntmp=Integer.parseInt(st.nextToken()); String[] atmp=new String[ntmp]; int idx=0; while(st.hasMoreTokens()) { atmp[idx++]=\" \"+st.nextToken(); } clas.add(atmp); } int m=Integer.parseInt(br.readLine()); int[] gn=new int[m]; for(int i=0;i&lt;m;i++) { String l=br.readLine(); if(l.equals(\"0\")) continue; else { l=l.substring(l.indexOf(' ')); for(int j=0;j&lt;n;j++)...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",14569,"시간표 짜기","비트마스킹"],
+        "url": "/boj/python/2025/07/02/14569.html",
+        "teaser": null
+      },{
+        "title": "16194번 카드 구매하기 2",
+        "excerpt":"이왜틀? 16194번 카드 구매하기 2 - 백준 int n=Integer.parseInt(br.readLine()); int[] pack=new int[n+1]; int[] arr=new int[n+1]; StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); for(int i=1;i&lt;=n;i++) { pack[i] = Integer.parseInt(st.nextToken()); } for(int i=1;i&lt;=n;i++) { for(int j=1;j&lt;=i;j++) { arr[i]=Math.max(arr[i],arr[i-j]+pack[j]); } } bw.write(arr[n]+\"\"); 최소 비용을 구해야하는데 왜 Math.max를 쓴거지? 설계 점화식은 다 짜두었으니 그대로 가져가서 쓰되, min을...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",16194,"카드 구매하기 2","DP"],
+        "url": "/boj/python/2025/07/02/16194.html",
+        "teaser": null
       }]

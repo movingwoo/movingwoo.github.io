@@ -1,0 +1,2404 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>1913번 달팽이 - 뭐라도 하겠지</title>
+<meta name="description" content="백준 1913번 달팽이 PYTHON 문제풀이">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="뭐라도 하겠지">
+<meta property="og:title" content="1913번 달팽이">
+<meta property="og:url" content="https://movingwoo.com/boj/python/2025/07/02/1913.html">
+
+
+  <meta property="og:description" content="백준 1913번 달팽이 PYTHON 문제풀이">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-07-02T00:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-07-02T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://movingwoo.com/boj/python/2025/07/02/1913.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "뭐라도 하겠지",
+      "url": "https://movingwoo.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/common/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/common/favicon_16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/common/favicon_180x180.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="뭐라도 하겠지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.querySelector('.head-content-btn');
+  const dropdownContent = document.querySelector('.game-dropdown-content');
+  let isOpen = false;
+
+  // 드롭다운 버튼 클릭 이벤트
+  dropdownBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    if (isOpen) {
+      const rect = dropdownBtn.getBoundingClientRect();
+      dropdownContent.style.top = rect.bottom + 'px';
+      dropdownContent.style.left = rect.left + 'px';
+      dropdownContent.classList.add('show');
+    } else {
+      dropdownContent.classList.remove('show');
+    }
+  });
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    if (isOpen && !dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+      isOpen = false;
+      dropdownContent.classList.remove('show');
+    }
+  });
+});
+</script>
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/common/favicon_180x180.png" alt="뭐라도 하겠지"></a>
+        
+        <a class="site-title" href="/">
+          뭐라도 하겠지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <div class="game-dropdown">
+              <button class="head-content-btn">
+                play <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="game-dropdown-content">
+                <a href="/play/Flappy%20Bird.html" target="_blank">Flappy Bird</a>
+                <a href="/play/Minesweeper.html" target="_blank">Minesweeper</a>
+                <a href="/play/Random%20Printer.html" target="_blank">Random Printer</a>
+                <a href="/play/Maze%20Generator.html" target="_blank">Maze Generator</a>
+                <a href="/play/Dungeon%20Generator.html" target="_blank">Dungeon Generator</a>
+                <a href="/play/Code%20Simulator.html" target="_blank">Python Code Simulator</a>
+              </div>
+            </div>
+          </li>
+          <li class="masthead__menu-item">
+            <button class="head-content-btn" onclick="window.location.href='/board?path='">
+              explorer
+            </button>
+          </li>
+        </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <h1 class="title__logo"><a href="https://movingwoo.com/">뭐라도 하겠지</a></h1>
+ -->
+
+
+
+<script src="/assets/js/search.js"></script>
+
+
+    <div class="initial-content">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>1913번 달팽이 | 뭐라도 하겠지</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="1913번 달팽이" />
+<meta name="author" content="movingwoo" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="백준 1913번 달팽이 PYTHON 문제풀이" />
+<meta property="og:description" content="백준 1913번 달팽이 PYTHON 문제풀이" />
+<link rel="canonical" href="https://movingwoo.com/boj/python/2025/07/02/1913.html" />
+<meta property="og:url" content="https://movingwoo.com/boj/python/2025/07/02/1913.html" />
+<meta property="og:site_name" content="뭐라도 하겠지" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-07-02T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="1913번 달팽이" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-07-02T00:00:00+00:00","datePublished":"2025-07-02T00:00:00+00:00","description":"백준 1913번 달팽이 PYTHON 문제풀이","headline":"1913번 달팽이","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/boj/python/2025/07/02/1913.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/boj/python/2025/07/02/1913.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
+
+
+
+<div class="home-layout">
+  <div class="home-sidebar">
+    
+
+
+
+
+
+
+
+<aside class="sidebar__left">
+  <div class="toc-wrapper">
+    <nav class="toc">
+      <header>
+        <h4 class="nav__title">
+          <span class="title-text">
+            <i class="fas fa-sitemap"></i> Archive
+          </span>
+          <a href="/board?path=" class="search-link" title="탐색">
+            <i class="fas fa-list-ul"></i>
+          </a>
+        </h4>
+      </header>
+
+      <ul class="toc__menu">
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="BOJ/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">BOJ</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/C++/" data-total-posts="9">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">C++</span>
+              
+              
+                <span class="post-count">9</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/c++/2025/06/24/16221.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 16221번 모독
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/c++/2025/06/19/17456.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 17456번 필살! 60단 컴보
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/c++/2025/06/16/10722.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 10722번 Binary Mobile Tree
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FC%2B%2B%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/Java/" data-total-posts="16">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">16</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/java/2025/06/26/1168.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 1168번 요세푸스 문제 2
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/java/2025/06/24/8436.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 8436번 Kamil
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/java/2025/06/24/28682.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 28682번 재우야 임관하자
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FJava%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/Python/" data-total-posts="26">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">26</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/python/2025/07/02/16194.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 16194번 카드 구매하기 2
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/python/2025/07/02/14569.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 14569번 시간표 짜기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/python/2025/07/02/1913.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 1913번 달팽이
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FPython%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Development/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Development</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Java/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/java/2025/05/11/Bulls-and-Cows.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 숫자야구
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/JavaScript/" data-total-posts="8">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">JavaScript</span>
+              
+              
+                <span class="post-count">8</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/28/Dungeon-Generator-02.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 던전 생성기 02
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/27/Dungeon-Generator-01.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 던전 생성기 01
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/23/Maze-Generator-03.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 미로 생성기 03
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=Development%2FJavaScript%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Python/" data-total-posts="4">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">4</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/python/2025/06/19/Code-Simulator.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 코드 시뮬레이터
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/python/2025/06/09/Hardware-Monitor.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 하드웨어 모니터
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/python/2025/06/04/WebP-Converter.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> WebP 변환기
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=Development%2FPython%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/ShellScript/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">ShellScript</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/shellscript/2025/05/12/File-Copier.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파일 복사기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shellscript/2025/04/28/Server-Manage-Console.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 서버 관리 콘솔
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Shortcuts/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Shortcuts</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/shortcuts/2025/06/11/Drawing-Lots.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 제비 뽑기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shortcuts/2025/06/02/Magic-Conch-Shell.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 마법의 소라고둥
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Zone of Exile/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Zone of Exile</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/2025/04/30/What-is-this.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 유배지 공고문
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Zone of Exile/AI-playground/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">AI-playground</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/Claude/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Claude</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/GPT/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">GPT</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/toc.js"></script> 
+  </div>
+
+  <div class="home-content">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="headline" content="1913번 달팽이">
+      <meta itemprop="description" content="  이왜틀?  1913번 달팽이 - 백준달팽이 그리는 것만 있으면 아주 기초적인 문제인데좌표를 구하는게 추가되었다.import java.util.*;interface Main{static void main(String[]z){Scanner s=new Scanner(System.in);int n=s.nextInt(),y=s.nextInt(),g=1,i=n/2,j=n/2,k=1;int[][]a=new int[n][n];a[i][j]=k;boolean u=true;h:for(;;){if(u){for(int l=1;l&lt;=g;l++){a[--i][j]=++k;if(k==n*n)break h;}for(int l=1;l&lt;=g;l++){a[i][++j]=++k;if(k==n*n)break h;}u=!u;g++;}else{for(int l=1;l&lt;=g;l++){a[++i][j]=++k;if(k==n*n)break h;}for(int l=1;l&lt;=g;l++){a[i][--j]=++k;if(k==n*n)break h;}u=!u;g++;}}for(int m=0;m&lt;n;m++){for(int l=0;l&lt;n;l++){k=a[m][l];System.out.print(k+(l==n-1?&quot;\n&quot;:&quot; &quot;));if(k==y){i=m+1;j=l+1;}}}System.out.print(i+&quot; &quot;+j);}}미친 뭔 짓을 한거임대체 뭐가 문제였을까?세상에 불만이 많았나?때려치고 처음부터 풀자.  설계  다 그리고 좌표를 찾으려 하면 아마 시간초과에 걸릴 것이다.달팽이를 그리면서 좌표를 찾는게 훨씬 빠르다.  구현  출발할 중앙 점부터 달팽이를 그린다.찾으려는 타겟이 나오는 순간 해당 좌표를 확인한다.N = int(input())target = int(input())x, y = N // 2, N // 2# 달팽이 방향 위 오른쪽 아래 왼쪽dx = [-1, 0, 1, 0]dy = [0, 1, 0, -1]snail = [[0] * N for _ in range(N)]n = 1len = 1tx, ty = 0, 0snail[x][y] = n# n == 1 일때 타겟좌표 체크if n == target:    tx, ty = x, ywhile n &lt; N * N:    for i in range(4):        for _ in range(len):            x += dx[i]            y += dy[i]            if 0 &lt;= x &lt; N and 0 &lt;= y &lt; N:                n += 1                snail[x][y] = n                                if n == target:                    # 타겟 좌표 미리 저장                    tx, ty = x, y                if i % 2 == 1:            # 2번마다 길이 연장            len += 1for r in snail:    print(&#39; &#39;.join(map(str, r)))print(tx + 1, ty + 1)   채점  n == 1일때 타겟좌표 갱신 부분 추가하고 통과  반성  곰곰히 생각해보니까 저 자바 소스 숏코딩하려고 그랬던 것 같다.숏코딩 그거 아무 의미 없는데…보기 좋고 주석 달린 코드가 최고인데그땐 몰랐지  코드 확인  Link to GitHub">
+      <meta itemprop="datePublished" content="2025-07-02T00:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-07-02T00:00:00+00:00">
+
+      <div class="page__inner-wrap">
+        
+          <header>
+            
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=BOJ" class="category-link">
+        BOJ
+      </a>
+      
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=BOJ%2FPython" class="category-link">
+        Python
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=BOJ%2FPython%2F" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">1913번 달팽이
+</h1>
+            
+
+
+          </header>
+        
+
+        <section class="page__content" itemprop="text">
+          <blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-1913/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/1913">1913번 달팽이 - 백준</a></p>
+
+<p>달팽이 그리는 것만 있으면 아주 기초적인 문제인데<br />
+좌표를 구하는게 추가되었다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span><span class="kd">interface</span> <span class="nc">Main</span><span class="o">{</span><span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span><span class="n">z</span><span class="o">){</span><span class="nc">Scanner</span> <span class="n">s</span><span class="o">=</span><span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(),</span><span class="n">y</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(),</span><span class="n">g</span><span class="o">=</span><span class="mi">1</span><span class="o">,</span><span class="n">i</span><span class="o">=</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="o">,</span><span class="n">j</span><span class="o">=</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="o">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="kt">int</span><span class="o">[][]</span><span class="n">a</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">][</span><span class="n">n</span><span class="o">];</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]=</span><span class="n">k</span><span class="o">;</span><span class="kt">boolean</span> <span class="n">u</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span><span class="nl">h:</span><span class="k">for</span><span class="o">(;;){</span><span class="k">if</span><span class="o">(</span><span class="n">u</span><span class="o">){</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;=</span><span class="n">g</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">a</span><span class="o">[--</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]=++</span><span class="n">k</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="o">)</span><span class="k">break</span> <span class="n">h</span><span class="o">;}</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;=</span><span class="n">g</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">][++</span><span class="n">j</span><span class="o">]=++</span><span class="n">k</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="o">)</span><span class="k">break</span> <span class="n">h</span><span class="o">;}</span><span class="n">u</span><span class="o">=!</span><span class="n">u</span><span class="o">;</span><span class="n">g</span><span class="o">++;}</span><span class="k">else</span><span class="o">{</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;=</span><span class="n">g</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">a</span><span class="o">[++</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]=++</span><span class="n">k</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="o">)</span><span class="k">break</span> <span class="n">h</span><span class="o">;}</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;=</span><span class="n">g</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">][--</span><span class="n">j</span><span class="o">]=++</span><span class="n">k</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="o">)</span><span class="k">break</span> <span class="n">h</span><span class="o">;}</span><span class="n">u</span><span class="o">=!</span><span class="n">u</span><span class="o">;</span><span class="n">g</span><span class="o">++;}}</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">m</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">m</span><span class="o">++){</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">k</span><span class="o">=</span><span class="n">a</span><span class="o">[</span><span class="n">m</span><span class="o">][</span><span class="n">l</span><span class="o">];</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">k</span><span class="o">+(</span><span class="n">l</span><span class="o">==</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">?</span><span class="s">"\n"</span><span class="o">:</span><span class="s">" "</span><span class="o">));</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">y</span><span class="o">){</span><span class="n">i</span><span class="o">=</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span><span class="n">j</span><span class="o">=</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="o">;}}}</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="s">" "</span><span class="o">+</span><span class="n">j</span><span class="o">);}}</span>
+</code></pre></div></div>
+
+<p><span style="color: red;"><strong>미친 뭔 짓을 한거임</strong></span><br />
+대체 뭐가 문제였을까?<br />
+세상에 불만이 많았나?<br />
+때려치고 처음부터 풀자.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>다 그리고 좌표를 찾으려 하면 아마 시간초과에 걸릴 것이다.<br />
+<span style="color: orange;"><strong>달팽이를 그리면서 좌표를 찾는게 훨씬 빠르다.</strong></span></p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>출발할 중앙 점부터 달팽이를 그린다.<br />
+찾으려는 타겟이 나오는 순간 해당 좌표를 확인한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
+<span class="n">target</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
+
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">N</span> <span class="o">//</span> <span class="mi">2</span>
+
+<span class="c1"># 달팽이 방향 위 오른쪽 아래 왼쪽
+</span><span class="n">dx</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">dy</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">snail</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">N</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">len</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+<span class="n">snail</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span>
+
+<span class="c1"># n == 1 일때 타겟좌표 체크
+</span><span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+    <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="k">while</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">*</span> <span class="n">N</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nb">len</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">+=</span> <span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">+=</span> <span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">:</span>
+                <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">snail</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span>
+                
+                <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                    <span class="c1"># 타겟 좌표 미리 저장
+</span>                    <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+        
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># 2번마다 길이 연장
+</span>            <span class="nb">len</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">snail</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">r</span><span class="p">)))</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">tx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ty</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-1913/img02.webp" alt="img02" /></p>
+
+<p>n == 1일때 타겟좌표 갱신 부분 추가하고 통과</p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>곰곰히 생각해보니까 저 자바 소스 숏코딩하려고 그랬던 것 같다.<br />
+숏코딩 그거 아무 의미 없는데…<br />
+보기 좋고 주석 달린 코드가 최고인데<br />
+그땐 몰랐지</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-1913.py">Link to GitHub</a></p>
+
+          
+        </section>
+
+        <footer class="page__meta">
+          
+          
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-07-02">July 2, 2025</time></p>
+
+
+        </footer>
+
+        
+
+        
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "1913번 달팽이",
+        url: "/boj/python/2025/07/02/1913.html",
+        date: "2025-07-02",
+        categories: ["BOJ/Python/"]
+      },
+      allPosts: [
+        
+        
+          
+          
+          {
+            title: "16194번 카드 구매하기 2",
+            url: "/boj/python/2025/07/02/16194.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "14569번 시간표 짜기",
+            url: "/boj/python/2025/07/02/14569.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1913번 달팽이",
+            url: "/boj/python/2025/07/02/1913.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1812번 사탕",
+            url: "/boj/python/2025/07/01/1812.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1359번 복권",
+            url: "/boj/python/2025/07/01/1359.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1388번 바닥 장식",
+            url: "/boj/python/2025/07/01/1388.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15464번 The Bovine Shuffle",
+            url: "/boj/python/2025/07/01/15464.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11504번 돌려 돌려 돌림판!",
+            url: "/boj/python/2025/07/01/11504.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8660번 Sumy i różnice",
+            url: "/boj/python/2025/06/30/8660.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8711번 Odchudzanie",
+            url: "/boj/python/2025/06/30/8711.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8713번 Znak działania",
+            url: "/boj/python/2025/06/30/8713.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2391번 Sascha",
+            url: "/boj/python/2025/06/30/2391.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "6976번 Divisibility by 11",
+            url: "/boj/python/2025/06/27/6976.html",
+            date: "2025-06-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "14551번 Card Game Contest",
+            url: "/boj/python/2025/06/27/14551.html",
+            date: "2025-06-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2909번 캔디 구매",
+            url: "/boj/python/2025/06/26/2909.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "9924번 The Euclidean Algorithm",
+            url: "/boj/python/2025/06/26/9924.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "9298번 Ant Entrapment",
+            url: "/boj/python/2025/06/26/9298.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1168번 요세푸스 문제 2",
+            url: "/boj/java/2025/06/26/1168.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8436번 Kamil",
+            url: "/boj/java/2025/06/24/8436.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "28682번 재우야 임관하자",
+            url: "/boj/java/2025/06/24/28682.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16172번 나는 친구가 적다 (Large)",
+            url: "/boj/java/2025/06/24/16172.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "12833번 XORXORXOR",
+            url: "/boj/java/2025/06/24/12833.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16221번 모독",
+            url: "/boj/c++/2025/06/24/16221.html",
+            date: "2025-06-24",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "코드 시뮬레이터",
+            url: "/development/python/2025/06/19/Code-Simulator.html",
+            date: "2025-06-19",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "17456번 필살! 60단 컴보",
+            url: "/boj/c++/2025/06/19/17456.html",
+            date: "2025-06-19",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11568번 민균이의 계략",
+            url: "/boj/java/2025/06/18/11568.html",
+            date: "2025-06-18",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18870번 좌표 압축",
+            url: "/boj/java/2025/06/18/18870.html",
+            date: "2025-06-18",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "5430번 AC",
+            url: "/boj/java/2025/06/17/5430.html",
+            date: "2025-06-17",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "3655번 먼저 가세요",
+            url: "/boj/python/2025/06/16/3655.html",
+            date: "2025-06-16",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "10722번 Binary Mobile Tree",
+            url: "/boj/c++/2025/06/16/10722.html",
+            date: "2025-06-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "24008번 Catch Them All",
+            url: "/boj/java/2025/06/13/24008.html",
+            date: "2025-06-13",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16256번 Painting the Wall",
+            url: "/boj/c++/2025/06/13/16256.html",
+            date: "2025-06-13",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "제비 뽑기",
+            url: "/development/shortcuts/2025/06/11/Drawing-Lots.html",
+            date: "2025-06-11",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21237번 Clockwise Fence",
+            url: "/boj/java/2025/06/10/21237.html",
+            date: "2025-06-10",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "하드웨어 모니터",
+            url: "/development/python/2025/06/09/Hardware-Monitor.html",
+            date: "2025-06-09",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2784번 가로 세로 퍼즐",
+            url: "/boj/java/2025/06/04/2784.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "4676번 Haiku Review",
+            url: "/boj/python/2025/06/04/4676.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "WebP 변환기",
+            url: "/development/python/2025/06/04/WebP-Converter.html",
+            date: "2025-06-04",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "마법의 소라고둥",
+            url: "/development/shortcuts/2025/06/02/Magic-Conch-Shell.html",
+            date: "2025-06-02",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1148번 단어 만들기",
+            url: "/boj/java/2025/06/02/1148.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11761번 Shuffling Along",
+            url: "/boj/python/2025/06/02/11761.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7663번 Dreadful Deadlines",
+            url: "/boj/c++/2025/05/30/7663.html",
+            date: "2025-05-30",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "6862번 Tin Can Telephone",
+            url: "/boj/java/2025/05/30/6862.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15654번 N과 M (5)",
+            url: "/boj/python/2025/05/30/15654.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21308번 Ternary Machine",
+            url: "/boj/python/2025/05/30/21308.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11982번 Angry Cows (Gold)",
+            url: "/boj/java/2025/05/28/11982.html",
+            date: "2025-05-28",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16085번 Гэмт хэрэг",
+            url: "/boj/c++/2025/05/28/16085.html",
+            date: "2025-05-28",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 02",
+            url: "/development/javascript/2025/05/28/Dungeon-Generator-02.html",
+            date: "2025-05-28",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7106번 Wonderful Fours",
+            url: "/boj/python/2025/05/27/7106.html",
+            date: "2025-05-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 01",
+            url: "/development/javascript/2025/05/27/Dungeon-Generator-01.html",
+            date: "2025-05-27",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "5101번 Sequences",
+            url: "/boj/python/2025/05/23/5101.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "27391번 Platform Placing",
+            url: "/boj/java/2025/05/23/27391.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "25245번 Amusement Arcade",
+            url: "/boj/c++/2025/05/23/25245.html",
+            date: "2025-05-23",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 03",
+            url: "/development/javascript/2025/05/23/Maze-Generator-03.html",
+            date: "2025-05-23",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26489번 Gum Gum for Jay Jay",
+            url: "/boj/python/2025/05/22/26489.html",
+            date: "2025-05-22",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 02",
+            url: "/development/javascript/2025/05/21/Maze-Generator-02.html",
+            date: "2025-05-21",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26226번 Autocomplete",
+            url: "/boj/c++/2025/05/21/26226.html",
+            date: "2025-05-21",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 01",
+            url: "/development/javascript/2025/05/20/Maze-Generator-01.html",
+            date: "2025-05-20",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15936번 Hypercube",
+            url: "/boj/java/2025/05/20/15936.html",
+            date: "2025-05-20",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "29348번 Скользкий путь",
+            url: "/boj/c++/2025/05/16/29348.html",
+            date: "2025-05-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18382번 2048",
+            url: "/boj/python/2025/05/15/18382.html",
+            date: "2025-05-15",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "랜덤 출력기",
+            url: "/development/javascript/2025/05/14/Random-Printer.html",
+            date: "2025-05-14",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파이썬으로 CLI TODO 리스트 만들어보기",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html",
+            date: "2025-05-14",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "플래피 버드",
+            url: "/development/javascript/2025/05/13/Flappy-Bird.html",
+            date: "2025-05-13",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "클리커",
+            url: "/development/python/2025/05/13/Clicker.html",
+            date: "2025-05-13",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파일 복사기",
+            url: "/development/shellscript/2025/05/12/File-Copier.html",
+            date: "2025-05-12",
+            categories: ["Development/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "숫자야구",
+            url: "/development/java/2025/05/11/Bulls-and-Cows.html",
+            date: "2025-05-11",
+            categories: ["Development/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴, 어떻게 보내면 좋을까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "프로그래머를 위한 생산성 툴 TOP 5 🧰",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "AI 시대의 개발자, 어떻게 준비해야 할까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "유배지 공고문",
+            url: "/zone%20of%20exile/2025/04/30/What-is-this.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/"]
+          },
+          
+        
+          
+          
+          {
+            title: "지뢰찾기",
+            url: "/development/javascript/2025/04/29/Minesweeper.html",
+            date: "2025-04-29",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "서버 관리 콘솔",
+            url: "/development/shellscript/2025/04/28/Server-Manage-Console.html",
+            date: "2025-04-28",
+            categories: ["Development/ShellScript/"]
+          }
+          
+        
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
+      </div>
+
+      
+      
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+    </article>
+
+    
+    
+  </div>
+</div>
+
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 1rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .home-content {
+    padding: 0;
+  }
+}
+</style>
+
+    </div>
+
+    
+    
+    <div class="page__footer">
+  <div class="page__footer-copyright">
+    Visit: <a href="https://github.com/movingwoo/movingwoo.github.io">https://github.com/movingwoo/movingwoo.github.io</a>
+    <br>
+    <span class="theme-credit">Theme customized from Minimal Mistakes by Michael Rose (MIT License).</span>
+  </div>
+</div>
+
+    <div class="scroll-button">
+  <div class="scroll-button__container">
+    <button class="scroll-button__area scroll-button__area--top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="위로">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="scroll-button__area scroll-button__area--bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="아래로">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.scroll-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.scroll-button__container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(220, 20, 60, 0.6);
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-button__area {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button__area--top {
+  top: 0;
+}
+
+.scroll-button__area--bottom {
+  bottom: 0;
+}
+
+.scroll-button__area:focus {
+  outline: none;
+}
+
+.scroll-button__area:hover {
+  color: rgba(220, 20, 60, 1);
+}
+
+.scroll-button__area:hover i {
+  transform: scale(1.2);
+}
+
+.scroll-button__area i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll-button {
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .scroll-button__container {
+    width: 50px;
+    height: 50px;
+  }
+}
+</style> 
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+});
+</script>
+
+
+  </body>
+</html>
