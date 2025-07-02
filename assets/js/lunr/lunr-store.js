@@ -454,4 +454,10 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",12730,"Saving the Universe (Large)","구현"],
         "url": "/boj/python/2025/07/02/12730.html",
         "teaser": null
+      },{
+        "title": "2493번 탑",
+        "excerpt":"이왜틀? 2493번 탑 - 백준 빠른 문제 번호… 제법 낮은 정답률… 어설픈 코드는 감히 통과하지 못할 문제다. 출력초과 받은 코드 말고 틀린 코드를 보자. int n=Integer.parseInt(br.readLine()); StringTokenizer st=new StringTokenizer(br.readLine(),\" \"); int[] art=new int[n+1]; boolean[] arr=new boolean[n+1]; for(int i=1;i&lt;=n;i++) art[i]=Integer.parseInt(st.nextToken()); int m=art[n]; int t=0; for(int i=n;i&gt;0;i--){ if(art[i]&gt;=m){ arr[i]=true; m=art[i]; } }...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",2493,"탑","구현"],
+        "url": "/boj/python/2025/07/02/2493.html",
+        "teaser": null
       }]

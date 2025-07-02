@@ -1,4 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-02T06:39:23+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">12730번 Saving the Universe (Large)</title><link href="https://movingwoo.com/boj/python/2025/07/02/12730.html" rel="alternate" type="text/html" title="12730번 Saving the Universe (Large)" /><published>2025-07-02T06:00:00+00:00</published><updated>2025-07-02T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/02/12730</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/02/12730.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-02T07:46:05+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">2493번 탑</title><link href="https://movingwoo.com/boj/python/2025/07/02/2493.html" rel="alternate" type="text/html" title="2493번 탑" /><published>2025-07-02T07:00:00+00:00</published><updated>2025-07-02T07:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/02/2493</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/02/2493.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-2493/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/2493">2493번 탑 - 백준</a></p>
+
+<p>빠른 문제 번호… 제법 낮은 정답률…<br />
+어설픈 코드는 감히 통과하지 못할 문제다.</p>
+
+<p>출력초과 받은 코드 말고 틀린 코드를 보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
+
+<span class="kt">int</span><span class="o">[]</span> <span class="n">art</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+<span class="kt">boolean</span><span class="o">[]</span> <span class="n">arr</span><span class="o">=</span><span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
+<span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">art</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
+<span class="kt">int</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">--){</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">]&gt;=</span><span class="n">m</span><span class="o">){</span>
+        <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
+        <span class="n">m</span><span class="o">=</span><span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nc">StringBuilder</span> <span class="n">sb</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+    <span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="n">t</span><span class="o">;</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]){</span>
+        <span class="n">t</span><span class="o">=</span><span class="n">i</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">]+</span><span class="s">" "</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>문제에서 스택쓰라는데 왜 안썼지</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>스택에 손도 안 댄 과거의 내가 괘씸해서 <span style="color: orange;"><strong>스택</strong></span>으로 푼다.<br />
+왼쩍에서 오른쪽으로 탐색하며 레이저 수신 가능 여부를 판단한다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>파이썬은 <span style="color: orange;"><strong>리스트</strong></span>가 pop까지 지원해서 스택 역할을 할 수 있다.<br />
+append와 pop을 사용한다.</p>
+
+<p>왼쪽부터 탐색하며 <span style="color: orange;"><strong>수신가능한 탑을 제외하고 pop</strong></span> 한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
+
+<span class="n">towers</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
+<span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># 타워 담을 스택
+</span><span class="n">result</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># 결과 출력용
+</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="c1"># 스택 타워가 현재 타워보다 낮으면 수신 못해서 의미 없음
+</span>    <span class="k">while</span> <span class="n">stack</span> <span class="ow">and</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">towers</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+        <span class="n">stack</span><span class="p">.</span><span class="nf">pop</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stack</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 수신 가능함
+</span>        <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">stack</span><span class="p">.</span><span class="nf">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">towers</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">result</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-2493/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>처음에 파이썬 스택은 어디있지? 컬렉션을 import 해야하나? 하고 찾다가 없다고 해서 당황했다.<br />
+그런데 리스트가 기능을 다 지원해준다.<br />
+파이썬 너는 다 계획이 있구나!</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-2493.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="2493" /><category term="탑" /><category term="구현" /><summary type="html"><![CDATA[백준 2493번 탑 PYTHON 문제풀이]]></summary></entry><entry><title type="html">12730번 Saving the Universe (Large)</title><link href="https://movingwoo.com/boj/python/2025/07/02/12730.html" rel="alternate" type="text/html" title="12730번 Saving the Universe (Large)" /><published>2025-07-02T06:00:00+00:00</published><updated>2025-07-02T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/02/12730</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/02/12730.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -900,125 +1006,4 @@ x위치에 떨어졌을 경우 x - R, x + R 건초더미를 터칠 때 K마리�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-15464.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="15464" /><category term="The Bovine Shuffle" /><category term="구현" /><summary type="html"><![CDATA[백준 15464번 The Bovine Shuffle PYTHON 문제풀이]]></summary></entry><entry><title type="html">11504번 돌려 돌려 돌림판!</title><link href="https://movingwoo.com/boj/python/2025/07/01/11504.html" rel="alternate" type="text/html" title="11504번 돌려 돌려 돌림판!" /><published>2025-07-01T02:00:00+00:00</published><updated>2025-07-01T02:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/01/11504</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/01/11504.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-11504/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/11504">11504번 돌려 돌려 돌림판! - 백준</a></p>
-
-<p>실버 조지기 시작<br />
-단순 구현 문제인데 왜 틀렸을까?</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">t</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-<span class="k">while</span><span class="o">(</span><span class="n">t</span><span class="o">--&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-    <span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-    <span class="kt">int</span> <span class="n">dn</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-    <span class="kt">int</span> <span class="n">ys</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-    <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-    <span class="nc">StringBuilder</span> <span class="n">sb</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
-    <span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-    <span class="kt">long</span> <span class="n">x</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-    <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-    <span class="n">sb</span><span class="o">.</span><span class="na">setLength</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
-    <span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-    <span class="kt">long</span> <span class="n">y</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-    <span class="nc">Deque</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">que</span><span class="o">=</span><span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
-    <span class="nc">Stack</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">stk</span><span class="o">=</span><span class="k">new</span> <span class="nc">Stack</span><span class="o">&lt;&gt;();</span>
-    <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-    <span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="n">que</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-    <span class="kt">int</span> <span class="n">cnt</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">dn</span><span class="o">==</span><span class="n">ys</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">sb</span><span class="o">.</span><span class="na">setLength</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
-        <span class="k">while</span><span class="o">(!</span><span class="n">que</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">que</span><span class="o">.</span><span class="na">poll</span><span class="o">());</span>
-        <span class="kt">long</span> <span class="n">dc</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-        <span class="k">if</span><span class="o">(</span><span class="n">dc</span><span class="o">&gt;=</span><span class="n">x</span><span class="o">&amp;&amp;</span><span class="n">dc</span><span class="o">&lt;=</span><span class="n">y</span><span class="o">)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"1\n"</span><span class="o">);</span>
-        <span class="k">else</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"0\n"</span><span class="o">);</span>
-    <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
-        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">dn</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">sb</span><span class="o">.</span><span class="na">setLength</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
-            <span class="nc">String</span> <span class="n">tmp</span><span class="o">=</span><span class="n">que</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
-            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">tmp</span><span class="o">);</span>
-            <span class="n">que</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tmp</span><span class="o">);</span>
-            <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">ys</span><span class="o">;</span><span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
-                <span class="nc">String</span> <span class="n">tmp2</span><span class="o">=</span><span class="n">que</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
-                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">tmp2</span><span class="o">);</span>
-                <span class="n">stk</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">tmp2</span><span class="o">);</span>
-            <span class="o">}</span>
-            <span class="kt">long</span> <span class="n">dc</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-            <span class="k">if</span><span class="o">(</span><span class="n">dc</span><span class="o">&gt;=</span><span class="n">x</span><span class="o">&amp;&amp;</span><span class="n">dc</span><span class="o">&lt;=</span><span class="n">y</span><span class="o">)</span> <span class="n">cnt</span><span class="o">++;</span>
-            <span class="k">while</span><span class="o">(!</span><span class="n">stk</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="n">que</span><span class="o">.</span><span class="na">addFirst</span><span class="o">(</span><span class="n">stk</span><span class="o">.</span><span class="na">pop</span><span class="o">());</span>
-        <span class="o">}</span>
-        <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">cnt</span><span class="o">+</span><span class="s">"\n"</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>그만 알아보자…<br />
-그냥 새로 짜자</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>간단한 문제다.<br />
-연속으로 M개 숫자를 뽑아 합쳐서<br />
-X와 Y 사이에 있는지 확인한다.<br />
-여기에 해당되는 경우의 수를 출력한다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">T</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
-    <span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
-
-    <span class="n">X</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="sh">''</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-    <span class="n">Y</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="sh">''</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-
-    <span class="n">wheel</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-
-    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span>
-        <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-            <span class="n">num</span> <span class="o">*=</span> <span class="mi">10</span>
-            <span class="n">num</span> <span class="o">+=</span> <span class="n">wheel</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-            <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
-
-        <span class="k">if</span> <span class="n">X</span> <span class="o">&lt;=</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="n">Y</span><span class="p">:</span>
-            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="nf">print</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-11504/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>브루트포스 문제라서 깡으로 다 돌렸는데<br />
-사실 <span style="color: orange;"><strong>앞 자리수부터 확인</strong></span>하는 식으로 하면 시간이 훨씬 줄어들 것 같다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-11504.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="11504" /><category term="돌려 돌려 돌림판!" /><category term="브루트포스" /><summary type="html"><![CDATA[백준 11504번 돌려 돌려 돌림판! PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-15464.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="15464" /><category term="The Bovine Shuffle" /><category term="구현" /><summary type="html"><![CDATA[백준 15464번 The Bovine Shuffle PYTHON 문제풀이]]></summary></entry></feed>
