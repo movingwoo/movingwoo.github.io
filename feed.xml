@@ -1,4 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-02T07:46:05+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">2493번 탑</title><link href="https://movingwoo.com/boj/python/2025/07/02/2493.html" rel="alternate" type="text/html" title="2493번 탑" /><published>2025-07-02T07:00:00+00:00</published><updated>2025-07-02T07:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/02/2493</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/02/2493.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-03T01:14:42+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">1669번 멍멍이 쓰다듬기</title><link href="https://movingwoo.com/boj/python/2025/07/03/1669.html" rel="alternate" type="text/html" title="1669번 멍멍이 쓰다듬기" /><published>2025-07-03T00:00:00+00:00</published><updated>2025-07-03T00:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/1669</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/1669.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-1669/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/1669">1669번 멍멍이 쓰다듬기 - 백준</a></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Scanner</span> <span class="n">sc</span><span class="o">=</span><span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+<span class="kt">long</span> <span class="n">num</span><span class="o">=(</span><span class="n">sc</span><span class="o">.</span><span class="na">nextLong</span><span class="o">()-</span><span class="n">sc</span><span class="o">.</span><span class="na">nextLong</span><span class="o">())*-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="kt">long</span> <span class="n">distance</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">answer</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">;;)</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">num</span><span class="o">&lt;</span><span class="n">distance</span><span class="o">+</span><span class="n">j</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+        <span class="k">else</span> <span class="o">{</span>					
+            <span class="n">distance</span><span class="o">+=</span><span class="n">j</span><span class="o">;</span>
+            <span class="n">answer</span><span class="o">++;</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">answer</span><span class="o">%</span><span class="mi">2</span><span class="o">!=</span><span class="mi">0</span><span class="o">)</span> <span class="n">j</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">answer</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>얼추 맞는데 한가지 조건을 더 고려해야한다.<br />
+키를 0cm 조절할 수도 있다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>키를 1cm 단위로 조절할 수 있는데, 첫 날과 마지막 날은 반드시 1cm다.<br />
+전체 수열은 <span style="color: orange;"><strong>1, 2, 3, 2, 1</strong></span> 형태가 될거다.<br />
+수열의 가장 높은 값을 k로 두면 <span style="color: orange;"><strong>수열의 합은 k^2, 길이는 2 * k - 1</strong></span>이다.</p>
+
+<p>0cm 조절도 가능하니 <span style="color: orange;"><strong>1, 2, 3, 3, 2, 1</strong></span> 형태의 수열도 가능하다.<br />
+이런 경우 <span style="color: orange;"><strong>합은 k * (k + 1) 이며 길이는 2 * k</strong></span></p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>위 공식을 적용한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+<span class="n">sub</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">X</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">while</span> <span class="n">sub</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">k</span> <span class="o">*</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="n">sub</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">break</span>
+
+    <span class="k">elif</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">sub</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span>
+        <span class="k">break</span>
+
+    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-1669/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>과거 자바코드 변수명이 의아해서 찾아보니 1011번 문제가 이 문제와 흡사하다.</p>
+
+<p><a href="https://www.acmicpc.net/problem/1011">1011번 Fly me to the Alpha Centauri - 백준</a></p>
+
+<p>이 문제는 6년 전에 유사 코드로 통과한 기록이 있다.<br />
+아마 비슷한 문제라서 코드를 살짝 고쳐서 집어넣었다가 틀리고 그대로 도망간 것으로 추측된다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-1669.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1669" /><category term="멍멍이 쓰다듬기" /><category term="수학" /><summary type="html"><![CDATA[백준 1669번 멍멍이 쓰다듬기 PYTHON 문제풀이]]></summary></entry><entry><title type="html">2493번 탑</title><link href="https://movingwoo.com/boj/python/2025/07/02/2493.html" rel="alternate" type="text/html" title="2493번 탑" /><published>2025-07-02T07:00:00+00:00</published><updated>2025-07-02T07:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/02/2493</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/02/2493.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -922,88 +1012,4 @@ x위치에 떨어졌을 경우 x - R, x + R 건초더미를 터칠 때 K마리�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-1388.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1388" /><category term="바닥 장식" /><category term="DFS" /><summary type="html"><![CDATA[백준 1388번 바닥 장식 PYTHON 문제풀이]]></summary></entry><entry><title type="html">15464번 The Bovine Shuffle</title><link href="https://movingwoo.com/boj/python/2025/07/01/15464.html" rel="alternate" type="text/html" title="15464번 The Bovine Shuffle" /><published>2025-07-01T04:00:00+00:00</published><updated>2025-07-01T04:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/01/15464</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/01/15464.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-15464/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/15464">15464번 The Bovine Shuffle - 백준</a></p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-<span class="kt">int</span><span class="o">[][]</span> <span class="n">arr</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">][</span><span class="mi">2</span><span class="o">];</span>
-<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">0</span><span class="o">]=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-<span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">1</span><span class="o">]=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-<span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span><span class="k">new</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">[]&gt;()</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">a</span><span class="o">,</span><span class="kt">int</span><span class="o">[]</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">a</span><span class="o">[</span><span class="mi">0</span><span class="o">]-</span><span class="n">b</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
-    <span class="o">}</span>
-<span class="o">});</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">1</span><span class="o">]+</span><span class="s">"\n"</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p>좀 주석이랑 엔터 좀 해두지 좀<br />
-정렬 시도는 좋았다.<br />
-그런데 이 문제는 3회 셔플 후 결과를 제시하고 처음 순서를 구하는 거라 <span style="color: orange;"><strong>역순으로 3회</strong></span> 계산해야한다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>예제를 보자.<br />
-1 3 4 5 2<br />
-2번 소를 3으로 보내고 3번 소를 4로 보내고 하는 식이다.<br />
-우리는 역순으로 찾아야 하므로<br />
-3번 소를 2로 가져오고 4번 소를 3으로 가져오는 식으로 처리해야 한다.</p>
-
-<p>3번 반복을 시뮬레이션 해보면<br />
-<span style="color: orange;"><strong>2번째 소는 3 -&gt; 4 -&gt; 5, 현재 5번째 소</strong></span><br />
-<span style="color: orange;"><strong>3번째 소는 4 -&gt; 5 -&gt; 2, 현재 2번째 소</strong></span></p>
-
-<p>실버 문제에서 트리를 그릴 필요는 없고 배열로 충분하다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="n">shuffle</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-<span class="n">cows</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
-    
-    <span class="nf">print</span><span class="p">(</span><span class="n">cows</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-15464/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>브론즈와 실버 문제의 차이는<br />
-브론즈는 그냥 쉽고 실버는 쉬운 문제를 말로 꼬아둔 느낌이다.<br />
-진짜 문제는 골드부터지.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-15464.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="15464" /><category term="The Bovine Shuffle" /><category term="구현" /><summary type="html"><![CDATA[백준 15464번 The Bovine Shuffle PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-1388.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1388" /><category term="바닥 장식" /><category term="DFS" /><summary type="html"><![CDATA[백준 1388번 바닥 장식 PYTHON 문제풀이]]></summary></entry></feed>

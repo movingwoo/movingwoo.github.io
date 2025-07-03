@@ -460,4 +460,10 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",2493,"탑","구현"],
         "url": "/boj/python/2025/07/02/2493.html",
         "teaser": null
+      },{
+        "title": "1669번 멍멍이 쓰다듬기",
+        "excerpt":"이왜틀? 1669번 멍멍이 쓰다듬기 - 백준 Scanner sc=new Scanner(System.in); long num=(sc.nextLong()-sc.nextLong())*-1; long distance=1; int answer=1; for(int j=1;;) { if(num&lt;distance+j) break; else { distance+=j; answer++; if(answer%2!=0) j++; } } System.out.println(answer); 얼추 맞는데 한가지 조건을 더 고려해야한다. 키를 0cm 조절할 수도 있다. 설계 키를 1cm 단위로 조절할 수 있는데, 첫 날과 마지막...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",1669,"멍멍이 쓰다듬기","수학"],
+        "url": "/boj/python/2025/07/03/1669.html",
+        "teaser": null
       }]
