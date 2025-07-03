@@ -1,4 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-03T01:14:42+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">1669번 멍멍이 쓰다듬기</title><link href="https://movingwoo.com/boj/python/2025/07/03/1669.html" rel="alternate" type="text/html" title="1669번 멍멍이 쓰다듬기" /><published>2025-07-03T00:00:00+00:00</published><updated>2025-07-03T00:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/1669</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/1669.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-03T02:16:25+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">2252번 줄 세우기</title><link href="https://movingwoo.com/boj/python/2025/07/03/2252.html" rel="alternate" type="text/html" title="2252번 줄 세우기" /><published>2025-07-03T02:00:00+00:00</published><updated>2025-07-03T02:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/2252</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/2252.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-2252/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/2252">2252번 줄 세우기 - 백준</a></p>
+
+<p>런타임 에러가 났고 코드가 너무 길어서 안가져오기로 했다.<br />
+대충 리스트에 넣고 빼면서 시뮬레이션 하는 내용이다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p><span style="color: orange;"><strong>위상정렬</strong></span>을 한다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>대충 그래프 그리고, 진입차수가 0인 노드를 큐에 모으고, 연결된 노드 진입차수 감소시킨다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+
+<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+
+<span class="c1"># 그래프, 간선, 진입차수, 큐
+</span><span class="n">graph</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="nf">tuple</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">M</span><span class="p">)]</span>
+<span class="n">degree</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">que</span> <span class="o">=</span> <span class="nf">deque</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+    <span class="n">graph</span><span class="p">[</span><span class="n">A</span><span class="p">].</span><span class="nf">append</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+    <span class="n">degree</span><span class="p">[</span><span class="n">B</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># 진입차수 0
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">degree</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">que</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="n">que</span><span class="p">:</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">que</span><span class="p">.</span><span class="nf">popleft</span><span class="p">()</span>
+    <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+
+    <span class="c1"># 연결된 노드 진입차수 감소
+</span>    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">graph</span><span class="p">[</span><span class="n">now</span><span class="p">]:</span>
+        <span class="n">degree</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">degree</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">que</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">result</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-2252/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>뭐지 위상정렬 왜 재밌지?<br />
+그래프 그리는 것 부터 짜증나야하는데<br />
+파이썬 코드가 예뻐서 그런 것 같다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-2252.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="2252" /><category term="줄 세우기" /><category term="위상정렬" /><summary type="html"><![CDATA[백준 2252번 줄 세우기 PYTHON 문제풀이]]></summary></entry><entry><title type="html">1669번 멍멍이 쓰다듬기</title><link href="https://movingwoo.com/boj/python/2025/07/03/1669.html" rel="alternate" type="text/html" title="1669번 멍멍이 쓰다듬기" /><published>2025-07-03T00:00:00+00:00</published><updated>2025-07-03T00:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/1669</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/1669.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -890,126 +970,4 @@ x위치에 떨어졌을 경우 x - R, x + R 건초더미를 터칠 때 K마리�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-1359.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1359" /><category term="복권" /><category term="구현" /><summary type="html"><![CDATA[백준 1359번 복권 PYTHON 문제풀이]]></summary></entry><entry><title type="html">1388번 바닥 장식</title><link href="https://movingwoo.com/boj/python/2025/07/01/1388.html" rel="alternate" type="text/html" title="1388번 바닥 장식" /><published>2025-07-01T05:00:00+00:00</published><updated>2025-07-01T05:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/01/1388</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/01/1388.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-1388/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/1388">1388번 바닥 장식 - 백준</a></p>
-
-<p>이상하네 숫자가 크지도 않고 그냥 전체 탐색하면서 세어도 문제 없을 것 같은데</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-<span class="kt">int</span> <span class="n">r</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-<span class="kt">int</span> <span class="n">c</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-<span class="kt">char</span><span class="o">[][]</span> <span class="n">arr</span><span class="o">=</span><span class="k">new</span> <span class="kt">char</span><span class="o">[</span><span class="n">r</span><span class="o">][</span><span class="n">c</span><span class="o">];</span>
-<span class="kt">int</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">r</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-    <span class="nc">String</span> <span class="n">l</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="n">s</span><span class="o">+=</span><span class="n">l</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"\\|"</span><span class="o">).</span><span class="na">length</span><span class="o">;</span>
-    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">c</span><span class="o">;</span><span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
-        <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]=</span><span class="n">l</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">c</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-    <span class="nc">StringBuilder</span> <span class="n">sb</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
-    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">r</span><span class="o">;</span><span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
-        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">]);</span>
-    <span class="o">}</span>
-    <span class="n">s</span><span class="o">+=</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">"-"</span><span class="o">).</span><span class="na">length</span><span class="o">;</span>
-<span class="o">}</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">s</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p>그냥 split 때리면 공백도 구간으로 쳐지지 않나?<br />
-할거였으면 정규식을 썼어야했다.<br />
-아니 진짜 직접 세기만 해도 통과했을 것 같은데</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>문제 분류에 그래프가 들어있다.<br />
-그렇다면 <span style="color: orange;"><strong>DFS</strong></span>로 풀어주자.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-dfs">1. DFS</h5>
-
-<table>
-  <tbody>
-    <tr>
-      <td>이어진 부분까지 - 면 가로,</td>
-      <td>면 세로로 탐색한다.</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="n">visited</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-
-    <span class="k">if</span> <span class="n">board</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">-</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">ny</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">ny</span> <span class="o">&lt;</span> <span class="n">M</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">visited</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">ny</span><span class="p">]</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">ny</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">-</span><span class="sh">'</span><span class="p">:</span>
-            <span class="nf">dfs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span>
-    
-    <span class="k">elif</span> <span class="n">board</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">|</span><span class="sh">'</span><span class="p">:</span>
-        <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">nx</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">visited</span><span class="p">[</span><span class="n">nx</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">nx</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">|</span><span class="sh">'</span><span class="p">:</span>
-            <span class="nf">dfs</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h5 id="2-수-세기">2. 수 세기</h5>
-
-<p>새로운 연결점인 경우 수를 세고 출력한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
-
-<span class="n">board</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="n">board</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">input</span><span class="p">().</span><span class="nf">strip</span><span class="p">()))</span>
-        
-<span class="n">visited</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-        <span class="n">row</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">visited</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-
-<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]:</span>
-            <span class="nf">dfs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-1388/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>리스트 컴프리헨션을 쓰면 초기화가 한 줄로 가능하다.<br />
-익숙하지가 않아서 그냥 직접 초기화 때렸는데 앞으로는 익숙해지도록 하자.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-1388.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1388" /><category term="바닥 장식" /><category term="DFS" /><summary type="html"><![CDATA[백준 1388번 바닥 장식 PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-1359.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1359" /><category term="복권" /><category term="구현" /><summary type="html"><![CDATA[백준 1359번 복권 PYTHON 문제풀이]]></summary></entry></feed>

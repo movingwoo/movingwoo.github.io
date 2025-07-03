@@ -466,4 +466,10 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",1669,"멍멍이 쓰다듬기","수학"],
         "url": "/boj/python/2025/07/03/1669.html",
         "teaser": null
+      },{
+        "title": "2252번 줄 세우기",
+        "excerpt":"이왜틀? 2252번 줄 세우기 - 백준 런타임 에러가 났고 코드가 너무 길어서 안가져오기로 했다. 대충 리스트에 넣고 빼면서 시뮬레이션 하는 내용이다. 설계 위상정렬을 한다. 구현 대충 그래프 그리고, 진입차수가 0인 노드를 큐에 모으고, 연결된 노드 진입차수 감소시킨다. from collections import deque N, M = map(int, input().split()) # 그래프, 간선, 진입차수,...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",2252,"줄 세우기","위상정렬"],
+        "url": "/boj/python/2025/07/03/2252.html",
+        "teaser": null
       }]
