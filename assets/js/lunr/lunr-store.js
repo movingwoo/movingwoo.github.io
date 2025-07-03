@@ -472,4 +472,10 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",2252,"줄 세우기","위상정렬"],
         "url": "/boj/python/2025/07/03/2252.html",
         "teaser": null
+      },{
+        "title": "16455번 K번째 수 찾는 함수",
+        "excerpt":"이왜틀? 16455번 K번째 수 찾는 함수 - 백준 함수를 직접 구현하는 문제. int n=a.length; int start=0; int end=n-1; k-=1; while(start&lt;end) { int i=start; int j=end; int mid=a[(i+j)/2]; while(i&lt;j) { if(a[i]&gt;=mid) { int tmp = a[j]; a[j] = a[i]; a[i] = tmp; j--; }else { i++; } } if(a[i]&gt;mid) i--; if(k&lt;=i)...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",16455,"K번째 수 찾는 함수","퀵셀렉트"],
+        "url": "/boj/python/2025/07/03/16455.html",
+        "teaser": null
       }]

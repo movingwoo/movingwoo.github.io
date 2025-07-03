@@ -1,4 +1,124 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-03T02:16:25+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">2252번 줄 세우기</title><link href="https://movingwoo.com/boj/python/2025/07/03/2252.html" rel="alternate" type="text/html" title="2252번 줄 세우기" /><published>2025-07-03T02:00:00+00:00</published><updated>2025-07-03T02:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/2252</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/2252.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-03T04:38:29+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">16455번 K번째 수 찾는 함수</title><link href="https://movingwoo.com/boj/python/2025/07/03/16455.html" rel="alternate" type="text/html" title="16455번 K번째 수 찾는 함수" /><published>2025-07-03T04:00:00+00:00</published><updated>2025-07-03T04:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/16455</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/16455.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-16455/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/16455">16455번 K번째 수 찾는 함수 - 백준</a></p>
+
+<p>함수를 직접 구현하는 문제.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+<span class="kt">int</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+<span class="kt">int</span> <span class="n">end</span><span class="o">=</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+<span class="n">k</span><span class="o">-=</span><span class="mi">1</span><span class="o">;</span>
+
+<span class="k">while</span><span class="o">(</span><span class="n">start</span><span class="o">&lt;</span><span class="n">end</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">start</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">end</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">mid</span><span class="o">=</span><span class="n">a</span><span class="o">[(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="o">)/</span><span class="mi">2</span><span class="o">];</span>
+    
+    <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]&gt;=</span><span class="n">mid</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+            <span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span>
+            <span class="n">j</span><span class="o">--;</span>
+        <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+            <span class="n">i</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]&gt;</span><span class="n">mid</span><span class="o">)</span> <span class="n">i</span><span class="o">--;</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">&lt;=</span><span class="n">i</span><span class="o">)</span> <span class="n">end</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+    <span class="k">else</span> <span class="n">start</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="k">return</span> <span class="n">a</span><span class="o">[</span><span class="n">k</span><span class="o">];</span>
+</code></pre></div></div>
+
+<p><span style="color: orange;"><strong>퀵셀렉트</strong></span>를 했는데 시간초과가 났다.<br />
+조금만 수정하면 통과할 수 있다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>java 코드에서 pivot을 중앙 값으로 설정했다.<br />
+그런데 찾는 값이 한쪽으로 치우치면 시간 복잡도가 O(N^2) 까지 갈 수 있다.</p>
+
+<p>만약 <span style="color: orange;"><strong>pivot을 무작위 난수</strong></span>를 생성해 선택하면 한쪽으로 치우치는걸 다소 방지할 수 있다.<br />
+그리고 수열의 요소가 서로 다른 값임이 보장되지 않는다.<br />
+이 부분에 대한 로직도 추가한다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>pivot은 start와 end 사이 랜덤으로 설정한다.<br />
+중복값인 경우 정확한 판단을 위해 pivot을 기준으로 <span style="color: orange;"><strong>3분할</strong></span>한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">kth</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="n">random</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">k</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="k">while</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span> 
+        <span class="c1"># 3분할
+</span>        <span class="n">i</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">end</span>
+
+        <span class="c1"># 무작위 값
+</span>        <span class="n">pivot</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">l</span><span class="p">)]</span>
+
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">l</span><span class="p">:</span>
+            <span class="c1"># pivot보다 작을때
+</span>            <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">:</span>
+                <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># pivot보다 클떄
+</span>            <span class="k">elif</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">:</span>
+                <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">l</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">:</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pivot</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-16455/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>좀 빡쎘다…<br />
+옛날 코드 잘 해놔서 그대로 포팅하면 쉽게 날먹할 줄 알았는데</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-16455.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="16455" /><category term="K번째 수 찾는 함수" /><category term="퀵셀렉트" /><summary type="html"><![CDATA[백준 16455번 K번째 수 찾는 함수 PYTHON 문제풀이]]></summary></entry><entry><title type="html">2252번 줄 세우기</title><link href="https://movingwoo.com/boj/python/2025/07/03/2252.html" rel="alternate" type="text/html" title="2252번 줄 세우기" /><published>2025-07-03T02:00:00+00:00</published><updated>2025-07-03T02:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/2252</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/2252.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -894,80 +1014,4 @@ x위치에 떨어졌을 경우 x - R, x + R 건초더미를 터칠 때 K마리�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-1812.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1812" /><category term="사탕" /><category term="구현" /><summary type="html"><![CDATA[백준 1812번 사탕 PYTHON 문제풀이]]></summary></entry><entry><title type="html">1359번 복권</title><link href="https://movingwoo.com/boj/python/2025/07/01/1359.html" rel="alternate" type="text/html" title="1359번 복권" /><published>2025-07-01T06:00:00+00:00</published><updated>2025-07-01T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/01/1359</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/01/1359.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-1359/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/1359">1359번 복권 - 백준</a></p>
-
-<p>아니 뭔 짓을 한거야</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-<span class="kt">long</span> <span class="n">a</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-<span class="kt">long</span> <span class="n">b</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-<span class="kt">long</span> <span class="n">c</span><span class="o">=</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-<span class="kt">long</span> <span class="n">r</span><span class="o">=</span><span class="n">f</span><span class="o">(</span><span class="n">a</span><span class="o">)/(</span><span class="n">f</span><span class="o">(</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="o">)*</span><span class="n">f</span><span class="o">(</span><span class="n">b</span><span class="o">));</span>
-<span class="n">r</span><span class="o">=</span><span class="n">f</span><span class="o">(</span><span class="n">r</span><span class="o">)/(</span><span class="n">f</span><span class="o">(</span><span class="n">r</span><span class="o">-</span><span class="mi">1</span><span class="o">)*</span><span class="n">f</span><span class="o">(</span><span class="n">c</span><span class="o">));</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">((</span><span class="kt">double</span><span class="o">)</span><span class="mi">1</span><span class="o">/</span><span class="n">r</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
-
-<span class="kd">static</span> <span class="kt">long</span> <span class="nf">f</span><span class="o">(</span><span class="kt">long</span> <span class="n">a</span><span class="o">){</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">==</span><span class="mi">1</span><span class="o">)</span> <span class="k">return</span> <span class="n">a</span><span class="o">;</span>
-    <span class="k">else</span> <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">f</span><span class="o">(</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>조합 계산을 시도한 것 같은데…<br />
-런타임에러고 나발이고 계산 자체가 틀렸구만</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p><span style="color: orange;"><strong>1부터 N까지의 수 중에 서로 다른 M개의 수를 각자 골라 K개의 수가 같으면 당첨</strong></span><br />
-내가 뽑은 M개 중 i개가 겹치는 경우와 남은 숫자에서 상대가 M - i개를 뽑는 경우를 곱하면 된다.<br />
-대충 그런 수식대로 계산</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">math</span>
-
-<span class="n">N</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">K</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">M</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">result</span> <span class="o">+=</span> <span class="n">math</span><span class="p">.</span><span class="nf">comb</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="p">.</span><span class="nf">comb</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="n">M</span><span class="p">,</span> <span class="n">M</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="n">result</span> <span class="o">/</span> <span class="n">math</span><span class="p">.</span><span class="nf">comb</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-1359/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>처음에 조합 계산을 일일히 구현했다가 틀렸다.<br />
-아마 부동소수점 오차 문제였으리라.<br />
-그래서 파이썬에서 제공하는 comb 함수를 쓰니 통과했다.<br />
-젠장 파이썬 넌 못하는게 뭐야</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-1359.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1359" /><category term="복권" /><category term="구현" /><summary type="html"><![CDATA[백준 1359번 복권 PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-1812.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1812" /><category term="사탕" /><category term="구현" /><summary type="html"><![CDATA[백준 1812번 사탕 PYTHON 문제풀이]]></summary></entry></feed>
