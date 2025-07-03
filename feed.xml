@@ -1,4 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-03T04:38:29+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">16455번 K번째 수 찾는 함수</title><link href="https://movingwoo.com/boj/python/2025/07/03/16455.html" rel="alternate" type="text/html" title="16455번 K번째 수 찾는 함수" /><published>2025-07-03T04:00:00+00:00</published><updated>2025-07-03T04:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/16455</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/16455.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-03T06:17:58+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">12837번 가계부 (Hard)</title><link href="https://movingwoo.com/boj/python/2025/07/03/12837.html" rel="alternate" type="text/html" title="12837번 가계부 (Hard)" /><published>2025-07-03T06:00:00+00:00</published><updated>2025-07-03T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/12837</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/12837.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-12837/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/12837">12837번 가계부 (Hard) - 백준</a></p>
+
+<p>이왜틀 마지막 골드 문제<br />
+솔직히 이건 소스 볼 필요도 없다.<br />
+Hard라는건 Easy도 있다는 말이고<br />
+아마 과거의 내가 Easy를 풀고 소스 그대로 Hard에 집어넣어서 시간초과 났을 것이다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>대충 구간합 구하는데 값 변경이 필요함 == <span style="color: orange;"><strong>세그먼트 트리</strong></span></p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-세그먼트-트리-구현">1. 세그먼트 트리 구현</h5>
+
+<p>update와 query로 구성된 정석적인 세그먼트 트리 클래스를 구현한다.<br />
+값 갱신이 아니라 <span style="color: orange;"><strong>숫자를 합</strong></span>하는 것에 주의</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SegmentTree</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> 
+
+        <span class="k">while</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">n</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">size</span> <span class="o">*=</span> <span class="mi">2</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">tree</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span>
+        <span class="c1"># 갱신이 아니라 합치기
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">val</span>
+
+        <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">//=</span> <span class="mi">2</span> 
+            <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">idx</span> <span class="o">*</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">idx</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="n">l</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span>
+        <span class="n">r</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
+                <span class="n">l</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">r</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+                <span class="n">r</span> <span class="o">-=</span> <span class="mi">1</span>
+
+            <span class="n">l</span> <span class="o">//=</span> <span class="mi">2</span>
+            <span class="n">r</span> <span class="o">//=</span> <span class="mi">2</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></div>
+
+<h5 id="2-쿼리-수행">2. 쿼리 수행</h5>
+
+<p>입력받아 쿼리를 수행한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="nc">SegmentTree</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">Q</span><span class="p">):</span>
+    <span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
+
+    <span class="c1"># 1은 업데이트 2는 구간합
+</span>    <span class="k">if</span> <span class="n">q</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">tree</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">q</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">tree</span><span class="p">.</span><span class="nf">query</span><span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-12837/img02.webp" alt="img02" /></p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>골드도 끝났고 플래티넘 문제 2개가 남았다.<br />
+이건 각오하고 접근해야지…</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-12837.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="12837" /><category term="가계부 (Hard)" /><category term="세그먼트트리" /><summary type="html"><![CDATA[백준 12837번 가계부 (Hard) PYTHON 문제풀이]]></summary></entry><entry><title type="html">16455번 K번째 수 찾는 함수</title><link href="https://movingwoo.com/boj/python/2025/07/03/16455.html" rel="alternate" type="text/html" title="16455번 K번째 수 찾는 함수" /><published>2025-07-03T04:00:00+00:00</published><updated>2025-07-03T04:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/16455</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/16455.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -930,88 +1036,4 @@ x위치에 떨어졌을 경우 x - R, x + R 건초더미를 터칠 때 K마리�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-1913.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1913" /><category term="달팽이" /><category term="구현" /><summary type="html"><![CDATA[백준 1913번 달팽이 PYTHON 문제풀이]]></summary></entry><entry><title type="html">1812번 사탕</title><link href="https://movingwoo.com/boj/python/2025/07/01/1812.html" rel="alternate" type="text/html" title="1812번 사탕" /><published>2025-07-01T07:00:00+00:00</published><updated>2025-07-01T07:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/01/1812</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/01/1812.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-1812/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/1812">1812번 사탕 - 백준</a></p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-<span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
-<span class="kt">int</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-  <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-  <span class="n">s</span><span class="o">+=</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
-<span class="o">}</span>
-<span class="n">s</span><span class="o">/=</span><span class="mi">2</span><span class="o">;</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-  <span class="kt">int</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-  <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">j</span><span class="o">+=</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">int</span> <span class="n">m</span><span class="o">=(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="o">)%</span><span class="n">n</span><span class="o">;</span>
-    <span class="n">t</span><span class="o">+=</span><span class="n">arr</span><span class="o">[</span><span class="n">m</span><span class="o">];</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">t</span><span class="o">-</span><span class="n">s</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">t</span><span class="o">-</span><span class="n">s</span><span class="o">+</span><span class="s">"\n"</span><span class="o">);</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>전체 사탕 수 구한 것 까지는 이해하겠는데<br />
-그 뒤에 뭘 하고 싶었던 건지 잘 모르겠다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>원형 연립 선형 방정식의 해를 구하려면 <span style="color: orange;"><strong>교차로 더하고 빼서</strong></span> 구할 수 있다.<br />
-첫번째 학생의 사탕 수를 구할 수 있으니 그 뒤엔 자연스레 다른 학생의 사탕 수도 나온다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="n">solve</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">candies</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="n">candy</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-    <span class="n">candies</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">candy</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">solve</span> <span class="o">+=</span> <span class="n">candy</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">solve</span> <span class="o">-=</span> <span class="n">candy</span>
-
-<span class="n">solve</span> <span class="o">//=</span> <span class="mi">2</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">solve</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">candy</span> <span class="ow">in</span> <span class="n">candies</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="n">candy2</span> <span class="o">=</span> <span class="n">candy</span> <span class="o">-</span> <span class="n">solve</span>
-    <span class="nf">print</span><span class="p">(</span><span class="n">candy2</span><span class="p">)</span>
-    <span class="n">solve</span> <span class="o">=</span> <span class="n">candy2</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-01-1812/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>아 이제 수학 문제 그만 보고 싶은데</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-01-1812.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1812" /><category term="사탕" /><category term="구현" /><summary type="html"><![CDATA[백준 1812번 사탕 PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-1913.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1913" /><category term="달팽이" /><category term="구현" /><summary type="html"><![CDATA[백준 1913번 달팽이 PYTHON 문제풀이]]></summary></entry></feed>

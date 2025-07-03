@@ -478,4 +478,10 @@ var store = [{
         "tags": ["PYTHON","알고리즘","백준",16455,"K번째 수 찾는 함수","퀵셀렉트"],
         "url": "/boj/python/2025/07/03/16455.html",
         "teaser": null
+      },{
+        "title": "12837번 가계부 (Hard)",
+        "excerpt":"이왜틀? 12837번 가계부 (Hard) - 백준 이왜틀 마지막 골드 문제 솔직히 이건 소스 볼 필요도 없다. Hard라는건 Easy도 있다는 말이고 아마 과거의 내가 Easy를 풀고 소스 그대로 Hard에 집어넣어서 시간초과 났을 것이다. 설계 대충 구간합 구하는데 값 변경이 필요함 == 세그먼트 트리 구현 1. 세그먼트 트리 구현 update와 query로 구성된...","categories": ["BOJ/Python/"],
+        "tags": ["PYTHON","알고리즘","백준",12837,"가계부 (Hard)","세그먼트트리"],
+        "url": "/boj/python/2025/07/03/12837.html",
+        "teaser": null
       }]
