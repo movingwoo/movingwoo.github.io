@@ -1,4 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-03T06:17:58+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">12837번 가계부 (Hard)</title><link href="https://movingwoo.com/boj/python/2025/07/03/12837.html" rel="alternate" type="text/html" title="12837번 가계부 (Hard)" /><published>2025-07-03T06:00:00+00:00</published><updated>2025-07-03T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/12837</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/12837.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-07T06:43:25+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">9548번 무제</title><link href="https://movingwoo.com/boj/c++/2025/07/07/9548.html" rel="alternate" type="text/html" title="9548번 무제" /><published>2025-07-07T06:00:00+00:00</published><updated>2025-07-07T06:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/07/07/9548</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/07/07/9548.html"><![CDATA[<blockquote>
+  <h4 id="이왜틀">이왜틀?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/C++/2025-07-07-9548/img01.webp" alt="img01" /></p>
+
+<p><a href="https://www.acmicpc.net/problem/9548">9548번 무제 - 백준</a></p>
+
+<p>아… 진짜 풀기 싫게 생긴 문제인데<br />
+왜 이런 문제에 손을 대서 틀려놔가지고…<br />
+코드 볼 필요는 없을 것 같고 천천히 풀어보자.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p>I 는 X 에 R 을 삽입한다.<br />
+P는 X 부터 Y 까지 출력한다.</p>
+
+<p>여기까지는 단순한데 문제 제한시간이 10초인거 보면 입력량이 보통이 아닐 것이다.</p>
+
+<p><span style="color: orange;"><strong>문자열을 트리처럼 관리하는 Rope</strong></span>라는 자료구조가 있다고 한다.<br />
+문제 분류도 Rope로 되어있고 그걸 공부해야 할 것 같은데…<br />
+개념을 이해하는 것과 구현은 또 다른 문제.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>처음부터 구현하는데 와 머리가 너무 아파서 때려치고 싶던 차<br />
+GNU 확장 STL로 rope가 있다는 것을 알게 되었다.<br />
+GCC 기반이면 된다고 하는데 BOJ가 요녀석을 소화할 수 있을까?</p>
+
+<p>헤더는 다음과 같이 사용한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ext/rope&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">__gnu_cxx</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>이제 <span style="color: orange;"><strong>__gnu_cxx::rope</strong></span>를 사용할 수 있다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">T</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">T</span><span class="p">;</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">ignore</span><span class="p">();</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">T</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">s</span><span class="p">;</span>
+        <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+
+        <span class="c1">// rope</span>
+        <span class="n">rope</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">rope</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+
+        <span class="n">string</span> <span class="n">line</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">line</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">line</span> <span class="o">==</span> <span class="s">"END"</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+            <span class="n">stringstream</span> <span class="n">ss</span><span class="p">(</span><span class="n">line</span><span class="p">);</span>
+            <span class="n">string</span> <span class="n">query</span><span class="p">;</span>
+            <span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">query</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">query</span> <span class="o">==</span> <span class="s">"I"</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// insert</span>
+                <span class="n">string</span> <span class="n">x</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+                <span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">y</span><span class="p">;</span>
+                <span class="n">rope</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">query</span> <span class="o">==</span> <span class="s">"P"</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// print</span>
+                <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+                <span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">y</span><span class="p">;</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">rope</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                <span class="p">}</span>
+                <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="채점">채점</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/BOJ/C++/2025-07-07-9548/img02.webp" alt="img02" /></p>
+
+<p>이게 되네</p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>정말 뇌가 녹아내리는 줄<br />
+며칠 더 시간 투자했으면 직접 구현 가능했을 것 같긴 한데<br />
+간단하게 넘어가는게 좋지… 좋은게 좋지</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/C%2B%2B/2025-07-07-9548.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/C++/" /><category term="C++" /><category term="알고리즘" /><category term="백준" /><category term="9548" /><category term="무제" /><category term="로프" /><summary type="html"><![CDATA[백준 9548번 무제 C++ 문제풀이]]></summary></entry><entry><title type="html">12837번 가계부 (Hard)</title><link href="https://movingwoo.com/boj/python/2025/07/03/12837.html" rel="alternate" type="text/html" title="12837번 가계부 (Hard)" /><published>2025-07-03T06:00:00+00:00</published><updated>2025-07-03T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/12837</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/12837.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -933,107 +1045,4 @@ x위치에 떨어졌을 경우 x - R, x + R 건초더미를 터칠 때 K마리�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-14569.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="14569" /><category term="시간표 짜기" /><category term="비트마스킹" /><summary type="html"><![CDATA[백준 14569번 시간표 짜기 PYTHON 문제풀이]]></summary></entry><entry><title type="html">1913번 달팽이</title><link href="https://movingwoo.com/boj/python/2025/07/02/1913.html" rel="alternate" type="text/html" title="1913번 달팽이" /><published>2025-07-02T00:00:00+00:00</published><updated>2025-07-02T00:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/02/1913</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/02/1913.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-1913/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/1913">1913번 달팽이 - 백준</a></p>
-
-<p>달팽이 그리는 것만 있으면 아주 기초적인 문제인데<br />
-좌표를 구하는게 추가되었다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span><span class="kd">interface</span> <span class="nc">Main</span><span class="o">{</span><span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span><span class="n">z</span><span class="o">){</span><span class="nc">Scanner</span> <span class="n">s</span><span class="o">=</span><span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(),</span><span class="n">y</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(),</span><span class="n">g</span><span class="o">=</span><span class="mi">1</span><span class="o">,</span><span class="n">i</span><span class="o">=</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="o">,</span><span class="n">j</span><span class="o">=</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="o">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="kt">int</span><span class="o">[][]</span><span class="n">a</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">][</span><span class="n">n</span><span class="o">];</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]=</span><span class="n">k</span><span class="o">;</span><span class="kt">boolean</span> <span class="n">u</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span><span class="nl">h:</span><span class="k">for</span><span class="o">(;;){</span><span class="k">if</span><span class="o">(</span><span class="n">u</span><span class="o">){</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;=</span><span class="n">g</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">a</span><span class="o">[--</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]=++</span><span class="n">k</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="o">)</span><span class="k">break</span> <span class="n">h</span><span class="o">;}</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;=</span><span class="n">g</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">][++</span><span class="n">j</span><span class="o">]=++</span><span class="n">k</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="o">)</span><span class="k">break</span> <span class="n">h</span><span class="o">;}</span><span class="n">u</span><span class="o">=!</span><span class="n">u</span><span class="o">;</span><span class="n">g</span><span class="o">++;}</span><span class="k">else</span><span class="o">{</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;=</span><span class="n">g</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">a</span><span class="o">[++</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]=++</span><span class="n">k</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="o">)</span><span class="k">break</span> <span class="n">h</span><span class="o">;}</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;=</span><span class="n">g</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">][--</span><span class="n">j</span><span class="o">]=++</span><span class="n">k</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="o">)</span><span class="k">break</span> <span class="n">h</span><span class="o">;}</span><span class="n">u</span><span class="o">=!</span><span class="n">u</span><span class="o">;</span><span class="n">g</span><span class="o">++;}}</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">m</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">m</span><span class="o">++){</span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">l</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">l</span><span class="o">++){</span><span class="n">k</span><span class="o">=</span><span class="n">a</span><span class="o">[</span><span class="n">m</span><span class="o">][</span><span class="n">l</span><span class="o">];</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">k</span><span class="o">+(</span><span class="n">l</span><span class="o">==</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">?</span><span class="s">"\n"</span><span class="o">:</span><span class="s">" "</span><span class="o">));</span><span class="k">if</span><span class="o">(</span><span class="n">k</span><span class="o">==</span><span class="n">y</span><span class="o">){</span><span class="n">i</span><span class="o">=</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span><span class="n">j</span><span class="o">=</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="o">;}}}</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="s">" "</span><span class="o">+</span><span class="n">j</span><span class="o">);}}</span>
-</code></pre></div></div>
-
-<p><span style="color: red;"><strong>미친 뭔 짓을 한거임</strong></span><br />
-대체 뭐가 문제였을까?<br />
-세상에 불만이 많았나?<br />
-때려치고 처음부터 풀자.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>다 그리고 좌표를 찾으려 하면 아마 시간초과에 걸릴 것이다.<br />
-<span style="color: orange;"><strong>달팽이를 그리면서 좌표를 찾는게 훨씬 빠르다.</strong></span></p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>출발할 중앙 점부터 달팽이를 그린다.<br />
-찾으려는 타겟이 나오는 순간 해당 좌표를 확인한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-<span class="n">target</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">N</span> <span class="o">//</span> <span class="mi">2</span>
-
-<span class="c1"># 달팽이 방향 위 오른쪽 아래 왼쪽
-</span><span class="n">dx</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">dy</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="n">snail</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">N</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
-<span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="nb">len</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-
-<span class="n">snail</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span>
-
-<span class="c1"># n == 1 일때 타겟좌표 체크
-</span><span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
-    <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-
-<span class="k">while</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">*</span> <span class="n">N</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nb">len</span><span class="p">):</span>
-            <span class="n">x</span> <span class="o">+=</span> <span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="n">y</span> <span class="o">+=</span> <span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-
-            <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">:</span>
-                <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">snail</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span>
-                
-                <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
-                    <span class="c1"># 타겟 좌표 미리 저장
-</span>                    <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-        
-        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="c1"># 2번마다 길이 연장
-</span>            <span class="nb">len</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">snail</span><span class="p">:</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">r</span><span class="p">)))</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">tx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ty</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> 
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-1913/img02.webp" alt="img02" /></p>
-
-<p>n == 1일때 타겟좌표 갱신 부분 추가하고 통과</p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>곰곰히 생각해보니까 저 자바 소스 숏코딩하려고 그랬던 것 같다.<br />
-숏코딩 그거 아무 의미 없는데…<br />
-보기 좋고 주석 달린 코드가 최고인데<br />
-그땐 몰랐지</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-1913.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1913" /><category term="달팽이" /><category term="구현" /><summary type="html"><![CDATA[백준 1913번 달팽이 PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-14569.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="14569" /><category term="시간표 짜기" /><category term="비트마스킹" /><summary type="html"><![CDATA[백준 14569번 시간표 짜기 PYTHON 문제풀이]]></summary></entry></feed>
