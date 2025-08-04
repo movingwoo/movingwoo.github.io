@@ -490,4 +490,10 @@ var store = [{
         "tags": ["C++","알고리즘","백준",9548,"무제","로프"],
         "url": "/boj/c++/2025/07/07/9548.html",
         "teaser": null
+      },{
+        "title": "마리아디비 설치",
+        "excerpt":"개요 일반적인 리눅스 환경에서 마리아디비 설치가 필요한 경우 rpm으로 설치한다. 간편하고 빠르다. 하지만 rpm을 쓸 수 없는 특수한 환경에서는 어떡하지? 구글링하면서 공부하다가 자동화 스크립트 만들 수 있을 것 같아서 만든다. 설계 MariaDB Foundation Download 설치할 마리아디비 tarball 파일은 공식홈페이지에서 구할 수 있다. tar 파일 이용해 설치 진행 시 내용을 간단히...","categories": ["Development/ShellScript/"],
+        "tags": ["SHELL","마리아디비 설치"],
+        "url": "/development/shellscript/2025/08/04/Install-MariaDB.html",
+        "teaser": null
       }]

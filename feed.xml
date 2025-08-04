@@ -1,4 +1,302 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-07-07T06:43:25+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">9548번 무제</title><link href="https://movingwoo.com/boj/c++/2025/07/07/9548.html" rel="alternate" type="text/html" title="9548번 무제" /><published>2025-07-07T06:00:00+00:00</published><updated>2025-07-07T06:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/07/07/9548</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/07/07/9548.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-08-04T07:48:45+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">마리아디비 설치</title><link href="https://movingwoo.com/development/shellscript/2025/08/04/Install-MariaDB.html" rel="alternate" type="text/html" title="마리아디비 설치" /><published>2025-08-04T07:00:00+00:00</published><updated>2025-08-04T07:00:00+00:00</updated><id>https://movingwoo.com/development/shellscript/2025/08/04/Install%20MariaDB</id><content type="html" xml:base="https://movingwoo.com/development/shellscript/2025/08/04/Install-MariaDB.html"><![CDATA[<blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p>일반적인 리눅스 환경에서 마리아디비 설치가 필요한 경우 rpm으로 설치한다.<br />
+간편하고 빠르다.</p>
+
+<p>하지만 rpm을 쓸 수 없는 특수한 환경에서는 어떡하지?<br />
+구글링하면서 공부하다가 자동화 스크립트 만들 수 있을 것 같아서 만든다.</p>
+
+<blockquote>
+  <h4 id="설계">설계</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://mariadb.org/download/">MariaDB Foundation Download</a></p>
+
+<p>설치할 마리아디비 tarball 파일은 공식홈페이지에서 구할 수 있다.</p>
+
+<p>tar 파일 이용해 설치 진행 시 내용을 간단히 요약해보자면</p>
+<ol>
+  <li><span style="color: orange;"><strong>파일들을 적당히 경로로 옮긴다.</strong></span></li>
+  <li><span style="color: orange;"><strong>데이터베이스 초기화 스크립트를 수행한다.</strong></span></li>
+  <li><span style="color: orange;"><strong>기동!!</strong></span></li>
+</ol>
+
+<p>써놓고 보면 아주 단순한데 막상 해보면 이상한 오류가 나기도 하고<br />
+알 수 없는 억까의 세계</p>
+
+<p>일단 커맨드 자체는 아주 단순한 편들이라 스크립트화 가능하다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-환경변수와-사용법-함수">1. 환경변수와 사용법 함수</h5>
+
+<p>rpm으로 설치해보면 <span style="color: orange;"><strong>mysql</strong></span> 계정이 디폴트다.<br />
+다른 계정을 쓸 수 있으니 그룹과 계정을 변수로 뺀다.</p>
+
+<p><span style="color: orange;"><strong>TAR</strong></span> 파일 경로는 당연히 옵션화 해야하며<br />
+<span style="color: orange;"><strong>/usr/local</strong></span> 하위 설치를 디폴트로 두고 변수화한다.</p>
+
+<p>사용 시 설치를 리트라이할 수 있는데 이때를 위해 데이터를 삭제하는 옵션을 넣어준다.<br />
+<span style="color: orange;"><strong>RESET</strong></span> 옵션은 삭제 후 재설치, <span style="color: orange;"><strong>CLEAN</strong></span> 옵션은 삭제만 하는 것으로 한다.</p>
+
+<p>그냥 스크립트 호출하는 순간 설치가 진행되는 것도 위험하기 때문에 <span style="color: orange;"><strong>INSTALL</strong></span> 옵션을 넣어준다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 기본 변수</span>
+<span class="nv">GROUP</span><span class="o">=</span><span class="s2">"mysql"</span>
+<span class="nv">USER</span><span class="o">=</span><span class="s2">"mysql"</span>
+<span class="nv">TAR_FILE</span><span class="o">=</span><span class="s2">"/home/app/mariadb-10.11.13-linux-systemd-x86_64.tar.gz"</span>
+<span class="nv">INSTALL_PREFIX</span><span class="o">=</span><span class="s2">"/usr/local"</span>
+<span class="nv">INSTALL_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$INSTALL_PREFIX</span><span class="s2">/mariadb"</span>
+<span class="nv">RESET</span><span class="o">=</span><span class="nb">false
+</span><span class="nv">CLEAN_ONLY</span><span class="o">=</span><span class="nb">false
+</span><span class="nv">INSTALL</span><span class="o">=</span><span class="nb">false</span>
+
+<span class="c"># 옵션 파싱</span>
+<span class="k">while</span> <span class="o">[[</span> <span class="nv">$# </span><span class="nt">-gt</span> 0 <span class="o">]]</span><span class="p">;</span> <span class="k">do
+  case</span> <span class="nv">$1</span> <span class="k">in</span>
+    <span class="nt">-i</span><span class="p">|</span><span class="nt">--install</span><span class="p">)</span>    <span class="nv">INSTALL</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span> <span class="nb">shift</span><span class="p">;;</span>
+    <span class="nt">-r</span><span class="p">|</span><span class="nt">--reset</span><span class="p">)</span>      <span class="nv">RESET</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span> <span class="nb">shift</span><span class="p">;;</span>
+    <span class="nt">-c</span><span class="p">|</span><span class="nt">--clean</span><span class="p">)</span>      <span class="nv">CLEAN_ONLY</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span> <span class="nb">shift</span><span class="p">;;</span>
+    <span class="nt">-h</span><span class="p">|</span><span class="nt">--help</span><span class="p">)</span>       usage<span class="p">;;</span>
+    <span class="k">*</span><span class="p">)</span>               <span class="nb">echo</span> <span class="s2">"Unknown option: </span><span class="nv">$1</span><span class="s2">"</span> <span class="o">&gt;</span>&amp;2<span class="p">;</span> usage<span class="p">;;</span>
+  <span class="k">esac</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>옵션 없이 스크립트를 호출하거나, -h 옵션을 넣을 경우에는 도움말을 보여주도록 한다.<br />
+<span style="color: red;"><strong>이런 거 무시하고 안넣으면 나중에 나도 까먹어서 사용할 수 없다…</strong></span></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 사용법 함수</span>
+usage<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">
+Usage: sudo </span><span class="nv">$0</span><span class="sh"> [options]
+
+Options:
+  -i, --install     Install MariaDB
+                    마리아디비 설치
+  -r, --reset       Reset data before installing (remove then reinstall)
+                    데이터 초기화 후 설치 (삭제 후 재설치)
+  -c, --clean       Clean only (remove data without reinstalling)
+                    초기화만 (재설치 없이 삭제)
+  -h, --help        Show this help message and exit
+                    도움말
+</span><span class="no">EOF
+</span>  <span class="nb">exit </span>1
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="2-설치-전-조건과-초기화-조건">2. 설치 전 조건과 초기화 조건</h5>
+
+<p>관리자 권한이 필요해 <span style="color: orange;"><strong>root 권한</strong></span>을 체크한다.<br />
+RESET 옵션과 CLEAN 옵션이 충돌하면 난리날거라 그 부분도 확인하고<br />
+CLEAN을 지정했을 경우 삭제 후 프로세스를 종료하도록 설정한다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># root 권한 확인</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$EUID</span><span class="s2">"</span> <span class="nt">-ne</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">echo</span> <span class="s2">"[ERROR] root 권한으로 실행해야 함"</span> <span class="o">&gt;</span>&amp;2
+  <span class="nb">exit </span>1
+<span class="k">fi</span>
+
+<span class="c"># -r 과 -c 충돌 확인</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$RESET</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$CLEAN_ONLY</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">echo</span> <span class="s2">"[ERROR] -r 과 -c 옵션은 함께 사용 불가"</span> <span class="o">&gt;</span>&amp;2
+  <span class="nb">exit </span>1
+<span class="k">fi</span>
+
+<span class="c"># 아무 옵션도 안걸면 -h로 수행</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$INSTALL</span><span class="s2">"</span> <span class="o">!=</span> <span class="nb">true</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$RESET</span><span class="s2">"</span> <span class="o">!=</span> <span class="nb">true</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$CLEAN_ONLY</span><span class="s2">"</span> <span class="o">!=</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span>usage
+<span class="k">fi</span>
+
+<span class="c"># 초기화 (reset 또는 clean)</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$RESET</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$CLEAN_ONLY</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">echo</span> <span class="s2">"=== MariaDB 초기화 시작 ==="</span>
+  systemctl stop mariadb <span class="o">&gt;</span>/dev/null 2&gt;&amp;1 <span class="o">||</span> <span class="nb">true
+  </span>systemctl disable mariadb <span class="o">&gt;</span>/dev/null 2&gt;&amp;1 <span class="o">||</span> <span class="nb">true
+  rm</span> <span class="nt">-f</span> /etc/systemd/system/mariadb.service
+  systemctl daemon-reload <span class="o">&gt;</span>/dev/null 2&gt;&amp;1 <span class="o">||</span> <span class="nb">true
+  rm</span> <span class="nt">-rf</span> <span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">"</span>
+  <span class="nb">rm</span> <span class="nt">-f</span> /etc/profile.d/mariadb.sh
+  <span class="nb">rm</span> <span class="nt">-rf</span> <span class="s2">"</span><span class="nv">$INSTALL_PREFIX</span><span class="s2">/mysql"</span>
+  <span class="nb">echo</span> <span class="s2">"=== 초기화 완료: 설치 디렉터리, 서비스 파일, 환경변수, 링크 제거 ==="</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$CLEAN_ONLY</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">exit </span>0
+  <span class="k">fi
+fi</span>
+</code></pre></div></div>
+
+<h5 id="3-설치">3. 설치</h5>
+
+<p>설치 커맨드를 나열하는 단계.</p>
+
+<p>마리아디비가 마이에스큐엘의 아종이다보니 헷갈리는 부분이 많았다.<br />
+mysql 이름의 폴더를 기본 설정으로 찾는 경우가 많아서 <span style="color: orange;"><strong>심볼릭 링크</strong></span>를 생성해 오류를 피하고<br />
+<span style="color: orange;"><strong>데이터베이스 초기화 파일</strong></span>도 mariadb~~ 인 경우가 있고 mysql~~ 인 경우가 있어서 뭐라도 있으면 찾아서 쓰도록 하였다.</p>
+
+<p>실제 이리저리 시도해보다 온갖 오류가 나길래 이 단계에서의 관건은 실패 시 해결책을 같이 써두는 것으로 하였다.<br />
+<span style="color: orange;"><strong>ERROR</strong></span> 태그 출력 시 가능하면 <span style="color: orange;"><strong>HOW TO FIX</strong></span> 태그와 함께 수동으로 문제를 확인해볼 수 있게 한다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 설치</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$INSTALL</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$RESET</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+
+  <span class="c"># 그룹/사용자 생성</span>
+  getent group <span class="s2">"</span><span class="nv">$GROUP</span><span class="s2">"</span> <span class="o">&gt;</span>/dev/null <span class="o">||</span> groupadd <span class="s2">"</span><span class="nv">$GROUP</span><span class="s2">"</span>
+  getent passwd <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span> <span class="o">&gt;</span>/dev/null <span class="o">||</span> useradd <span class="nt">-r</span> <span class="nt">-g</span> <span class="s2">"</span><span class="nv">$GROUP</span><span class="s2">"</span> <span class="nt">-s</span> /bin/false <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span>
+
+  <span class="c"># 압축 해제</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$TAR_FILE</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"[ERROR] '</span><span class="nv">$TAR_FILE</span><span class="s2">' 파일을 찾을 수 없음"</span> <span class="o">&gt;</span>&amp;2
+    <span class="nb">echo</span> <span class="s2">"[HOW TO FIX] TAR_FILE 경로와 이름이 정확한지 확인."</span>
+    <span class="nb">exit </span>1
+  <span class="k">fi
+
+  </span><span class="nb">echo</span> <span class="s2">"[INFO] '</span><span class="nv">$TAR_FILE</span><span class="s2">' 압축 해제 중..."</span>
+  <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$INSTALL_PREFIX</span><span class="s2">"</span>
+  <span class="nb">tar</span> <span class="nt">-xzf</span> <span class="s2">"</span><span class="nv">$TAR_FILE</span><span class="s2">"</span> <span class="nt">-C</span> <span class="s2">"</span><span class="nv">$INSTALL_PREFIX</span><span class="s2">"</span>
+  <span class="nb">echo</span> <span class="s2">"[SUCCESS] '</span><span class="nv">$INSTALL_PREFIX</span><span class="s2">' 아래 디렉터리 압축 해제 완료"</span>
+
+  <span class="c"># 디렉터리 위치 조정</span>
+  <span class="nv">EX_DIR</span><span class="o">=</span><span class="si">$(</span><span class="nb">tar</span> <span class="nt">-tf</span> <span class="s2">"</span><span class="nv">$TAR_FILE</span><span class="s2">"</span> | <span class="nb">head</span> <span class="nt">-1</span> | <span class="nb">cut</span> <span class="nt">-f1</span> <span class="nt">-d</span><span class="s2">"/"</span><span class="si">)</span>
+  <span class="nb">mv</span> <span class="s2">"</span><span class="nv">$INSTALL_PREFIX</span><span class="s2">/</span><span class="nv">$EX_DIR</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">"</span>
+  <span class="nb">echo</span> <span class="s2">"[SUCCESS] '</span><span class="nv">$INSTALL_DIR</span><span class="s2">'로 이동 완료"</span>
+
+  <span class="c"># 링크 생성</span>
+  <span class="nb">ln</span> <span class="nt">-sfn</span> <span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INSTALL_PREFIX</span><span class="s2">/mysql"</span>
+  <span class="nb">echo</span> <span class="s2">"[SUCCESS] '</span><span class="nv">$INSTALL_PREFIX</span><span class="s2">/mysql' 심볼릭 링크 '</span><span class="nv">$INSTALL_DIR</span><span class="s2">' 생성 완료"</span>
+
+  <span class="c"># 권한 설정</span>
+  <span class="nb">cd</span> <span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">"</span>
+  <span class="nb">mkdir</span> <span class="nt">-p</span> mysql-files data
+  <span class="nb">chown</span> <span class="nt">-R</span> <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span>:<span class="s2">"</span><span class="nv">$GROUP</span><span class="s2">"</span> <span class="nb">.</span>
+  <span class="nb">chmod </span>750 mysql-files
+  <span class="nb">echo</span> <span class="s2">"[SUCCESS] mysql-files, data 디렉터리 권한 변경 완료"</span>
+
+  <span class="c"># 데이터베이스 초기화</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="nt">-x</span> <span class="s2">"bin/mariadb-install-db"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span>bin/mariadb-install-db <span class="se">\</span>
+      <span class="nt">--user</span><span class="o">=</span><span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span> <span class="se">\</span>
+      <span class="nt">--basedir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">"</span> <span class="se">\</span>
+      <span class="nt">--datadir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">/data"</span>
+    <span class="nb">echo</span> <span class="s2">"[SUCCESS] bin/mariadb-install-db로 데이터베이스 초기화 완료"</span>
+
+  <span class="k">elif</span> <span class="o">[</span> <span class="nt">-x</span> <span class="s2">"scripts/mysql_install_db"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span>scripts/mysql_install_db <span class="se">\</span>
+      <span class="nt">--user</span><span class="o">=</span><span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span> <span class="se">\</span>
+      <span class="nt">--basedir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">"</span> <span class="se">\</span>
+      <span class="nt">--datadir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">/data"</span>
+    <span class="nb">echo</span> <span class="s2">"[SUCCESS] scripts/mysql_install_db로 데이터베이스 초기화 완료"</span>
+
+  <span class="k">else
+    </span><span class="nb">echo</span> <span class="s2">"[ERROR] 초기화 스크립트를 찾을 수 없음, 수동 초기화 필요"</span> <span class="o">&gt;</span>&amp;2
+    <span class="nb">echo</span> <span class="s2">"[HOW TO FIX]"</span>
+    <span class="nb">echo</span> <span class="s2">"  1) </span><span class="nv">$INSTALL_DIR</span><span class="s2">/bin 또는 </span><span class="nv">$INSTALL_DIR</span><span class="s2">/scripts 경로 확인"</span>
+    <span class="nb">echo</span> <span class="s2">"  2) 해당 경로에서 mysql_install_db 또는 mariadb-install-db 실행"</span>
+    <span class="nb">echo</span> <span class="s2">"  3) 설정 완료 후 'systemctl start mariadb' 재시도"</span>
+  <span class="k">fi</span>
+
+  <span class="c"># 환경변수 등록</span>
+  <span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> &gt; /etc/profile.d/mariadb.sh
+export PATH=</span><span class="nv">$INSTALL_DIR</span><span class="sh">/bin:</span><span class="se">\$</span><span class="sh">PATH
+</span><span class="no">EOF
+</span>  <span class="nb">chmod</span> +x /etc/profile.d/mariadb.sh
+  <span class="nb">echo</span> <span class="s2">"[SUCCESS] /etc/profile.d/mariadb.sh 생성 및 권한 변경 완료"</span>
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<h5 id="4-나머지-과정">4. 나머지 과정</h5>
+
+<p>rpm으로 설치해보면 systemctl로 컨트롤 할 수 있게 올라간다.<br />
+요즘에 <span style="color: orange;"><strong>systemd</strong></span> 안쓰는 리눅스가 어디있냐! 하느냐면<br />
+당장 도커 컨테이너로 올리면 systemd 쓰기가 녹록치 않다.</p>
+
+<p>때문에 분기로 systemd 여부를 체크하고 있으면 등록, 없으면 mysqld_safe 기동 후 크론탭에 자동 등록하도록 한다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># systemd 존재할 경우 서비스 설정 및 시작, 없으면 mysqld_safe 실행 후 크론 등록</span>
+<span class="k">if </span><span class="nb">command</span> <span class="nt">-v</span> systemctl <span class="o">&gt;</span>/dev/null 2&gt;&amp;1 <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="nt">-d</span> /run/systemd/system <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nv">IS_SYSTEMD</span><span class="o">=</span><span class="nb">true
+</span><span class="k">else
+  </span><span class="nv">IS_SYSTEMD</span><span class="o">=</span><span class="nb">false
+</span><span class="k">fi
+
+</span><span class="nv">SERVICE_SRC</span><span class="o">=</span><span class="si">$(</span>find <span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">"</span> <span class="nt">-type</span> f <span class="nt">-name</span> mariadb.service | <span class="nb">head</span> <span class="nt">-n1</span><span class="si">)</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$IS_SYSTEMD</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+  if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$SERVICE_SRC</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"[INFO] 서비스 설정"</span>
+    <span class="nb">cp</span> <span class="s2">"</span><span class="nv">$SERVICE_SRC</span><span class="s2">"</span> /etc/systemd/system/mariadb.service
+    <span class="nb">sed</span> <span class="nt">-i</span> <span class="s2">"s|/usr/local/mysql|</span><span class="nv">$INSTALL_DIR</span><span class="s2">|g"</span> /etc/systemd/system/mariadb.service
+    systemctl daemon-reload
+    systemctl <span class="nb">enable </span>mariadb
+    systemctl start mariadb <span class="o">||</span> <span class="nb">true
+    echo</span> <span class="s2">"[SUCCESS] 서비스 시작 완료, 상태확인: systemctl status mariadb"</span>
+
+  <span class="k">else
+    </span><span class="nb">echo</span> <span class="s2">"[ERROR] mariadb.service 파일을 찾을 수 없음"</span> <span class="o">&gt;</span>&amp;2
+      <span class="nb">echo</span> <span class="s2">"[HOW TO FIX]"</span>
+      <span class="nb">echo</span> <span class="s2">"  1) 설치 디렉터리에서 service 파일 검색: find </span><span class="nv">$INSTALL_DIR</span><span class="s2"> -type f -name mariadb.service"</span>
+      <span class="nb">echo</span> <span class="s2">"  2) 해당 파일을 /etc/systemd/system/ 디렉터리에 복사: sudo cp &lt;경로&gt; /etc/systemd/system/mariadb.service"</span>
+      <span class="nb">echo</span> <span class="s2">"  3) systemd 다시 로드 및 서비스 활성화/시작:"</span>
+      <span class="nb">echo</span> <span class="s2">"       sudo systemctl daemon-reload"</span>
+      <span class="nb">echo</span> <span class="s2">"       sudo systemctl enable mariadb"</span>
+      <span class="nb">echo</span> <span class="s2">"       sudo systemctl start mariadb"</span>
+      <span class="nb">exit </span>1
+  <span class="k">fi
+else
+  </span><span class="nb">echo</span> <span class="s2">"[INFO] 크론 설정"</span>
+  <span class="nb">sudo</span> <span class="nt">-u</span> <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">/bin/mysqld_safe"</span> <span class="se">\</span>
+      <span class="nt">--basedir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">"</span> <span class="se">\</span>
+      <span class="nt">--datadir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">/data"</span> <span class="o">&gt;</span> /var/log/mariadb.log 2&gt;&amp;1 &amp;
+
+  <span class="o">(</span>
+    crontab <span class="nt">-l</span> 2&gt;/dev/null <span class="se">\</span>
+    | <span class="nb">grep</span> <span class="nt">-v</span> <span class="nt">-F</span> <span class="s2">"</span><span class="nv">$INSTALL_DIR</span><span class="s2">/bin/mysqld_safe"</span> <span class="o">||</span> <span class="nb">true
+    echo</span> <span class="s2">"@reboot sudo -u </span><span class="nv">$USER</span><span class="s2"> </span><span class="nv">$INSTALL_DIR</span><span class="s2">/bin/mysqld_safe --basedir=</span><span class="nv">$INSTALL_DIR</span><span class="s2"> --datadir=</span><span class="nv">$INSTALL_DIR</span><span class="s2">/data &gt;&gt; /var/log/mariadb.log 2&gt;&amp;1 &amp;"</span>
+  <span class="o">)</span> | crontab -
+
+  <span class="nb">echo</span> <span class="s2">"[SUCCESS] mysqld_safe 시작 완료, 크론 등록 완료"</span>
+<span class="k">fi
+
+</span><span class="nb">echo</span> <span class="s2">"=== MariaDB 설치 및 서비스 구동 완료 ==="</span>
+<span class="nb">echo</span> <span class="s2">"DB 접속할 계정에서 1회만 실행: source /etc/profile.d/mariadb.sh"</span>
+<span class="nb">echo</span> <span class="s2">"접속: mysql -u root"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <h4 id="완성">완성</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/Development/ShellScript/2025-08-04-Install MariaDB/img01.webp" alt="img01" /></p>
+
+<p>이후 계정 생성이나 튜닝이나 기타 등등은 재주껏 하는 것</p>
+
+<blockquote>
+  <h4 id="반성">반성</h4>
+  <hr />
+</blockquote>
+
+<p>생각해보니 크론탭 등록 분기 추가했으면 삭제 시 크론도 삭제해야하는데 빼먹었다!!!<br />
+아 이제와서 손대기 귀찮으니 다음에 사고나면 고쳐보자.</p>
+
+<p>OS는 유닉스를 가져오지 않는 이상 웬만하면 돌아갈 것 같다.<br />
+버전도 10 버전, 11버전만 써보긴 했는데 뭐 크게 바뀌는거 아니면 웬만하면 돌아가지 않을까?</p>
+
+<p>이 스크립트가 안돌아갈 정도로 버전이 바뀌면 어차피 나도 이 스크립트의 존재를 까먹고 지낼 것 같긴 하다.</p>
+
+<blockquote>
+  <h4 id="코드-확인">코드 확인</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/Development/ShellScript/2025-08-04-Install%20MariaDB.sh">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/ShellScript/" /><category term="SHELL" /><category term="마리아디비 설치" /><summary type="html"><![CDATA[마리아디비 설치 스크립트 개발]]></summary></entry><entry><title type="html">9548번 무제</title><link href="https://movingwoo.com/boj/c++/2025/07/07/9548.html" rel="alternate" type="text/html" title="9548번 무제" /><published>2025-07-07T06:00:00+00:00</published><updated>2025-07-07T06:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/07/07/9548</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/07/07/9548.html"><![CDATA[<blockquote>
   <h4 id="이왜틀">이왜틀?</h4>
   <hr />
 </blockquote>
@@ -899,150 +1197,4 @@ x위치에 떨어졌을 경우 x - R, x + R 건초더미를 터칠 때 K마리�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-16194.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="16194" /><category term="카드 구매하기 2" /><category term="DP" /><summary type="html"><![CDATA[백준 16194번 카드 구매하기 2 PYTHON 문제풀이]]></summary></entry><entry><title type="html">14569번 시간표 짜기</title><link href="https://movingwoo.com/boj/python/2025/07/02/14569.html" rel="alternate" type="text/html" title="14569번 시간표 짜기" /><published>2025-07-02T01:00:00+00:00</published><updated>2025-07-02T01:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/02/14569</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/02/14569.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-14569/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/14569">14569번 시간표 짜기 - 백준</a></p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">[]&gt;</span> <span class="n">clas</span><span class="o">=</span><span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-    <span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-    <span class="kt">int</span> <span class="n">ntmp</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-    <span class="nc">String</span><span class="o">[]</span> <span class="n">atmp</span><span class="o">=</span><span class="k">new</span> <span class="nc">String</span><span class="o">[</span><span class="n">ntmp</span><span class="o">];</span>
-    <span class="kt">int</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-    <span class="k">while</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">())</span> <span class="o">{</span>
-        <span class="n">atmp</span><span class="o">[</span><span class="n">idx</span><span class="o">++]=</span><span class="s">" "</span><span class="o">+</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">();</span>
-    <span class="o">}</span>
-    <span class="n">clas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">atmp</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-<span class="kt">int</span><span class="o">[]</span> <span class="n">gn</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">m</span><span class="o">];</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-    <span class="nc">String</span> <span class="n">l</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">l</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"0"</span><span class="o">))</span> <span class="k">continue</span><span class="o">;</span>
-    <span class="k">else</span> <span class="o">{</span>
-        <span class="n">l</span><span class="o">=</span><span class="n">l</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">l</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="sc">' '</span><span class="o">));</span>
-        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="nc">String</span><span class="o">[]</span> <span class="n">atmp</span><span class="o">=</span><span class="n">clas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
-            <span class="kt">boolean</span> <span class="n">chk</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
-            <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">k</span><span class="o">&lt;</span><span class="n">atmp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
-                <span class="k">if</span><span class="o">(!</span><span class="n">l</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">atmp</span><span class="o">[</span><span class="n">k</span><span class="o">]))</span> <span class="o">{</span>
-                    <span class="n">chk</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
-                    <span class="k">break</span><span class="o">;</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-            <span class="k">if</span><span class="o">(</span><span class="n">chk</span><span class="o">)</span> <span class="n">gn</span><span class="o">[</span><span class="n">i</span><span class="o">]++;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">gn</span><span class="o">[</span><span class="n">i</span><span class="o">]+</span><span class="s">"\n"</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p>String으로 뭘 해보려했던 것 같은데 넘어가자.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>수업시간은 최대 50이니 50비트로 표현할 수 있다.<br />
-전부 입력 받아 시간표가 학생의 빈시간에 포함되는지 확인하면 된다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>입력 리스트의 첫 번째 숫자는 뒤에 이어질 숫자의 갯수라 빼고 마스킹해야한다.<br />
-이후 <span style="color: orange;"><strong>교집합</strong></span>을 찾으면 된다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 비트마스킹
-</span><span class="k">def</span> <span class="nf">masking</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
-        <span class="n">mask</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
-
-    <span class="k">return</span> <span class="n">mask</span>
-
-<span class="n">N</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-<span class="n">classes</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-   <span class="c1"># 첫 숫자 슬라이싱 해야함
-</span>   <span class="n">class_time</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))[</span><span class="mi">1</span><span class="p">:]</span>
-   <span class="n">classes</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">masking</span><span class="p">(</span><span class="n">class_time</span><span class="p">))</span>
-
-<span class="n">M</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="c1"># 첫 숫자 슬라이싱 해야함
-</span>    <span class="n">student</span> <span class="o">=</span> <span class="nf">masking</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))[</span><span class="mi">1</span><span class="p">:])</span>
-    
-    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">class_time</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
-        <span class="c1"># 수업 시간과 학생 빈 시간의 교집합
-</span>        <span class="k">if</span> <span class="n">class_time</span> <span class="o">&amp;</span> <span class="n">student</span> <span class="o">==</span> <span class="n">class_time</span><span class="p">:</span>
-            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="nf">print</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-14569/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>알고리즘 분류에 비트마스킹이 있어서 그렇게 풀었는데<br />
-이거 파이썬 <span style="color: orange;"><strong>set</strong></span>도 가능할까?<br />
-테스트해보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="n">classes</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="c1"># set 써보기
-</span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="n">classes</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])))</span>
-
-<span class="n">M</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="n">student</span> <span class="o">=</span> <span class="nf">set</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]))</span>
-    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-    
-    <span class="k">for</span> <span class="n">class_time</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
-        <span class="c1"># subset
-</span>        <span class="k">if</span> <span class="n">class_time</span><span class="p">.</span><span class="nf">issubset</span><span class="p">(</span><span class="n">student</span><span class="p">):</span>
-            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="nf">print</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>코드 이렇게 하고 제출</p>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-14569/img03.webp" alt="img03" /></p>
-
-<p>오 되네<br />
-시간도 나쁘지 않다.<br />
-<span style="color: orange;"><strong>파이썬 set 성능이 우수</strong></span>하다고 들었는데 진짜 그런가보다.<br />
-자바 Set의 형언할 수 없는 그 묵직하고 느린 것 때문에 성능에 편견이 있었는데</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-14569.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="14569" /><category term="시간표 짜기" /><category term="비트마스킹" /><summary type="html"><![CDATA[백준 14569번 시간표 짜기 PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-16194.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="16194" /><category term="카드 구매하기 2" /><category term="DP" /><summary type="html"><![CDATA[백준 16194번 카드 구매하기 2 PYTHON 문제풀이]]></summary></entry></feed>
