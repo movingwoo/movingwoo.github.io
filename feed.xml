@@ -1,4 +1,184 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-08-04T07:48:45+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">마리아디비 설치</title><link href="https://movingwoo.com/development/shellscript/2025/08/04/Install-MariaDB.html" rel="alternate" type="text/html" title="마리아디비 설치" /><published>2025-08-04T07:00:00+00:00</published><updated>2025-08-04T07:00:00+00:00</updated><id>https://movingwoo.com/development/shellscript/2025/08/04/Install%20MariaDB</id><content type="html" xml:base="https://movingwoo.com/development/shellscript/2025/08/04/Install-MariaDB.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-09-11T05:37:49+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">3호기 서버 구축</title><link href="https://movingwoo.com/server/2025/09/11/Build-Server-MK3.html" rel="alternate" type="text/html" title="3호기 서버 구축" /><published>2025-09-11T02:00:00+00:00</published><updated>2025-09-11T02:00:00+00:00</updated><id>https://movingwoo.com/server/2025/09/11/Build%20Server%20MK3</id><content type="html" xml:base="https://movingwoo.com/server/2025/09/11/Build-Server-MK3.html"><![CDATA[<blockquote>
+  <h4 id="들어가기-앞서">들어가기 앞서</h4>
+  <hr />
+</blockquote>
+
+<p>서버 1호기와 2호기를 운영 중 이상이 생겼다.</p>
+
+<p>1호기는 서피스 윈도우를 밀어버리고 우분투를 올렸는데<br />
+뭐가 문제인지 며칠 지나면 멋대로 <span style="color: red;"><strong>‘죽을게’</strong></span>를 외치고 꺼져버린다.<br />
+왜 이러는거야…</p>
+
+<p>2호기는 오라클 클라우드에서 40평형 궁궐같은 집을 무료로 임대받아 살았는데<br />
+리전이 한국이 아니라 일본이라 사소한 이슈가 조금 있었고<br />
+이를 해결하기 위한 오라클과의 불통 끝에 서버 접근도 안되고 탈퇴도 안되는 불법체류자 같은 존재가 되었다.</p>
+
+<p>3호기 서버가 절실한 상황, 서버를 새로 구축한다.</p>
+
+<blockquote>
+  <h4 id="3호기-설계">3호기 설계</h4>
+  <hr />
+</blockquote>
+
+<p>무료로 제공하는 VM 서비스를 찾아보면, 사실 오라클 클라우드를 제외하면 마땅한 후보가 존재치 않는다.<br />
+기간 제한이 있거나 용량이 너무 적다.<br />
+돈 만원이라도 넣어야 사용할만한 공간이 나오는데 무료가 아니라 아쉬운게 사실.</p>
+
+<p>결국 물리 서버 하나 집구석에 던져두고 공유기 물려두는게 제일 저렴하다.<br />
+3호기에 서비스를 올려서 테스트용으로 가볍게 사용할거라 네트워크 이슈가 생길 일도 없다.</p>
+
+<p>다행히도 뽀얗게 먼지쌓인 데스크탑 한 대가 있다.</p>
+
+<p>뭔가 램도 꽂혀있고 그래픽카드도 달려있는데… 모델 명을 모르겠다.<br />
+6 ~ 7년은 지난 터라 구매기록도 못찾겠다.</p>
+
+<p>다른 부품은 다 있고 SSD만 뽑아간 탓에 SSD 연결하면 사용에는 이상이 없을 것 같다.<br />
+M.2 슬롯이 없는 것 같으니 SATA SSD 500gb 로 주문하자.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img01.webp" alt="img01" /></p>
+
+<p>배송비 포함 8만원<br />
+PC 부품이 워낙 싯가로 널뛰기를 하기 때문에 싼지 비싼지 가늠이 안간다.<br />
+쓸 돈은 써야지 뭐…</p>
+
+<blockquote>
+  <h4 id="3호기-구축">3호기 구축</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-본체-확인">1. 본체 확인</h5>
+
+<p>나는 하드웨어 쪽은 잘 모르지만, PC 조립은 레고의 그것과 같다고 들었다.</p>
+
+<p><span style="color: orange;"><strong>구멍이 맞는가?</strong></span><br />
+<span style="color: orange;"><strong>큰 힘 없이 끼워지는가?</strong></span><br />
+<span style="color: red;"><strong>거기가 맞으니 끼워라</strong></span></p>
+
+<p><img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img02.webp" alt="img02" /></p>
+
+<p>이렇게 하면 되겠지?<br />
+대충 남는 공간에 쑤셔박고 파워를 물리면 끝</p>
+
+<h5 id="2-부팅-디스크-준비">2. 부팅 디스크 준비</h5>
+
+<p><span style="color: orange;"><strong>rufus</strong></span>를 이용하여 usb를 부팅디스크로 만든다.<br />
+ventoy 였나? 그걸 쓰는 경우도 있다는데 나는 익숙한 rufus를 쓰기로 했다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img03.webp" alt="img03" /></p>
+
+<p><a href="https://ubuntu.com/download/server">Ubuntu Server Download</a></p>
+
+<p>공식홈페이지에서 다운로드 받아 부팅 드라이브를 만든다.</p>
+
+<p>여기서 <span style="color: orange;"><strong>우분투 데스크탑</strong></span>을 사용할지, <span style="color: orange;"><strong>우분투 서버</strong></span>를 사용할지 결정을 해야하는데 나는 서버를 선택했다.<br />
+모니터와 키보드 없이 전원만 붙여놓을 생각이기 때문이며, 서버는 인터넷 없는 환경에서 <span style="color: orange;"><strong>OpenSSH를 사전 설치</strong></span> 가능하다.<br />
+우선 인터넷 없는 환경에서 설치 후 자리를 옮길거라 서버가 적절한 옵션이다.</p>
+
+<p>데스크탑과 서버의 차이는 대략 아래와 같다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>항목</th>
+      <th>Ubuntu Desktop</th>
+      <th>Ubuntu Server</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>GUI</strong></td>
+      <td>O</td>
+      <td>X</td>
+    </tr>
+    <tr>
+      <td><strong>기본 설치 패키지</strong></td>
+      <td>파폭, 리브레오피스 등</td>
+      <td>openssh, apache 등</td>
+    </tr>
+    <tr>
+      <td><strong>자원 사용량</strong></td>
+      <td>상대적으로 무거움</td>
+      <td>상대적으로 가벼움</td>
+    </tr>
+    <tr>
+      <td><strong>보안 정책</strong></td>
+      <td>개인 사용자 보안 중심 (방화벽 off 기본)</td>
+      <td>서버 보안 중심 (SSH 접근, UFW 설정 등 적극 권장)</td>
+    </tr>
+    <tr>
+      <td><strong>업데이트 주기</strong></td>
+      <td>데스크탑 중심 패키지 포함 (예: 그래픽 드라이버, 오피스 등)</td>
+      <td>서버 안정성·장기 지원 중심 (서비스 지향)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>초기화 시 iso로 할지 dd로 할지 묻는데 <span style="color: orange;"><strong>dd</strong></span>로 진행하면 된다.<br />
+일부 환경에서 iso usb가 인식이 잘 안될수도 있다고, 그대로 복제를 한 dd 이미지가 안정적이라고 한다.</p>
+
+<h5 id="3-os-설치">3. OS 설치</h5>
+
+<p>usb로 부팅 후 하라는 대로 엔터치면서 설치하면 끝인데…<br />
+여기서 한가지 문제 발생<br />
+<span style="color: red;"><strong>The install media checksum verification failed</strong></span> 라는 오류가 뜨며 진행할 수 없다.</p>
+
+<p>일반적으로 usb를 잘못 구웠거나 다운로드가 잘못되었을 경우 발생한다는데…<br />
+하드웨어가 잘못되었을 가능성도 있기 때문에 데스크탑 버전으로 한 번 설치를 시도한다.<br />
+결과는 성공.</p>
+
+<p>데스크탑 설치는 문제없으니 하드웨어 이상은 아닐거로 판단, 하위버전을 설치해본다.<br />
+24.04 말고 22.04 버전으로 새로 다운로드 받아서 설치하니 성공.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img04.webp" alt="img04" /></p>
+
+<p><strong>acquiring and extracting image</strong> 부분에서 오류 발생 후 셧다운 됐었는데<br />
+이상없이 시스템 설치가 진행된다.</p>
+
+<h5 id="4-세팅">4. 세팅</h5>
+
+<p>인터넷이 연결되면 우선 업데이트를 진행한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img05.webp" alt="img05" /></p>
+
+<p>시간대 설정 후 ufw에 ssh 포트를 세팅한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img06.webp" alt="img06" /></p>
+
+<p>보안 상 22번 포트를 그대로 노출하는건 별로다.<br />
+추후 22번 포트 자체를 다른 포트로 변경할텐데 우선은 공유기 포트 포워딩 설정에서 외부 포트를 다른 포트로 지정하고 내부 22번 포트로 연결한다.</p>
+
+<p>ssh 접속 테스트 진행</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img07.webp" alt="img07" /></p>
+
+<p>이제 연결해둔 모니터와 키보드를 제거하고 전원만 켜두면 된다.</p>
+
+<blockquote>
+  <h4 id="앞으로-해야할-것">앞으로 해야할 것</h4>
+  <hr />
+</blockquote>
+
+<p>오랜만에 서버 구축하니까 재미있다.</p>
+
+<p>24.04로 업그레이드는 당장 필요치 않으니 제외하고<br />
+<span style="color: orange;"><strong>보안 설정</strong></span>을 우선적으로 진행하고<br />
+도커와 같은 필수 툴을 설치하고<br />
+개인 설정을 진행해야한다.</p>
+
+<p>그러고보니 보드가 뭔지 그래픽카드는 뭔지 정보를 아무것도 모르고 일단 올렸는데 이제 확인해보자.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img08.webp" alt="img08" /><br />
+<img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img09.webp" alt="img09" /><br />
+<img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img10.webp" alt="img10" /></p>
+
+<p>그래픽카드의 경우 명확히는 안나오는데 아마 기억이 맞다면 rx 570쯤 될거다.<br />
+이 서버엔 너무나 과분한 그래픽카드가 아닐 수 없다.</p>
+
+<p>메인보드가 MSI B450M 인데…</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-11-Build Server MK3/img11.webp" alt="img11" /></p>
+
+<p><span style="color: red;"><strong>뭐야 M.2 슬롯이 있었다고?</strong></span></p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="ubuntu" /><category term="구축" /><summary type="html"><![CDATA[3호기 개인 우분투 서버 구축]]></summary></entry><entry><title type="html">마리아디비 설치</title><link href="https://movingwoo.com/development/shellscript/2025/08/04/Install-MariaDB.html" rel="alternate" type="text/html" title="마리아디비 설치" /><published>2025-08-04T07:00:00+00:00</published><updated>2025-08-04T07:00:00+00:00</updated><id>https://movingwoo.com/development/shellscript/2025/08/04/Install%20MariaDB</id><content type="html" xml:base="https://movingwoo.com/development/shellscript/2025/08/04/Install-MariaDB.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -1123,78 +1303,4 @@ x위치에 떨어졌을 경우 x - R, x + R 건초더미를 터칠 때 K마리�
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-11973.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="11973" /><category term="Angry Cows (Silver)" /><category term="이분탐색" /><summary type="html"><![CDATA[백준 11973번 Angry Cows (Silver) PYTHON 문제풀이]]></summary></entry><entry><title type="html">16194번 카드 구매하기 2</title><link href="https://movingwoo.com/boj/python/2025/07/02/16194.html" rel="alternate" type="text/html" title="16194번 카드 구매하기 2" /><published>2025-07-02T02:00:00+00:00</published><updated>2025-07-02T02:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/02/16194</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/02/16194.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-16194/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/16194">16194번 카드 구매하기 2 - 백준</a></p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-<span class="kt">int</span><span class="o">[]</span> <span class="n">pack</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
-<span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
-<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-    <span class="n">pack</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-<span class="o">}</span>
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">i</span><span class="o">;</span><span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
-        <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">],</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="n">j</span><span class="o">]+</span><span class="n">pack</span><span class="o">[</span><span class="n">j</span><span class="o">]);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">n</span><span class="o">]+</span><span class="s">""</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p>최소 비용을 구해야하는데 왜 Math.max를 쓴거지?</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>점화식은 다 짜두었으니 그대로 가져가서 쓰되, <span style="color: orange;"><strong>min</strong></span>을 쓰도록 한다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>인덱스 범위에 주의한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="n">pack</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-<span class="c1"># 대충 큰 값
-</span><span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000000</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nf">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">pack</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">N</span><span class="p">])</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-16194/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>5년 전 나는 DP 개념을 몰랐을 텐데 나름 점화식을 작성해 풀려고 노력한 모습이 보인다.<br />
-장하다 과거의 나</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-16194.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="16194" /><category term="카드 구매하기 2" /><category term="DP" /><summary type="html"><![CDATA[백준 16194번 카드 구매하기 2 PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-11973.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="11973" /><category term="Angry Cows (Silver)" /><category term="이분탐색" /><summary type="html"><![CDATA[백준 11973번 Angry Cows (Silver) PYTHON 문제풀이]]></summary></entry></feed>

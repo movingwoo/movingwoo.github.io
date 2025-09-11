@@ -496,4 +496,10 @@ var store = [{
         "tags": ["SHELL","마리아디비 설치"],
         "url": "/development/shellscript/2025/08/04/Install-MariaDB.html",
         "teaser": null
+      },{
+        "title": "3호기 서버 구축",
+        "excerpt":"들어가기 앞서 서버 1호기와 2호기를 운영 중 이상이 생겼다. 1호기는 서피스 윈도우를 밀어버리고 우분투를 올렸는데 뭐가 문제인지 며칠 지나면 멋대로 ‘죽을게’를 외치고 꺼져버린다. 왜 이러는거야… 2호기는 오라클 클라우드에서 40평형 궁궐같은 집을 무료로 임대받아 살았는데 리전이 한국이 아니라 일본이라 사소한 이슈가 조금 있었고 이를 해결하기 위한 오라클과의 불통 끝에 서버 접근도...","categories": ["Server/"],
+        "tags": ["SERVER","ubuntu","구축"],
+        "url": "/server/2025/09/11/Build-Server-MK3.html",
+        "teaser": null
       }]
