@@ -189,7 +189,7 @@ sudo usermod -aG docker $USER
   
 ![img11](/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img11.webp)  
   
-ESM 메시지는 업데이트 메시지에 딸려오는거라 같은데...  
+ESM 메시지는 업데이트 메시지에 딸려오는거 같은데...  
 수동 제거하거나 커스텀해야하는데 귀찮으니 당분간 냅두자.  
 근데 뭐했다고 온도가 60도가 넘지?  
   
