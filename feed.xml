@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-09-12T02:41:04+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">3호기 서버 설정</title><link href="https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html" rel="alternate" type="text/html" title="3호기 서버 설정" /><published>2025-09-12T02:00:00+00:00</published><updated>2025-09-12T02:00:00+00:00</updated><id>https://movingwoo.com/server/2025/09/12/Server%20MK3%20Setting</id><content type="html" xml:base="https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-09-12T02:52:58+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">3호기 서버 설정</title><link href="https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html" rel="alternate" type="text/html" title="3호기 서버 설정" /><published>2025-09-12T02:00:00+00:00</published><updated>2025-09-12T02:00:00+00:00</updated><id>https://movingwoo.com/server/2025/09/12/Server%20MK3%20Setting</id><content type="html" xml:base="https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html"><![CDATA[<blockquote>
   <h4 id="이어서">이어서</h4>
   <hr />
 </blockquote>
@@ -183,7 +183,7 @@ curl <span class="nt">-fsSL</span> https://download.docker.com/linux/ubuntu/gpg 
 
 <p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img11.webp" alt="img11" /></p>
 
-<p>ESM 메시지는 업데이트 메시지에 딸려오는거라 같은데…<br />
+<p>ESM 메시지는 업데이트 메시지에 딸려오는거 같은데…<br />
 수동 제거하거나 커스텀해야하는데 귀찮으니 당분간 냅두자.<br />
 근데 뭐했다고 온도가 60도가 넘지?</p>
 
