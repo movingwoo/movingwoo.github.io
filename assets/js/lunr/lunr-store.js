@@ -502,4 +502,10 @@ var store = [{
         "tags": ["SERVER","ubuntu","구축"],
         "url": "/server/2025/09/11/Build-Server-MK3.html",
         "teaser": null
+      },{
+        "title": "3호기 서버 설정",
+        "excerpt":"이어서 생각해보니 램 얼만지 확인을 안해봤다. 아니 무슨 40기가나 박혀있네? 내 게임 PC가 32기가일텐데… 설정할 내용 계정을 여러개 쓰지 않을거라 돌이킬 수 없는 결과를 낳을 듯한 faillock은 제외하고 간단하게 4가지를 설정한다. root 로그인 비활성화 ssh 포트 변경 fail2ban 세션 타임아웃 그 외 설정으로 bash 프롬프트 수정과 히스토리 최적화 등을 진행한다....","categories": ["Server/"],
+        "tags": ["SERVER","ubuntu","구축","설정"],
+        "url": "/server/2025/09/12/Server-MK3-Setting.html",
+        "teaser": null
       }]

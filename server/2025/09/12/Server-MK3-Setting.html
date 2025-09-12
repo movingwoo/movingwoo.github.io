@@ -1,0 +1,2706 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>3호기 서버 설정 - 뭐라도 하겠지</title>
+<meta name="description" content="3호기 개인 우분투 서버 설정">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="뭐라도 하겠지">
+<meta property="og:title" content="3호기 서버 설정">
+<meta property="og:url" content="https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html">
+
+
+  <meta property="og:description" content="3호기 개인 우분투 서버 설정">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-09-12T02:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-09-12T02:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "뭐라도 하겠지",
+      "url": "https://movingwoo.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/common/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/common/favicon_16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/common/favicon_180x180.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="뭐라도 하겠지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.querySelector('.head-content-btn');
+  const dropdownContent = document.querySelector('.game-dropdown-content');
+  let isOpen = false;
+
+  // 드롭다운 버튼 클릭 이벤트
+  dropdownBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    if (isOpen) {
+      const rect = dropdownBtn.getBoundingClientRect();
+      dropdownContent.style.top = rect.bottom + 'px';
+      dropdownContent.style.left = rect.left + 'px';
+      dropdownContent.classList.add('show');
+    } else {
+      dropdownContent.classList.remove('show');
+    }
+  });
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    if (isOpen && !dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+      isOpen = false;
+      dropdownContent.classList.remove('show');
+    }
+  });
+});
+</script>
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/common/favicon_180x180.png" alt="뭐라도 하겠지"></a>
+        
+        <a class="site-title" href="/">
+          뭐라도 하겠지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <div class="game-dropdown">
+              <button class="head-content-btn">
+                play <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="game-dropdown-content">
+                <a href="/play/Flappy%20Bird.html" target="_blank">Flappy Bird</a>
+                <a href="/play/Minesweeper.html" target="_blank">Minesweeper</a>
+                <a href="/play/Random%20Printer.html" target="_blank">Random Printer</a>
+                <a href="/play/Maze%20Generator.html" target="_blank">Maze Generator</a>
+                <a href="/play/Dungeon%20Generator.html" target="_blank">Dungeon Generator</a>
+                <a href="/play/Code%20Simulator.html" target="_blank">Python Code Simulator</a>
+              </div>
+            </div>
+          </li>
+          <li class="masthead__menu-item">
+            <button class="head-content-btn" onclick="window.location.href='/board?path='">
+              explorer
+            </button>
+          </li>
+        </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <h1 class="title__logo"><a href="https://movingwoo.com/">뭐라도 하겠지</a></h1>
+ -->
+
+
+
+<script src="/assets/js/search.js"></script>
+
+
+    <div class="initial-content">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>3호기 서버 설정 | 뭐라도 하겠지</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="3호기 서버 설정" />
+<meta name="author" content="movingwoo" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="3호기 개인 우분투 서버 설정" />
+<meta property="og:description" content="3호기 개인 우분투 서버 설정" />
+<link rel="canonical" href="https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html" />
+<meta property="og:url" content="https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html" />
+<meta property="og:site_name" content="뭐라도 하겠지" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-12T02:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="3호기 서버 설정" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-09-12T02:00:00+00:00","datePublished":"2025-09-12T02:00:00+00:00","description":"3호기 개인 우분투 서버 설정","headline":"3호기 서버 설정","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/server/2025/09/12/Server-MK3-Setting.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
+
+
+
+<div class="home-layout">
+  <div class="home-sidebar">
+    
+
+
+
+
+
+
+
+<aside class="sidebar__left">
+  <div class="toc-wrapper">
+    <nav class="toc">
+      <header>
+        <h4 class="nav__title">
+          <span class="title-text">
+            <i class="fas fa-sitemap"></i> Archive
+          </span>
+          <a href="/board?path=" class="search-link" title="탐색">
+            <i class="fas fa-list-ul"></i>
+          </a>
+        </h4>
+      </header>
+
+      <ul class="toc__menu">
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="BOJ/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">BOJ</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/C++/" data-total-posts="10">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">C++</span>
+              
+              
+                <span class="post-count">10</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/c++/2025/07/07/9548.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 9548번 무제
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/c++/2025/06/24/16221.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 16221번 모독
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/c++/2025/06/19/17456.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 17456번 필살! 60단 컴보
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FC%2B%2B%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/Java/" data-total-posts="16">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">16</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/java/2025/06/26/1168.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 1168번 요세푸스 문제 2
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/java/2025/06/24/8436.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 8436번 Kamil
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/java/2025/06/24/28682.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 28682번 재우야 임관하자
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FJava%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/Python/" data-total-posts="33">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">33</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/python/2025/07/03/12837.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 12837번 가계부 (Hard)
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/python/2025/07/03/16455.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 16455번 K번째 수 찾는 함수
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/python/2025/07/03/2252.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 2252번 줄 세우기
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FPython%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Development/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Development</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Java/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/java/2025/05/11/Bulls-and-Cows.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 숫자야구
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/JavaScript/" data-total-posts="8">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">JavaScript</span>
+              
+              
+                <span class="post-count">8</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/28/Dungeon-Generator-02.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 던전 생성기 02
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/27/Dungeon-Generator-01.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 던전 생성기 01
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/23/Maze-Generator-03.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 미로 생성기 03
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=Development%2FJavaScript%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Python/" data-total-posts="4">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">4</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/python/2025/06/19/Code-Simulator.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 코드 시뮬레이터
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/python/2025/06/09/Hardware-Monitor.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 하드웨어 모니터
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/python/2025/06/04/WebP-Converter.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> WebP 변환기
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=Development%2FPython%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/ShellScript/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">ShellScript</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/shellscript/2025/08/04/Install-MariaDB.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 마리아디비 설치
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shellscript/2025/05/12/File-Copier.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파일 복사기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shellscript/2025/04/28/Server-Manage-Console.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 서버 관리 콘솔
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Shortcuts/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Shortcuts</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/shortcuts/2025/06/11/Drawing-Lots.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 제비 뽑기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shortcuts/2025/06/02/Magic-Conch-Shell.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 마법의 소라고둥
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Server/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Server</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/server/2025/09/12/Server-MK3-Setting.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 3호기 서버 설정
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/server/2025/09/11/Build-Server-MK3.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 3호기 서버 구축
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Zone of Exile/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Zone of Exile</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/2025/04/30/What-is-this.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 유배지 공고문
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Zone of Exile/AI-playground/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">AI-playground</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/Claude/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Claude</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/GPT/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">GPT</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/toc.js"></script> 
+  </div>
+
+  <div class="home-content">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="headline" content="3호기 서버 설정">
+      <meta itemprop="description" content="  이어서  생각해보니 램 얼만지 확인을 안해봤다.아니 무슨 40기가나 박혀있네?내 게임 PC가 32기가일텐데…  설정할 내용  계정을 여러개 쓰지 않을거라 돌이킬 수 없는 결과를 낳을 듯한 faillock은 제외하고 간단하게 4가지를 설정한다.  root 로그인 비활성화  ssh 포트 변경  fail2ban  세션 타임아웃그 외 설정으로 bash 프롬프트 수정과 히스토리 최적화 등을 진행한다.  설정  1. 업그레이드22.04로 설치했으니 24.04로 업그레이드를 우선 진행한다.이것저것 설치되어 있을수록 업그레이드가 부담되니까 깡통일때 해버리는게 낫다.sudo do-release-upgrade명령어 입력 후 콘솔 안내에 따라 업그레이드를 진행한다.업그레이드 중 언어셋이 en_US.UTF-8 인걸 확인했다.데스크탑 설치에는 한국어 설정이 있었는데 서버 설치에는 없어서 전체 영어로 진행되는 상황.ko_KR.UTF-8 로 바꿔줘야겠다.sudo apt install language-pack-kosudo update-locale LANG=ko_KR.UTF-8언어팩을 설치하고 locale을 바꿔준다.안내문이 한글로 뜨는 것을 볼 수 있다.2. sshd 설정/etc/ssh/sshd_config 파일을 수정하면ssh 포트 변경, root 로그인 차단을 처리할 수 있다.추가로 네트워크 응답이 없으면 끊기게 시간제한도 설정한다.사실 포트 변경과 루트 차단은 굳이 설정할 필요가 없다.22번 포트는 앞단에서 포트 포워딩을 하기 때문에 직접 노출되지 않고우분투는 설치 시 생성하는 계정에 sudo 권한을 주고 root 계정을 바로 사용하지 않기 때문에 어차피 로그인이 안된다.그래도 기분 문제가 있으니 변경하기로 한다.# /etc/ssh/sshd_configPort 12345                # 포트PermitRootLogin no        # 루트 로그인 비허용ClientAliveInterval 300   # 종료대기 시간(s)ClientAliveCountMax 0     # 실패 횟수아직 서버 접근할 고정적인 환경이 정해지지 않은 상태라 인증서 로그인 설정은 생략한다.3. fail2banfail2ban은 로그 파일을 모니터링해서 이상 로그인 패턴을 찾아 차단하는 도구이다.sudo apt install fail2ban 명령어로 설치한다./etc/fail2ban/jail.conf 파일이 설정파일인데개인 설정을 위해 복사해서 jail.local 파일을 만들고 sshd 블럭을 찾아 수정한다.# /etc/fail2ban/jail.local[sshd]enabled   = true                          port      = 12345             # ssh 포트filter    = sshdlogpath   = %(sshd_log)sbackend   = %(sshd_backend)sbanaction = ufw               # ufw 사용maxretry  = 5                 # 시도 횟수bantime   = -1                # 영구밴findtime  = 600               # 지정한 시간 내 탐색ignoreip  = 127.0.0.1/8       # 허용 IP설정 후 fail2ban 재시작하고 일부러 패스워드를 틀려본다.sudo fail2ban-client status sshd명령어 입력 시 사진과 같이 잘못된 로그인을 탐지한 것을 볼 수 있다.4. bash 설정.bashrc 파일을 수정해서 idle logout과 프롬프트, 히스토리를 수정한다.# idle logoutexport TIMEOUT=300# promptexport PS1=&#39;\w\$ &#39;# edit historyexport HISTSIZE=50000export HISTFILESIZE=100000export HISTCONTROL=ignoredups:erasedups:ignorespaceexport HISTTIMEFORMAT=&#39;%F %T &#39;shopt -s histappendPROMPT_COMMAND=&#39;history -a; history -n; &#39;&quot;$PROMPT_COMMAND&quot;프롬프트에는 계정과 호스트를 빼고 경로만 남긴다.히스토리를 정리하지 않으면 기본적으로이렇게 나오는데중복제거, 타임스탬프 추가 등 작업을 통해 아래와 같이 깔끔하게 정리할 수 있다.5. 도커 설치아 도커는 필수 툴이지.작업 PC 환경은 로키 리눅스를 사용하는데 우분투는 또 설치방법이 조금 다르다.조금 더 길다.# 필수 패키지 확인sudo apt install -y ca-certificates curl gnupg# gpg 키 및 repo 등록sudo install -m 0755 -d /etc/apt/keyringscurl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpgecho &quot;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&quot; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null# 설치sudo apt updatesudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin# 실행, 권한부여sudo systemctl enable --now dockersudo usermod -aG docker $USER정상적으로 서비스 올라온 것을 확인하면 끝.6. 공지 수정서버 계정 로그인 시 공지가 뜬다.버전 정보나 간단한 안내문, 업데이트 관련 정보가 노출이 되는데 대부분 필요없다.현재 정보에서 시스템 정보, 업데이트 가능 여부, 마지막 로그인 3가지 정보만 남기고 다 지워보자./etc/update-motd.d 경로로 들어가면 공지 관련 파일들이 있다.파일들은 숫자 순서로 실행된다.마지막 로그인은 PAM 에서 출력하니 상관없다.파일들을 확인해서 보여주지 않을 내용이 있는 파일에 대한 실행 권한을 제거한다.이후 로그인 해보면 공지가 상당수 줄어든 것을 볼 수 있다.ESM 메시지는 업데이트 메시지에 딸려오는거라 같은데…수동 제거하거나 커스텀해야하는데 귀찮으니 당분간 냅두자.근데 뭐했다고 온도가 60도가 넘지?  마무리  금방 설정하고 끝날 줄 알았는데 생각보다 이것도 해야지 저것도 해야지 하다보니 바빠졌다.분명 또 빼먹은게 있을테니 쉬면서 생각나면 추가로 진행하고 서비스 올려봐야겠다.">
+      <meta itemprop="datePublished" content="2025-09-12T02:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-09-12T02:00:00+00:00">
+
+      <div class="page__inner-wrap">
+        
+          <header>
+            
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=Server" class="category-link">
+        Server
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=Server%2F" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">3호기 서버 설정
+</h1>
+            
+
+
+          </header>
+        
+
+        <section class="page__content" itemprop="text">
+          <blockquote>
+  <h4 id="이어서">이어서</h4>
+  <hr />
+</blockquote>
+
+<p>생각해보니 램 얼만지 확인을 안해봤다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img01.webp" alt="img01" /></p>
+
+<p>아니 무슨 40기가나 박혀있네?<br />
+내 게임 PC가 32기가일텐데…</p>
+
+<blockquote>
+  <h4 id="설정할-내용">설정할 내용</h4>
+  <hr />
+</blockquote>
+
+<p>계정을 여러개 쓰지 않을거라 돌이킬 수 없는 결과를 낳을 듯한 faillock은 제외하고 간단하게 4가지를 설정한다.</p>
+<ul>
+  <li><span style="color: orange;"><strong>root 로그인 비활성화</strong></span></li>
+  <li><span style="color: orange;"><strong>ssh 포트 변경</strong></span></li>
+  <li><span style="color: orange;"><strong>fail2ban</strong></span></li>
+  <li><span style="color: orange;"><strong>세션 타임아웃</strong></span></li>
+</ul>
+
+<p>그 외 설정으로 bash 프롬프트 수정과 히스토리 최적화 등을 진행한다.</p>
+
+<blockquote>
+  <h4 id="설정">설정</h4>
+  <hr />
+</blockquote>
+
+<h5 id="1-업그레이드">1. 업그레이드</h5>
+
+<p>22.04로 설치했으니 24.04로 업그레이드를 우선 진행한다.<br />
+이것저것 설치되어 있을수록 업그레이드가 부담되니까 깡통일때 해버리는게 낫다.</p>
+
+<p><span style="color: orange;"><strong>sudo do-release-upgrade</strong></span><br />
+명령어 입력 후 콘솔 안내에 따라 업그레이드를 진행한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img02.webp" alt="img02" /></p>
+
+<p>업그레이드 중 언어셋이 en_US.UTF-8 인걸 확인했다.<br />
+데스크탑 설치에는 한국어 설정이 있었는데 서버 설치에는 없어서 전체 영어로 진행되는 상황.<br />
+ko_KR.UTF-8 로 바꿔줘야겠다.</p>
+
+<p><span style="color: orange;"><strong>sudo apt install language-pack-ko</strong></span><br />
+<span style="color: orange;"><strong>sudo update-locale LANG=ko_KR.UTF-8</strong></span></p>
+
+<p>언어팩을 설치하고 locale을 바꿔준다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img03.webp" alt="img03" /></p>
+
+<p>안내문이 한글로 뜨는 것을 볼 수 있다.</p>
+
+<h5 id="2-sshd-설정">2. sshd 설정</h5>
+
+<p><span style="color: orange;"><strong>/etc/ssh/sshd_config</strong></span> 파일을 수정하면<br />
+ssh 포트 변경, root 로그인 차단을 처리할 수 있다.<br />
+추가로 네트워크 응답이 없으면 끊기게 시간제한도 설정한다.</p>
+
+<p>사실 포트 변경과 루트 차단은 굳이 설정할 필요가 없다.<br />
+22번 포트는 앞단에서 포트 포워딩을 하기 때문에 직접 노출되지 않고<br />
+우분투는 설치 시 생성하는 계정에 sudo 권한을 주고 root 계정을 바로 사용하지 않기 때문에 어차피 로그인이 안된다.<br />
+그래도 기분 문제가 있으니 변경하기로 한다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># /etc/ssh/sshd_config</span>
+
+Port 12345                <span class="c"># 포트</span>
+PermitRootLogin no        <span class="c"># 루트 로그인 비허용</span>
+ClientAliveInterval 300   <span class="c"># 종료대기 시간(s)</span>
+ClientAliveCountMax 0     <span class="c"># 실패 횟수</span>
+</code></pre></div></div>
+
+<p>아직 서버 접근할 고정적인 환경이 정해지지 않은 상태라 인증서 로그인 설정은 생략한다.</p>
+
+<h5 id="3-fail2ban">3. fail2ban</h5>
+
+<p>fail2ban은 로그 파일을 모니터링해서 이상 로그인 패턴을 찾아 차단하는 도구이다.<br />
+<span style="color: orange;"><strong>sudo apt install fail2ban</strong></span> 명령어로 설치한다.</p>
+
+<p><span style="color: orange;"><strong>/etc/fail2ban/jail.conf</strong></span> 파일이 설정파일인데<br />
+개인 설정을 위해 복사해서 <span style="color: orange;"><strong>jail.local</strong></span> 파일을 만들고 sshd 블럭을 찾아 수정한다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># /etc/fail2ban/jail.local</span>
+
+<span class="o">[</span>sshd]
+enabled   <span class="o">=</span> <span class="nb">true                          
+</span>port      <span class="o">=</span> 12345             <span class="c"># ssh 포트</span>
+filter    <span class="o">=</span> sshd
+logpath   <span class="o">=</span> %<span class="o">(</span>sshd_log<span class="o">)</span>s
+backend   <span class="o">=</span> %<span class="o">(</span>sshd_backend<span class="o">)</span>s
+banaction <span class="o">=</span> ufw               <span class="c"># ufw 사용</span>
+maxretry  <span class="o">=</span> 5                 <span class="c"># 시도 횟수</span>
+bantime   <span class="o">=</span> <span class="nt">-1</span>                <span class="c"># 영구밴</span>
+findtime  <span class="o">=</span> 600               <span class="c"># 지정한 시간 내 탐색</span>
+ignoreip  <span class="o">=</span> 127.0.0.1/8       <span class="c"># 허용 IP</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img06.webp" alt="img06" /></p>
+
+<p>설정 후 fail2ban 재시작하고 일부러 패스워드를 틀려본다.</p>
+
+<p><span style="color: orange;"><strong>sudo fail2ban-client status sshd</strong></span><br />
+명령어 입력 시 사진과 같이 잘못된 로그인을 탐지한 것을 볼 수 있다.</p>
+
+<h5 id="4-bash-설정">4. bash 설정</h5>
+
+<p><span style="color: orange;"><strong>.bashrc</strong></span> 파일을 수정해서 idle logout과 프롬프트, 히스토리를 수정한다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># idle logout</span>
+<span class="nb">export </span><span class="nv">TIMEOUT</span><span class="o">=</span>300
+
+<span class="c"># prompt</span>
+<span class="nb">export </span><span class="nv">PS1</span><span class="o">=</span><span class="s1">'\w\$ '</span>
+
+<span class="c"># edit history</span>
+<span class="nb">export </span><span class="nv">HISTSIZE</span><span class="o">=</span>50000
+<span class="nb">export </span><span class="nv">HISTFILESIZE</span><span class="o">=</span>100000
+<span class="nb">export </span><span class="nv">HISTCONTROL</span><span class="o">=</span>ignoredups:erasedups:ignorespace
+<span class="nb">export </span><span class="nv">HISTTIMEFORMAT</span><span class="o">=</span><span class="s1">'%F %T '</span>
+<span class="nb">shopt</span> <span class="nt">-s</span> histappend
+<span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s1">'history -a; history -n; '</span><span class="s2">"</span><span class="nv">$PROMPT_COMMAND</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>프롬프트에는 계정과 호스트를 빼고 경로만 남긴다.<br />
+히스토리를 정리하지 않으면 기본적으로</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img04.webp" alt="img04" /></p>
+
+<p>이렇게 나오는데<br />
+중복제거, 타임스탬프 추가 등 작업을 통해 아래와 같이 깔끔하게 정리할 수 있다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img05.webp" alt="img05" /></p>
+
+<h5 id="5-도커-설치">5. 도커 설치</h5>
+
+<p>아 도커는 필수 툴이지.<br />
+작업 PC 환경은 로키 리눅스를 사용하는데 우분투는 또 설치방법이 조금 다르다.<br />
+조금 더 길다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 필수 패키지 확인</span>
+<span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> ca-certificates curl gnupg
+
+<span class="c"># gpg 키 및 repo 등록</span>
+<span class="nb">sudo install</span> <span class="nt">-m</span> 0755 <span class="nt">-d</span> /etc/apt/keyrings
+curl <span class="nt">-fsSL</span> https://download.docker.com/linux/ubuntu/gpg | <span class="nb">sudo </span>gpg <span class="nt">--dearmor</span> <span class="nt">-o</span> /etc/apt/keyrings/docker.gpg
+<span class="nb">echo</span> <span class="s2">"deb [arch=</span><span class="si">$(</span>dpkg <span class="nt">--print-architecture</span><span class="si">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu </span><span class="si">$(</span>lsb_release <span class="nt">-cs</span><span class="si">)</span><span class="s2"> stable"</span> | <span class="nb">sudo tee</span> /etc/apt/sources.list.d/docker.list <span class="o">&gt;</span> /dev/null
+
+<span class="c"># 설치</span>
+<span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+<span class="c"># 실행, 권한부여</span>
+<span class="nb">sudo </span>systemctl <span class="nb">enable</span> <span class="nt">--now</span> docker
+<span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img07.webp" alt="img07" /></p>
+
+<p>정상적으로 서비스 올라온 것을 확인하면 끝.</p>
+
+<h5 id="6-공지-수정">6. 공지 수정</h5>
+
+<p>서버 계정 로그인 시 공지가 뜬다.<br />
+버전 정보나 간단한 안내문, 업데이트 관련 정보가 노출이 되는데 대부분 필요없다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img08.webp" alt="img08" /></p>
+
+<p>현재 정보에서 시스템 정보, 업데이트 가능 여부, 마지막 로그인 3가지 정보만 남기고 다 지워보자.</p>
+
+<p><span style="color: orange;"><strong>/etc/update-motd.d</strong></span> 경로로 들어가면 공지 관련 파일들이 있다.<br />
+파일들은 숫자 순서로 실행된다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img09.webp" alt="img09" /></p>
+
+<p>마지막 로그인은 PAM 에서 출력하니 상관없다.<br />
+파일들을 확인해서 보여주지 않을 내용이 있는 파일에 대한 실행 권한을 제거한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img10.webp" alt="img10" /></p>
+
+<p>이후 로그인 해보면 공지가 상당수 줄어든 것을 볼 수 있다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-12-Server MK3 Setting/img11.webp" alt="img11" /></p>
+
+<p>ESM 메시지는 업데이트 메시지에 딸려오는거라 같은데…<br />
+수동 제거하거나 커스텀해야하는데 귀찮으니 당분간 냅두자.<br />
+근데 뭐했다고 온도가 60도가 넘지?</p>
+
+<blockquote>
+  <h4 id="마무리">마무리</h4>
+  <hr />
+</blockquote>
+
+<p>금방 설정하고 끝날 줄 알았는데 생각보다 이것도 해야지 저것도 해야지 하다보니 바빠졌다.</p>
+
+<p>분명 또 빼먹은게 있을테니 쉬면서 생각나면 추가로 진행하고 서비스 올려봐야겠다.</p>
+
+          
+        </section>
+
+        <footer class="page__meta">
+          
+          
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-09-12">September 12, 2025</time></p>
+
+
+        </footer>
+
+        
+
+        
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "3호기 서버 설정",
+        url: "/server/2025/09/12/Server-MK3-Setting.html",
+        date: "2025-09-12",
+        categories: ["Server/"]
+      },
+      allPosts: [
+        
+        
+          
+          
+          {
+            title: "3호기 서버 설정",
+            url: "/server/2025/09/12/Server-MK3-Setting.html",
+            date: "2025-09-12",
+            categories: ["Server/"]
+          },
+          
+        
+          
+          
+          {
+            title: "3호기 서버 구축",
+            url: "/server/2025/09/11/Build-Server-MK3.html",
+            date: "2025-09-11",
+            categories: ["Server/"]
+          },
+          
+        
+          
+          
+          {
+            title: "마리아디비 설치",
+            url: "/development/shellscript/2025/08/04/Install-MariaDB.html",
+            date: "2025-08-04",
+            categories: ["Development/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "9548번 무제",
+            url: "/boj/c++/2025/07/07/9548.html",
+            date: "2025-07-07",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "12837번 가계부 (Hard)",
+            url: "/boj/python/2025/07/03/12837.html",
+            date: "2025-07-03",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16455번 K번째 수 찾는 함수",
+            url: "/boj/python/2025/07/03/16455.html",
+            date: "2025-07-03",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2252번 줄 세우기",
+            url: "/boj/python/2025/07/03/2252.html",
+            date: "2025-07-03",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1669번 멍멍이 쓰다듬기",
+            url: "/boj/python/2025/07/03/1669.html",
+            date: "2025-07-03",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2493번 탑",
+            url: "/boj/python/2025/07/02/2493.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "12730번 Saving the Universe (Large)",
+            url: "/boj/python/2025/07/02/12730.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11973번 Angry Cows (Silver)",
+            url: "/boj/python/2025/07/02/11973.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16194번 카드 구매하기 2",
+            url: "/boj/python/2025/07/02/16194.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "14569번 시간표 짜기",
+            url: "/boj/python/2025/07/02/14569.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1913번 달팽이",
+            url: "/boj/python/2025/07/02/1913.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1812번 사탕",
+            url: "/boj/python/2025/07/01/1812.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1359번 복권",
+            url: "/boj/python/2025/07/01/1359.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1388번 바닥 장식",
+            url: "/boj/python/2025/07/01/1388.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15464번 The Bovine Shuffle",
+            url: "/boj/python/2025/07/01/15464.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11504번 돌려 돌려 돌림판!",
+            url: "/boj/python/2025/07/01/11504.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8660번 Sumy i różnice",
+            url: "/boj/python/2025/06/30/8660.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8711번 Odchudzanie",
+            url: "/boj/python/2025/06/30/8711.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8713번 Znak działania",
+            url: "/boj/python/2025/06/30/8713.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2391번 Sascha",
+            url: "/boj/python/2025/06/30/2391.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "6976번 Divisibility by 11",
+            url: "/boj/python/2025/06/27/6976.html",
+            date: "2025-06-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "14551번 Card Game Contest",
+            url: "/boj/python/2025/06/27/14551.html",
+            date: "2025-06-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2909번 캔디 구매",
+            url: "/boj/python/2025/06/26/2909.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "9924번 The Euclidean Algorithm",
+            url: "/boj/python/2025/06/26/9924.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "9298번 Ant Entrapment",
+            url: "/boj/python/2025/06/26/9298.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1168번 요세푸스 문제 2",
+            url: "/boj/java/2025/06/26/1168.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8436번 Kamil",
+            url: "/boj/java/2025/06/24/8436.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "28682번 재우야 임관하자",
+            url: "/boj/java/2025/06/24/28682.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16172번 나는 친구가 적다 (Large)",
+            url: "/boj/java/2025/06/24/16172.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "12833번 XORXORXOR",
+            url: "/boj/java/2025/06/24/12833.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16221번 모독",
+            url: "/boj/c++/2025/06/24/16221.html",
+            date: "2025-06-24",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "코드 시뮬레이터",
+            url: "/development/python/2025/06/19/Code-Simulator.html",
+            date: "2025-06-19",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "17456번 필살! 60단 컴보",
+            url: "/boj/c++/2025/06/19/17456.html",
+            date: "2025-06-19",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11568번 민균이의 계략",
+            url: "/boj/java/2025/06/18/11568.html",
+            date: "2025-06-18",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18870번 좌표 압축",
+            url: "/boj/java/2025/06/18/18870.html",
+            date: "2025-06-18",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "5430번 AC",
+            url: "/boj/java/2025/06/17/5430.html",
+            date: "2025-06-17",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "3655번 먼저 가세요",
+            url: "/boj/python/2025/06/16/3655.html",
+            date: "2025-06-16",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "10722번 Binary Mobile Tree",
+            url: "/boj/c++/2025/06/16/10722.html",
+            date: "2025-06-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "24008번 Catch Them All",
+            url: "/boj/java/2025/06/13/24008.html",
+            date: "2025-06-13",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16256번 Painting the Wall",
+            url: "/boj/c++/2025/06/13/16256.html",
+            date: "2025-06-13",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "제비 뽑기",
+            url: "/development/shortcuts/2025/06/11/Drawing-Lots.html",
+            date: "2025-06-11",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21237번 Clockwise Fence",
+            url: "/boj/java/2025/06/10/21237.html",
+            date: "2025-06-10",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "하드웨어 모니터",
+            url: "/development/python/2025/06/09/Hardware-Monitor.html",
+            date: "2025-06-09",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2784번 가로 세로 퍼즐",
+            url: "/boj/java/2025/06/04/2784.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "4676번 Haiku Review",
+            url: "/boj/python/2025/06/04/4676.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "WebP 변환기",
+            url: "/development/python/2025/06/04/WebP-Converter.html",
+            date: "2025-06-04",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "마법의 소라고둥",
+            url: "/development/shortcuts/2025/06/02/Magic-Conch-Shell.html",
+            date: "2025-06-02",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1148번 단어 만들기",
+            url: "/boj/java/2025/06/02/1148.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11761번 Shuffling Along",
+            url: "/boj/python/2025/06/02/11761.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7663번 Dreadful Deadlines",
+            url: "/boj/c++/2025/05/30/7663.html",
+            date: "2025-05-30",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "6862번 Tin Can Telephone",
+            url: "/boj/java/2025/05/30/6862.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15654번 N과 M (5)",
+            url: "/boj/python/2025/05/30/15654.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21308번 Ternary Machine",
+            url: "/boj/python/2025/05/30/21308.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11982번 Angry Cows (Gold)",
+            url: "/boj/java/2025/05/28/11982.html",
+            date: "2025-05-28",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16085번 Гэмт хэрэг",
+            url: "/boj/c++/2025/05/28/16085.html",
+            date: "2025-05-28",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 02",
+            url: "/development/javascript/2025/05/28/Dungeon-Generator-02.html",
+            date: "2025-05-28",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7106번 Wonderful Fours",
+            url: "/boj/python/2025/05/27/7106.html",
+            date: "2025-05-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 01",
+            url: "/development/javascript/2025/05/27/Dungeon-Generator-01.html",
+            date: "2025-05-27",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "5101번 Sequences",
+            url: "/boj/python/2025/05/23/5101.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "27391번 Platform Placing",
+            url: "/boj/java/2025/05/23/27391.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "25245번 Amusement Arcade",
+            url: "/boj/c++/2025/05/23/25245.html",
+            date: "2025-05-23",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 03",
+            url: "/development/javascript/2025/05/23/Maze-Generator-03.html",
+            date: "2025-05-23",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26489번 Gum Gum for Jay Jay",
+            url: "/boj/python/2025/05/22/26489.html",
+            date: "2025-05-22",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 02",
+            url: "/development/javascript/2025/05/21/Maze-Generator-02.html",
+            date: "2025-05-21",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26226번 Autocomplete",
+            url: "/boj/c++/2025/05/21/26226.html",
+            date: "2025-05-21",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 01",
+            url: "/development/javascript/2025/05/20/Maze-Generator-01.html",
+            date: "2025-05-20",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15936번 Hypercube",
+            url: "/boj/java/2025/05/20/15936.html",
+            date: "2025-05-20",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "29348번 Скользкий путь",
+            url: "/boj/c++/2025/05/16/29348.html",
+            date: "2025-05-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18382번 2048",
+            url: "/boj/python/2025/05/15/18382.html",
+            date: "2025-05-15",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "랜덤 출력기",
+            url: "/development/javascript/2025/05/14/Random-Printer.html",
+            date: "2025-05-14",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파이썬으로 CLI TODO 리스트 만들어보기",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html",
+            date: "2025-05-14",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "플래피 버드",
+            url: "/development/javascript/2025/05/13/Flappy-Bird.html",
+            date: "2025-05-13",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "클리커",
+            url: "/development/python/2025/05/13/Clicker.html",
+            date: "2025-05-13",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파일 복사기",
+            url: "/development/shellscript/2025/05/12/File-Copier.html",
+            date: "2025-05-12",
+            categories: ["Development/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "숫자야구",
+            url: "/development/java/2025/05/11/Bulls-and-Cows.html",
+            date: "2025-05-11",
+            categories: ["Development/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴, 어떻게 보내면 좋을까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "프로그래머를 위한 생산성 툴 TOP 5 🧰",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "AI 시대의 개발자, 어떻게 준비해야 할까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "유배지 공고문",
+            url: "/zone%20of%20exile/2025/04/30/What-is-this.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/"]
+          },
+          
+        
+          
+          
+          {
+            title: "지뢰찾기",
+            url: "/development/javascript/2025/04/29/Minesweeper.html",
+            date: "2025-04-29",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "서버 관리 콘솔",
+            url: "/development/shellscript/2025/04/28/Server-Manage-Console.html",
+            date: "2025-04-28",
+            categories: ["Development/ShellScript/"]
+          }
+          
+        
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
+      </div>
+
+      
+      
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+    </article>
+
+    
+    
+  </div>
+</div>
+
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 1rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .home-content {
+    padding: 0;
+  }
+}
+</style>
+
+    </div>
+
+    
+    
+    <div class="page__footer">
+  <div class="page__footer-copyright">
+    Visit: <a href="https://github.com/movingwoo/movingwoo.github.io">https://github.com/movingwoo/movingwoo.github.io</a>
+    <br>
+    <span class="theme-credit">Theme customized from Minimal Mistakes by Michael Rose (MIT License).</span>
+  </div>
+</div>
+
+    <div class="scroll-button">
+  <div class="scroll-button__container">
+    <button class="scroll-button__area scroll-button__area--top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="위로">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="scroll-button__area scroll-button__area--bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="아래로">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.scroll-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.scroll-button__container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(220, 20, 60, 0.6);
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-button__area {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button__area--top {
+  top: 0;
+}
+
+.scroll-button__area--bottom {
+  bottom: 0;
+}
+
+.scroll-button__area:focus {
+  outline: none;
+}
+
+.scroll-button__area:hover {
+  color: rgba(220, 20, 60, 1);
+}
+
+.scroll-button__area:hover i {
+  transform: scale(1.2);
+}
+
+.scroll-button__area i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll-button {
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .scroll-button__container {
+    width: 50px;
+    height: 50px;
+  }
+}
+</style> 
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+});
+</script>
+
+
+  </body>
+</html>
