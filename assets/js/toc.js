@@ -3,6 +3,7 @@
   const ANIMATION_DURATION = 300;
   const ANIMATION_DELAY = 20;
   const STORAGE_KEY = 'toc_states';
+  const DEFAULT_CATEGORIES = ['BOJ/', 'Development/', 'Server/'];
 
   // 현재 열린 depth-0 폴더의 경로를 저장
   let currentOpenRootPath = null;
@@ -25,7 +26,10 @@
     
     if (!savedPath) {
       // 세션스토리지가 비어있으면 기본 설정 카테고리 열기
-      const defaultPath = 'Development/'; 
+      //const defaultPath = 'Development/'; 
+      // 기본 카테고리 상수 선언 후 랜덤 가져오기
+      const defaultPath = DEFAULT_CATEGORIES[Math.floor(Math.random() * DEFAULT_CATEGORIES.length)];
+      
       currentOpenRootPath = defaultPath;
       openFolder(defaultPath);
       updateAllPostCounts(defaultPath);
