@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-09-15T08:48:19+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">도메인 네임서버 변경</title><link href="https://movingwoo.com/server/2025/09/15/Migrating-Domain.html" rel="alternate" type="text/html" title="도메인 네임서버 변경" /><published>2025-09-15T08:00:00+00:00</published><updated>2025-09-15T08:00:00+00:00</updated><id>https://movingwoo.com/server/2025/09/15/Migrating%20Domain</id><content type="html" xml:base="https://movingwoo.com/server/2025/09/15/Migrating-Domain.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-09-15T08:52:45+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">도메인 네임서버 변경</title><link href="https://movingwoo.com/server/2025/09/15/Migrating-Domain.html" rel="alternate" type="text/html" title="도메인 네임서버 변경" /><published>2025-09-15T08:00:00+00:00</published><updated>2025-09-15T08:00:00+00:00</updated><id>https://movingwoo.com/server/2025/09/15/Migrating%20Domain</id><content type="html" xml:base="https://movingwoo.com/server/2025/09/15/Migrating-Domain.html"><![CDATA[<blockquote>
   <h4 id="머리말">머리말</h4>
   <hr />
 </blockquote>
@@ -60,7 +60,8 @@
 
 <p>빠른 스캔으로 가져온 DNS 레코드 리스트가 뜬다.</p>
 
-<p>내 경우는 포크번에서 긁어왔는데, 기존 등록되어있는 A 레코드와 TXT 레코드 외에 NS 레코드가 보인다.<br />
+<p>포크번에서 자동으로 긁어온 리스트인데<br />
+기존 등록되어있는 A 레코드와 TXT 레코드 외에 NS 레코드가 보인다.<br />
 포크번 네임서버 리스트인데 우선은 그대로 가져간다.</p>
 
 <p>NS 레코드는 네임서버 이전이 완료되면 안전하게 삭제하도록 한다.<br />
