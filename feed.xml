@@ -1,4 +1,144 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-09-15T06:05:01+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">Traefik 구축, 설정</title><link href="https://movingwoo.com/server/web/2025/09/15/Setting-Traefik.html" rel="alternate" type="text/html" title="Traefik 구축, 설정" /><published>2025-09-15T06:00:00+00:00</published><updated>2025-09-15T06:00:00+00:00</updated><id>https://movingwoo.com/server/web/2025/09/15/Setting%20Traefik</id><content type="html" xml:base="https://movingwoo.com/server/web/2025/09/15/Setting-Traefik.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-09-15T08:35:30+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">도메인 네임서버 변경</title><link href="https://movingwoo.com/server/2025/09/15/Migrating-Domain.html" rel="alternate" type="text/html" title="도메인 네임서버 변경" /><published>2025-09-15T08:00:00+00:00</published><updated>2025-09-15T08:00:00+00:00</updated><id>https://movingwoo.com/server/2025/09/15/Migrating%20Domain</id><content type="html" xml:base="https://movingwoo.com/server/2025/09/15/Migrating-Domain.html"><![CDATA[<blockquote>
+  <h4 id="머리말">머리말</h4>
+  <hr />
+</blockquote>
+
+<p>Cloudflare Tunnel 을 사용하기 위한 사전 작업이 있다.<br />
+<span style="color: orange;"><strong>도메인 네임서버를 Cloudflare로 변경</strong></span>해야한다.</p>
+
+<p>정말 귀찮기 그지없는 작업이지만 일단 해보자.</p>
+
+<p>현재 글을 올리는 movingwoo.com 도메인은 porkbun 에서 구입하여 이용 중이다.<br />
+이 도메인의 네임서버를 cloudflare 로 이전한다.</p>
+
+<blockquote>
+  <h4 id="cloudflare란">Cloudflare란?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img01.webp" alt="img01" /></p>
+
+<p>사실 인터넷 좀 해봤으면 cloudflare에 대해 한 번 쯤은 봤을 확률이 높다.<br />
+대충 서버 터졌을때 클라우드플레어 어쩌고 저쩌고 뜬다.</p>
+
+<p>그만큼 많이들 사용하는 인프라 서비스 회사인데, 2010년 설립되었다고 한다.<br />
+생각보다 후발주자이다.<br />
+그래도 무료 플랜 접근성이 좋고 간편하여 빠르게 성장하여 지금의 cloudflare가 되었다고 한다.</p>
+
+<p>무료 플랜이 강력하긴 한데 회사가 커지면서 일부 보안 기능들이 유료화되어가는 추세라는데…<br />
+일단 터널은 무료로 제공해주니 써보자.<br />
+즐길 수 있을때 즐겨야지</p>
+
+<blockquote>
+  <h4 id="네임서버-변경-작업">네임서버 변경 작업</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://dash.cloudflare.com/">Cloudflare Dashboard</a></p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img02.webp" alt="img02" /></p>
+
+<p>가입하면 도메인을 등록하라고 뜬다.<br />
+순서대로 하라는대로 진행하면 된다.</p>
+
+<p>한국어 지원 해주는게 마음에 든다.<br />
+품질도 정말 나쁘지 않다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img03.webp" alt="img03" /></p>
+
+<p>DNS 레코드 추가는 <span style="color: orange;"><strong>빠른 스캔</strong></span>으로 진행한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img04.webp" alt="img04" /></p>
+
+<p>플랜 선택 화면.<br />
+당연히 <span style="color: orange;"><strong>무료 플랜</strong></span>을 선택하겠지만, 프로 플랜부터 기능이 매력적이긴하다.</p>
+
+<p>사실 1개월 20딸라면 요즘 AI 구독과 비슷한 가격이다.<br />
+막 접근성이 없진 않은 가격이다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img05.webp" alt="img05" /></p>
+
+<p>빠른 스캔으로 가져온 DNS 레코드 리스트가 뜬다.</p>
+
+<p>내 경우는 포크번에서 긁어왔는데, 기존 등록되어있는 A 레코드와 TXT 레코드 외에 NS 레코드가 보인다.<br />
+포크번 네임서버 리스트인데 우선은 그대로 가져간다.</p>
+
+<p>NS 레코드는 네임서버 이전이 완료되면 안전하게 삭제하도록 한다.<br />
+사실 잘 모르면 손대지 않고 냅두는게 최고다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img06.webp" alt="img06" /></p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img07.webp" alt="img07" /></p>
+
+<p>마지막 단계를 위해 기존 도메인 등록기관, 내 경우 포크번에 로그인이 필요하다.<br />
+<span style="color: orange;"><strong>DNSSEC 기능을 종료</strong></span> 후, <span style="color: orange;"><strong>네임 서버를 cloudflare에서 제공해주는 값으로 교체</strong></span>한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img08.webp" alt="img08" /></p>
+
+<p>이 부분은 시간이 상당 소요될 수 있는데<br />
+나는 트래픽 쥐꼬리만큼도 없는 싸구려 도메인이라 바로 처리됨…</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img09.webp" alt="img09" /></p>
+
+<p>대시보드에서 상태가 <span style="color: orange;"><strong>활성</strong></span>으로 나오면 끝이다.</p>
+
+<blockquote>
+  <h4 id="추가-보안-작업">추가 보안 작업</h4>
+  <hr />
+</blockquote>
+
+<p>아까 DDNSEC을 종료했으므로 DDNSEC을 활성화 시켜야하고<br />
+TLS와 같은 기초적인 설정도 마저 진행한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img10.webp" alt="img10" /></p>
+
+<p>딸깍으로 SSL/TLS 자동 적용.<br />
+원래 이부분은 포크번도 딸깍으로 했던 것 같다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img11.webp" alt="img11" /></p>
+
+<p>DNSSEC 활성화를 하려면 <span style="color: orange;"><strong>DS 레코드를 등록기관에 추가</strong></span>해야한다.</p>
+
+<p>만약 내가 도메인 자체를 클라우드플레어로 이전했다면 이부분은 간단하게 끝났겠지만<br />
+네임서버만 변경한거라 이 작업은 포크번에 직접 해줘야한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img12.webp" alt="img12" /></p>
+
+<p>제공해주는 값들을 그대로 입력해주기만 하면 된다.</p>
+
+<p>이것은 간단한 레고조립과 같다.<br />
+아기들 모양 맞춰서 블럭 넣는 장난감과 다름 없다.<br />
+맞는 칸에 넣고 없는 칸은 비우고 등록한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img13.webp" alt="img13" /></p>
+
+<p><span style="color: red;"><strong>잉?</strong></span></p>
+
+<p>시간이 지나도 등록이 안되어 문의 결과, keyData 쪽 입력 때문에 검증 실패로 오류가 나는 것이라 한다.<br />
+keyData 제외하고 <span style="color: orange;"><strong>dsData 쪽만 입력</strong></span>해주면 성공적으로 등록된다…</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img14.webp" alt="img14" /></p>
+
+<p>클라우드플레어 대시보드에서도 DNSSEC 적용을 확인할 수 있다.</p>
+
+<blockquote>
+  <h4 id="꼬리말">꼬리말</h4>
+  <hr />
+</blockquote>
+
+<p>이 외 보안 관련 다양한 메뉴들이 있는데 대부분 프로 플랜 이상을 권유하고 있어서 쓰기 힘들다.<br />
+봇 막는 기능 등은 무료인데 굳이 막아야하나 싶기도 하고…</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img15.webp" alt="img15" /></p>
+
+<p>제일 안타까운건 이 최대 업로드 크기 부분인데<br />
+100mb 제한이 있고 비즈니스 플랜부터 늘릴 수 있다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img16.webp" alt="img16" /></p>
+
+<p>이렇게 <span style="color: orange;"><strong>오렌지색 구름 모양</strong></span>으로 클라우드플레어 프록시를 거치는 경우 저 제한이 적용된다.<br />
+개인 서버라 큰 이슈는 없을 것 같은데 일단 사용해봐야 알 것 같다.<br />
+가늠이 잘 안가는데, 제한 때문에 문제생기면 프록시 풀거나 하면 되겠지.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="도메인" /><category term="네임서버" /><category term="CLOUDFLARE" /><summary type="html"><![CDATA[Cloudflare로 도메인 네임서버 변경]]></summary></entry><entry><title type="html">Traefik 구축, 설정</title><link href="https://movingwoo.com/server/web/2025/09/15/Setting-Traefik.html" rel="alternate" type="text/html" title="Traefik 구축, 설정" /><published>2025-09-15T06:00:00+00:00</published><updated>2025-09-15T06:00:00+00:00</updated><id>https://movingwoo.com/server/web/2025/09/15/Setting%20Traefik</id><content type="html" xml:base="https://movingwoo.com/server/web/2025/09/15/Setting-Traefik.html"><![CDATA[<blockquote>
   <h4 id="머리말">머리말</h4>
   <hr />
 </blockquote>
@@ -1403,110 +1543,4 @@ Hard라는건 Easy도 있다는 말이고<br />
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-1669.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1669" /><category term="멍멍이 쓰다듬기" /><category term="수학" /><summary type="html"><![CDATA[백준 1669번 멍멍이 쓰다듬기 PYTHON 문제풀이]]></summary></entry><entry><title type="html">2493번 탑</title><link href="https://movingwoo.com/boj/python/2025/07/02/2493.html" rel="alternate" type="text/html" title="2493번 탑" /><published>2025-07-02T07:00:00+00:00</published><updated>2025-07-02T07:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/02/2493</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/02/2493.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-2493/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/2493">2493번 탑 - 백준</a></p>
-
-<p>빠른 문제 번호… 제법 낮은 정답률…<br />
-어설픈 코드는 감히 통과하지 못할 문제다.</p>
-
-<p>출력초과 받은 코드 말고 틀린 코드를 보자.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
-<span class="nc">StringTokenizer</span> <span class="n">st</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">(),</span><span class="s">" "</span><span class="o">);</span>
-
-<span class="kt">int</span><span class="o">[]</span> <span class="n">art</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
-<span class="kt">boolean</span><span class="o">[]</span> <span class="n">arr</span><span class="o">=</span><span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
-
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">());</span>
-<span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">art</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
-<span class="kt">int</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">--){</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">]&gt;=</span><span class="n">m</span><span class="o">){</span>
-        <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
-        <span class="n">m</span><span class="o">=</span><span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="nc">StringBuilder</span> <span class="n">sb</span><span class="o">=</span><span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
-
-<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
-    <span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="n">t</span><span class="o">;</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]){</span>
-        <span class="n">t</span><span class="o">=</span><span class="n">i</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">art</span><span class="o">[</span><span class="n">i</span><span class="o">]+</span><span class="s">" "</span><span class="o">);</span>
-<span class="o">}</span>
-<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-</code></pre></div></div>
-
-<p>문제에서 스택쓰라는데 왜 안썼지</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>스택에 손도 안 댄 과거의 내가 괘씸해서 <span style="color: orange;"><strong>스택</strong></span>으로 푼다.<br />
-왼쩍에서 오른쪽으로 탐색하며 레이저 수신 가능 여부를 판단한다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>파이썬은 <span style="color: orange;"><strong>리스트</strong></span>가 pop까지 지원해서 스택 역할을 할 수 있다.<br />
-append와 pop을 사용한다.</p>
-
-<p>왼쪽부터 탐색하며 <span style="color: orange;"><strong>수신가능한 탑을 제외하고 pop</strong></span> 한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">())</span>
-
-<span class="n">towers</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span>
-<span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># 타워 담을 스택
-</span><span class="n">result</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># 결과 출력용
-</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="c1"># 스택 타워가 현재 타워보다 낮으면 수신 못해서 의미 없음
-</span>    <span class="k">while</span> <span class="n">stack</span> <span class="ow">and</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">towers</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-        <span class="n">stack</span><span class="p">.</span><span class="nf">pop</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">stack</span><span class="p">:</span>
-        <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># 수신 가능함
-</span>        <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="n">stack</span><span class="p">.</span><span class="nf">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">towers</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">result</span><span class="p">)))</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-02-2493/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>처음에 파이썬 스택은 어디있지? 컬렉션을 import 해야하나? 하고 찾다가 없다고 해서 당황했다.<br />
-그런데 리스트가 기능을 다 지원해준다.<br />
-파이썬 너는 다 계획이 있구나!</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-02-2493.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="2493" /><category term="탑" /><category term="구현" /><summary type="html"><![CDATA[백준 2493번 탑 PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-1669.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="1669" /><category term="멍멍이 쓰다듬기" /><category term="수학" /><summary type="html"><![CDATA[백준 1669번 멍멍이 쓰다듬기 PYTHON 문제풀이]]></summary></entry></feed>

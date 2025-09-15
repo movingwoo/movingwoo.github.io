@@ -514,4 +514,10 @@ var store = [{
         "tags": ["SERVER","WEB","도커","구축","설정","TRAEFIK"],
         "url": "/server/web/2025/09/15/Setting-Traefik.html",
         "teaser": null
+      },{
+        "title": "도메인 네임서버 변경",
+        "excerpt":"머리말 Cloudflare Tunnel 을 사용하기 위한 사전 작업이 있다. 도메인 네임서버를 Cloudflare로 변경해야한다. 정말 귀찮기 그지없는 작업이지만 일단 해보자. 현재 글을 올리는 movingwoo.com 도메인은 porkbun 에서 구입하여 이용 중이다. 이 도메인의 네임서버를 cloudflare 로 이전한다. Cloudflare란? 사실 인터넷 좀 해봤으면 cloudflare에 대해 한 번 쯤은 봤을 확률이 높다. 대충 서버...","categories": ["Server/"],
+        "tags": ["SERVER","도메인","네임서버","CLOUDFLARE"],
+        "url": "/server/2025/09/15/Migrating-Domain.html",
+        "teaser": null
       }]
