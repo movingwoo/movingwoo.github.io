@@ -509,9 +509,9 @@ var store = [{
         "url": "/server/2025/09/12/Server-MK3-Setting.html",
         "teaser": null
       },{
-        "title": "3호기 서버 설정",
-        "excerpt":"이어서 생각해보니 램 얼만지 확인을 안해봤다. 아니 무슨 40기가나 박혀있네? 내 게임 PC가 32기가일텐데… 설정할 내용 계정을 여러개 쓰지 않을거라 돌이킬 수 없는 결과를 낳을 듯한 faillock은 제외하고 간단하게 4가지를 설정한다. root 로그인 비활성화 ssh 포트 변경 fail2ban 세션 타임아웃 그 외 설정으로 bash 프롬프트 수정과 히스토리 최적화 등을 진행한다....","categories": ["Server/"],
-        "tags": ["SERVER","ubuntu","구축","설정"],
-        "url": "/server/2025/09/12/Server-MK3-Setting.html",
+        "title": "Traefik 구축, 설정",
+        "excerpt":"머리말 원래 이번 3호기 구축하며 cloudflare tunnel을 사용해볼 생각이었다. 포트를 열지 않고 보안을 cloudflare에 맡겨버리는게 상당히 매력적인 선택지다. 보안 설정을 직접 해야한다면 상당히 피곤하지만 재미는 있다. 만약 cloudflare tunnel을 쓰지 않고 직접 포트 열고 웹서버를 구축해서 사용한다면? nginx 정도는 여러 번 사용해봤고, SSL 인증서 자동 갱신을 위해 acme-companion까지 사용해본 적...","categories": ["Server/WEB/"],
+        "tags": ["SERVER","WEB","도커","구축","설정","TRAEFIK"],
+        "url": "/server/web/2025/09/15/Setting-Traefik.html",
         "teaser": null
       }]
