@@ -520,4 +520,10 @@ var store = [{
         "tags": ["SERVER","도메인","네임서버","CLOUDFLARE"],
         "url": "/server/2025/09/15/Migrating-Domain.html",
         "teaser": null
+      },{
+        "title": "Cloudflare Tunnel 설정",
+        "excerpt":"머리말 테스트를 위해 Cloudflare Tunnel을 적용해보는 시간. Cloudflare Tunnel이란? Cloudflare Tunnel은 서버를 인터넷에 안전하게 노출하는 방법 중 하나이다. 서버에 cloudflared 클라이언트를 설치하고, 클라이언트를 통해 cloudflare로 아웃바운드 연결을 맺는다. 클라이언트와 cloudflare가 직접 통신하는 구조라 방화벽이나 IP를 노출할 필요가 없다. 덕분에 방화벽은 인바운드를 다 막고 아웃바운드만 허용하면 된다. 모든 것을 cloudflare에게 맡기기...","categories": ["Server/"],
+        "tags": ["SERVER","CLOUDFLARE","TUNNEL","보안"],
+        "url": "/server/2025/09/16/Setting-Cloudflare-Tunnel.html",
+        "teaser": null
       }]
