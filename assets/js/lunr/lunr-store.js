@@ -526,4 +526,10 @@ var store = [{
         "tags": ["SERVER","CLOUDFLARE","TUNNEL","보안"],
         "url": "/server/2025/09/16/Setting-Cloudflare-Tunnel.html",
         "teaser": null
+      },{
+        "title": "Nextcloud 설치",
+        "excerpt":"머리말 1호기에 Nextcloud가 있긴 했는데 보안관리가 귀찮아 잘 안쓰고 있었다. 뭐 파일도 몇 개 없었으니 이 기회에 새로 올리자. Nextcloud 란? Nextcloud는 오픈소스 기반 클라우드 스토리지 및 협업 플랫폼이다. 협업할 일은 없으니 갖다치우고, 오픈소스 스토리지 서비스를 이용한다고 보면 된다. 확장성이 좋고 제공하는 앱이 다양해 기능이 상당히 강력하다. 그만큼 무거워지기 쉬운...","categories": ["Server/Service/"],
+        "tags": ["SERVER","SERVICE","도커","NEXTCLOUD"],
+        "url": "/server/service/2025/09/17/Install-Nextcloud.html",
+        "teaser": null
       }]

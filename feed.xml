@@ -1,4 +1,208 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-09-16T03:06:41+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">Cloudflare Tunnel 설정</title><link href="https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html" rel="alternate" type="text/html" title="Cloudflare Tunnel 설정" /><published>2025-09-16T03:00:00+00:00</published><updated>2025-09-16T03:00:00+00:00</updated><id>https://movingwoo.com/server/2025/09/16/Setting%20Cloudflare%20Tunnel</id><content type="html" xml:base="https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-09-17T08:59:53+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">Nextcloud 설치</title><link href="https://movingwoo.com/server/service/2025/09/17/Install-Nextcloud.html" rel="alternate" type="text/html" title="Nextcloud 설치" /><published>2025-09-17T08:00:00+00:00</published><updated>2025-09-17T08:00:00+00:00</updated><id>https://movingwoo.com/server/service/2025/09/17/Install%20Nextcloud</id><content type="html" xml:base="https://movingwoo.com/server/service/2025/09/17/Install-Nextcloud.html"><![CDATA[<blockquote>
+  <h4 id="머리말">머리말</h4>
+  <hr />
+</blockquote>
+
+<p>1호기에 Nextcloud가 있긴 했는데<br />
+보안관리가 귀찮아 잘 안쓰고 있었다.</p>
+
+<p>뭐 파일도 몇 개 없었으니 이 기회에 새로 올리자.</p>
+
+<blockquote>
+  <h4 id="nextcloud-란">Nextcloud 란?</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/Server/Service/2025-09-17-Install Nextcloud/img01.webp" alt="img01" /></p>
+
+<p><span style="color: orange;"><strong>Nextcloud</strong></span>는 오픈소스 기반 클라우드 스토리지 및 협업 플랫폼이다.<br />
+협업할 일은 없으니 갖다치우고, 오픈소스 스토리지 서비스를 이용한다고 보면 된다.</p>
+
+<p>확장성이 좋고 제공하는 앱이 다양해 기능이 상당히 강력하다.<br />
+그만큼 무거워지기 쉬운 점은 단점이다.</p>
+
+<p>이런 서비스 특성 상 보안이슈 터지면 감당이 안되는데<br />
+클라우드플레어 방패 뒤에 숨으면 보안 부담을 상당히 덜 수 있다.</p>
+
+<blockquote>
+  <h4 id="계획">계획</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://github.com/nextcloud/all-in-one#nextcloud-all-in-one">Nextcloud All-in-One - github</a></p>
+
+<p>예전에는 없었던 것 같은데<br />
+github에 올인원 설치 가이드가 생겼다.<br />
+내용이 굉장히 알차게 작성되어있어 정독할 필요가 있다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-09-17-Install Nextcloud/img02.webp" alt="img02" /></p>
+
+<p>읽는 중 이 부분이 눈에 밟혔는데…<br />
+Cloudflare Tunnel 사용 시 발생할 수 있는 문제점에 관해 다루고 있다.<br />
+이 때문에 Tailscale 사용을 권장하고 있다.</p>
+
+<p>일단 써보고 뭐가 문제인지 몸으로 파악하자…<br />
+Tailscale은 예전에 들어본 적 있긴한데 언젠가 한 번 써볼 기회가 올지 모르겠다.</p>
+
+<p>DB는 Mysql(MariaDB), Postgres, SQLite 3개를 지원하는 것으로 보인다.<br />
+SQLite는 집어치우고 <span style="color: orange;"><strong>MariaDB</strong></span>를 선택한다.<br />
+Postgres가 좋은 DB라고 알고는 있는데 직접 써본 경험이 너무 적어서 꺼려진다.</p>
+
+<p>1호기 당시 최대한 가볍게 구동하려 Redis를 제외했는데<br />
+3호기는 스펙이 빵빵하니 <span style="color: orange;"><strong>Redis</strong></span>를 추가한다.</p>
+
+<blockquote>
+  <h4 id="설치">설치</h4>
+  <hr />
+</blockquote>
+
+<h4 id="1-docker-composeyml-작성">1. docker-compose.yml 작성</h4>
+
+<p><a href="https://hub.docker.com/_/nextcloud">Nextcloud - Docker Hub</a></p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-09-17-Install Nextcloud/img03.webp" alt="img03" /></p>
+
+<p>도커 허브에 기초적인 yml 작성 가이드가 있다.<br />
+이를 토대로 작성하되 커스텀이 필요하다.</p>
+
+<p>마리아디비는 안정적인 것 같은 <span style="color: orange;"><strong>10.11</strong></span> 버전을 하고<br />
+redis는 <span style="color: orange;"><strong>7.2</strong></span> 버전에 최대한 가벼운 <span style="color: orange;"><strong>alpine</strong></span> 이미지를 선택한다.<br />
+nextcloud는 <span style="color: orange;"><strong>31</strong></span>버전에 <span style="color: orange;"><strong>apache</strong></span>가 포함된 이미지를 선택한다.</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+  <span class="na">database</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">mariadb:10.11</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s">--transaction-isolation=READ-COMMITTED --binlog-format=ROW --skip-log-bin --innodb-file-per-table=1</span> <span class="c1"># command 추가</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">MYSQL_ROOT_PASSWORD</span><span class="pi">:</span> 
+      <span class="na">MYSQL_DATABASE</span><span class="pi">:</span> <span class="s">nextcloud</span>
+      <span class="na">MYSQL_USER</span><span class="pi">:</span> <span class="s">nextcloud</span>
+      <span class="na">MYSQL_PASSWORD</span><span class="pi">:</span> 
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">/app/nextcloud/mysql:/var/lib/mysql</span>
+    <span class="na">healthcheck</span><span class="pi">:</span> <span class="c1"># 헬스체크용 추가</span>
+      <span class="na">test</span><span class="pi">:</span> <span class="s2">"</span><span class="s">mysqladmin</span><span class="nv"> </span><span class="s">ping</span><span class="nv"> </span><span class="s">-h</span><span class="nv"> </span><span class="s">localhost"</span>
+      <span class="na">interval</span><span class="pi">:</span> <span class="s">10s</span>
+      <span class="na">timeout</span><span class="pi">:</span> <span class="s">5s</span>
+      <span class="na">retries</span><span class="pi">:</span> <span class="m">10</span>
+
+  <span class="na">redis</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">redis:7.2-alpine</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
+    <span class="na">command</span><span class="pi">:</span> 
+      <span class="pi">-</span> <span class="s">redis-server</span>
+      <span class="pi">-</span> <span class="s">--appendonly yes</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">/app/nextcloud/redis:/data</span>
+
+  <span class="na">app</span><span class="pi">:</span> <span class="c1"># 앱 본체</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">nextcloud:31-apache</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">database</span>
+      <span class="pi">-</span> <span class="s">redis</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">8080:80</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">MYSQL_HOST</span><span class="pi">:</span> <span class="s">database</span>
+      <span class="na">MYSQL_DATABASE</span><span class="pi">:</span> <span class="s">nextcloud</span>
+      <span class="na">MYSQL_USER</span><span class="pi">:</span> <span class="s">nextcloud</span>
+      <span class="na">MYSQL_PASSWORD</span><span class="pi">:</span> 
+      <span class="na">REDIS_HOST</span><span class="pi">:</span> <span class="s">redis</span>
+      <span class="na">PHP_MEMORY_LIMIT</span><span class="pi">:</span> <span class="s">1024M</span>
+      <span class="na">PHP_UPLOAD_LIMIT</span><span class="pi">:</span> <span class="s">10G</span>
+      <span class="na">NEXTCLOUD_TRUSTED_DOMAINS</span><span class="pi">:</span> <span class="s2">"</span><span class="s">domain"</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">nextcloud_html:/var/www/html</span> 
+      <span class="pi">-</span> <span class="s">/app/nextcloud/data:/var/www/html/data</span> 
+      <span class="pi">-</span> <span class="s">/app/nextcloud/config:/var/www/html/config</span> 
+      <span class="pi">-</span> <span class="s">/app/nextcloud/custom_apps:/var/www/html/custom_apps</span> 
+      <span class="pi">-</span> <span class="s">/app/nextcloud/themes:/var/www/html/themes</span> 
+
+  <span class="na">cron</span><span class="pi">:</span> <span class="c1"># 크론</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">nextcloud:31-apache</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
+    <span class="na">depends_on</span><span class="pi">:</span> 
+      <span class="pi">-</span> <span class="s">database</span>
+      <span class="pi">-</span> <span class="s">redis</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">nextcloud_html:/var/www/html</span>
+      <span class="pi">-</span> <span class="s">/app/nextcloud/data:/var/www/html/data</span> 
+      <span class="pi">-</span> <span class="s">/app/nextcloud/config:/var/www/html/config</span> 
+      <span class="pi">-</span> <span class="s">/app/nextcloud/custom_apps:/var/www/html/custom_apps</span> 
+      <span class="pi">-</span> <span class="s">/app/nextcloud/themes:/var/www/html/themes</span> 
+    <span class="na">entrypoint</span><span class="pi">:</span> <span class="s">/cron.sh</span>
+
+<span class="na">volumes</span><span class="pi">:</span> <span class="c1"># 크론에서 이용하기 위한 공유 볼륨</span>
+  <span class="na">nextcloud_html</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<h4 id="2-기동-및-설치">2. 기동 및 설치</h4>
+
+<p>기동 전 nextcloud 기준 /var/www/html 하위 폴더에 대한 권한을 줘야한다.<br />
+www-data 계정에 권한을 줘야하는데 uid, gid가 33이다.<br />
+<span style="color: orange;"><strong>chown -R 33:33 대상폴더</strong></span> 명령어로 일괄 권한부여를 진행한다.</p>
+
+<p>예전 설치했을 때 볼륨을 따로 잡아두고 권한을 주지 않으면 설치 시 권한 오류가 발생해서 재기동이 필요했다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-09-17-Install Nextcloud/img04.webp" alt="img04" /></p>
+
+<p>이후 <span style="color: orange;"><strong>docker compose up -d</strong></span> 명령어로 기동</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-09-17-Install Nextcloud/img05.webp" alt="img05" /></p>
+
+<p>브라우저로 접속 시 초기화면이 나온다.<br />
+관리자 계정을 설정하면 최초 설치를 진행하고<br />
+추천 앱을 설치하든 말든 하면 메인화면을 확인할 수 있다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-09-17-Install Nextcloud/img06.webp" alt="img06" /></p>
+
+<h4 id="3-추가-설정">3. 추가 설정</h4>
+
+<p>이대로 그냥 쓸 수 있긴한데 추가 설정을 일부 진행한다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-09-17-Install Nextcloud/img07.webp" alt="img07" /></p>
+
+<p>yml에 옵션 넣은 부분도 혹시 모르니 재확인한다.<br />
+redis를 명확히 지정하고 백그라운드 작업도 크론으로 설정한다.</p>
+
+<p>이전에 백그라운드 작업을 ajax로 했더니 성능이 속터질정도로 답답했던 기억이 있다.</p>
+
+<p>그리고 클라우드플레어 업로드 제한을 회피하기 위해 청크 사이즈를 설정한다.<br />
+여유있게 <span style="color: orange;"><strong>94371840 byte</strong></span>로 설정한다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 리전</span>
+php occ config:system:set default_phone_region <span class="nt">--value</span><span class="o">=</span>KR
+<span class="c"># redis 관련</span>
+php occ config:system:set memcache.local <span class="nt">--value</span><span class="o">=</span><span class="s1">'\OC\Memcache\APCu'</span>
+php occ config:system:set memcache.locking <span class="nt">--value</span><span class="o">=</span><span class="s1">'\OC\Memcache\Redis'</span>
+php occ config:system:set redis host <span class="nt">--value</span><span class="o">=</span><span class="s1">'redis'</span>
+php occ config:system:set redis port <span class="nt">--value</span><span class="o">=</span><span class="s1">'6379'</span> <span class="nt">--type</span><span class="o">=</span>integer
+<span class="c"># 크론 설정</span>
+php occ background:cron
+<span class="c"># 청크 사이즈 설정 (100mb 제한 회피)</span>
+php occ config:app:set files max_chunk_size <span class="nt">--value</span> 94371840
+<span class="c"># 신뢰할 수 있는 도메인</span>
+php occ config:system:set overwrite.cli.url <span class="nt">--value</span><span class="o">=</span><span class="s2">"https://도메인"</span>
+<span class="c"># mimetype 마이그</span>
+php occ maintenance:repair <span class="nt">--include-expensive</span>
+</code></pre></div></div>
+
+<p>어디까지 설정해야 하느냐가 문제인데…<br />
+관리자 메뉴의 보안 쪽을 보면 nextcloud에서 시스템 확인 후 <span style="color: red;"><strong>보안 경고</strong></span>를 보여준다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-09-17-Install Nextcloud/img08.webp" alt="img08" /></p>
+
+<p>보안경고를 모두 없앤다는 생각으로 설정을 진행하면 된다.</p>
+
+<blockquote>
+  <h4 id="꼬리말">꼬리말</h4>
+  <hr />
+</blockquote>
+
+<p>1호기 때 고생을 많이 했더니 굉장히 쉽게 설치했다.<br />
+yml 새로 작성하기는 머리가 아팠지만 덕분에 결과물이 만족스럽다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/Service/" /><category term="SERVER" /><category term="SERVICE" /><category term="도커" /><category term="NEXTCLOUD" /><summary type="html"><![CDATA[도커 활용 Nextcloud 첫 설치]]></summary></entry><entry><title type="html">Cloudflare Tunnel 설정</title><link href="https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html" rel="alternate" type="text/html" title="Cloudflare Tunnel 설정" /><published>2025-09-16T03:00:00+00:00</published><updated>2025-09-16T03:00:00+00:00</updated><id>https://movingwoo.com/server/2025/09/16/Setting%20Cloudflare%20Tunnel</id><content type="html" xml:base="https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html"><![CDATA[<blockquote>
   <h4 id="머리말">머리말</h4>
   <hr />
 </blockquote>
@@ -1525,84 +1729,4 @@ Hard라는건 Easy도 있다는 말이고<br />
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-16455.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="16455" /><category term="K번째 수 찾는 함수" /><category term="퀵셀렉트" /><summary type="html"><![CDATA[백준 16455번 K번째 수 찾는 함수 PYTHON 문제풀이]]></summary></entry><entry><title type="html">2252번 줄 세우기</title><link href="https://movingwoo.com/boj/python/2025/07/03/2252.html" rel="alternate" type="text/html" title="2252번 줄 세우기" /><published>2025-07-03T02:00:00+00:00</published><updated>2025-07-03T02:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/2252</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/2252.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-2252/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/2252">2252번 줄 세우기 - 백준</a></p>
-
-<p>런타임 에러가 났고 코드가 너무 길어서 안가져오기로 했다.<br />
-대충 리스트에 넣고 빼면서 시뮬레이션 하는 내용이다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p><span style="color: orange;"><strong>위상정렬</strong></span>을 한다.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>대충 그래프 그리고, 진입차수가 0인 노드를 큐에 모으고, 연결된 노드 진입차수 감소시킨다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">collections</span> <span class="kn">import</span> <span class="n">deque</span>
-
-<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
-
-<span class="c1"># 그래프, 간선, 진입차수, 큐
-</span><span class="n">graph</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
-<span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="nf">tuple</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">()))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">M</span><span class="p">)]</span>
-<span class="n">degree</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">que</span> <span class="o">=</span> <span class="nf">deque</span><span class="p">()</span>
-<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
-    <span class="n">graph</span><span class="p">[</span><span class="n">A</span><span class="p">].</span><span class="nf">append</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
-    <span class="n">degree</span><span class="p">[</span><span class="n">B</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="c1"># 진입차수 0
-</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">degree</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">que</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-
-<span class="k">while</span> <span class="n">que</span><span class="p">:</span>
-    <span class="n">now</span> <span class="o">=</span> <span class="n">que</span><span class="p">.</span><span class="nf">popleft</span><span class="p">()</span>
-    <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
-
-    <span class="c1"># 연결된 노드 진입차수 감소
-</span>    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">graph</span><span class="p">[</span><span class="n">now</span><span class="p">]:</span>
-        <span class="n">degree</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">degree</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">que</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">result</span><span class="p">)))</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-2252/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>뭐지 위상정렬 왜 재밌지?<br />
-그래프 그리는 것 부터 짜증나야하는데<br />
-파이썬 코드가 예뻐서 그런 것 같다.</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-2252.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="2252" /><category term="줄 세우기" /><category term="위상정렬" /><summary type="html"><![CDATA[백준 2252번 줄 세우기 PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-16455.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="16455" /><category term="K번째 수 찾는 함수" /><category term="퀵셀렉트" /><summary type="html"><![CDATA[백준 16455번 K번째 수 찾는 함수 PYTHON 문제풀이]]></summary></entry></feed>
