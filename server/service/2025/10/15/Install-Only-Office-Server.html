@@ -1,0 +1,3114 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>OnlyOffice 서버 추가 구성 - 뭐라도 하겠지</title>
+<meta name="description" content="NextCloud + OnlyOffice 서버 추가 구성">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="뭐라도 하겠지">
+<meta property="og:title" content="OnlyOffice 서버 추가 구성">
+<meta property="og:url" content="https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html">
+
+
+  <meta property="og:description" content="NextCloud + OnlyOffice 서버 추가 구성">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-10-15T05:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-10-15T05:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "뭐라도 하겠지",
+      "url": "https://movingwoo.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/common/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/common/favicon_16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/common/favicon_180x180.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="뭐라도 하겠지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.querySelector('.head-content-btn');
+  const dropdownContent = document.querySelector('.game-dropdown-content');
+  let isOpen = false;
+
+  // 드롭다운 버튼 클릭 이벤트
+  dropdownBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    if (isOpen) {
+      const rect = dropdownBtn.getBoundingClientRect();
+      dropdownContent.style.top = rect.bottom + 'px';
+      dropdownContent.style.left = rect.left + 'px';
+      dropdownContent.classList.add('show');
+    } else {
+      dropdownContent.classList.remove('show');
+    }
+  });
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    if (isOpen && !dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+      isOpen = false;
+      dropdownContent.classList.remove('show');
+    }
+  });
+});
+</script>
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/common/favicon_180x180.png" alt="뭐라도 하겠지"></a>
+        
+        <a class="site-title" href="/">
+          뭐라도 하겠지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <div class="game-dropdown">
+              <button class="head-content-btn">
+                play <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="game-dropdown-content">
+                <a href="/play/Flappy%20Bird.html" target="_blank">Flappy Bird</a>
+                <a href="/play/Minesweeper.html" target="_blank">Minesweeper</a>
+                <a href="/play/Random%20Printer.html" target="_blank">Random Printer</a>
+                <a href="/play/Maze%20Generator.html" target="_blank">Maze Generator</a>
+                <a href="/play/Dungeon%20Generator.html" target="_blank">Dungeon Generator</a>
+                <a href="/play/Code%20Simulator.html" target="_blank">Python Code Simulator</a>
+              </div>
+            </div>
+          </li>
+          <li class="masthead__menu-item">
+            <button class="head-content-btn" onclick="window.location.href='/board?path='">
+              explorer
+            </button>
+          </li>
+        </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <h1 class="title__logo"><a href="https://movingwoo.com/">뭐라도 하겠지</a></h1>
+ -->
+
+
+
+<script src="/assets/js/search.js"></script>
+
+
+    <div class="initial-content">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>OnlyOffice 서버 추가 구성 | 뭐라도 하겠지</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="OnlyOffice 서버 추가 구성" />
+<meta name="author" content="movingwoo" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="NextCloud + OnlyOffice 서버 추가 구성" />
+<meta property="og:description" content="NextCloud + OnlyOffice 서버 추가 구성" />
+<link rel="canonical" href="https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html" />
+<meta property="og:url" content="https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html" />
+<meta property="og:site_name" content="뭐라도 하겠지" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-15T05:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="OnlyOffice 서버 추가 구성" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-10-15T05:00:00+00:00","datePublished":"2025-10-15T05:00:00+00:00","description":"NextCloud + OnlyOffice 서버 추가 구성","headline":"OnlyOffice 서버 추가 구성","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
+
+
+
+<div class="home-layout">
+  <div class="home-sidebar">
+    
+
+
+
+
+
+
+
+<aside class="sidebar__left">
+  <div class="toc-wrapper">
+    <nav class="toc">
+      <header>
+        <h4 class="nav__title">
+          <span class="title-text">
+            <i class="fas fa-sitemap"></i> Archive
+          </span>
+          <a href="/board?path=" class="search-link" title="탐색">
+            <i class="fas fa-list-ul"></i>
+          </a>
+        </h4>
+      </header>
+
+      <ul class="toc__menu">
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="BOJ/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">BOJ</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/C++/" data-total-posts="10">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">C++</span>
+              
+              
+                <span class="post-count">10</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/c++/2025/07/07/9548.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 9548번 무제
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/c++/2025/06/24/16221.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 16221번 모독
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/c++/2025/06/19/17456.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 17456번 필살! 60단 컴보
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FC%2B%2B%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/Java/" data-total-posts="16">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">16</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/java/2025/06/26/1168.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 1168번 요세푸스 문제 2
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/java/2025/06/24/8436.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 8436번 Kamil
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/java/2025/06/24/28682.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 28682번 재우야 임관하자
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FJava%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="BOJ/Python/" data-total-posts="33">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">33</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/boj/python/2025/07/03/12837.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 12837번 가계부 (Hard)
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/python/2025/07/03/16455.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 16455번 K번째 수 찾는 함수
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/boj/python/2025/07/03/2252.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 2252번 줄 세우기
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=BOJ%2FPython%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Development/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Development</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Java/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Java</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/java/2025/05/11/Bulls-and-Cows.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 숫자야구
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/JavaScript/" data-total-posts="8">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">JavaScript</span>
+              
+              
+                <span class="post-count">8</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/28/Dungeon-Generator-02.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 던전 생성기 02
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/27/Dungeon-Generator-01.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 던전 생성기 01
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/javascript/2025/05/23/Maze-Generator-03.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 미로 생성기 03
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=Development%2FJavaScript%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Python/" data-total-posts="4">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Python</span>
+              
+              
+                <span class="post-count">4</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/python/2025/06/19/Code-Simulator.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 코드 시뮬레이터
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/python/2025/06/09/Hardware-Monitor.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 하드웨어 모니터
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/python/2025/06/04/WebP-Converter.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> WebP 변환기
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=Development%2FPython%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/ShellScript/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">ShellScript</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/shellscript/2025/08/04/Install-MariaDB.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 마리아디비 설치
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shellscript/2025/05/12/File-Copier.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파일 복사기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shellscript/2025/04/28/Server-Manage-Console.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 서버 관리 콘솔
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Development/Shortcuts/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Shortcuts</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/development/shortcuts/2025/06/11/Drawing-Lots.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 제비 뽑기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/development/shortcuts/2025/06/02/Magic-Conch-Shell.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 마법의 소라고둥
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Server/" data-total-posts="4">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Server</span>
+              
+              
+                <span class="post-count">4</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/server/2025/09/16/Setting-Cloudflare-Tunnel.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> Cloudflare Tunnel 설정
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/server/2025/09/15/Migrating-Domain.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 도메인 네임서버 변경
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/server/2025/09/12/Server-MK3-Setting.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 3호기 서버 설정
+                    </a>
+                  </li>
+                
+                
+                  <li>
+                    <a href="/board?path=Server%2F" class="toc__link more-posts">
+                      <i class="fas fa-ellipsis-h"></i> 더보기
+                    </a>
+                  </li>
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Server/Service/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Service</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/server/service/2025/10/15/Install-Only-Office-Server.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> OnlyOffice 서버 추가 구성
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/server/service/2025/09/17/Install-Nextcloud.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> Nextcloud 설치
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Server/WEB/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">WEB</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/server/web/2025/09/15/Setting-Traefik.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> Traefik 구축, 설정
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-0" data-path="Zone of Exile/" data-total-posts="1">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Zone of Exile</span>
+              
+              
+                <span class="post-count">1</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/2025/04/30/What-is-this.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 유배지 공고문
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-1" data-path="Zone of Exile/AI-playground/" data-total-posts="0">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">AI-playground</span>
+              
+              
+            </div>
+            
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+                  
+                
+              
+                
+                  
+                  
+                  
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/Claude/" data-total-posts="2">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">Claude</span>
+              
+              
+                <span class="post-count">2</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          <li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/GPT/" data-total-posts="3">
+            <div class="toc__menu-title">
+              <span class="folder-toggle">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span class="folder-name">GPT</span>
+              
+              
+                <span class="post-count">3</span>
+              
+            </div>
+            
+            
+              <ul class="toc__menu posts-list">
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 즐거운 연휴
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a href="/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html" class="toc__link">
+                      <i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰
+                    </a>
+                  </li>
+                
+                
+              </ul>
+            
+            
+            <ul class="toc__menu submenu">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/toc.js"></script> 
+  </div>
+
+  <div class="home-content">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="headline" content="OnlyOffice 서버 추가 구성">
+      <meta itemprop="description" content="  시작  넥스트클라우드 앱을 보면 다양한 앱이 있는데기본적으로 딸려 설치되는 앱 중 PDF viewer 앱을 사용하면 pdf를 보는데는 문제가 없다.하지만 엑셀이나 워드, 파워포인트 문서는 웹에서 뷰잉이 불가능하고 다운로드를 받아야한다.마소의 제 3자 문서 형식이라 어쩔 수 없는 부분이긴 한데웹에서 이놈들을 읽고 편집하려면 어떻게 해야하지?  Collabora Online와 Only Office  넥스트클라우드의 앱 메뉴에서 오피스 및 텍스트 섹션에 여러 문서 앱이 있다.이 중 사람들이 가장 많이 사용하는 것은 Nextcloud Office와 ONLYOFFICE의 2종이다.Nextcloud Office는 Collabora라는 오피스 제품인데 반쯤 넥스트 클라우드 공식으로 여겨지고 있는 듯 하다.둘을 비교해보면 대충 아래와 같다.            항목      Collabora (Nextcloud Office 기반)      ONLYOFFICE                  엔진 / 기반      LibreOffice 기반. 서버에서 문서 렌더링 후 클라이언트에 타일/이미지 전송.      클라이언트 측 편집 중심, 서버는 동기화/연산 담당.              파일 포맷 / 호환성      ODF(odt, ods 등) 기본 지원 강함. MS Office 포맷(docx, xlsx)은 지원하나 변환 오차 가능성 있음.      OOXML(docx, xlsx, pptx) 호환성에 중점. 원본과 비슷한 레이아웃 유지 강점.              리소스 요구      서버에서 대부분 연산 처리 → 동시 접속 많으면 CPU/RAM 부담 큼.      클라이언트 자원 활용 비중 높음 → 서버 부담 상대적으로 적음.              기능 범위      LibreOffice의 고급 기능들을 비교적 많이 제공. 복잡한 문서 편집 기능 강점.      UI/UX가 직관적이고 MS Office와 유사. 단, 일부 고급 기능은 제한될 수 있음.              통합성      Nextcloud와 긴밀히 협력. Nextcloud Office의 기본 백엔드로 쓰임.      독립 제품. Nextcloud와도 잘 연동되지만 기본 통합은 아님.              문제 / 버그      성능 저하, 메모리 과다 사용 보고 사례 있음.      과거 문서 저장/캐시 관련 버그 사례 있음.      정리하면, Collabora는 Nextcloud Office 앱으로 나올 정도로 긴밀하게 협력하고 있으며 리브레 오피스 기반인게 좋고Only Office는 MS 문서 호환이 잘되며 서버 부담이 적은게 좋다.기본적으로 나는 공식 과 기본 을 좋아한다.애플 맥세이프 배터리팩을 산 호구가 바로 나다.하지만 Collabora 사용에 문제가 있었으니…  Cloudflare 구성의 문제  현재 넥스트클라우드 서버는 클라우드플레어 터널을 통해 내부로 접근할 수 있게 해두었다.이 클라우드플레어가 문제가 되었다.기본적으로 collabora든 onlyoffice든 nextcloud 서버와 쌍방 통신이 되어야한다.여기에 클라우드플레어가 끼어들면서 access 정책을 만족하지 못해 403오류로 떨어져버린다.넥스트클라우드와 오피스서버 통신이 안되니 뭐 어떻게 할 방법이 없다!!지난번 확인했던 cloudflare 사용 시의 주의사항이다.collabora does not work out of the box behind Cloudflare 라고 명확하게 써있다아뿔싸!!!!!해결하기 위해 IP 범위를 등록하라고 하는데 이것도 문제가 있다.당연히 내 공인 IP를 넣어주면 될 줄 알았는데공인 IP를 넣어도 403오류가 발생했다.디버깅 결과 172로 시작하는 cloudflare 프록시로 추정되는 IP로 찍히고 있었다.또 클라우드플레어 너야???해당 IP를 열어주면 문 활짝 열고 이랏샤이마세 하는 것과 비슷하기 때문에 IP 등록은 포기.Nextcloud Community커뮤니티 포럼에서 뒤져보니 cloudflare 이용 시 발생하는 문제에 관한 사용자들의 수많은 아우성이 존재한다.사용자들의 성공적인 사례를 참조해보았는데cloudflare 치우고 웹서버 오픈, 엄격한 보안설정하는 방안은 관리가 너무 귀찮을 것 같아서 제외한다.nextcloud 공식에서 추천하는 tailscale을 이용해 vpn 환경을 새로 구성하는 방안도 있었는데아 vpn 매번 키고 끄기 너무 귀찮을걸?손 안대는게 맞다고 생각했다.이건 뭐 정말 방법이 없는걸까?  수많은 실패와 성공적인 구성  성공적으로 오피스 서버를 구성하기 위해 아래의 조건이 필요했다.  onlyoffice          고급 설정에서 내부 통신 설정        web server          동일 도메인 내 context로 서버 분기      1. onlyoffice앞서 언급한 바와 같이 cloudflare가 끼면서 넥스트클라우드와 오피스서버 간 통신이 원활하지 않다.판단하기로 collabora는 현재 구성에서는 적용이 전혀 불가능한데onlyoffice는 적용이 가능하다.onlyoffice 커넥터 설정 화면이다.고급 설정에서 내부 요청을 위한 http 주소 설정이 별도로 가능하다.collabora는 반드시 https 도메인을 통해야했는데 onlyoffice는 컨테이너 간 내부 통신이 가능해보인다.cloudflare를 거치지 않으면 아무 문제 없지 않을까?2. web server그럼에도 불구하고, 아무튼 오피스 서버에 붙을 수 있는 도메인은 마련해줘야했다.오피스용 서브도메인을 새로 파서 적용 후, cloudflare access 정책을 제거해보았다.access 정책이 없으므로 nextcloud에서 office 서버로 통신은 아무 이상 없었지만office 서버에서 nextcloud로 통신 시 cloudflare access 정책에 걸려 403이 떨어진다.내부 주소 설정과 별개로 대표 오피스 주소로 통신할 일이 있나보다…결국 오피스 서버와 넥스트클라우드가 같은 네트워크에 존재하게 하고 access 정책을 회피해야하는데cloudflare 정책을 건드려서 설정하기엔 무료 플랜에서 한계가 있었다.따라서 웹서버를 두고 오피스 서버용 요청만 오피스 서버로 넘어가게 분기를 걸었다.onlyoffice는 이 설정으로 200 성공이 떨어졌는데collabora는 context 분기 시 다른 오류가 발생하여 사용할 수 없었다.  기동 및 연동  ONLYOFFICE - dockerhub이미지는 documentserver 이미지를 사용한다.ee는 엔터프라이즈용이고 무료인 커뮤니티 에디션이 그냥 documentserver 이미지이다.웹서버는 해외 포럼들 뒤져보면 caddy를 많이 사용하고내가 익숙한건 nginx인데설정 관리 포인트를 줄이고 싶어서 traefik을 사용한다.볼륨을 따로 잡을 필요가 없으며 설정 변경시 yml의 label 항목만 변경하면 된다.1. traefikyml에 traefik 컨테이너를 추가한다.네트워크도 추가하는데, 트래픽 분기용 traefik_net과 넥스트클라우드 구성에 포함될 nextcloud_net 2개로 만든다.networks:  traefik_net:    driver: bridge  nextcloud_net:    driver: bridgeservices:  traefik:    image: traefik:v3.5.3    restart: unless-stopped    networks:      - traefik_net      - nextcloud_net    command:      - --providers.docker=true      - --providers.docker.exposedbydefault=false      - --entrypoints.web.address=:80    ports:      - 80:80    volumes:      - /var/run/docker.sock:/var/run/docker.sock:ro    labels:      - &quot;traefik.enable=true&quot;다른 서비스들에도 네트워크 설정을 해주고제일 중요한 nextcloud 서비스에 레이블을 잔뜩 붙여준다./office를 오피스 서버로 넘어가기로 결정했다면해당 prefix만 제외하고 넥스트클라우드로 넘어오게 하고우선도를 낮게 하여 오피스 서버로 갈 요청을 우선 판단하게 한다.labels:  - &quot;traefik.enable=true&quot;  # 오피스 서버로 넘어갈 /office 컨텍스트 제외  - &quot;traefik.http.routers.app.rule=Host(`my.domain.com`) &amp;&amp; !PathPrefix(`/office`)&quot;  - &quot;traefik.http.routers.app.entrypoints=web&quot;  - &quot;traefik.http.services.app.loadbalancer.server.port=80&quot;  # 우선도를 낮게 유지  - &quot;traefik.http.routers.app.priority=1&quot;  - &quot;traefik.http.middlewares.app-httpshdr.headers.customrequestheaders.X-Forwarded-Proto=https&quot;  - &quot;traefik.http.middlewares.app-httpshdr.headers.customrequestheaders.X-Forwarded-Host=my.domain.com&quot;  - &quot;traefik.http.routers.app.middlewares=app-httpshdr@docker&quot;2. onlyoffice환경변수에 JWT_SECRET은 나중에 설정 시 입력해야하니 잘 기억해야한다.레이블에 이것저것 막 넣다보니 엄청나게 길어졌는데아무튼 저렇게 쓰니까 되니 좋았쓰office:  image: onlyoffice/documentserver:latest  restart: unless-stopped  networks:    - traefik_net    - nextcloud_net  depends_on:    - app  environment:    - JWT_ENABLED=true    - JWT_SECRET=    - JWT_HEADER=Authorization  labels:    - &quot;traefik.enable=true&quot;    # 명시적으로 지정 안하니 오류나서    - &quot;traefik.docker.network=traefik_net&quot;    # /office는 전부 onlyoffice를 통하도록    - &quot;traefik.http.routers.office.rule=Host(`my.domain.com`) &amp;&amp; (PathPrefix(`/office`) || Path(`/office`))&quot;    - &quot;traefik.http.routers.office.entrypoints=web&quot;    # 우선도를 넥스트클라우드보다 높게 설정    - &quot;traefik.http.routers.office.priority=100&quot;    - &quot;traefik.http.services.office.loadbalancer.server.port=80&quot;    # /office 잘라서 백엔드로 전달    - &quot;traefik.http.middlewares.office-strip.stripprefix.prefixes=/office&quot;    - &quot;traefik.http.middlewares.office-strip.stripprefix.forceSlash=true&quot;    - &quot;traefik.http.middlewares.office-httpshdr.headers.customrequestheaders.X-Forwarded-Proto=https&quot;    - &quot;traefik.http.middlewares.office-httpshdr.headers.customrequestheaders.X-Forwarded-Host=my.domain.com&quot;    - &quot;traefik.http.middlewares.office-httpshdr.headers.customrequestheaders.X-Forwarded-Prefix=/office&quot;    # 마지막 / 없는 접근 방지    - &quot;traefik.http.middlewares.office-slash.redirectregex.regex=^(.*/office)$&quot;    - &quot;traefik.http.middlewares.office-slash.redirectregex.replacement=$${1}/&quot;    - &quot;traefik.http.middlewares.office-slash.redirectregex.permanent=true&quot;    - &quot;traefik.http.routers.office.middlewares=office-slash@docker,office-strip@docker,office-httpshdr@docker&quot;3. 기동기동 시 onlyoffice 로그를 확인해보면 이것저것 바쁘게 설치하는게 보인다.nginx도 있고 postgre도 있고 rabbitmq도 있고 뭐가 많다.어쩐지 이미지가 묵직하더라니넥스트클라우드 앱 메뉴에서 ONLYOFFICE를 설치하고 활성화한다.얘가 일종의 커넥터 역할을 하는 듯 하다.이후 관리자 설정 메뉴의 ONLYOFFICE 섹션에서 도메인과 내부 주소를 넣고JWT_SECRET을 넣어주고 저장을 눌렀을 때 오류가 안나면 성공이다.테스트를 위해 엑셀로 Hello World 파일을 만든다.이놈을 업로드해보자.자동으로 썸네일 이미지를 왼쪽에 만들어준다.저 문서 자체에 내용이 없어서 새하얗게 보이는데 내용이 가득하면 썸네일도 제대로 보일 것이다.클릭해보면 다운로드가 아니라 onlyoffice를 통해 웹에서 내용을 수정, 편집할 수 있다.UI가 MS랑 유사해서 이질감이 적다.아 이정도면 아주 훌륭하지이제 나도 쓸 수 있다 웹 오피스  마무리  한계가 있다면일부 고급기능(얼마나 고급기능인지 잘 모르겠음)은 사용할 수 없다고 하고모바일에서 편집하려면 유료 라이선스가 필요하다.하지만 모바일로 편집할 일은 딱히 없을 것 같고 열리긴 잘 열리며문서 내 간단한 SUMIF 같은 함수들도 잘 동작한다.추석 전 부터 어떻게든 웹 오피스의 꿈을 이루려 노력했는데 상당히 오래걸렸다.중간에 마음이 꺾여서 웹 뷰어로 우회하려 했지만 포기하지 않길 잘했구나">
+      <meta itemprop="datePublished" content="2025-10-15T05:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-10-15T05:00:00+00:00">
+
+      <div class="page__inner-wrap">
+        
+          <header>
+            
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=Server" class="category-link">
+        Server
+      </a>
+      
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=Server%2FService" class="category-link">
+        Service
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=Server%2FService%2F" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">OnlyOffice 서버 추가 구성
+</h1>
+            
+
+
+          </header>
+        
+
+        <section class="page__content" itemprop="text">
+          <blockquote>
+  <h4 id="시작">시작</h4>
+  <hr />
+</blockquote>
+
+<p>넥스트클라우드 앱을 보면 다양한 앱이 있는데<br />
+기본적으로 딸려 설치되는 앱 중 PDF viewer 앱을 사용하면 pdf를 보는데는 문제가 없다.</p>
+
+<p>하지만 엑셀이나 워드, 파워포인트 문서는 웹에서 뷰잉이 불가능하고 다운로드를 받아야한다.<br />
+마소의 제 3자 문서 형식이라 어쩔 수 없는 부분이긴 한데<br />
+웹에서 이놈들을 읽고 편집하려면 어떻게 해야하지?</p>
+
+<blockquote>
+  <h4 id="collabora-online와-only-office">Collabora Online와 Only Office</h4>
+  <hr />
+</blockquote>
+
+<p>넥스트클라우드의 앱 메뉴에서 오피스 및 텍스트 섹션에 여러 문서 앱이 있다.<br />
+이 중 사람들이 가장 많이 사용하는 것은 <span style="color: orange;"><strong>Nextcloud Office</strong></span>와 <span style="color: orange;"><strong>ONLYOFFICE</strong></span>의 2종이다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img01.webp" alt="img01" /></p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img02.webp" alt="img02" /></p>
+
+<p>Nextcloud Office는 Collabora라는 오피스 제품인데 반쯤 넥스트 클라우드 공식으로 여겨지고 있는 듯 하다.<br />
+둘을 비교해보면 대충 아래와 같다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>항목</th>
+      <th>Collabora (Nextcloud Office 기반)</th>
+      <th>ONLYOFFICE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>엔진 / 기반</strong></td>
+      <td>LibreOffice 기반. 서버에서 문서 렌더링 후 클라이언트에 타일/이미지 전송.</td>
+      <td>클라이언트 측 편집 중심, 서버는 동기화/연산 담당.</td>
+    </tr>
+    <tr>
+      <td><strong>파일 포맷 / 호환성</strong></td>
+      <td>ODF(odt, ods 등) 기본 지원 강함. MS Office 포맷(docx, xlsx)은 지원하나 변환 오차 가능성 있음.</td>
+      <td>OOXML(docx, xlsx, pptx) 호환성에 중점. 원본과 비슷한 레이아웃 유지 강점.</td>
+    </tr>
+    <tr>
+      <td><strong>리소스 요구</strong></td>
+      <td>서버에서 대부분 연산 처리 → 동시 접속 많으면 CPU/RAM 부담 큼.</td>
+      <td>클라이언트 자원 활용 비중 높음 → 서버 부담 상대적으로 적음.</td>
+    </tr>
+    <tr>
+      <td><strong>기능 범위</strong></td>
+      <td>LibreOffice의 고급 기능들을 비교적 많이 제공. 복잡한 문서 편집 기능 강점.</td>
+      <td>UI/UX가 직관적이고 MS Office와 유사. 단, 일부 고급 기능은 제한될 수 있음.</td>
+    </tr>
+    <tr>
+      <td><strong>통합성</strong></td>
+      <td>Nextcloud와 긴밀히 협력. Nextcloud Office의 기본 백엔드로 쓰임.</td>
+      <td>독립 제품. Nextcloud와도 잘 연동되지만 기본 통합은 아님.</td>
+    </tr>
+    <tr>
+      <td><strong>문제 / 버그</strong></td>
+      <td>성능 저하, 메모리 과다 사용 보고 사례 있음.</td>
+      <td>과거 문서 저장/캐시 관련 버그 사례 있음.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>정리하면, Collabora는 Nextcloud Office 앱으로 나올 정도로 긴밀하게 협력하고 있으며 리브레 오피스 기반인게 좋고<br />
+Only Office는 MS 문서 호환이 잘되며 서버 부담이 적은게 좋다.</p>
+
+<p>기본적으로 나는 <span style="color: orange;"><strong>공식</strong></span> 과 <span style="color: orange;"><strong>기본</strong></span> 을 좋아한다.<br />
+애플 맥세이프 배터리팩을 산 호구가 바로 나다.</p>
+
+<p>하지만 Collabora 사용에 문제가 있었으니…</p>
+
+<blockquote>
+  <h4 id="cloudflare-구성의-문제">Cloudflare 구성의 문제</h4>
+  <hr />
+</blockquote>
+
+<p>현재 넥스트클라우드 서버는 클라우드플레어 터널을 통해 내부로 접근할 수 있게 해두었다.<br />
+이 클라우드플레어가 문제가 되었다.</p>
+
+<p>기본적으로 collabora든 onlyoffice든 nextcloud 서버와 쌍방 통신이 되어야한다.<br />
+여기에 클라우드플레어가 끼어들면서 <span style="color: orange;"><strong>access 정책을 만족하지 못해 403오류</strong></span>로 떨어져버린다.<br />
+넥스트클라우드와 오피스서버 통신이 안되니 뭐 어떻게 할 방법이 없다!!</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img03.webp" alt="img03" /></p>
+
+<p>지난번 확인했던 cloudflare 사용 시의 주의사항이다.<br />
+<span style="color: red;"><strong>collabora does not work out of the box behind Cloudflare</strong></span> 라고 명확하게 써있다아뿔싸!!!!!<br />
+해결하기 위해 IP 범위를 등록하라고 하는데 이것도 문제가 있다.</p>
+
+<p>당연히 내 공인 IP를 넣어주면 될 줄 알았는데<br />
+<span style="color: orange;"><strong>공인 IP를 넣어도 403오류</strong></span>가 발생했다.<br />
+디버깅 결과 172로 시작하는 cloudflare 프록시로 추정되는 IP로 찍히고 있었다.<br />
+또 클라우드플레어 너야???</p>
+
+<p>해당 IP를 열어주면 문 활짝 열고 이랏샤이마세 하는 것과 비슷하기 때문에 IP 등록은 포기.</p>
+
+<p><a href="https://help.nextcloud.com/">Nextcloud Community</a></p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img04.webp" alt="img04" /></p>
+
+<p>커뮤니티 포럼에서 뒤져보니 cloudflare 이용 시 발생하는 문제에 관한 사용자들의 수많은 아우성이 존재한다.</p>
+
+<p>사용자들의 성공적인 사례를 참조해보았는데<br />
+cloudflare 치우고 웹서버 오픈, 엄격한 보안설정하는 방안은 관리가 너무 귀찮을 것 같아서 제외한다.</p>
+
+<p>nextcloud 공식에서 추천하는 tailscale을 이용해 vpn 환경을 새로 구성하는 방안도 있었는데<br />
+아 vpn 매번 키고 끄기 너무 귀찮을걸?<br />
+손 안대는게 맞다고 생각했다.</p>
+
+<p>이건 뭐 정말 방법이 없는걸까?</p>
+
+<blockquote>
+  <h4 id="수많은-실패와-성공적인-구성">수많은 실패와 성공적인 구성</h4>
+  <hr />
+</blockquote>
+
+<p>성공적으로 오피스 서버를 구성하기 위해 아래의 조건이 필요했다.</p>
+<ul>
+  <li>onlyoffice
+    <ul>
+      <li>고급 설정에서 <span style="color: orange;"><strong>내부 통신</strong></span> 설정</li>
+    </ul>
+  </li>
+  <li>web server
+    <ul>
+      <li><span style="color: orange;"><strong>동일 도메인 내</strong></span> context로 서버 분기</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="1-onlyoffice">1. onlyoffice</h4>
+
+<p>앞서 언급한 바와 같이 cloudflare가 끼면서 넥스트클라우드와 오피스서버 간 통신이 원활하지 않다.</p>
+
+<p>판단하기로 collabora는 현재 구성에서는 적용이 전혀 불가능한데<br />
+onlyoffice는 적용이 가능하다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img05.webp" alt="img05" /></p>
+
+<p>onlyoffice 커넥터 설정 화면이다.<br />
+고급 설정에서 <span style="color: orange;"><strong>내부 요청을 위한 http 주소 설정</strong></span>이 별도로 가능하다.<br />
+collabora는 반드시 https 도메인을 통해야했는데 onlyoffice는 컨테이너 간 내부 통신이 가능해보인다.<br />
+cloudflare를 거치지 않으면 아무 문제 없지 않을까?</p>
+
+<h4 id="2-web-server">2. web server</h4>
+
+<p>그럼에도 불구하고, 아무튼 오피스 서버에 붙을 수 있는 도메인은 마련해줘야했다.<br />
+오피스용 서브도메인을 새로 파서 적용 후, cloudflare access 정책을 제거해보았다.</p>
+
+<p>access 정책이 없으므로 nextcloud에서 office 서버로 통신은 아무 이상 없었지만<br />
+<span style="color: orange;"><strong>office 서버에서 nextcloud로 통신 시 cloudflare access 정책에 걸려 403</strong></span>이 떨어진다.</p>
+
+<p>내부 주소 설정과 별개로 대표 오피스 주소로 통신할 일이 있나보다…<br />
+결국 오피스 서버와 넥스트클라우드가 같은 네트워크에 존재하게 하고 access 정책을 회피해야하는데<br />
+cloudflare 정책을 건드려서 설정하기엔 무료 플랜에서 한계가 있었다.</p>
+
+<p>따라서 <span style="color: orange;"><strong>웹서버</strong></span>를 두고 오피스 서버용 요청만 오피스 서버로 넘어가게 분기를 걸었다.<br />
+onlyoffice는 이 설정으로 200 성공이 떨어졌는데<br />
+collabora는 context 분기 시 다른 오류가 발생하여 사용할 수 없었다.</p>
+
+<blockquote>
+  <h4 id="기동-및-연동">기동 및 연동</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://hub.docker.com/r/onlyoffice/documentserver">ONLYOFFICE - dockerhub</a></p>
+
+<p>이미지는 <span style="color: orange;"><strong>documentserver</strong></span> 이미지를 사용한다.<br />
+ee는 엔터프라이즈용이고 무료인 커뮤니티 에디션이 그냥 documentserver 이미지이다.</p>
+
+<p>웹서버는 해외 포럼들 뒤져보면 caddy를 많이 사용하고<br />
+내가 익숙한건 nginx인데<br />
+설정 관리 포인트를 줄이고 싶어서 <span style="color: orange;"><strong>traefik</strong></span>을 사용한다.<br />
+볼륨을 따로 잡을 필요가 없으며 설정 변경시 yml의 label 항목만 변경하면 된다.</p>
+
+<h4 id="1-traefik">1. traefik</h4>
+
+<p>yml에 traefik 컨테이너를 추가한다.<br />
+네트워크도 추가하는데, 트래픽 분기용 traefik_net과 넥스트클라우드 구성에 포함될 nextcloud_net 2개로 만든다.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">networks</span><span class="pi">:</span>
+  <span class="na">traefik_net</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s">bridge</span>
+  <span class="na">nextcloud_net</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s">bridge</span>
+
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">traefik</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">traefik:v3.5.3</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">traefik_net</span>
+      <span class="pi">-</span> <span class="s">nextcloud_net</span>
+    <span class="na">command</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">--providers.docker=true</span>
+      <span class="pi">-</span> <span class="s">--providers.docker.exposedbydefault=false</span>
+      <span class="pi">-</span> <span class="s">--entrypoints.web.address=:80</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">80:80</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">/var/run/docker.sock:/var/run/docker.sock:ro</span>
+    <span class="na">labels</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.enable=true"</span>
+</code></pre></div></div>
+
+<p>다른 서비스들에도 네트워크 설정을 해주고<br />
+제일 중요한 nextcloud 서비스에 레이블을 잔뜩 붙여준다.</p>
+
+<p>/office를 오피스 서버로 넘어가기로 결정했다면<br />
+<span style="color: orange;"><strong>해당 prefix만 제외</strong></span>하고 넥스트클라우드로 넘어오게 하고<br />
+<span style="color: orange;"><strong>우선도를 낮게</strong></span> 하여 오피스 서버로 갈 요청을 우선 판단하게 한다.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">labels</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.enable=true"</span>
+  <span class="c1"># 오피스 서버로 넘어갈 /office 컨텍스트 제외</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.routers.app.rule=Host(`my.domain.com`)</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">!PathPrefix(`/office`)"</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.routers.app.entrypoints=web"</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.services.app.loadbalancer.server.port=80"</span>
+  <span class="c1"># 우선도를 낮게 유지</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.routers.app.priority=1"</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.app-httpshdr.headers.customrequestheaders.X-Forwarded-Proto=https"</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.app-httpshdr.headers.customrequestheaders.X-Forwarded-Host=my.domain.com"</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.routers.app.middlewares=app-httpshdr@docker"</span>
+</code></pre></div></div>
+
+<h4 id="2-onlyoffice">2. onlyoffice</h4>
+
+<p>환경변수에 <span style="color: orange;"><strong>JWT_SECRET</strong></span>은 나중에 설정 시 입력해야하니 잘 기억해야한다.<br />
+레이블에 이것저것 막 넣다보니 엄청나게 길어졌는데<br />
+아무튼 저렇게 쓰니까 되니 좋았쓰</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">office</span><span class="pi">:</span>
+  <span class="na">image</span><span class="pi">:</span> <span class="s">onlyoffice/documentserver:latest</span>
+  <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
+  <span class="na">networks</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">traefik_net</span>
+    <span class="pi">-</span> <span class="s">nextcloud_net</span>
+  <span class="na">depends_on</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">app</span>
+  <span class="na">environment</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">JWT_ENABLED=true</span>
+    <span class="pi">-</span> <span class="s">JWT_SECRET=</span>
+    <span class="pi">-</span> <span class="s">JWT_HEADER=Authorization</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.enable=true"</span>
+    <span class="c1"># 명시적으로 지정 안하니 오류나서</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.docker.network=traefik_net"</span>
+    <span class="c1"># /office는 전부 onlyoffice를 통하도록</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.routers.office.rule=Host(`my.domain.com`)</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">(PathPrefix(`/office`)</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">Path(`/office`))"</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.routers.office.entrypoints=web"</span>
+    <span class="c1"># 우선도를 넥스트클라우드보다 높게 설정</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.routers.office.priority=100"</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.services.office.loadbalancer.server.port=80"</span>
+    <span class="c1"># /office 잘라서 백엔드로 전달</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.office-strip.stripprefix.prefixes=/office"</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.office-strip.stripprefix.forceSlash=true"</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.office-httpshdr.headers.customrequestheaders.X-Forwarded-Proto=https"</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.office-httpshdr.headers.customrequestheaders.X-Forwarded-Host=my.domain.com"</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.office-httpshdr.headers.customrequestheaders.X-Forwarded-Prefix=/office"</span>
+    <span class="c1"># 마지막 / 없는 접근 방지</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.office-slash.redirectregex.regex=^(.*/office)$"</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.office-slash.redirectregex.replacement=$${1}/"</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.middlewares.office-slash.redirectregex.permanent=true"</span>
+    <span class="pi">-</span> <span class="s2">"</span><span class="s">traefik.http.routers.office.middlewares=office-slash@docker,office-strip@docker,office-httpshdr@docker"</span>
+</code></pre></div></div>
+
+<h4 id="3-기동">3. 기동</h4>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img06.webp" alt="img06" /></p>
+
+<p>기동 시 onlyoffice 로그를 확인해보면 이것저것 바쁘게 설치하는게 보인다.<br />
+nginx도 있고 postgre도 있고 rabbitmq도 있고 뭐가 많다.<br />
+어쩐지 이미지가 묵직하더라니</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img07.webp" alt="img07" /></p>
+
+<p>넥스트클라우드 앱 메뉴에서 ONLYOFFICE를 설치하고 활성화한다.<br />
+얘가 일종의 커넥터 역할을 하는 듯 하다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img08.webp" alt="img08" /></p>
+
+<p>이후 관리자 설정 메뉴의 ONLYOFFICE 섹션에서 도메인과 내부 주소를 넣고<br />
+JWT_SECRET을 넣어주고 저장을 눌렀을 때 오류가 안나면 성공이다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img09.webp" alt="img09" /></p>
+
+<p>테스트를 위해 엑셀로 Hello World 파일을 만든다.<br />
+이놈을 업로드해보자.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img10.webp" alt="img10" /></p>
+
+<p>자동으로 썸네일 이미지를 왼쪽에 만들어준다.<br />
+저 문서 자체에 내용이 없어서 새하얗게 보이는데 내용이 가득하면 썸네일도 제대로 보일 것이다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2025-10-15-Install Only Office Server/img11.webp" alt="img11" /></p>
+
+<p>클릭해보면 다운로드가 아니라 onlyoffice를 통해 웹에서 내용을 수정, 편집할 수 있다.<br />
+UI가 MS랑 유사해서 이질감이 적다.</p>
+
+<p>아 이정도면 아주 훌륭하지<br />
+<span style="color: red;"><strong>이제 나도 쓸 수 있다 웹 오피스</strong></span></p>
+
+<blockquote>
+  <h4 id="마무리">마무리</h4>
+  <hr />
+</blockquote>
+
+<p>한계가 있다면<br />
+일부 고급기능(얼마나 고급기능인지 잘 모르겠음)은 사용할 수 없다고 하고<br />
+모바일에서 편집하려면 유료 라이선스가 필요하다.</p>
+
+<p>하지만 모바일로 편집할 일은 딱히 없을 것 같고 열리긴 잘 열리며<br />
+문서 내 간단한 SUMIF 같은 함수들도 잘 동작한다.</p>
+
+<p>추석 전 부터 어떻게든 웹 오피스의 꿈을 이루려 노력했는데 상당히 오래걸렸다.<br />
+중간에 마음이 꺾여서 웹 뷰어로 우회하려 했지만 포기하지 않길 잘했구나</p>
+
+          
+        </section>
+
+        <footer class="page__meta">
+          
+          
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-10-15">October 15, 2025</time></p>
+
+
+        </footer>
+
+        
+
+        
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 post data 넘겨주기만
+    window.postData = {
+      currentPost: {
+        title: "OnlyOffice 서버 추가 구성",
+        url: "/server/service/2025/10/15/Install-Only-Office-Server.html",
+        date: "2025-10-15",
+        categories: ["Server/Service/"]
+      },
+      allPosts: [
+        
+        
+          
+          
+          {
+            title: "OnlyOffice 서버 추가 구성",
+            url: "/server/service/2025/10/15/Install-Only-Office-Server.html",
+            date: "2025-10-15",
+            categories: ["Server/Service/"]
+          },
+          
+        
+          
+          
+          {
+            title: "Nextcloud 설치",
+            url: "/server/service/2025/09/17/Install-Nextcloud.html",
+            date: "2025-09-17",
+            categories: ["Server/Service/"]
+          },
+          
+        
+          
+          
+          {
+            title: "Cloudflare Tunnel 설정",
+            url: "/server/2025/09/16/Setting-Cloudflare-Tunnel.html",
+            date: "2025-09-16",
+            categories: ["Server/"]
+          },
+          
+        
+          
+          
+          {
+            title: "도메인 네임서버 변경",
+            url: "/server/2025/09/15/Migrating-Domain.html",
+            date: "2025-09-15",
+            categories: ["Server/"]
+          },
+          
+        
+          
+          
+          {
+            title: "Traefik 구축, 설정",
+            url: "/server/web/2025/09/15/Setting-Traefik.html",
+            date: "2025-09-15",
+            categories: ["Server/WEB/"]
+          },
+          
+        
+          
+          
+          {
+            title: "3호기 서버 설정",
+            url: "/server/2025/09/12/Server-MK3-Setting.html",
+            date: "2025-09-12",
+            categories: ["Server/"]
+          },
+          
+        
+          
+          
+          {
+            title: "3호기 서버 구축",
+            url: "/server/2025/09/11/Build-Server-MK3.html",
+            date: "2025-09-11",
+            categories: ["Server/"]
+          },
+          
+        
+          
+          
+          {
+            title: "마리아디비 설치",
+            url: "/development/shellscript/2025/08/04/Install-MariaDB.html",
+            date: "2025-08-04",
+            categories: ["Development/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "9548번 무제",
+            url: "/boj/c++/2025/07/07/9548.html",
+            date: "2025-07-07",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "12837번 가계부 (Hard)",
+            url: "/boj/python/2025/07/03/12837.html",
+            date: "2025-07-03",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16455번 K번째 수 찾는 함수",
+            url: "/boj/python/2025/07/03/16455.html",
+            date: "2025-07-03",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2252번 줄 세우기",
+            url: "/boj/python/2025/07/03/2252.html",
+            date: "2025-07-03",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1669번 멍멍이 쓰다듬기",
+            url: "/boj/python/2025/07/03/1669.html",
+            date: "2025-07-03",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2493번 탑",
+            url: "/boj/python/2025/07/02/2493.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "12730번 Saving the Universe (Large)",
+            url: "/boj/python/2025/07/02/12730.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11973번 Angry Cows (Silver)",
+            url: "/boj/python/2025/07/02/11973.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16194번 카드 구매하기 2",
+            url: "/boj/python/2025/07/02/16194.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "14569번 시간표 짜기",
+            url: "/boj/python/2025/07/02/14569.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1913번 달팽이",
+            url: "/boj/python/2025/07/02/1913.html",
+            date: "2025-07-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1812번 사탕",
+            url: "/boj/python/2025/07/01/1812.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1359번 복권",
+            url: "/boj/python/2025/07/01/1359.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1388번 바닥 장식",
+            url: "/boj/python/2025/07/01/1388.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15464번 The Bovine Shuffle",
+            url: "/boj/python/2025/07/01/15464.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11504번 돌려 돌려 돌림판!",
+            url: "/boj/python/2025/07/01/11504.html",
+            date: "2025-07-01",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8660번 Sumy i różnice",
+            url: "/boj/python/2025/06/30/8660.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8711번 Odchudzanie",
+            url: "/boj/python/2025/06/30/8711.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8713번 Znak działania",
+            url: "/boj/python/2025/06/30/8713.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2391번 Sascha",
+            url: "/boj/python/2025/06/30/2391.html",
+            date: "2025-06-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "6976번 Divisibility by 11",
+            url: "/boj/python/2025/06/27/6976.html",
+            date: "2025-06-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "14551번 Card Game Contest",
+            url: "/boj/python/2025/06/27/14551.html",
+            date: "2025-06-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2909번 캔디 구매",
+            url: "/boj/python/2025/06/26/2909.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "9924번 The Euclidean Algorithm",
+            url: "/boj/python/2025/06/26/9924.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "9298번 Ant Entrapment",
+            url: "/boj/python/2025/06/26/9298.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1168번 요세푸스 문제 2",
+            url: "/boj/java/2025/06/26/1168.html",
+            date: "2025-06-26",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "8436번 Kamil",
+            url: "/boj/java/2025/06/24/8436.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "28682번 재우야 임관하자",
+            url: "/boj/java/2025/06/24/28682.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16172번 나는 친구가 적다 (Large)",
+            url: "/boj/java/2025/06/24/16172.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "12833번 XORXORXOR",
+            url: "/boj/java/2025/06/24/12833.html",
+            date: "2025-06-24",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16221번 모독",
+            url: "/boj/c++/2025/06/24/16221.html",
+            date: "2025-06-24",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "코드 시뮬레이터",
+            url: "/development/python/2025/06/19/Code-Simulator.html",
+            date: "2025-06-19",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "17456번 필살! 60단 컴보",
+            url: "/boj/c++/2025/06/19/17456.html",
+            date: "2025-06-19",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11568번 민균이의 계략",
+            url: "/boj/java/2025/06/18/11568.html",
+            date: "2025-06-18",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18870번 좌표 압축",
+            url: "/boj/java/2025/06/18/18870.html",
+            date: "2025-06-18",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "5430번 AC",
+            url: "/boj/java/2025/06/17/5430.html",
+            date: "2025-06-17",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "3655번 먼저 가세요",
+            url: "/boj/python/2025/06/16/3655.html",
+            date: "2025-06-16",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "10722번 Binary Mobile Tree",
+            url: "/boj/c++/2025/06/16/10722.html",
+            date: "2025-06-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "24008번 Catch Them All",
+            url: "/boj/java/2025/06/13/24008.html",
+            date: "2025-06-13",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16256번 Painting the Wall",
+            url: "/boj/c++/2025/06/13/16256.html",
+            date: "2025-06-13",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "제비 뽑기",
+            url: "/development/shortcuts/2025/06/11/Drawing-Lots.html",
+            date: "2025-06-11",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21237번 Clockwise Fence",
+            url: "/boj/java/2025/06/10/21237.html",
+            date: "2025-06-10",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "하드웨어 모니터",
+            url: "/development/python/2025/06/09/Hardware-Monitor.html",
+            date: "2025-06-09",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "2784번 가로 세로 퍼즐",
+            url: "/boj/java/2025/06/04/2784.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "4676번 Haiku Review",
+            url: "/boj/python/2025/06/04/4676.html",
+            date: "2025-06-04",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "WebP 변환기",
+            url: "/development/python/2025/06/04/WebP-Converter.html",
+            date: "2025-06-04",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "마법의 소라고둥",
+            url: "/development/shortcuts/2025/06/02/Magic-Conch-Shell.html",
+            date: "2025-06-02",
+            categories: ["Development/Shortcuts/"]
+          },
+          
+        
+          
+          
+          {
+            title: "1148번 단어 만들기",
+            url: "/boj/java/2025/06/02/1148.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11761번 Shuffling Along",
+            url: "/boj/python/2025/06/02/11761.html",
+            date: "2025-06-02",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7663번 Dreadful Deadlines",
+            url: "/boj/c++/2025/05/30/7663.html",
+            date: "2025-05-30",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "6862번 Tin Can Telephone",
+            url: "/boj/java/2025/05/30/6862.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15654번 N과 M (5)",
+            url: "/boj/python/2025/05/30/15654.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "21308번 Ternary Machine",
+            url: "/boj/python/2025/05/30/21308.html",
+            date: "2025-05-30",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "11982번 Angry Cows (Gold)",
+            url: "/boj/java/2025/05/28/11982.html",
+            date: "2025-05-28",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "16085번 Гэмт хэрэг",
+            url: "/boj/c++/2025/05/28/16085.html",
+            date: "2025-05-28",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 02",
+            url: "/development/javascript/2025/05/28/Dungeon-Generator-02.html",
+            date: "2025-05-28",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "7106번 Wonderful Fours",
+            url: "/boj/python/2025/05/27/7106.html",
+            date: "2025-05-27",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "던전 생성기 01",
+            url: "/development/javascript/2025/05/27/Dungeon-Generator-01.html",
+            date: "2025-05-27",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "5101번 Sequences",
+            url: "/boj/python/2025/05/23/5101.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "27391번 Platform Placing",
+            url: "/boj/java/2025/05/23/27391.html",
+            date: "2025-05-23",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "25245번 Amusement Arcade",
+            url: "/boj/c++/2025/05/23/25245.html",
+            date: "2025-05-23",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 03",
+            url: "/development/javascript/2025/05/23/Maze-Generator-03.html",
+            date: "2025-05-23",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26489번 Gum Gum for Jay Jay",
+            url: "/boj/python/2025/05/22/26489.html",
+            date: "2025-05-22",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 02",
+            url: "/development/javascript/2025/05/21/Maze-Generator-02.html",
+            date: "2025-05-21",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "26226번 Autocomplete",
+            url: "/boj/c++/2025/05/21/26226.html",
+            date: "2025-05-21",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "미로 생성기 01",
+            url: "/development/javascript/2025/05/20/Maze-Generator-01.html",
+            date: "2025-05-20",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "15936번 Hypercube",
+            url: "/boj/java/2025/05/20/15936.html",
+            date: "2025-05-20",
+            categories: ["BOJ/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "29348번 Скользкий путь",
+            url: "/boj/c++/2025/05/16/29348.html",
+            date: "2025-05-16",
+            categories: ["BOJ/C++/"]
+          },
+          
+        
+          
+          
+          {
+            title: "18382번 2048",
+            url: "/boj/python/2025/05/15/18382.html",
+            date: "2025-05-15",
+            categories: ["BOJ/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "랜덤 출력기",
+            url: "/development/javascript/2025/05/14/Random-Printer.html",
+            date: "2025-05-14",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파이썬으로 CLI TODO 리스트 만들어보기",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html",
+            date: "2025-05-14",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "플래피 버드",
+            url: "/development/javascript/2025/05/13/Flappy-Bird.html",
+            date: "2025-05-13",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "클리커",
+            url: "/development/python/2025/05/13/Clicker.html",
+            date: "2025-05-13",
+            categories: ["Development/Python/"]
+          },
+          
+        
+          
+          
+          {
+            title: "파일 복사기",
+            url: "/development/shellscript/2025/05/12/File-Copier.html",
+            date: "2025-05-12",
+            categories: ["Development/ShellScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "숫자야구",
+            url: "/development/java/2025/05/11/Bulls-and-Cows.html",
+            date: "2025-05-11",
+            categories: ["Development/Java/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "즐거운 연휴, 어떻게 보내면 좋을까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html",
+            date: "2025-05-01",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "프로그래머를 위한 생산성 툴 TOP 5 🧰",
+            url: "/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/GPT/"]
+          },
+          
+        
+          
+          
+          {
+            title: "AI 시대의 개발자, 어떻게 준비해야 할까?",
+            url: "/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/AI-playground/Claude/"]
+          },
+          
+        
+          
+          
+          {
+            title: "유배지 공고문",
+            url: "/zone%20of%20exile/2025/04/30/What-is-this.html",
+            date: "2025-04-30",
+            categories: ["Zone of Exile/"]
+          },
+          
+        
+          
+          
+          {
+            title: "지뢰찾기",
+            url: "/development/javascript/2025/04/29/Minesweeper.html",
+            date: "2025-04-29",
+            categories: ["Development/JavaScript/"]
+          },
+          
+        
+          
+          
+          {
+            title: "서버 관리 콘솔",
+            url: "/development/shellscript/2025/04/28/Server-Manage-Console.html",
+            date: "2025-04-28",
+            categories: ["Development/ShellScript/"]
+          }
+          
+        
+      ]
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
+      </div>
+
+      
+      
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+    </article>
+
+    
+    
+  </div>
+</div>
+
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 1rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .home-content {
+    padding: 0;
+  }
+}
+</style>
+
+    </div>
+
+    
+    
+    <div class="page__footer">
+  <div class="page__footer-copyright">
+    Visit: <a href="https://github.com/movingwoo/movingwoo.github.io">https://github.com/movingwoo/movingwoo.github.io</a>
+    <br>
+    <span class="theme-credit">Theme customized from Minimal Mistakes by Michael Rose (MIT License).</span>
+  </div>
+</div>
+
+    <div class="scroll-button">
+  <div class="scroll-button__container">
+    <button class="scroll-button__area scroll-button__area--top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="위로">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="scroll-button__area scroll-button__area--bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="아래로">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.scroll-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.scroll-button__container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(220, 20, 60, 0.6);
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-button__area {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button__area--top {
+  top: 0;
+}
+
+.scroll-button__area--bottom {
+  bottom: 0;
+}
+
+.scroll-button__area:focus {
+  outline: none;
+}
+
+.scroll-button__area:hover {
+  color: rgba(220, 20, 60, 1);
+}
+
+.scroll-button__area:hover i {
+  transform: scale(1.2);
+}
+
+.scroll-button__area i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll-button {
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .scroll-button__container {
+    width: 50px;
+    height: 50px;
+  }
+}
+</style> 
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+});
+</script>
+
+
+  </body>
+</html>

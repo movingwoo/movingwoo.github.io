@@ -532,4 +532,10 @@ var store = [{
         "tags": ["SERVER","SERVICE","도커","NEXTCLOUD"],
         "url": "/server/service/2025/09/17/Install-Nextcloud.html",
         "teaser": null
+      },{
+        "title": "OnlyOffice 서버 추가 구성",
+        "excerpt":"시작 넥스트클라우드 앱을 보면 다양한 앱이 있는데 기본적으로 딸려 설치되는 앱 중 PDF viewer 앱을 사용하면 pdf를 보는데는 문제가 없다. 하지만 엑셀이나 워드, 파워포인트 문서는 웹에서 뷰잉이 불가능하고 다운로드를 받아야한다. 마소의 제 3자 문서 형식이라 어쩔 수 없는 부분이긴 한데 웹에서 이놈들을 읽고 편집하려면 어떻게 해야하지? Collabora Online와 Only Office...","categories": ["Server/Service/"],
+        "tags": ["SERVER","SERVICE","도커","NEXTCLOUD","ONLYOFFICE"],
+        "url": "/server/service/2025/10/15/Install-Only-Office-Server.html",
+        "teaser": null
       }]
