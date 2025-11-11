@@ -538,4 +538,10 @@ var store = [{
         "tags": ["SERVER","SERVICE","도커","NEXTCLOUD","ONLYOFFICE"],
         "url": "/server/service/2025/10/15/Install-Only-Office-Server.html",
         "teaser": null
+      },{
+        "title": "시스템 장애 복구 - docker와 traefik",
+        "excerpt":"상황 개인이 할 수 있는 최고의 보안 대책은 최신 업데이트이다. 때문에 시간이 될 때마다 업데이트를 돌려주곤 하는데… 아무 생각없이 업데이트 진행 후 서비스 접속 시 404 page not found 오류가 다수 발생하기 시작했다. 아니 이게 무슨 일이야!!!! 원인 분석 우선 내부 컨테이너는 모두 정상 구동 중이다. 도커 서비스와 클라우드플레어 서비스도...","categories": ["Server/"],
+        "tags": ["SERVER","ubuntu","장애","복구","traefik","docker"],
+        "url": "/server/2025/11/11/Traefik-Failover.html",
+        "teaser": null
       }]

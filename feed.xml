@@ -1,4 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-10-17T02:18:52+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">OnlyOffice 서버 추가 구성</title><link href="https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html" rel="alternate" type="text/html" title="OnlyOffice 서버 추가 구성" /><published>2025-10-15T05:00:00+00:00</published><updated>2025-10-15T05:00:00+00:00</updated><id>https://movingwoo.com/server/service/2025/10/15/Install%20Only%20Office%20Server</id><content type="html" xml:base="https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-11-11T04:51:04+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">시스템 장애 복구 - docker와 traefik</title><link href="https://movingwoo.com/server/2025/11/11/Traefik-Failover.html" rel="alternate" type="text/html" title="시스템 장애 복구 - docker와 traefik" /><published>2025-11-11T02:00:00+00:00</published><updated>2025-11-11T02:00:00+00:00</updated><id>https://movingwoo.com/server/2025/11/11/Traefik%20Failover</id><content type="html" xml:base="https://movingwoo.com/server/2025/11/11/Traefik-Failover.html"><![CDATA[<blockquote>
+  <h4 id="상황">상황</h4>
+  <hr />
+</blockquote>
+
+<p>개인이 할 수 있는 최고의 보안 대책은 최신 업데이트이다.<br />
+때문에 시간이 될 때마다 업데이트를 돌려주곤 하는데…</p>
+
+<p>아무 생각없이 업데이트 진행 후 서비스 접속 시 <span style="color: orange;"><strong>404 page not found</strong></span> 오류가 다수 발생하기 시작했다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-11-11-Traefik Failover/img01.webp" alt="img01" /></p>
+
+<p><span style="color: red;"><strong>아니 이게 무슨 일이야!!!!</strong></span></p>
+
+<blockquote>
+  <h4 id="원인-분석">원인 분석</h4>
+  <hr />
+</blockquote>
+
+<p>우선 내부 컨테이너는 모두 정상 구동 중이다.<br />
+도커 서비스와 클라우드플레어 서비스도 정상이다.</p>
+
+<p>각 컨테이너 로그를 확인해보니 범인의 윤곽이 보인다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-11-11-Traefik Failover/img02.webp" alt="img02" /></p>
+
+<p>메시지는 명확하다.<br />
+<span style="color: orange;"><strong>1.24 버전이 너무 오래되었으니 최소 지원 버전인 1.44 이상으로 맞춰달라는 것.</strong></span></p>
+
+<p>여기서 말하는 API 버전은 도커 API 버전이다.<br />
+최신 업데이트를 진행하며 <span style="color: orange;"><strong>최소 지원 버전이 1.24 -&gt; 1.44</strong></span>로 높아졌는데<br />
+트래픽에서 아직 1.24를 사용하는 건가 싶다.<br />
+하지만 트래픽도 최신 이미지를 사용하는 중인데…<br />
+아니면 도커 소켓이나 데몬에 문제가 있을 수도 있다.</p>
+
+<p>트래픽 컨테이너 안에서 도커 소켓을 직접 호출해본다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-11-11-Traefik Failover/img03.webp" alt="img03" /></p>
+
+<p>최소 API 버전은 1.44로 나오며
+1.24 버전 강제 호출 시 같은 400 Bad Request 응답이 돌아온다.<br />
+이러면 도커 소켓은 정상이고 트래픽이 1.24로 호출 중일 확률이 높다.</p>
+
+<p><a href="https://docs.docker.com/engine/release-notes/29/">Docker Engine 29 release notes</a></p>
+
+<p><img src="/assets/images/posts/Server/2025-11-11-Traefik Failover/img04.webp" alt="img04" /></p>
+
+<p>오늘 아침에 도커 엔진이 29로 업데이트가 되었기 때문에 릴리즈 노트를 확인해본다.<br />
+1.44 부터 필요하다는 내용이 확실히 있다.</p>
+
+<p>즉, 트래픽은 1.24 버전 API를 사용하는데<br />
+도커 엔진 업데이트로 인해 최소 1.44 버전 API를 요구해서<br />
+트래픽이 도커 provider 초기화가 실패, 라우팅 실패, 404로 떨어진다는 뜻이다.</p>
+
+<p><a href="https://pkg.go.dev/github.com/traefik/traefik/v3/pkg/provider/docker">Traefik Docker provider - pkg.go.dev</a></p>
+
+<p><img src="/assets/images/posts/Server/2025-11-11-Traefik Failover/img05.webp" alt="img05" /></p>
+
+<p>Go 패키지 확인 시 DockerAPIVersion이 1.24로 상수로 선언되어 있다.<br />
+별다른 튜닝이나 업데이트가 가해지지 않았다면 아마 1.24로 동작할 것이다.</p>
+
+<blockquote>
+  <h4 id="조치">조치</h4>
+  <hr />
+</blockquote>
+
+<p>가장 좋은 방법은 traefik에서 1.44 이상의 API를 사용하는 것인데<br />
+겨우 그걸 위해 traefik 커스텀 이미지를 빌드하기는 아주 귀찮다.</p>
+
+<p>언젠가 공식적인 지원을 기다리도록 하고<br />
+당장 해결 가능한 방법은 <span style="color: orange;"><strong>도커 엔진 버전을 내리는 것</strong></span>이다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-11-11-Traefik Failover/img06.webp" alt="img06" /></p>
+
+<p><span style="color: orange;"><strong>apt-cache madison docker-ce</strong></span> 명령어로 버전을 확인해본다.<br />
+최신 29.0.0 빌드에서 문제가 생겼으므로 바로 아래의 28.5.2 빌드로 내리면 정상동작 할 것이다.<br />
+<span style="color: orange;"><strong>docker-ce</strong></span> 외에 <span style="color: orange;"><strong>docker-ce-cli, docker-compose-plugin, docker-buildx-plugin, containerd.io</strong></span> 패키지도 버전을 체크한다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-11-11-Traefik Failover/img07.webp" alt="img07" /></p>
+
+<p><img src="/assets/images/posts/Server/2025-11-11-Traefik Failover/img08.webp" alt="img08" /></p>
+
+<p>다운그레이드 후 <span style="color: orange;"><strong>apt-mark hold</strong></span> 명령어로 업데이트 되지 않도록 패키지를 고정한다.</p>
+
+<blockquote>
+  <h4 id="추후-방안">추후 방안</h4>
+  <hr />
+</blockquote>
+
+<p>당장은 docker 버전을 현 상태로 유지하는 수 밖에 없어보인다.</p>
+
+<p>추후 traefik 공식 릴리즈를 확인하여 docker API 버전 관련 내용이 있으면<br />
+패키지 고정한걸 풀어서 업데이트를 진행하면 되겠다.</p>
+
+<p>그동안 생각없이 써왔는데<br />
+도커가 제법 종속적이며 버전에 민감하다는 걸 알았다.<br />
+으윽 나는 최신 업데이트를 하지 않으면 두드러기가 올라오는 병이 있는데</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="ubuntu" /><category term="장애" /><category term="복구" /><category term="traefik" /><category term="docker" /><summary type="html"><![CDATA[traefik 장애 원인 분석 및 복구]]></summary></entry><entry><title type="html">OnlyOffice 서버 추가 구성</title><link href="https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html" rel="alternate" type="text/html" title="OnlyOffice 서버 추가 구성" /><published>2025-10-15T05:00:00+00:00</published><updated>2025-10-15T05:00:00+00:00</updated><id>https://movingwoo.com/server/service/2025/10/15/Install%20Only%20Office%20Server</id><content type="html" xml:base="https://movingwoo.com/server/service/2025/10/15/Install-Only-Office-Server.html"><![CDATA[<blockquote>
   <h4 id="시작">시작</h4>
   <hr />
 </blockquote>
@@ -1824,110 +1920,4 @@ GCC 기반이면 된다고 하는데 BOJ가 요녀석을 소화할 수 있을까
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/C%2B%2B/2025-07-07-9548.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/C++/" /><category term="C++" /><category term="알고리즘" /><category term="백준" /><category term="9548" /><category term="무제" /><category term="로프" /><summary type="html"><![CDATA[백준 9548번 무제 C++ 문제풀이]]></summary></entry><entry><title type="html">12837번 가계부 (Hard)</title><link href="https://movingwoo.com/boj/python/2025/07/03/12837.html" rel="alternate" type="text/html" title="12837번 가계부 (Hard)" /><published>2025-07-03T06:00:00+00:00</published><updated>2025-07-03T06:00:00+00:00</updated><id>https://movingwoo.com/boj/python/2025/07/03/12837</id><content type="html" xml:base="https://movingwoo.com/boj/python/2025/07/03/12837.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-12837/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/12837">12837번 가계부 (Hard) - 백준</a></p>
-
-<p>이왜틀 마지막 골드 문제<br />
-솔직히 이건 소스 볼 필요도 없다.<br />
-Hard라는건 Easy도 있다는 말이고<br />
-아마 과거의 내가 Easy를 풀고 소스 그대로 Hard에 집어넣어서 시간초과 났을 것이다.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>대충 구간합 구하는데 값 변경이 필요함 == <span style="color: orange;"><strong>세그먼트 트리</strong></span></p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-세그먼트-트리-구현">1. 세그먼트 트리 구현</h5>
-
-<p>update와 query로 구성된 정석적인 세그먼트 트리 클래스를 구현한다.<br />
-값 갱신이 아니라 <span style="color: orange;"><strong>숫자를 합</strong></span>하는 것에 주의</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SegmentTree</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> 
-
-        <span class="k">while</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">n</span><span class="p">:</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">size</span> <span class="o">*=</span> <span class="mi">2</span>
-
-        <span class="n">self</span><span class="p">.</span><span class="n">tree</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="n">idx</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span>
-        <span class="c1"># 갱신이 아니라 합치기
-</span>        <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">val</span>
-
-        <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">idx</span> <span class="o">//=</span> <span class="mi">2</span> 
-            <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">idx</span> <span class="o">*</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">idx</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-            
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-        <span class="n">l</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span>
-        <span class="n">r</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">l</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
-                <span class="n">l</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">r</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">+=</span> <span class="n">self</span><span class="p">.</span><span class="n">tree</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
-                <span class="n">r</span> <span class="o">-=</span> <span class="mi">1</span>
-
-            <span class="n">l</span> <span class="o">//=</span> <span class="mi">2</span>
-            <span class="n">r</span> <span class="o">//=</span> <span class="mi">2</span>
-
-        <span class="k">return</span> <span class="n">result</span>
-</code></pre></div></div>
-
-<h5 id="2-쿼리-수행">2. 쿼리 수행</h5>
-
-<p>입력받아 쿼리를 수행한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
-<span class="n">tree</span> <span class="o">=</span> <span class="nc">SegmentTree</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">Q</span><span class="p">):</span>
-    <span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="nf">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nf">input</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>
-
-    <span class="c1"># 1은 업데이트 2는 구간합
-</span>    <span class="k">if</span> <span class="n">q</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">tree</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">q</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">tree</span><span class="p">.</span><span class="nf">query</span><span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/Python/2025-07-03-12837/img02.webp" alt="img02" /></p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>골드도 끝났고 플래티넘 문제 2개가 남았다.<br />
-이건 각오하고 접근해야지…</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/Python/2025-07-03-12837.py">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/Python/" /><category term="PYTHON" /><category term="알고리즘" /><category term="백준" /><category term="12837" /><category term="가계부 (Hard)" /><category term="세그먼트트리" /><summary type="html"><![CDATA[백준 12837번 가계부 (Hard) PYTHON 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/C%2B%2B/2025-07-07-9548.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/C++/" /><category term="C++" /><category term="알고리즘" /><category term="백준" /><category term="9548" /><category term="무제" /><category term="로프" /><summary type="html"><![CDATA[백준 9548번 무제 C++ 문제풀이]]></summary></entry></feed>
