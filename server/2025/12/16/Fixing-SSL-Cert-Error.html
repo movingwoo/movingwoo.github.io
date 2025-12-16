@@ -9,36 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Cloudflare Tunnel 설정 - 뭐라도 하겠지</title>
-<meta name="description" content="Cloudflare Tunnel 및 추가 보안 설정">
+<!-- begin _includes/seo.html --><title>SSL 인증서 오류 해결 - 뭐라도 하겠지</title>
+<meta name="description" content="Cloudflare SSL 인증서 오류 해결">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="뭐라도 하겠지">
-<meta property="og:title" content="Cloudflare Tunnel 설정">
-<meta property="og:url" content="https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html">
+<meta property="og:title" content="SSL 인증서 오류 해결">
+<meta property="og:url" content="https://movingwoo.com/server/2025/12/16/Fixing-SSL-Cert-Error.html">
 
 
-  <meta property="og:description" content="Cloudflare Tunnel 및 추가 보안 설정">
-
-
-
+  <meta property="og:description" content="Cloudflare SSL 인증서 오류 해결">
 
 
 
 
-  <meta property="article:published_time" content="2025-09-16T03:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2025-09-16T03:00:00+00:00">
+  <meta property="article:published_time" content="2025-12-16T02:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2025-12-16T02:00:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html">
+<link rel="canonical" href="https://movingwoo.com/server/2025/12/16/Fixing-SSL-Cert-Error.html">
 
 
 
@@ -200,22 +200,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="initial-content">
       <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Cloudflare Tunnel 설정 | 뭐라도 하겠지</title>
+<title>SSL 인증서 오류 해결 | 뭐라도 하겠지</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="Cloudflare Tunnel 설정" />
+<meta property="og:title" content="SSL 인증서 오류 해결" />
 <meta name="author" content="movingwoo" />
 <meta property="og:locale" content="ko_KR" />
-<meta name="description" content="Cloudflare Tunnel 및 추가 보안 설정" />
-<meta property="og:description" content="Cloudflare Tunnel 및 추가 보안 설정" />
-<link rel="canonical" href="https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html" />
-<meta property="og:url" content="https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html" />
+<meta name="description" content="Cloudflare SSL 인증서 오류 해결" />
+<meta property="og:description" content="Cloudflare SSL 인증서 오류 해결" />
+<link rel="canonical" href="https://movingwoo.com/server/2025/12/16/Fixing-SSL-Cert-Error.html" />
+<meta property="og:url" content="https://movingwoo.com/server/2025/12/16/Fixing-SSL-Cert-Error.html" />
 <meta property="og:site_name" content="뭐라도 하겠지" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-09-16T03:00:00+00:00" />
+<meta property="article:published_time" content="2025-12-16T02:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Cloudflare Tunnel 설정" />
+<meta property="twitter:title" content="SSL 인증서 오류 해결" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-09-16T03:00:00+00:00","datePublished":"2025-09-16T03:00:00+00:00","description":"Cloudflare Tunnel 및 추가 보안 설정","headline":"Cloudflare Tunnel 설정","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/server/2025/09/16/Setting-Cloudflare-Tunnel.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2025-12-16T02:00:00+00:00","datePublished":"2025-12-16T02:00:00+00:00","description":"Cloudflare SSL 인증서 오류 해결","headline":"SSL 인증서 오류 해결","mainEntityOfPage":{"@type":"WebPage","@id":"https://movingwoo.com/server/2025/12/16/Fixing-SSL-Cert-Error.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://movingwoo.com/server/2025/12/16/Fixing-SSL-Cert-Error.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1621,10 +1621,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="home-content">
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="headline" content="Cloudflare Tunnel 설정">
-      <meta itemprop="description" content="  머리말  테스트를 위해 Cloudflare Tunnel을 적용해보는 시간.  Cloudflare Tunnel이란?  Cloudflare Tunnel은 서버를 인터넷에 안전하게 노출하는 방법 중 하나이다.서버에 cloudflared 클라이언트를 설치하고, 클라이언트를 통해 cloudflare로 아웃바운드 연결을 맺는다.클라이언트와 cloudflare가 직접 통신하는 구조라 방화벽이나 IP를 노출할 필요가 없다.덕분에 방화벽은 인바운드를 다 막고 아웃바운드만 허용하면 된다.모든 것을 cloudflare에게 맡기기  사전 작업  터널을 설정하는 제로 트러스트 대시보드는 클라우드플레어 대시보드와 별도로 존재한다.왜 이렇게 불편한 구조가 되었냐?원래 출신이 달랐다고 한다.Teams/Access 제품군이 별도로 있었는데 Cloudflare가 나중에 인수하여 한 몸이 되었다.메인 대시보드에 Zero Trust 메뉴로 이동하는 버튼을 달아두긴 했는데완전히 합쳐지기에는 시간이 조금 더 필요해보인다.Cloudflare Zero Trust Dashboardcloudflare 계정으로 진행하면 팀 이름을 선택해야한다.제로 트러스트 쪽은 팀 기준으로 운영된다.무료 플랜에 보면 50명 사용자 제한이 있다.개인 사용에 아무런 문제가 없다.그 밖에 일부 보안 세부 제한이 있지만 터널은 무료기 때문에 사용에 문제 없다.로그인 후 터널 설정 메뉴에 접근할 수 있다.테스트해볼 서버에도 붙어서 사전 작업을 진행한다.방화벽의 Inbound를 모두 deny하고 SSH를 제외한 포트를 전부 닫는다.SSH에도 터널 적용이 가능한데 굳이 그럴 필요가 있나 싶어서 일단 냅둔다.터널 접속 테스트를 위한 톰캣을 하나 올린다.http 8080 기본 포트 하나만 설정했다.  Cloudflare Tunnel 설정  권장 설정인 cloudflared를 선택한다.서버에 cloudflared 설치하는 방법에 대한 가이드가 나온다.안정적인 사용을 위해 repo를 등록하는게 좋다고 한다.서비스까지 등록되면 systemd 에 cloudflared 가 active 상태인걸 확인할 수 있다.연결 정책을 설정한다.테스트 서브도메인을 설정하고 내부 톰캣 주소인 localhost:8080 과 매핑한다.설정한 도메인으로 연결 시 클라우드플레어에서 제공해준 TLS 인증서와 함께 내부 톰캣에 접속 가능하다.분명 방화벽에서 8080 포트를 열지 않았지만 터널을 통해 접근 가능하다.모든 것을 cloudflare에게 맡기기…  추가 보안 설정  제로 트러스트 대시보드에서 보안 설정을 확인해보니 Access 정책 설정이 가능했다.Access &gt; 정책 메뉴에서 해당 호스트 접근에 대한 추가적인 정책을 걸어둔다.도메인에 대하여 이메일 인증을 거치도록 설정했다.포함, 제외, 필수 등 다양한 방식으로 설정이 가능하다.도메인 접근 시 사진과 같이 이메일 OTP 인증 화면이 나온다.서비스 로그인 화면 이전에 cloudflare에서 자체적인 접근제어를 진행하는 것이다.아주 훌륭하다.이것 외에 cloudflare 대시보드에서 보안 &gt; 보안 규칙 탭에서 추가적인 규칙을 설정할 수 있다.and or in not 등으로 규칙을 설정할 수 있는데로컬 그룹 IP를 제외한 나머지에게 관리 챌린지를 걸어두었다.관리 챌린지가 대체 무어냐?휴대폰으로 접속해보았다.어디서 많이 본 인증화면이 나온다.그렇다! 이것이 관리 챌린지였다!  꼬리말  이게 어디까지가 무료인가?그 범위를 파악하며 설정해야하다보니 골치가 아프다.그래도 무료치고 기능이 엄청나게 좋다.이러니 다들 클라우드플레어 쓰지.굳이 단점을 찾아보자면  모든 트래픽이 cloudflare를 경유해서 cloudflare가 터지면 같이 터짐  cloudflare가 트래픽 내용을 볼 수 있어서 프라이버시 우려가 있음  cloudflare 계정이나 정책에 이슈가 생기면 접근이 안되기 때문에 백도어 마련 필요  대규모 업/다운로드 시 무료 플랜에서 힘들거나 속도 저하가 생길 수 있음이 정둔가?아직은 제대로 사용도 안해봤기 때문에 단점을 제대로 느끼려면 롱텀으로 사용해봐야 알 것 같다.이제 무슨 서비스를 올려볼지 고민해야지.">
-      <meta itemprop="datePublished" content="2025-09-16T03:00:00+00:00">
-      <meta itemprop="dateModified" content="2025-09-16T03:00:00+00:00">
+      <meta itemprop="headline" content="SSL 인증서 오류 해결">
+      <meta itemprop="description" content="  상황  오 맙소사 이게 뭐야Invalid SSL certificate뭔가 SSL 인증서 갱신이 제대로 이루어지지 않았나 보다.  원인 분석  현재 SSL 인증서 발급 및 적용은 클라우드플레어에서 처리 중이다.대시보드를 확인해본다.2월 11일까지 3개월짜리 인증서가 정상적으로 적용되어있다.오류 사진에서도 클라이언트와 클라우드플레어 간 통신은 정상이다.이러면 호스트 쪽을 봐야하는데…github pages를 사용하고 있으므로 github에 들어가 인증서 쪽을 확인해보자.DNS 검증이 되지 않고 있다.이게 원래는 됐었는데…곰곰히 생각해보니 github pages TLS 적용을 최초에 진행했고나중에 cloudflare가 붙었다.아마 cloudflare가 붙으면서 그때부터 TLS 검증이 이루어지지 않은 것 같다.대충 원인은 github으로 붙을때 HTTPS로 붙지 못해 발생한 것 같은데민감 데이터도 없고 cloudflare 뒤의 백본이라 HTTP 통신만 이뤄져도 되는데 왜 SSL 오류가 떠버리지?결국 이 놈이 원인이었다.현재 암호화모드가 전체로 되어있는데이 모드에서는 cloudflare와 github pages 간의 암호화 통신이 이루어져야한다.그런데 github 인증서가 만료되면서 도메인으로 Let’s Encrypt 인증서를 재발급하려 시도를 하였고이때 cloudflare 프록시에 걸리면서 인증서 재발급이 실패cloudflare는 인증서가 유효하지 않으니 호스트 통신 시 SSL 오류를 뱉은 것이다.  조치  간단하게 암호화 모드를 가변으로 변경해준다.이렇게 되면 클라이언트와 클라우드플레어 암호화 통신은 유지하되클라우드플레어와 깃헙 간 통신은 평문 통신을 허용한다.훔쳐갈 정보 자체가 없고 앞단에 클라우드플레어가 있기 때문에 보안상 문제는 크게 없다.궁극적으로는 프록시를 타지 않게 해두고 github pages 인증서를 갱신 하는게 좋겠지만당장 그렇게까지 할 필요성을 못느끼겠다.github pages DNS 설정부는 계속 DNS 체크 실패로 뜨고 HTTPS 강제가 불가능할 것이다.이대로 둔다고 해도 큰 문제는 안생기니 신경쓰지말고 냅두는 걸로">
+      <meta itemprop="datePublished" content="2025-12-16T02:00:00+00:00">
+      <meta itemprop="dateModified" content="2025-12-16T02:00:00+00:00">
 
       <div class="page__inner-wrap">
         
@@ -1649,7 +1649,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </a>
 </div>
  
-            <h1 id="page-title" class="page__title" itemprop="headline">Cloudflare Tunnel 설정
+            <h1 id="page-title" class="page__title" itemprop="headline">SSL 인증서 오류 해결
 </h1>
             
 
@@ -1659,157 +1659,73 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <section class="page__content" itemprop="text">
           <blockquote>
-  <h4 id="머리말">머리말</h4>
+  <h4 id="상황">상황</h4>
   <hr />
 </blockquote>
 
-<p>테스트를 위해 Cloudflare Tunnel을 적용해보는 시간.</p>
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img01.webp" alt="img01" /></p>
+
+<p>오 맙소사 이게 뭐야<br />
+<span style="color: red;"><strong>Invalid SSL certificate</strong></span></p>
+
+<p>뭔가 SSL 인증서 갱신이 제대로 이루어지지 않았나 보다.</p>
 
 <blockquote>
-  <h4 id="cloudflare-tunnel이란">Cloudflare Tunnel이란?</h4>
+  <h4 id="원인-분석">원인 분석</h4>
   <hr />
 </blockquote>
 
-<p><span style="color: orange;"><strong>Cloudflare Tunnel</strong></span>은 서버를 인터넷에 안전하게 노출하는 방법 중 하나이다.</p>
+<p>현재 SSL 인증서 발급 및 적용은 클라우드플레어에서 처리 중이다.<br />
+대시보드를 확인해본다.</p>
 
-<p>서버에 <span style="color: orange;"><strong>cloudflared 클라이언트</strong></span>를 설치하고, 클라이언트를 통해 cloudflare로 아웃바운드 연결을 맺는다.<br />
-클라이언트와 cloudflare가 직접 통신하는 구조라 <span style="color: orange;"><strong>방화벽이나 IP를 노출할 필요가 없다.</strong></span><br />
-덕분에 방화벽은 인바운드를 다 막고 아웃바운드만 허용하면 된다.</p>
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img02.webp" alt="img02" /></p>
 
-<p><span style="color: orange;"><strong>모든 것을 cloudflare에게 맡기기</strong></span></p>
+<p>2월 11일까지 3개월짜리 인증서가 정상적으로 적용되어있다.<br />
+오류 사진에서도 클라이언트와 클라우드플레어 간 통신은 정상이다.</p>
+
+<p>이러면 호스트 쪽을 봐야하는데…<br />
+github pages를 사용하고 있으므로 github에 들어가 인증서 쪽을 확인해보자.</p>
+
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img03.webp" alt="img03" /></p>
+
+<p>DNS 검증이 되지 않고 있다.<br />
+이게 원래는 됐었는데…</p>
+
+<p>곰곰히 생각해보니 github pages TLS 적용을 최초에 진행했고<br />
+나중에 cloudflare가 붙었다.<br />
+아마 cloudflare가 붙으면서 그때부터 TLS 검증이 이루어지지 않은 것 같다.</p>
+
+<p>대충 원인은 github으로 붙을때 HTTPS로 붙지 못해 발생한 것 같은데
+민감 데이터도 없고 cloudflare 뒤의 백본이라 HTTP 통신만 이뤄져도 되는데 왜 SSL 오류가 떠버리지?</p>
+
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img04.webp" alt="img04" /></p>
+
+<p>결국 이 놈이 원인이었다.<br />
+현재 암호화모드가 <span style="color: orange;"><strong>전체</strong></span>로 되어있는데<br />
+이 모드에서는 cloudflare와 github pages 간의 암호화 통신이 이루어져야한다.</p>
+
+<p>그런데 github 인증서가 만료되면서 도메인으로 Let’s Encrypt 인증서를 재발급하려 시도를 하였고<br />
+이때 cloudflare 프록시에 걸리면서 인증서 재발급이 실패<br />
+cloudflare는 인증서가 유효하지 않으니 호스트 통신 시 SSL 오류를 뱉은 것이다.</p>
 
 <blockquote>
-  <h4 id="사전-작업">사전 작업</h4>
+  <h4 id="조치">조치</h4>
   <hr />
 </blockquote>
 
-<p>터널을 설정하는 제로 트러스트 대시보드는 클라우드플레어 대시보드와 별도로 존재한다.<br />
-왜 이렇게 불편한 구조가 되었냐?</p>
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img05.webp" alt="img05" /></p>
 
-<p>원래 출신이 달랐다고 한다.<br />
-Teams/Access 제품군이 별도로 있었는데 Cloudflare가 나중에 인수하여 한 몸이 되었다.</p>
+<p>간단하게 암호화 모드를 <span style="color: orange;"><strong>가변</strong></span>으로 변경해준다.<br />
+이렇게 되면 클라이언트와 클라우드플레어 암호화 통신은 유지하되<br />
+클라우드플레어와 깃헙 간 통신은 평문 통신을 허용한다.</p>
 
-<p>메인 대시보드에 Zero Trust 메뉴로 이동하는 버튼을 달아두긴 했는데<br />
-완전히 합쳐지기에는 시간이 조금 더 필요해보인다.</p>
+<p>훔쳐갈 정보 자체가 없고 앞단에 클라우드플레어가 있기 때문에 보안상 문제는 크게 없다.</p>
 
-<p><a href="https://one.dash.cloudflare.com/">Cloudflare Zero Trust Dashboard</a></p>
+<p>궁극적으로는 프록시를 타지 않게 해두고 github pages 인증서를 갱신 하는게 좋겠지만<br />
+당장 그렇게까지 할 필요성을 못느끼겠다.</p>
 
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img01.webp" alt="img01" /></p>
-
-<p>cloudflare 계정으로 진행하면 팀 이름을 선택해야한다.<br />
-제로 트러스트 쪽은 팀 기준으로 운영된다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img02.webp" alt="img02" /></p>
-
-<p>무료 플랜에 보면 50명 사용자 제한이 있다.<br />
-개인 사용에 아무런 문제가 없다.</p>
-
-<p>그 밖에 일부 보안 세부 제한이 있지만 터널은 무료기 때문에 사용에 문제 없다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img03.webp" alt="img03" /></p>
-
-<p>로그인 후 터널 설정 메뉴에 접근할 수 있다.</p>
-
-<p>테스트해볼 서버에도 붙어서 사전 작업을 진행한다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img04.webp" alt="img04" /></p>
-
-<p>방화벽의 Inbound를 모두 deny하고 SSH를 제외한 포트를 전부 닫는다.<br />
-SSH에도 터널 적용이 가능한데 굳이 그럴 필요가 있나 싶어서 일단 냅둔다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img05.webp" alt="img05" /></p>
-
-<p>터널 접속 테스트를 위한 톰캣을 하나 올린다.<br />
-http 8080 기본 포트 하나만 설정했다.</p>
-
-<blockquote>
-  <h4 id="cloudflare-tunnel-설정">Cloudflare Tunnel 설정</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img06.webp" alt="img06" /></p>
-
-<p>권장 설정인 cloudflared를 선택한다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img07.webp" alt="img07" /></p>
-
-<p>서버에 cloudflared 설치하는 방법에 대한 가이드가 나온다.<br />
-안정적인 사용을 위해 repo를 등록하는게 좋다고 한다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img08.webp" alt="img08" /></p>
-
-<p>서비스까지 등록되면 systemd 에 cloudflared 가 active 상태인걸 확인할 수 있다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img09.webp" alt="img09" /></p>
-
-<p>연결 정책을 설정한다.<br />
-테스트 서브도메인을 설정하고 내부 톰캣 주소인 localhost:8080 과 매핑한다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img10.webp" alt="img10" /></p>
-
-<p>설정한 도메인으로 연결 시 클라우드플레어에서 제공해준 TLS 인증서와 함께 내부 톰캣에 접속 가능하다.<br />
-분명 방화벽에서 8080 포트를 열지 않았지만 터널을 통해 접근 가능하다.</p>
-
-<p><span style="color: red;"><strong>모든 것을 cloudflare에게 맡기기…</strong></span></p>
-
-<blockquote>
-  <h4 id="추가-보안-설정">추가 보안 설정</h4>
-  <hr />
-</blockquote>
-
-<p>제로 트러스트 대시보드에서 보안 설정을 확인해보니 Access 정책 설정이 가능했다.<br />
-<span style="color: orange;"><strong>Access &gt; 정책</strong></span> 메뉴에서 해당 호스트 접근에 대한 추가적인 정책을 걸어둔다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img11.webp" alt="img11" /></p>
-
-<p>도메인에 대하여 이메일 인증을 거치도록 설정했다.<br />
-포함, 제외, 필수 등 다양한 방식으로 설정이 가능하다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img12.webp" alt="img12" /></p>
-
-<p>도메인 접근 시 사진과 같이 이메일 OTP 인증 화면이 나온다.<br />
-서비스 로그인 화면 이전에 cloudflare에서 자체적인 접근제어를 진행하는 것이다.<br />
-아주 훌륭하다.</p>
-
-<p>이것 외에 cloudflare 대시보드에서 <span style="color: orange;"><strong>보안 &gt; 보안 규칙</strong></span> 탭에서 추가적인 규칙을 설정할 수 있다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img13.webp" alt="img13" /></p>
-
-<p>and or in not 등으로 규칙을 설정할 수 있는데<br />
-로컬 그룹 IP를 제외한 나머지에게 관리 챌린지를 걸어두었다.</p>
-
-<p>관리 챌린지가 대체 무어냐?</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Setting Cloudflare Tunnel/img14.webp" alt="img14" /></p>
-
-<p>휴대폰으로 접속해보았다.<br />
-어디서 많이 본 인증화면이 나온다.</p>
-
-<p>그렇다! 이것이 관리 챌린지였다!</p>
-
-<blockquote>
-  <h4 id="꼬리말">꼬리말</h4>
-  <hr />
-</blockquote>
-
-<p>이게 어디까지가 무료인가?<br />
-그 범위를 파악하며 설정해야하다보니 골치가 아프다.</p>
-
-<p>그래도 무료치고 기능이 엄청나게 좋다.<br />
-이러니 다들 클라우드플레어 쓰지.</p>
-
-<p>굳이 단점을 찾아보자면</p>
-<ul>
-  <li><span style="color: orange;"><strong>모든 트래픽이 cloudflare를 경유</strong></span>해서 cloudflare가 터지면 같이 터짐</li>
-  <li>cloudflare가 트래픽 내용을 볼 수 있어서 <span style="color: orange;"><strong>프라이버시</strong></span> 우려가 있음</li>
-  <li>cloudflare 계정이나 정책에 이슈가 생기면 접근이 안되기 때문에 백도어 마련 필요</li>
-  <li>대규모 업/다운로드 시 무료 플랜에서 힘들거나 속도 저하가 생길 수 있음</li>
-</ul>
-
-<p>이 정둔가?<br />
-아직은 제대로 사용도 안해봤기 때문에 단점을 제대로 느끼려면 롱텀으로 사용해봐야 알 것 같다.</p>
-
-<p>이제 무슨 서비스를 올려볼지 고민해야지.</p>
+<p>github pages DNS 설정부는 계속 DNS 체크 실패로 뜨고 HTTPS 강제가 불가능할 것이다.<br />
+이대로 둔다고 해도 큰 문제는 안생기니 신경쓰지말고 냅두는 걸로</p>
 
           
         </section>
@@ -1818,7 +1734,7 @@ http 8080 기본 포트 하나만 설정했다.</p>
           
           
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-09-16">September 16, 2025</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-12-16">December 16, 2025</time></p>
 
 
         </footer>
@@ -1833,9 +1749,9 @@ http 8080 기본 포트 하나만 설정했다.</p>
     // 별도 js로 post data 넘겨주기만
     window.postData = {
       currentPost: {
-        title: "Cloudflare Tunnel 설정",
-        url: "/server/2025/09/16/Setting-Cloudflare-Tunnel.html",
-        date: "2025-09-16",
+        title: "SSL 인증서 오류 해결",
+        url: "/server/2025/12/16/Fixing-SSL-Cert-Error.html",
+        date: "2025-12-16",
         categories: ["Server/"]
       },
       allPosts: [

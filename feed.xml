@@ -1,4 +1,71 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-11-11T04:51:04+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">시스템 장애 복구 - docker와 traefik</title><link href="https://movingwoo.com/server/2025/11/11/Traefik-Failover.html" rel="alternate" type="text/html" title="시스템 장애 복구 - docker와 traefik" /><published>2025-11-11T02:00:00+00:00</published><updated>2025-11-11T02:00:00+00:00</updated><id>https://movingwoo.com/server/2025/11/11/Traefik%20Failover</id><content type="html" xml:base="https://movingwoo.com/server/2025/11/11/Traefik-Failover.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2025-12-16T02:12:51+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">SSL 인증서 오류 해결</title><link href="https://movingwoo.com/server/2025/12/16/Fixing-SSL-Cert-Error.html" rel="alternate" type="text/html" title="SSL 인증서 오류 해결" /><published>2025-12-16T02:00:00+00:00</published><updated>2025-12-16T02:00:00+00:00</updated><id>https://movingwoo.com/server/2025/12/16/Fixing%20SSL%20Cert%20Error</id><content type="html" xml:base="https://movingwoo.com/server/2025/12/16/Fixing-SSL-Cert-Error.html"><![CDATA[<blockquote>
+  <h4 id="상황">상황</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img01.webp" alt="img01" /></p>
+
+<p>오 맙소사 이게 뭐야<br />
+<span style="color: red;"><strong>Invalid SSL certificate</strong></span></p>
+
+<p>뭔가 SSL 인증서 갱신이 제대로 이루어지지 않았나 보다.</p>
+
+<blockquote>
+  <h4 id="원인-분석">원인 분석</h4>
+  <hr />
+</blockquote>
+
+<p>현재 SSL 인증서 발급 및 적용은 클라우드플레어에서 처리 중이다.<br />
+대시보드를 확인해본다.</p>
+
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img02.webp" alt="img02" /></p>
+
+<p>2월 11일까지 3개월짜리 인증서가 정상적으로 적용되어있다.<br />
+오류 사진에서도 클라이언트와 클라우드플레어 간 통신은 정상이다.</p>
+
+<p>이러면 호스트 쪽을 봐야하는데…<br />
+github pages를 사용하고 있으므로 github에 들어가 인증서 쪽을 확인해보자.</p>
+
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img03.webp" alt="img03" /></p>
+
+<p>DNS 검증이 되지 않고 있다.<br />
+이게 원래는 됐었는데…</p>
+
+<p>곰곰히 생각해보니 github pages TLS 적용을 최초에 진행했고<br />
+나중에 cloudflare가 붙었다.<br />
+아마 cloudflare가 붙으면서 그때부터 TLS 검증이 이루어지지 않은 것 같다.</p>
+
+<p>대충 원인은 github으로 붙을때 HTTPS로 붙지 못해 발생한 것 같은데
+민감 데이터도 없고 cloudflare 뒤의 백본이라 HTTP 통신만 이뤄져도 되는데 왜 SSL 오류가 떠버리지?</p>
+
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img04.webp" alt="img04" /></p>
+
+<p>결국 이 놈이 원인이었다.<br />
+현재 암호화모드가 <span style="color: orange;"><strong>전체</strong></span>로 되어있는데<br />
+이 모드에서는 cloudflare와 github pages 간의 암호화 통신이 이루어져야한다.</p>
+
+<p>그런데 github 인증서가 만료되면서 도메인으로 Let’s Encrypt 인증서를 재발급하려 시도를 하였고<br />
+이때 cloudflare 프록시에 걸리면서 인증서 재발급이 실패<br />
+cloudflare는 인증서가 유효하지 않으니 호스트 통신 시 SSL 오류를 뱉은 것이다.</p>
+
+<blockquote>
+  <h4 id="조치">조치</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/Server/2025-12-16-Fixing SSL Cert Error/img05.webp" alt="img05" /></p>
+
+<p>간단하게 암호화 모드를 <span style="color: orange;"><strong>가변</strong></span>으로 변경해준다.<br />
+이렇게 되면 클라이언트와 클라우드플레어 암호화 통신은 유지하되<br />
+클라우드플레어와 깃헙 간 통신은 평문 통신을 허용한다.</p>
+
+<p>훔쳐갈 정보 자체가 없고 앞단에 클라우드플레어가 있기 때문에 보안상 문제는 크게 없다.</p>
+
+<p>궁극적으로는 프록시를 타지 않게 해두고 github pages 인증서를 갱신 하는게 좋겠지만<br />
+당장 그렇게까지 할 필요성을 못느끼겠다.</p>
+
+<p>github pages DNS 설정부는 계속 DNS 체크 실패로 뜨고 HTTPS 강제가 불가능할 것이다.<br />
+이대로 둔다고 해도 큰 문제는 안생기니 신경쓰지말고 냅두는 걸로</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="CLOUDFLARE" /><category term="GITHUB" /><category term="장애" /><category term="복구" /><category term="SSL" /><summary type="html"><![CDATA[Cloudflare SSL 인증서 오류 해결]]></summary></entry><entry><title type="html">시스템 장애 복구 - docker와 traefik</title><link href="https://movingwoo.com/server/2025/11/11/Traefik-Failover.html" rel="alternate" type="text/html" title="시스템 장애 복구 - docker와 traefik" /><published>2025-11-11T02:00:00+00:00</published><updated>2025-11-11T02:00:00+00:00</updated><id>https://movingwoo.com/server/2025/11/11/Traefik%20Failover</id><content type="html" xml:base="https://movingwoo.com/server/2025/11/11/Traefik-Failover.html"><![CDATA[<blockquote>
   <h4 id="상황">상황</h4>
   <hr />
 </blockquote>
@@ -1808,116 +1875,4 @@ else
   <hr />
 </blockquote>
 
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/Development/ShellScript/2025-08-04-Install%20MariaDB.sh">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/ShellScript/" /><category term="SHELL" /><category term="마리아디비 설치" /><summary type="html"><![CDATA[마리아디비 설치 스크립트 개발]]></summary></entry><entry><title type="html">9548번 무제</title><link href="https://movingwoo.com/boj/c++/2025/07/07/9548.html" rel="alternate" type="text/html" title="9548번 무제" /><published>2025-07-07T06:00:00+00:00</published><updated>2025-07-07T06:00:00+00:00</updated><id>https://movingwoo.com/boj/c++/2025/07/07/9548</id><content type="html" xml:base="https://movingwoo.com/boj/c++/2025/07/07/9548.html"><![CDATA[<blockquote>
-  <h4 id="이왜틀">이왜틀?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/C++/2025-07-07-9548/img01.webp" alt="img01" /></p>
-
-<p><a href="https://www.acmicpc.net/problem/9548">9548번 무제 - 백준</a></p>
-
-<p>아… 진짜 풀기 싫게 생긴 문제인데<br />
-왜 이런 문제에 손을 대서 틀려놔가지고…<br />
-코드 볼 필요는 없을 것 같고 천천히 풀어보자.</p>
-
-<blockquote>
-  <h4 id="설계">설계</h4>
-  <hr />
-</blockquote>
-
-<p>I 는 X 에 R 을 삽입한다.<br />
-P는 X 부터 Y 까지 출력한다.</p>
-
-<p>여기까지는 단순한데 문제 제한시간이 10초인거 보면 입력량이 보통이 아닐 것이다.</p>
-
-<p><span style="color: orange;"><strong>문자열을 트리처럼 관리하는 Rope</strong></span>라는 자료구조가 있다고 한다.<br />
-문제 분류도 Rope로 되어있고 그걸 공부해야 할 것 같은데…<br />
-개념을 이해하는 것과 구현은 또 다른 문제.</p>
-
-<blockquote>
-  <h4 id="구현">구현</h4>
-  <hr />
-</blockquote>
-
-<p>처음부터 구현하는데 와 머리가 너무 아파서 때려치고 싶던 차<br />
-GNU 확장 STL로 rope가 있다는 것을 알게 되었다.<br />
-GCC 기반이면 된다고 하는데 BOJ가 요녀석을 소화할 수 있을까?</p>
-
-<p>헤더는 다음과 같이 사용한다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ext/rope&gt;</span><span class="cp">
-</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">__gnu_cxx</span><span class="p">;</span>
-</code></pre></div></div>
-
-<p>이제 <span style="color: orange;"><strong>__gnu_cxx::rope</strong></span>를 사용할 수 있다.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-
-    <span class="kt">int</span> <span class="n">T</span><span class="p">;</span>
-    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">T</span><span class="p">;</span>
-    <span class="n">cin</span><span class="p">.</span><span class="n">ignore</span><span class="p">();</span>
-
-    <span class="k">while</span> <span class="p">(</span><span class="n">T</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">string</span> <span class="n">s</span><span class="p">;</span>
-        <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
-
-        <span class="c1">// rope</span>
-        <span class="n">rope</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">rope</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
-
-        <span class="n">string</span> <span class="n">line</span><span class="p">;</span>
-        <span class="k">while</span> <span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">line</span><span class="p">))</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">line</span> <span class="o">==</span> <span class="s">"END"</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
-
-            <span class="n">stringstream</span> <span class="n">ss</span><span class="p">(</span><span class="n">line</span><span class="p">);</span>
-            <span class="n">string</span> <span class="n">query</span><span class="p">;</span>
-            <span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">query</span><span class="p">;</span>
-
-            <span class="k">if</span> <span class="p">(</span><span class="n">query</span> <span class="o">==</span> <span class="s">"I"</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// insert</span>
-                <span class="n">string</span> <span class="n">x</span><span class="p">;</span>
-                <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
-                <span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">y</span><span class="p">;</span>
-                <span class="n">rope</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">query</span> <span class="o">==</span> <span class="s">"P"</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// print</span>
-                <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
-                <span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">y</span><span class="p">;</span>
-                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">rope</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-                <span class="p">}</span>
-                <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="채점">채점</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/BOJ/C++/2025-07-07-9548/img02.webp" alt="img02" /></p>
-
-<p>이게 되네</p>
-
-<blockquote>
-  <h4 id="반성">반성</h4>
-  <hr />
-</blockquote>
-
-<p>정말 뇌가 녹아내리는 줄<br />
-며칠 더 시간 투자했으면 직접 구현 가능했을 것 같긴 한데<br />
-간단하게 넘어가는게 좋지… 좋은게 좋지</p>
-
-<blockquote>
-  <h4 id="코드-확인">코드 확인</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/BOJ/C%2B%2B/2025-07-07-9548.cpp">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="BOJ/C++/" /><category term="C++" /><category term="알고리즘" /><category term="백준" /><category term="9548" /><category term="무제" /><category term="로프" /><summary type="html"><![CDATA[백준 9548번 무제 C++ 문제풀이]]></summary></entry></feed>
+<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/Development/ShellScript/2025-08-04-Install%20MariaDB.sh">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/ShellScript/" /><category term="SHELL" /><category term="마리아디비 설치" /><summary type="html"><![CDATA[마리아디비 설치 스크립트 개발]]></summary></entry></feed>

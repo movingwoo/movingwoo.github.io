@@ -544,4 +544,10 @@ var store = [{
         "tags": ["SERVER","ubuntu","장애","복구","traefik","docker"],
         "url": "/server/2025/11/11/Traefik-Failover.html",
         "teaser": null
+      },{
+        "title": "SSL 인증서 오류 해결",
+        "excerpt":"상황 오 맙소사 이게 뭐야 Invalid SSL certificate 뭔가 SSL 인증서 갱신이 제대로 이루어지지 않았나 보다. 원인 분석 현재 SSL 인증서 발급 및 적용은 클라우드플레어에서 처리 중이다. 대시보드를 확인해본다. 2월 11일까지 3개월짜리 인증서가 정상적으로 적용되어있다. 오류 사진에서도 클라이언트와 클라우드플레어 간 통신은 정상이다. 이러면 호스트 쪽을 봐야하는데… github pages를 사용하고 있으므로...","categories": ["Server/"],
+        "tags": ["SERVER","CLOUDFLARE","GITHUB","장애","복구","SSL"],
+        "url": "/server/2025/12/16/Fixing-SSL-Cert-Error.html",
+        "teaser": null
       }]
