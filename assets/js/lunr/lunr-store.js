@@ -550,4 +550,10 @@ var store = [{
         "tags": ["SERVER","CLOUDFLARE","GITHUB","장애","복구","SSL"],
         "url": "/server/2025/12/16/Fixing-SSL-Cert-Error.html",
         "teaser": null
+      },{
+        "title": "모아키 for iOS 구현",
+        "excerpt":"개요 어느샌가 누구나 바이브 코딩을 하고 있다. 컴퓨터 1도 몰라도 뭔가 뚝딱뚝딱 개발을 한다. 바이브 코더도 코더인가? 그딴건 모르겠고 좋은 건 나도 하고 싶다. 일단 난 앱 개발을 잘 모르기 때문에 앱개발을 AI에게 시켜보자. 무슨 앱을 만들고 싶냐하면 나는 모아키를 만들고 싶다. 모아키는 안드로이드에서 오래전에 출시된 키보드인데 자음을 밀어서 모음을...","categories": ["Development/VibeCoding/"],
+        "tags": ["바이브코딩","CLAUDE","iOS","모아키"],
+        "url": "/development/vibecoding/2026/06/15/Moakey-for-iOS.html",
+        "teaser": null
       }]
