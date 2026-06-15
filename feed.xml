@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-06-15T09:55:07+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">모아키 for iOS 구현</title><link href="https://movingwoo.com/development/vibecoding/2026/06/15/Moakey-for-iOS.html" rel="alternate" type="text/html" title="모아키 for iOS 구현" /><published>2026-06-15T08:00:00+00:00</published><updated>2026-06-15T08:00:00+00:00</updated><id>https://movingwoo.com/development/vibecoding/2026/06/15/Moakey%20for%20iOS</id><content type="html" xml:base="https://movingwoo.com/development/vibecoding/2026/06/15/Moakey-for-iOS.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-06-15T09:59:10+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">모아키 for iOS 구현</title><link href="https://movingwoo.com/development/vibecoding/2026/06/15/Moakey-for-iOS.html" rel="alternate" type="text/html" title="모아키 for iOS 구현" /><published>2026-06-15T08:00:00+00:00</published><updated>2026-06-15T08:00:00+00:00</updated><id>https://movingwoo.com/development/vibecoding/2026/06/15/Moakey%20for%20iOS</id><content type="html" xml:base="https://movingwoo.com/development/vibecoding/2026/06/15/Moakey-for-iOS.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -66,7 +66,7 @@
 
 <h5 id="2-부모-프로젝트-탐색">2. 부모 프로젝트 탐색</h5>
 
-<p>클로드코드는 토큰 빨아먹는 양이 어마어마하다.<br />
+<p>클로드코드는 토큰 빨아먹는 양이 어마어마하다고 들었다.<br />
 맨땅에 ‘해줘’ 해도 해주겠지만 참조할만한 부모 프로젝트를 찾아보자.</p>
 
 <p><a href="https://github.com/vkehfdl1/ios-moaki">ios-moaki</a></p>
@@ -124,16 +124,20 @@
 <ul>
   <li>7일 후 새로 빌드를 하는 방법</li>
   <li>altstore 또는 sidestore 로 인증을 자동화 하는 방법</li>
-  <li>애플 개발자 등록 하는 방법 (무려 99달러를 요구한다!!)<br />
-이렇게 세가지 방법이 있다.<br />
-우선 7일동안 사용해보고 어떻게 할지 고민해봐야겠다.</li>
+  <li>애플 개발자 등록 하는 방법 (무려 99달러를 요구한다!!)</li>
 </ul>
+
+<p>이렇게 세가지 방법이 있다.<br />
+우선 7일동안 사용해보고 어떻게 할지 고민해봐야겠다.</p>
 
 <p>마지막으로 요즘 IT회사들이 신입 안뽑는 이유를 알게 되었다.<br />
 진짜 신입 데려와서 교육하는 것 보다 일 좀 치는 사람에 AI 붙여주는게 효율이 훨씬 좋아보인다.<br />
 내 노후가 걱정이 된다.</p>
 
 <p>맥북에 아직 덜 익숙한데 좀 익숙해지면 AI와 함께 재밌는 바이브 코딩의 세계로 빠져야겠다.</p>
+
+<p>그런데 이거 맥북에서 사진 편집 후 업로드 하니 사진 폭이 가득가득 화면을 채운다.<br />
+이것도 어떻게 조절할 방법을 찾아봐야겠다.</p>
 
 <blockquote>
   <h4 id="링크를-남기려-했는데">링크를 남기려 했는데</h4>
