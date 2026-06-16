@@ -556,4 +556,10 @@ var store = [{
         "tags": ["바이브코딩","CLAUDE","iOS","모아키"],
         "url": "/development/vibecoding/2026/06/15/Moakey-for-iOS.html",
         "teaser": null
+      },{
+        "title": "AltStore 활용 앱 자동 갱신",
+        "excerpt":"개요 연회비를 내고 애플 개발자 등록을 하지 않는 경우 내가 만든 앱은 7일 밖에 지속되지 않는다. 이 얼마나 폐쇄적인 환경이란 말인가? 돈내고 1년 유지하는게 편하겠지만 개인 프로젝트 단위에서 생돈 지출이 너무 아깝다. 때문에 AltStore를 이용하여 앱 수명을 자동 연장해주도록 구성한다. 진행 1. 설치 AltStore 우선 맥에 AltStore 공식 홈페이지에서 AltServer를...","categories": ["Server/"],
+        "tags": ["SERVER","IOS","ALTSTORE"],
+        "url": "/server/2026/06/16/Setting-Altstore.html",
+        "teaser": null
       }]
