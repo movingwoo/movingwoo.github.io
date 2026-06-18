@@ -168,7 +168,14 @@ document.addEventListener('DOMContentLoaded', function () {
     filteredItems.forEach(item => {
       const titleElement = item.querySelector('.board-title');
       const icon = titleElement.querySelector('i');
-      const originalText = titleElement.textContent.replace(icon.textContent, '').trim();
+      if (!icon) return;
+
+      // Font Awesome 아이콘은 textContent가 항상 빈 문자열이므로
+      // replace로 제거할 수 없음 → 클론에서 아이콘 노드를 직접 제거해 텍스트만 추출
+      const titleClone = titleElement.cloneNode(true);
+      const iconInClone = titleClone.querySelector('i');
+      iconInClone.remove();
+      const originalText = titleClone.textContent.trim();
       
       // 기존 내용 비우기
       titleElement.textContent = '';
