@@ -11,6 +11,9 @@
   // DOM 초기화 후 한 번만 탐색
   let allTocItems = [];
 
+  // 요소별로 예약된(아직 실행되지 않은) 애니메이션 setTimeout을 추적
+  const pendingAnimations = new Map();
+
   /**
    * 세션 스토리지 관련 함수
    */
@@ -88,10 +91,18 @@
 
   // 요소 애니메이션 처리
   function animateElement(element, show, delay = 0) {
+    // 같은 요소에 대해 이전에 예약된 애니메이션이 있다면 취소 (꼬임/누수 방지)
+    if (pendingAnimations.has(element)) {
+      clearTimeout(pendingAnimations.get(element));
+      pendingAnimations.delete(element);
+    }
+
     if (show) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         element.classList.remove('anim-hide');
+        pendingAnimations.delete(element);
       }, delay);
+      pendingAnimations.set(element, timeoutId);
     } else {
       element.classList.add('anim-hide');
     }
