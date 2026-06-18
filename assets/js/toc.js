@@ -8,6 +8,9 @@
   // 현재 열린 depth-0 폴더의 경로를 저장
   let currentOpenRootPath = null;
 
+  // DOM 초기화 후 한 번만 탐색
+  let allTocItems = [];
+
   /**
    * 세션 스토리지 관련 함수
    */
@@ -22,8 +25,18 @@
   }
 
   function restoreTocStates() {
+    // 현재 보고 있는 포스트의 카테고리가 있으면 세션스토리지보다 우선해서 해당 폴더를 엶
+    if (window.currentPageCategory) {
+      const rootPath = window.currentPageCategory.split('/')[0] + '/';
+      currentOpenRootPath = rootPath;
+      openFolder(rootPath);
+      updateAllPostCounts(rootPath);
+      saveTocStates();
+      return;
+    }
+
     const savedPath = sessionStorage.getItem(STORAGE_KEY);
-    
+
     if (!savedPath) {
       // 세션스토리지가 비어있으면 기본 설정 카테고리 열기
       //const defaultPath = 'Development/'; 
@@ -88,11 +101,10 @@
    * 폴더 열기/닫기 함수
    */
   function openFolder(path) {
-    const allItems = document.querySelectorAll('.toc__item');
     let delay = 0;
-    
+
     // path로 시작하는 모든 항목을 열린 상태로 설정
-    allItems.forEach(item => {
+    allTocItems.forEach(item => {
       const itemPath = item.getAttribute('data-path');
       if (itemPath.startsWith(path)) {
         setFolderState(item, true);
@@ -110,11 +122,10 @@
   }
 
   function closeFolder(path) {
-    const allItems = document.querySelectorAll('.toc__item');
     let delay = 0;
-    
+
     // path로 시작하는 모든 항목을 닫힌 상태로 설정
-    allItems.forEach(item => {
+    allTocItems.forEach(item => {
       const itemPath = item.getAttribute('data-path');
       if (itemPath.startsWith(path)) {
         if (itemPath !== path) {
@@ -149,8 +160,7 @@
 
     // depth-0이고 닫힌 상태일 때는 하위 포스트 수를 합산
     if (isRootItem && isCollapsed) {
-      const allItems = document.querySelectorAll('.toc__item');
-      allItems.forEach(item => {
+      allTocItems.forEach(item => {
         const itemPath = item.getAttribute('data-path');
         if (itemPath && itemPath.startsWith(path) && itemPath !== path) {
           const subPosts = parseInt(item.getAttribute('data-total-posts') || '0');
@@ -169,8 +179,7 @@
   }
 
   function updateAllPostCounts(openedPath = null) {
-    const allItems = document.querySelectorAll('.toc__item');
-    allItems.forEach(item => {
+    allTocItems.forEach(item => {
       const itemPath = item.getAttribute('data-path');
       const isCollapsed = item.classList.contains('collapsed');
       
@@ -227,7 +236,7 @@
 
   function initializeAllItems() {
     // 모든 항목을 닫힌 상태로 초기화
-    document.querySelectorAll('.toc__item').forEach(item => {
+    allTocItems.forEach(item => {
       setFolderState(item, false);
     });
     updateAllPostCounts();
@@ -237,6 +246,7 @@
    * 초기화 및 이벤트 설정
    */
   const initialize = () => {
+    allTocItems = Array.from(document.querySelectorAll('.toc__item'));
     initFolderToggle();
     initializeAllItems();
     restoreTocStates();

@@ -124,4 +124,7 @@
 </aside>
 
 <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+{% if page.categories %}
+<script>window.currentPageCategory = {{ page.categories | first | jsonify }};</script>
+{% endif %}
 <script src="{{ '/assets/js/toc.js' | relative_url }}"></script> 
