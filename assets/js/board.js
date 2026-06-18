@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
+  const boardList = document.querySelector('.board-list');
+  const pagination = document.querySelector('.pagination');
+  if (!boardList || !pagination) return;
+
   const urlParams = new URLSearchParams(window.location.search);
   const path = urlParams.get('path') ? (urlParams.get('path').endsWith('/') ? urlParams.get('path') : urlParams.get('path') + '/') : '';
   const search = urlParams.get('search') || '';
   const currentPage = parseInt(urlParams.get('page')) || 1;
   const postsPerPage = 15;
-  
+
   // 게시글 필터링 및 페이징
   const boardItems = document.querySelectorAll('.board-item:not(.no-data)');
   
@@ -31,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!isValidPath) {
       // board DOM 모두 제거
-      const boardList = document.querySelector('.board-list');
       while (boardList.firstChild) {
         boardList.removeChild(boardList.firstChild);
       }
@@ -52,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
       boardList.appendChild(noDataDiv);
       
       // 페이징 제거
-      const pagination = document.querySelector('.pagination');
       while (pagination.firstChild) {
         pagination.removeChild(pagination.firstChild);
       }
@@ -124,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
     contentDiv.appendChild(dateSpan);
     
     parentItem.appendChild(contentDiv);
-    document.querySelector('.board-list').insertBefore(parentItem, boardItems[0]);
+    boardList.insertBefore(parentItem, boardItems[0]);
   }
 
   // 하위 폴더 항목 추가 (검색 중이 아닐 때만)
@@ -156,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
       contentDiv.appendChild(dateSpan);
       
       folderItem.appendChild(contentDiv);
-      document.querySelector('.board-list').insertBefore(folderItem, boardItems[0]);
+      boardList.insertBefore(folderItem, boardItems[0]);
     });
   }
 
@@ -211,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function () {
     noDataItem.style.display = filteredItems.length === 0 ? 'block' : 'none';
   } else if (filteredItems.length === 0) {
     // No Data 메시지가 없고 필터링된 항목이 없을 때 메시지 생성
-    const boardList = document.querySelector('.board-list');
     const noDataDiv = document.createElement('div');
     noDataDiv.className = 'board-item no-data';
     
@@ -233,7 +234,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // 페이징 UI 생성
-  const pagination = document.querySelector('.pagination');
   while (pagination.firstChild) {
     pagination.removeChild(pagination.firstChild);
   }
