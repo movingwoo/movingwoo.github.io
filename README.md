@@ -1,6 +1,6 @@
 # movingwoo.com
 
-> Powered by [Jekyll](https://jekyllrb.com/), enhanced with [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), supported by [Giscus](https://giscus.app/), and assisted by [Cursor AI](https://www.cursor.so/).
+> Powered by [Jekyll](https://jekyllrb.com/), enhanced with [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), supported by [Giscus](https://giscus.app/), and assisted by [Cursor AI](https://www.cursor.so/) and [Claude Code](https://code.claude.com/docs/ko/overview).
 >  
 > Theme customized from [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) by Michael Rose (MIT License).
 >   
