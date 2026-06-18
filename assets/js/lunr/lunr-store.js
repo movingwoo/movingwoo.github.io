@@ -562,4 +562,10 @@ var store = [{
         "tags": ["SERVER","IOS","ALTSTORE"],
         "url": "/server/2026/06/16/Setting-Altstore.html",
         "teaser": null
+      },{
+        "title": "TailScale 최초 구성",
+        "excerpt":"개요 집에 맥북을 시즈모드 박아두고 원격으로 컨트롤을 하려고 한다. 이게 과거에 무료 원격 툴 좋은게 참 많았다. TeamViewer, AnyDesk 같은 무료 솔루션이 좋았는데 이것들 유지가 빡센지 어느샌가 유료 솔루션이 되어있다. 때문에 오픈소스인 RustDesk를 이용해보려한다. 이런저런 문제로 인하여 탈중앙화를 꾀하고 있는데 문제에 대해서는 RustDesk 구성 시 포스트에서 논하기로 하자. 이전에 CloudFlare...","categories": ["Server/Service/"],
+        "tags": ["SERVER","SERVICE","TAILSCALE"],
+        "url": "/server/service/2026/06/18/Setting-TailScale.html",
+        "teaser": null
       }]
