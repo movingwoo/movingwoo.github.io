@@ -568,4 +568,10 @@ var store = [{
         "tags": ["SERVER","SERVICE","TAILSCALE"],
         "url": "/server/service/2026/06/18/Setting-TailScale.html",
         "teaser": null
+      },{
+        "title": "RustDesk 자체 구축",
+        "excerpt":"개요 윈도우끼리 원격은 뭐 방법 많은데 윈도우에서 맥을 원격하려고 하면 좀 복잡해진다. 무료로 제일 쉬운 대책은 Chrome Remote Desktop인데 이거 성능 진짜 좋지 않다. 좀 키 잘 먹히고 기능 좋은건 TeamViewer나 AnyDesk 이런게 있는데 예전엔 무료였는데 지금은 무료로 사용하긴 어렵다. RustDesk 찾아보니 최근엔 RustDesk가 괜찮다는 말을 들었다. 러스트데스크의 가장 큰...","categories": ["Server/Service/"],
+        "tags": ["SERVER","SERVICE","RUSTDESK","DOCKER"],
+        "url": "/server/service/2026/06/18/Install-RustDesk.html",
+        "teaser": null
       }]

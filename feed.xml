@@ -1,4 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-06-18T02:24:24+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">TailScale 최초 구성</title><link href="https://movingwoo.com/server/service/2026/06/18/Setting-TailScale.html" rel="alternate" type="text/html" title="TailScale 최초 구성" /><published>2026-06-18T01:00:00+00:00</published><updated>2026-06-18T01:00:00+00:00</updated><id>https://movingwoo.com/server/service/2026/06/18/Setting%20TailScale</id><content type="html" xml:base="https://movingwoo.com/server/service/2026/06/18/Setting-TailScale.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-06-18T05:39:32+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">RustDesk 자체 구축</title><link href="https://movingwoo.com/server/service/2026/06/18/Install-RustDesk.html" rel="alternate" type="text/html" title="RustDesk 자체 구축" /><published>2026-06-18T05:00:00+00:00</published><updated>2026-06-18T05:00:00+00:00</updated><id>https://movingwoo.com/server/service/2026/06/18/Install%20RustDesk</id><content type="html" xml:base="https://movingwoo.com/server/service/2026/06/18/Install-RustDesk.html"><![CDATA[<blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p>윈도우끼리 원격은 뭐 방법 많은데<br />
+윈도우에서 맥을 원격하려고 하면 좀 복잡해진다.</p>
+
+<p>무료로 제일 쉬운 대책은 Chrome Remote Desktop인데<br />
+이거 성능 진짜 좋지 않다.<br />
+좀 키 잘 먹히고 기능 좋은건 TeamViewer나 AnyDesk 이런게 있는데<br />
+예전엔 무료였는데 지금은 무료로 사용하긴 어렵다.</p>
+
+<p><a href="https://rustdesk.com/">RustDesk</a></p>
+
+<p><img src="/assets/images/posts/Server/Service/2026-06-18-Install RustDesk/img01.webp" alt="img01" width="80%" /></p>
+
+<p>찾아보니 최근엔 <span style="color: orange;"><strong>RustDesk</strong></span>가 괜찮다는 말을 들었다.<br />
+러스트데스크의 가장 큰 특징은 오픈소스라는 것이다.<br />
+언젠가 수틀려서 유료전환이 이루어진다해도 공개된 소스가 있기 때문에 안심이다.</p>
+
+<p>그런 연유로 시험삼아 러스트데스크를 단순 인스톨하여 사용해보았다.<br />
+기능은 만족스러우나 구린 노트북에서 원격을 하려니 속도가 좀 시원찮더라…<br />
+중앙 서버를 거치면서 속도 손실이 일어나는 것이라 판단해 직접 구축을 해본다.<br />
+겸사겸사 자가 호스팅을 통해 데이터 유출 우려도 줄어든다.</p>
+
+<blockquote>
+  <h4 id="구축">구축</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://hub.docker.com/r/rustdesk/rustdesk-server">rustdesk-server - docker hub</a></p>
+
+<p>공식 도커이미지를 찾았다.<br />
+그냥 대충 최신 이미지로 받으면 되려나?</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull rustdesk/rustdesk-server:latest
+</code></pre></div></div>
+
+<p>이제 docker-compose.yml을 작성한다.<br />
+<span style="color: orange;"><strong>hbbs</strong></span>와 <span style="color: orange;"><strong>hbbr</strong></span> 2개를 작성해야하는데<br />
+hbbs는 브로커, hbbr은 릴레이 서버이다.<br />
+정상적인 원격 제어를 위해선 두개가 구동되어야 한다.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">networks</span><span class="pi">:</span>
+  <span class="na">rustdesk_net</span><span class="pi">:</span>
+    <span class="na">external</span><span class="pi">:</span> <span class="kc">false</span>
+
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">hbbs</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">rustdesk/rustdesk-server:latest</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">rustdesk_net</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">hbbr</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s">hbbs -r {IP}:21117</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">21115:21115</span>
+      <span class="pi">-</span> <span class="s">21116:21116</span>
+      <span class="pi">-</span> <span class="s">21116:21116/udp</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">/app/rustdesk/data:/root</span>
+
+  <span class="na">hbbr</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">rustdesk/rustdesk-server:latest</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">rustdesk_net</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s">hbbr</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">21117:21117</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">/app/rustdesk/data:/root</span>
+</code></pre></div></div>
+
+<p>전면에 웹서버를 두지 않고 테일스케일 vpn 그룹 내에서 전용 앱으로만 접속할 생각이다.<br />
+때문에 웹 클라이언트용 포트 21118, 21119 2개는 매핑하지 않았다.</p>
+
+<p>대기상태 메모리를 많이 먹지도 않고<br />
+중계할때 데이터를 바로바로 통과시키므로 별도로 메모리 설정은 생략한다.</p>
+
+<p>완료했으면 <span style="color: orange;"><strong>docker compose up -d</strong></span> 명령어로 기동한다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2026-06-18-Install RustDesk/img02.webp" alt="img02" width="40%" /></p>
+
+<p>기동하면 볼륨 설정한 data 폴더에 키 파일이 생성된다.<br />
+공개키 파일인 <span style="color: orange;"><strong>id_ed25519.pub</strong></span> 내용을 복사해둔다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2026-06-18-Install RustDesk/img03.webp" alt="img03" width="50%" /></p>
+
+<p>rustdesk 앱을 켜서 설정 &gt; 네트워크 &gt; ID/릴레이 서버에 들어간다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2026-06-18-Install RustDesk/img04.webp" alt="img04" width="60%" /></p>
+
+<p>기동한 서버 IP 작성하고 릴레이서버에는 포트 21117로 잡는다.<br />
+Key에 방금 복사한 공개키 내용을 붙여넣고 확인.</p>
+
+<p>원격지 PC에도 똑같이 설정하고 연결한다.</p>
+
+<p><img src="/assets/images/posts/Server/Service/2026-06-18-Install RustDesk/img05.webp" alt="img05" width="80%" /></p>
+
+<p><span style="color: orange;"><strong>성공!!!</strong></span><br />
+중앙서버를 통할때와 비교하면 속도가 차원이 다르고 아주 부드럽다.</p>
+
+<blockquote>
+  <h4 id="마무리">마무리</h4>
+  <hr />
+</blockquote>
+
+<p>앞서 말했듯 테일스케일 뒤에서 로컬 원격만 할거라 더 손댈 것은 없어보인다.</p>
+
+<p>하나 해보고 싶은 것은 클라이언트 앱 자체를 직접 빌드하는건데<br />
+오픈소스기 때문에 커스텀해서 온갖 짓을 다 해볼 수 있을거다.</p>
+
+<p>근데 굳이 꼭 할 필요는 없을 것 같기도 하고…<br />
+당장 내 환경만 Windows, Linux, Mac, iOS 4개인데 그걸 각각 만든다고?<br />
+정정한다.<br />
+굳이 꼭 할 필요 없는게 아니라 그냥 안하는게 맞다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/Service/" /><category term="SERVER" /><category term="SERVICE" /><category term="RUSTDESK" /><category term="DOCKER" /><summary type="html"><![CDATA[RustDesk 최초 자체 구축 및 구성]]></summary></entry><entry><title type="html">TailScale 최초 구성</title><link href="https://movingwoo.com/server/service/2026/06/18/Setting-TailScale.html" rel="alternate" type="text/html" title="TailScale 최초 구성" /><published>2026-06-18T01:00:00+00:00</published><updated>2026-06-18T01:00:00+00:00</updated><id>https://movingwoo.com/server/service/2026/06/18/Setting%20TailScale</id><content type="html" xml:base="https://movingwoo.com/server/service/2026/06/18/Setting-TailScale.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -1382,227 +1500,4 @@ keyData 제외하고 <span style="color: orange;"><strong>dsData 쪽만 입력</
 
 <p>이렇게 <span style="color: orange;"><strong>오렌지색 구름 모양</strong></span>으로 클라우드플레어 프록시를 거치는 경우 저 제한이 적용된다.<br />
 개인 서버라 큰 이슈는 없을 것 같은데 일단 사용해봐야 알 것 같다.<br />
-가늠이 잘 안가는데, 제한 때문에 문제생기면 프록시 풀거나 하면 되겠지.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="도메인" /><category term="네임서버" /><category term="CLOUDFLARE" /><summary type="html"><![CDATA[Cloudflare로 도메인 네임서버 변경]]></summary></entry><entry><title type="html">Traefik 구축, 설정</title><link href="https://movingwoo.com/server/web/2025/09/15/Setting-Traefik.html" rel="alternate" type="text/html" title="Traefik 구축, 설정" /><published>2025-09-15T06:00:00+00:00</published><updated>2025-09-15T06:00:00+00:00</updated><id>https://movingwoo.com/server/web/2025/09/15/Setting%20Traefik</id><content type="html" xml:base="https://movingwoo.com/server/web/2025/09/15/Setting-Traefik.html"><![CDATA[<blockquote>
-  <h4 id="머리말">머리말</h4>
-  <hr />
-</blockquote>
-
-<p>원래 이번 3호기 구축하며 cloudflare tunnel을 사용해볼 생각이었다.<br />
-포트를 열지 않고 보안을 cloudflare에 맡겨버리는게 상당히 매력적인 선택지다.</p>
-
-<p>보안 설정을 직접 해야한다면 상당히 피곤하지만 재미는 있다.<br />
-만약 cloudflare tunnel을 쓰지 않고 직접 포트 열고 웹서버를 구축해서 사용한다면?</p>
-
-<p>nginx 정도는 여러 번 사용해봤고, SSL 인증서 자동 갱신을 위해 acme-companion까지 사용해본 적 있다.<br />
-한 번 설정하면 다시는 손대기 싫은게 단점이었는데<br />
-<span style="color: orange;"><strong>traefik</strong></span>을 사용하면 더 적은 설정으로 HTTPS, 라우팅, 보안 미들웨어까지 해결해준다고 한다.</p>
-
-<p>경험삼아 traefik을 한 번 설정해보자.</p>
-
-<blockquote>
-  <h4 id="traefik이란">Traefik이란?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/Server/WEB/2025-09-15-Setting Traefik/img01.webp" alt="img01" /></p>
-
-<p>요 캐릭터는 많이 봤다.</p>
-
-<p>traefik은 <span style="color: orange;"><strong>레이블 기반 선언형 라우팅</strong></span>을 사용해서<br />
-각 서비스 컨테이너에 레이블만 달아주면 알아서 도메인 매핑, 경로 라우팅을 해준다.<br />
-traefik <span style="color: orange;"><strong>자체적으로 인증서 발급, 갱신</strong></span>을 해주기도 한다.<br />
-보안 미들웨어도 내장하고 있고, 로그 경로를 호스트에 마운트해서 fail2ban과 연계할 수도 있다.</p>
-
-<p>레이블만 대충 바꿔주면 된다는 점이 매력포인트다.<br />
-관리포인트는 적어질수록 좋다.</p>
-
-<p>대시보드도 제공하는데 별로 필요없어 보여서 대시보드는 제외하고 설정한다.<br />
-괜히 쓸데없는 노출이 늘어나는 것이기도 하다.<br />
-그냥 로그 보면 다 나오는데 뭔 대시보드야</p>
-
-<blockquote>
-  <h4 id="설정-및-기동">설정 및 기동</h4>
-  <hr />
-</blockquote>
-
-<h5 id="1-docker-composeyml">1. docker-compose.yml</h5>
-
-<p>도커로 올린다.<br />
-레이블 설정까지 정상적으로 먹히는지 확인하기 위해 빈 서비스로 tomcat 깡통을 하나 같이 올린다.</p>
-
-<p>fail2ban 적용을 위한 로그와 공통 설정파일을 밖으로 빼고<br />
-tomcat 에는 label만 잘 맞춰준다.</p>
-
-<p>ratelimit은 앞으로의 사용을 고려해 조절해야하는데<br />
-우선 테스트를 위해 일반적인 웹 요청에 적당한 값으로 세팅했다.</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">networks</span><span class="pi">:</span>
-  <span class="na">proxy</span><span class="pi">:</span>
-    <span class="na">external</span><span class="pi">:</span> <span class="kc">false</span>
-
-<span class="na">services</span><span class="pi">:</span>
-  <span class="na">traefik</span><span class="pi">:</span>
-    <span class="na">image</span><span class="pi">:</span> <span class="s">traefik:3.5.2</span>
-    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
-    <span class="na">networks</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">proxy</span><span class="pi">]</span>
-    <span class="na">ports</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s2">"</span><span class="s">80:80"</span>
-      <span class="pi">-</span> <span class="s2">"</span><span class="s">443:443"</span>
-    <span class="na">command</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">--entrypoints.web.address=:80</span>
-      <span class="pi">-</span> <span class="s">--entrypoints.websecure.address=:443</span>
-      <span class="pi">-</span> <span class="s">--entrypoints.web.http.redirections.entryPoint.to=websecure</span>
-      <span class="pi">-</span> <span class="s">--entrypoints.web.http.redirections.entryPoint.scheme=https</span>
-      <span class="pi">-</span> <span class="s">--providers.docker=true</span>                    <span class="c1"># 도커 레이블로 라우팅/미들웨어 정의</span>
-      <span class="pi">-</span> <span class="s">--providers.docker.exposedbydefault=false</span>  <span class="c1"># 레이블에 enable=true 있는 컨테이너만 공개</span>
-      <span class="pi">-</span> <span class="s">--providers.file.directory=/dynamic</span>
-      <span class="pi">-</span> <span class="s">--certificatesresolvers.le.acme.tlschallenge=true</span>
-      <span class="pi">-</span> <span class="s">--certificatesresolvers.le.acme.email=id@mail.com</span>
-      <span class="pi">-</span> <span class="s">--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json</span>
-      <span class="pi">-</span> <span class="s">--accesslog=true</span>
-      <span class="pi">-</span> <span class="s">--accesslog.filepath=/var/log/traefik/access.log</span>
-      <span class="pi">-</span> <span class="s">--log.level=INFO</span>
-    <span class="na">volumes</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">/var/run/docker.sock:/var/run/docker.sock:ro</span>
-      <span class="pi">-</span> <span class="s">./letsencrypt:/letsencrypt</span>
-      <span class="pi">-</span> <span class="s">./logs/traefik:/var/log/traefik</span>  <span class="c1"># fail2ban 위한 로그</span>
-      <span class="pi">-</span> <span class="s">./dynamic:/dynamic:ro</span> 
-    <span class="na">security_opt</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">no-new-privileges:true</span>
-    <span class="na">labels</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">traefik.enable=true</span>
-      <span class="pi">-</span> <span class="s">traefik.http.middlewares.sec-headers.headers.stsSeconds=300</span>               <span class="c1"># HSTS 테스트용 5분</span>
-      <span class="pi">-</span> <span class="s">traefik.http.middlewares.sec-headers.headers.stsIncludeSubdomains=true</span>
-      <span class="pi">-</span> <span class="s">traefik.http.middlewares.sec-headers.headers.stsPreload=true</span>
-      <span class="pi">-</span> <span class="s">traefik.http.middlewares.sec-headers.headers.contentTypeNosniff=true</span>
-      <span class="pi">-</span> <span class="s">traefik.http.middlewares.sec-headers.headers.frameDeny=true</span>
-      <span class="pi">-</span> <span class="s">traefik.http.middlewares.ratelimit.ratelimit.average=20</span>  <span class="c1"># 초당 평균 허용 요청수</span>
-      <span class="pi">-</span> <span class="s">traefik.http.middlewares.ratelimit.ratelimit.burst=40</span>    <span class="c1"># 버스트</span>
-
-  <span class="na">tomcat</span><span class="pi">:</span>
-    <span class="na">image</span><span class="pi">:</span> <span class="s">tomcat:10-jdk17-corretto</span>   <span class="c1"># 테스트용 Tomcat 10</span>
-    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
-    <span class="na">networks</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">proxy</span><span class="pi">]</span>
-    <span class="na">labels</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">traefik.enable=true</span>
-      <span class="pi">-</span> <span class="s">traefik.http.routers.tomcat.rule=Host(`test.domain.io`)</span>       <span class="c1"># 도메인</span>
-      <span class="pi">-</span> <span class="s">traefik.http.routers.tomcat.entrypoints=websecure</span>             <span class="c1"># HTTPS에서만 서비스</span>
-      <span class="pi">-</span> <span class="s">traefik.http.routers.tomcat.tls.certresolver=le</span>               <span class="c1"># 위에서 정의한 ACME resolver</span>
-      <span class="pi">-</span> <span class="s">traefik.http.routers.tomcat.tls.options=strict-tls@file</span>       <span class="c1"># 파일 프로바이더의 TLS 정책</span>
-      <span class="pi">-</span> <span class="s">traefik.http.routers.tomcat.middlewares=sec-headers,ratelimit</span> <span class="c1"># 공통 미들웨어</span>
-      <span class="pi">-</span> <span class="s">traefik.http.services.tomcat.loadbalancer.server.port=8080</span>    <span class="c1"># 컨테이너 내부 포트</span>
-</code></pre></div></div>
-
-<p>추후 서브 도메인만 변경해 다른 앱을 올릴 경우<br />
-서비스 레이블에 다른 도메인을 세팅해주면 해당 도메인으로 인증서를 발급받아준다.</p>
-
-<h5 id="2-기동">2. 기동</h5>
-
-<p><img src="/assets/images/posts/Server/WEB/2025-09-15-Setting Traefik/img02.webp" alt="img02" /></p>
-
-<p><img src="/assets/images/posts/Server/WEB/2025-09-15-Setting Traefik/img03.webp" alt="img03" /></p>
-
-<p><span style="color: orange;"><strong>docker compose up -d</strong></span> 명령어로 기동한다.<br />
-정상적으로 컨테이너가 올라간 것을 보고 docker logs 명령어로 오류가 없는지 확인한다.<br />
-로그가 전부 INFO 레벨인걸 보니 이상이 없어보인다.</p>
-
-<p>브라우저로 접근해보자.</p>
-
-<p><img src="/assets/images/posts/Server/WEB/2025-09-15-Setting Traefik/img04.webp" alt="img04" /></p>
-
-<p>TLS 인증서가 적용되어있고, 404 페이지가 뜬다.<br />
-깡통 톰캣 컨테이너에 아무것도 들어있지 않아 404가 뜨는거라 정상적인 접근이다.</p>
-
-<h5 id="3-fail2ban-연동">3. fail2ban 연동</h5>
-
-<p>필터를 새롭게 설정하여 fail2ban 연동을 진행한다.<br />
-이 부분 또한 실제 사용에 따라 세부 설정이 필요한데<br />
-우선은 테스트로 적당히 값 집어넣어서 설정한다.</p>
-
-<p><span style="color: orange;"><strong>429, 404, 시그니처 스캔 필터</strong></span> 3가지를 만든다.<br />
-429는 traefik이 429 Too Many Requests로 거른 요청들을 차단하고<br />
-시그니처 스캔 필터는 /.git /wp-login.php 등 잘 알려진 취약점이나 관리 페이지 경로를 차단한다.</p>
-
-<p>추후 모든 요청(성공 포함)이나 봇 요청에 대한 필터를 추가할 수 있겠다.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># /etc/fail2ban/jail.d/traefik-access.conf</span>
-  
-<span class="o">[</span>DEFAULT]
-action <span class="o">=</span> ufw
-logpath <span class="o">=</span> /app/logs/traefik/access.log
-backend <span class="o">=</span> auto
-
-<span class="o">[</span>traefik-rate-429]
-enabled  <span class="o">=</span> <span class="nb">true
-</span>filter   <span class="o">=</span> traefik-rate-429
-maxretry <span class="o">=</span> 5
-findtime <span class="o">=</span> 60
-bantime  <span class="o">=</span> 3600
-
-<span class="o">[</span>traefik-rate-404]
-enabled  <span class="o">=</span> <span class="nb">true
-</span>filter   <span class="o">=</span> traefik-rate-404
-maxretry <span class="o">=</span> 10
-findtime <span class="o">=</span> 600
-bantime  <span class="o">=</span> 3600
-
-<span class="o">[</span>traefik-scan]
-enabled  <span class="o">=</span> <span class="nb">true
-</span>filter   <span class="o">=</span> traefik-scan
-findtime <span class="o">=</span> 600
-maxretry <span class="o">=</span> 3
-bantime  <span class="o">=</span> <span class="nt">-1</span>
-</code></pre></div></div>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># /etc/fail2ban/filter.d/traefik-rate-429.conf</span>
-<span class="o">[</span>Definition]
-failregex <span class="o">=</span> ^&lt;HOST&gt; .<span class="k">*</span> <span class="s2">".*"</span> 429 .<span class="k">*</span>
-ignoreregex <span class="o">=</span>
-
-<span class="c"># /etc/fail2ban/filter.d/traefik-rate-404.conf</span>
-<span class="o">[</span>Definition]
-failregex <span class="o">=</span> ^&lt;HOST&gt; .<span class="k">*</span> <span class="s2">".*"</span> 404 .<span class="k">*</span>
-ignoreregex <span class="o">=</span>
-
-<span class="c"># /etc/fail2ban/filter.d/traefik-scan.conf</span>
-<span class="o">[</span>Definition]
-failregex <span class="o">=</span> ^&lt;HOST&gt; .<span class="k">*</span> <span class="s2">"(GET|POST|HEAD) .*(/wp-login</span><span class="se">\.</span><span class="s2">php|/wp-admin|/xmlrpc</span><span class="se">\.</span><span class="s2">php|/phpmyadmin|/pma/|/vendor/phpunit|/</span><span class="se">\.</span><span class="s2">env|/</span><span class="se">\.</span><span class="s2">git/|/server-status|/actuator|/manager/html|/jmx-console|/HNAP1|/boaform|/config</span><span class="se">\.</span><span class="s2">json|/id_rsa|/adminer</span><span class="se">\.</span><span class="s2">php|/shell</span><span class="se">\.</span><span class="s2">php)"</span> .<span class="k">*</span>
-ignoreregex <span class="o">=</span>
-</code></pre></div></div>
-
-<p><img src="/assets/images/posts/Server/WEB/2025-09-15-Setting Traefik/img05.webp" alt="img05" /></p>
-
-<p>fail2ban을 재기동하여 필터를 확인한다.<br />
-현재는 tomcat 깡통이 전부 404 Not Found로 빠지기 때문에 404 필터에 실패 요청이 쌓여있다.</p>
-
-<h5 id="4-로그-분리">4. 로그 분리</h5>
-
-<p>access.log는 한 파일에 계속해서 쌓이기 때문에 분리할 필요가 있다.<br />
-fail2ban이 놓치지 않게 copytruncate 방식으로 logrotate 규칙을 설정한다.</p>
-
-<p>오래된 RHEL 계열 서버에서는 따로 crontab 등록했던 거 같은데…<br />
-요즘엔 알아서 돌려주나보다.<br />
-편하다 편해.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># /etc/logrotate.d/traefik</span>
-
-/app/logs/traefik/access.log <span class="o">{</span>
-  daily
-  rotate 30
-  compress
-  delaycompress
-  missingok
-  copytruncate
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <h4 id="꼬리말">꼬리말</h4>
-  <hr />
-</blockquote>
-
-<p>traefik 설정이 굉장히 쉽고 간편해서 빠르게 끝났다.<br />
-nginx 쓸때는 100% 에러 뿜뿜하고 트러블슈팅 들어가야할텐데 말이다.</p>
-
-<p>언젠가 cloudflare 의존 없이 직접 제어해야할 상황이 온다면 본격적으로 traefik을 사용해볼 것 같다.<br />
-첫 인상이 아주 좋다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/WEB/" /><category term="SERVER" /><category term="WEB" /><category term="도커" /><category term="구축" /><category term="설정" /><category term="TRAEFIK" /><summary type="html"><![CDATA[Traefik 첫 구축, 설정]]></summary></entry></feed>
+가늠이 잘 안가는데, 제한 때문에 문제생기면 프록시 풀거나 하면 되겠지.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="도메인" /><category term="네임서버" /><category term="CLOUDFLARE" /><summary type="html"><![CDATA[Cloudflare로 도메인 네임서버 변경]]></summary></entry></feed>
