@@ -134,15 +134,11 @@ $max-toc-height: calc(100vh - 4rem);
 }
 
 // Menu Item
+// depth에 따른 들여쓰기는 실제 DOM 중첩(.submenu > .toc__item)에서
+// .submenu의 margin-left가 누적되어 자연스럽게 적용되므로 별도 margin 불필요
 .toc__item {
   margin-left: 0;
   transition: all $transition-duration ease;
-
-  @for $i from 1 through 5 {
-    &.depth-#{$i} {
-      margin-left: $i * 20px;
-    }
-  }
 
   &.anim-hide,
   &.collapsed > .submenu,
@@ -167,7 +163,10 @@ $max-toc-height: calc(100vh - 4rem);
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
-      margin: 0.2rem 0;
+      // margin: 0.2rem 0 처럼 shorthand를 쓰면 margin-left가 0으로 덮여
+      // .posts-list/.submenu의 margin-left: 1rem(들여쓰기)가 펼쳐질 때마다 사라짐
+      margin-top: 0.2rem;
+      margin-bottom: 0.2rem;
       transform: translateY(0);
     }
 
@@ -233,7 +232,12 @@ $max-toc-height: calc(100vh - 4rem);
   color: $link-color;
   text-decoration: none;
   display: block;
-  padding: 0.2rem 0;
+  // 테마(_navigation.scss)가 .toc__menu 안에서 li ul > li a 단계별로
+  // padding-left를 고정값(1.25rem, 1.75rem, ...)으로 박아두는데, 이건
+  // .toc__menu(우리 카테고리 사이드바)에도 그대로 적용되어 실제 중첩 깊이가
+  // 깊어지면 우리가 margin-left로 주는 들여쓰기와 겹쳐 어긋나 보인다.
+  // 들여쓰기는 .submenu/.posts-list의 margin-left만으로 충분하므로 무효화.
+  padding: 0.2rem 0 !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

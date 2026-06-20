@@ -186,22 +186,25 @@ document.addEventListener('DOMContentLoaded', function () {
       // 검색어가 포함된 부분을 찾아 하이라이팅
       const regex = new RegExp(`(${searchTerm})`, 'gi');
       let lastIndex = 0;
-      
-      originalText.replace(regex, (match, p1, offset) => {
+
+      for (const matchResult of originalText.matchAll(regex)) {
+        const match = matchResult[0];
+        const offset = matchResult.index;
+
         // 검색어 앞의 텍스트 추가
         if (offset > lastIndex) {
           const textNode = document.createTextNode(originalText.substring(lastIndex, offset));
           titleElement.appendChild(textNode);
         }
-        
+
         // 하이라이팅된 검색어 추가
         const mark = document.createElement('mark');
         mark.textContent = match;
         titleElement.appendChild(mark);
-        
+
         lastIndex = offset + match.length;
-      });
-      
+      }
+
       // 마지막 텍스트 추가
       if (lastIndex < originalText.length) {
         const textNode = document.createTextNode(originalText.substring(lastIndex));

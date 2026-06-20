@@ -261,17 +261,6 @@
     initFolderToggle();
     initializeAllItems();
     restoreTocStates();
-
-    // 스크롤 이벤트에 따른 TOC 위치 조정
-    let lastScrollTop = 0;
-    const tocWrapper = document.querySelector('.toc-wrapper');
-    const initialTop = 32;
-
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-      tocWrapper.style.top = `${currentScroll > lastScrollTop ? initialTop : initialTop}px`;
-      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-    }, { passive: true });
   };
 
   // DOM 로드 완료 시 초기화

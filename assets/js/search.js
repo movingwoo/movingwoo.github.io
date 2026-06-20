@@ -50,8 +50,10 @@ document.addEventListener('DOMContentLoaded', function () {
       };
     }
 
-    // 특수문자 체크 (한글, 영문, 숫자, 공백만 허용)
-    const specialCharRegex = /[^가-힣a-zA-Z0-9\s]/g;
+    // 특수문자 체크 (문자, 숫자, 결합 문자, 이모지, 공백만 허용)
+    // u 플래그 + 유니코드 속성으로 검사해야 이모지나 조합 문자(자모 분리 등)가
+    // 특수문자로 잘못 걸러지지 않음
+    const specialCharRegex = /[^\p{L}\p{N}\p{M}\p{Emoji}\s]/gu;
     if (specialCharRegex.test(term)) {
       return {
         isValid: false,

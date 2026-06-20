@@ -3,7 +3,8 @@
   <div id="postNavigation" class="post-navigation__container"></div>
 
   <script>
-    // 별도 js로 post data 넘겨주기만
+    // 별도 js로 현재 post data만 넘겨주고, 전체 글 목록은 post_pagination.js가
+    // /assets/data/posts.json을 fetch해서 가져옴 (모든 글 페이지에 중복 직렬화 방지)
     window.postData = {
       currentPost: {
         title: "{{ page.title | escape }}",
@@ -11,20 +12,7 @@
         date: "{{ page.date | date: '%Y-%m-%d' }}",
         categories: {{ page.categories | jsonify }}
       },
-      allPosts: [
-        {% assign now = 'now' | date: '%Y-%m-%d' %}
-        {% for post in site.posts %}
-          {% assign post_date = post.date | date: '%Y-%m-%d' %}
-          {% if post_date <= now %}
-          {
-            title: "{{ post.title | escape }}",
-            url: "{{ post.url | relative_url | escape }}",
-            date: "{{ post.date | date: '%Y-%m-%d' }}",
-            categories: {{ post.categories | jsonify }}
-          }{% unless forloop.last %},{% endunless %}
-          {% endif %}
-        {% endfor %}
-      ]
+      allPostsUrl: "{{ '/assets/data/posts.json' | relative_url }}"
     };
   </script>
   <script src="/assets/js/post_pagination.js" defer></script>

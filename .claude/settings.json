@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bundle exec *)",
+      "Bash(command -v node)",
+      "Bash(command -v ruby)",
+      "Skill(run)",
+      "Bash(npm ls *)",
+      "Bash(node *)",
+      "Bash(python3 *)",
+      "Bash(grep *)",
+      "Bash(pkill -f \"jekyll serve\")",
+      "Read(//tmp/**)"
+    ]
+  }
+}
