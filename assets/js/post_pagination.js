@@ -1,27 +1,35 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const { currentPost, allPosts } = window.postData;
+  if (!window.postData) return;
+  const { currentPost, allPostsUrl } = window.postData;
 
   function createPostElement(post, type, icon) {
     // disabled 타입일 때는 완전히 다른 방식으로 처리
     if (type === 'disabled') {
       const element = document.createElement('span');
       element.className = 'post-navigation__item post-navigation__disabled';
+      element.setAttribute('aria-label', '이동할 수 있는 글 없음');
       const iconElement = document.createElement('i');
       iconElement.className = `fas fa-${icon}`;
+      iconElement.setAttribute('aria-hidden', 'true');
       element.appendChild(iconElement);
       return element;
     }
 
     const element = document.createElement(type === 'link' ? 'a' : 'span');
     element.className = 'post-navigation__item' + (type === 'current' ? ' post-navigation__current' : '');
-    
+
     // post 객체와 url이 존재할 때만 href 설정
     if (type === 'link' && post && post.url) {
       element.href = post.url;
     }
 
+    if (post && post.title) {
+      element.setAttribute('aria-label', type === 'current' ? `현재 글: ${post.title}` : `${post.title} 글로 이동`);
+    }
+
     const iconElement = document.createElement('i');
     iconElement.className = `fas fa-${icon}`;
+    iconElement.setAttribute('aria-hidden', 'true');
     element.appendChild(iconElement);
 
     if (post && post.title) {
@@ -65,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return titleContainer;
   }
 
-  function findAdjacentPosts() {
+  function findAdjacentPosts(allPosts) {
     // 필수 데이터가 없는 경우 빈 배열 반환
     if (!currentPost || !allPosts || !Array.isArray(allPosts)) {
       return { next: [], previous: [] };
@@ -116,8 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
   }
 
-  function generateNavigation() {
-    const adjacentPosts = findAdjacentPosts();
+  function generateNavigation(allPosts) {
+    const adjacentPosts = findAdjacentPosts(allPosts);
     const container = document.getElementById('postNavigation');
     
     if (!container) {
@@ -162,5 +170,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  generateNavigation();
+  if (!allPostsUrl) return;
+  fetch(allPostsUrl)
+    .then(response => response.json())
+    .then(allPosts => generateNavigation(allPosts))
+    .catch(() => {}); // 글 목록을 불러오지 못해도 페이지 자체는 정상 동작해야 함
 });
