@@ -3,6 +3,13 @@
 [
   
     {
+      "title": "Caddy 웹서버 구성",
+      "url": "/server/service/2026/06/24/Setting-Caddy.html",
+      "date": "2026-06-24",
+      "categories": ["Server/Service/"]
+    },
+  
+    {
       "title": "Glances 활용 모니터링",
       "url": "/server/service/2026/06/19/Monitoring-With-Glances.html",
       "date": "2026-06-19",
