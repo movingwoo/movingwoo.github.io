@@ -1,4 +1,126 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-06-22T02:00:54+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">RustDesk 자체 구축</title><link href="https://movingwoo.com/server/service/2026/06/18/Install-RustDesk.html" rel="alternate" type="text/html" title="RustDesk 자체 구축" /><published>2026-06-18T05:00:00+00:00</published><updated>2026-06-18T05:00:00+00:00</updated><id>https://movingwoo.com/server/service/2026/06/18/Install%20RustDesk</id><content type="html" xml:base="https://movingwoo.com/server/service/2026/06/18/Install-RustDesk.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-06-24T02:10:01+00:00</updated><id>https://movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">Glances 활용 모니터링</title><link href="https://movingwoo.com/server/service/2026/06/19/Monitoring-With-Glances.html" rel="alternate" type="text/html" title="Glances 활용 모니터링" /><published>2026-06-19T01:00:00+00:00</published><updated>2026-06-19T01:00:00+00:00</updated><id>https://movingwoo.com/server/service/2026/06/19/Monitoring%20With%20Glances</id><content type="html" xml:base="https://movingwoo.com/server/service/2026/06/19/Monitoring-With-Glances.html"><![CDATA[<blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p>지난번에 모니터링 시스템을 한 번 만들려고 한 적이 있다.<br />
+뭔가 직접 개발하자니 생각할게 많아서 때려쳤고<br />
+Prometheus + Grafana 구성으로 해보자니 이건 뭐 모니터링 시스템이 더 무거운 것 같아서 말았다.</p>
+
+<p>이번에 원격 시스템을 구축하면서 모니터링 시스템을 진짜 갖추자는 마음이 다시 들었으므로 추진한다.</p>
+
+<blockquote>
+  <h4 id="glances">Glances</h4>
+  <hr />
+</blockquote>
+
+<p>내 요구사항을 살펴보자.</p>
+<ul>
+  <li>가벼워야 함</li>
+  <li>호스트 시스템 자원 사용량 확인 가능해야 함</li>
+  <li>도커 돌아가는 놈들 감시해줘야 함</li>
+  <li>웹으로 확인 가능해야 함</li>
+</ul>
+
+<p>Dozzle이 제일 깔끔하고 좋아보였는데<br />
+정말 아쉽게도 도커 컨테이너 모니터링에 특화된 도구이다.<br />
+호스트 시스템 감시는 불가능하다는 뜻이다.</p>
+
+<p>그 다음으로 눈에 들어온게 <span style="color: orange;"><strong>Glances</strong></span></p>
+
+<p><a href="https://github.com/nicolargo/glances">Glances - github</a></p>
+
+<p><img src="/assets/images/posts/Server/Service/2026-06-24-Monitoring With Glances/img01.webp" alt="img01" width="80%" /></p>
+
+<p><span style="color: orange;"><strong>Glances - An Eye on your System</strong></span><br />
+뭐지 개멋있다.</p>
+
+<p>파이썬 기반으로 개발되었고 웹 대시보드를 지원한다.<br />
+시스템 상태를 보여주고 docker 컨테이너도 확인할 수 있다.</p>
+
+<blockquote>
+  <h4 id="구축">구축</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://hub.docker.com/r/nicolargo/glances">Glances - docker hub</a></p>
+
+<p>도커 컨테이너 감시를 위해서는 풀 버전을 받아야한다.<br />
+나는 우분투에 설치할 예정이라 ubuntu-latest-full 버전을 선택한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull nicolargo/glances:ubuntu-latest-full
+</code></pre></div></div>
+
+<p><img src="/assets/images/posts/Server/Service/2026-06-24-Monitoring With Glances/img02.webp" alt="img02" width="60%" /></p>
+
+<p><span style="color: orange;"><strong>docker-compose.yml</strong></span> 파일을 작성한다.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+  <span class="na">glances</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">nicolargo/glances:ubuntu-latest-full</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">61208:61208</span>
+    <span class="na">pid</span><span class="pi">:</span> <span class="s">host</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">/var/run/docker.sock:/var/run/docker.sock:ro</span>
+      <span class="pi">-</span> <span class="s">/:/host:ro</span>
+      <span class="pi">-</span> <span class="s">/etc/os-release:/etc/os-release:ro</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">GLANCES_OPT=-w</span>
+</code></pre></div></div>
+
+<p>pid: host 부분은 정확한 PID 매핑을 위해 필요하다.<br />
+볼륨에서 docker.sock을 잡아줘야 도커 컨테이너 감시가 가능하다.<br />
+GLANCES_OPT=-w 옵션을 사용해야 웹 실행이 가능하다.</p>
+
+<p>기동한 다음 설정한 61208 포트로 웹 접속해보자.</p>
+
+<blockquote>
+  <h4 id="살펴보기">살펴보기</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/Server/Service/2026-06-24-Monitoring With Glances/img03.webp" alt="img03" width="80%" /></p>
+
+<p>몬가… 몬가 동작하고 있음…<br />
+전체적으로 색깔이 초록색인데 <span style="color: green;"><strong>초록색</strong></span>은 안정적이라는 뜻이고 <span style="color: blue;"><strong>파란색</strong></span>부터는 주의를 해야한다.<br />
+구획 별로 한 번 살펴보자.</p>
+
+<p>1번 구획은 시스템 요약이다.<br />
+<span style="color: orange;"><strong>하드웨어 온도</strong></span> 센서는 내가 항상 눈여겨 봐야한다.<br />
+필요하면 에어컨이라도 빵빵하게 틀어줘야지…<br />
+그 외에는 디스크 여유공간 확인정도 할 수 있겠다.</p>
+
+<p>2번 구획은 코어 리소스 세부 상태이다.<br />
+<span style="color: orange;"><strong>메모리</strong></span>는 항상 잘 봐둬야하는데 지금은 전혀 부족하지 않아보인다.<br />
+이외에 <span style="color: orange;"><strong>CPU iowait</strong></span> 와 Load 수치를 주목해야 하겠다.</p>
+
+<p>3번 구획은 <span style="color: orange;"><strong>도커 컨테이너 목록</strong></span>이다.<br />
+상태, 가동시간, 리소스 점유율을 확인할 수 있다.<br />
+특정 컨테이너가 대폭주해서 CPU와 메모리를 과도하게 점유하는지 감시해야한다.<br />
+그래 나는 이런 기능이 필요했던거야.</p>
+
+<p>그 아래 4번 구획에는 <span style="color: orange;"><strong>전체 프로세스 목록</strong></span>을 CPU 점유율 순으로 정렬하여 보여준다.<br />
+이런건 너무 익숙한 화면이다.  <br />
+glances를 켜두고 지켜봐서 그런지 glances가 1등이다.<br />
+여기서 특정 task를 클릭할 수 있는데</p>
+
+<p><img src="/assets/images/posts/Server/Service/2026-06-24-Monitoring With Glances/img04.webp" alt="img04" width="50%" /></p>
+
+<p>이렇게 클릭한 프로세스가 고정된다.<br />
+고정된 시점에서부터 CPU 점유율, 메모리 점유율을 확인할 수 있다.<br />
+그 외 메모리 세부 지표 등 정보가 나온다.<br />
+Unpin을 누르면 고정이 해제된다.</p>
+
+<blockquote>
+  <h4 id="다음-작업">다음 작업</h4>
+  <hr />
+</blockquote>
+
+<p>대시보드를 들어가려면 IP:61208로 접속해야한다.<br />
+이걸 어떻게 외움?<br />
+따라서 기억하기 쉽게 도메인을 달아줄 예정이다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/Service/" /><category term="SERVER" /><category term="SERVICE" /><category term="GLANCES" /><category term="모니터링" /><summary type="html"><![CDATA[Glances 활용 모니터링 최초 구성]]></summary></entry><entry><title type="html">RustDesk 자체 구축</title><link href="https://movingwoo.com/server/service/2026/06/18/Install-RustDesk.html" rel="alternate" type="text/html" title="RustDesk 자체 구축" /><published>2026-06-18T05:00:00+00:00</published><updated>2026-06-18T05:00:00+00:00</updated><id>https://movingwoo.com/server/service/2026/06/18/Install%20RustDesk</id><content type="html" xml:base="https://movingwoo.com/server/service/2026/06/18/Install-RustDesk.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -1359,145 +1481,4 @@ http 8080 기본 포트 하나만 설정했다.</p>
 <p>이 정둔가?<br />
 아직은 제대로 사용도 안해봤기 때문에 단점을 제대로 느끼려면 롱텀으로 사용해봐야 알 것 같다.</p>
 
-<p>이제 무슨 서비스를 올려볼지 고민해야지.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="CLOUDFLARE" /><category term="TUNNEL" /><category term="보안" /><summary type="html"><![CDATA[Cloudflare Tunnel 및 추가 보안 설정]]></summary></entry><entry><title type="html">도메인 네임서버 변경</title><link href="https://movingwoo.com/server/2025/09/15/Migrating-Domain.html" rel="alternate" type="text/html" title="도메인 네임서버 변경" /><published>2025-09-15T08:00:00+00:00</published><updated>2025-09-15T08:00:00+00:00</updated><id>https://movingwoo.com/server/2025/09/15/Migrating%20Domain</id><content type="html" xml:base="https://movingwoo.com/server/2025/09/15/Migrating-Domain.html"><![CDATA[<blockquote>
-  <h4 id="머리말">머리말</h4>
-  <hr />
-</blockquote>
-
-<p>Cloudflare Tunnel 을 사용하기 위한 사전 작업이 있다.<br />
-<span style="color: orange;"><strong>도메인 네임서버를 Cloudflare로 변경</strong></span>해야한다.</p>
-
-<p>정말 귀찮기 그지없는 작업이지만 일단 해보자.</p>
-
-<p>현재 글을 올리는 movingwoo.com 도메인은 porkbun 에서 구입하여 이용 중이다.<br />
-이 도메인의 네임서버를 cloudflare 로 이전한다.</p>
-
-<blockquote>
-  <h4 id="cloudflare란">Cloudflare란?</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img01.webp" alt="img01" /></p>
-
-<p>사실 인터넷 좀 해봤으면 cloudflare에 대해 한 번 쯤은 봤을 확률이 높다.<br />
-대충 서버 터졌을때 클라우드플레어 어쩌고 저쩌고 뜬다.</p>
-
-<p>그만큼 많이들 사용하는 인프라 서비스 회사인데, 2010년 설립되었다고 한다.<br />
-생각보다 후발주자이다.<br />
-그래도 무료 플랜 접근성이 좋고 간편하여 빠르게 성장하여 지금의 cloudflare가 되었다고 한다.</p>
-
-<p>무료 플랜이 강력하긴 한데 회사가 커지면서 일부 보안 기능들이 유료화되어가는 추세라는데…<br />
-일단 터널은 무료로 제공해주니 써보자.<br />
-즐길 수 있을때 즐겨야지</p>
-
-<blockquote>
-  <h4 id="네임서버-변경-작업">네임서버 변경 작업</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://dash.cloudflare.com/">Cloudflare Dashboard</a></p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img02.webp" alt="img02" /></p>
-
-<p>가입하면 도메인을 등록하라고 뜬다.<br />
-순서대로 하라는대로 진행하면 된다.</p>
-
-<p>한국어 지원 해주는게 마음에 든다.<br />
-품질도 정말 나쁘지 않다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img03.webp" alt="img03" /></p>
-
-<p>DNS 레코드 추가는 <span style="color: orange;"><strong>빠른 스캔</strong></span>으로 진행한다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img04.webp" alt="img04" /></p>
-
-<p>플랜 선택 화면.<br />
-당연히 <span style="color: orange;"><strong>무료 플랜</strong></span>을 선택하겠지만, 프로 플랜부터 기능이 매력적이긴하다.</p>
-
-<p>사실 1개월 20딸라면 요즘 AI 구독과 비슷한 가격이다.<br />
-막 접근성이 없진 않은 가격이다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img05.webp" alt="img05" /></p>
-
-<p>빠른 스캔으로 가져온 DNS 레코드 리스트가 뜬다.</p>
-
-<p>포크번에서 자동으로 긁어온 리스트인데<br />
-기존 등록되어있는 A 레코드와 TXT 레코드 외에 NS 레코드가 보인다.<br />
-포크번 네임서버 리스트인데 우선은 그대로 가져간다.</p>
-
-<p>NS 레코드는 네임서버 이전이 완료되면 안전하게 삭제하도록 한다.<br />
-사실 잘 모르면 손대지 않고 냅두는게 최고다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img06.webp" alt="img06" /></p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img07.webp" alt="img07" /></p>
-
-<p>마지막 단계를 위해 기존 도메인 등록기관, 내 경우 포크번에 로그인이 필요하다.<br />
-<span style="color: orange;"><strong>DNSSEC 기능을 종료</strong></span> 후, <span style="color: orange;"><strong>네임 서버를 cloudflare에서 제공해주는 값으로 교체</strong></span>한다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img08.webp" alt="img08" /></p>
-
-<p>이 부분은 시간이 상당 소요될 수 있는데<br />
-나는 트래픽 쥐꼬리만큼도 없는 싸구려 도메인이라 바로 처리됨…</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img09.webp" alt="img09" /></p>
-
-<p>대시보드에서 상태가 <span style="color: orange;"><strong>활성</strong></span>으로 나오면 끝이다.</p>
-
-<blockquote>
-  <h4 id="추가-보안-작업">추가 보안 작업</h4>
-  <hr />
-</blockquote>
-
-<p>아까 DDNSEC을 종료했으므로 DDNSEC을 활성화 시켜야하고<br />
-TLS와 같은 기초적인 설정도 마저 진행한다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img10.webp" alt="img10" /></p>
-
-<p>딸깍으로 SSL/TLS 자동 적용.<br />
-원래 이부분은 포크번도 딸깍으로 했던 것 같다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img11.webp" alt="img11" /></p>
-
-<p>DNSSEC 활성화를 하려면 <span style="color: orange;"><strong>DS 레코드를 등록기관에 추가</strong></span>해야한다.</p>
-
-<p>만약 내가 도메인 자체를 클라우드플레어로 이전했다면 이부분은 간단하게 끝났겠지만<br />
-네임서버만 변경한거라 이 작업은 포크번에 직접 해줘야한다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img12.webp" alt="img12" /></p>
-
-<p>제공해주는 값들을 그대로 입력해주기만 하면 된다.</p>
-
-<p>이것은 간단한 레고조립과 같다.<br />
-아기들 모양 맞춰서 블럭 넣는 장난감과 다름 없다.<br />
-맞는 칸에 넣고 없는 칸은 비우고 등록한다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img13.webp" alt="img13" /></p>
-
-<p><span style="color: red;"><strong>잉?</strong></span></p>
-
-<p>시간이 지나도 등록이 안되어 문의 결과, keyData 쪽 입력 때문에 검증 실패로 오류가 나는 것이라 한다.<br />
-keyData 제외하고 <span style="color: orange;"><strong>dsData 쪽만 입력</strong></span>해주면 성공적으로 등록된다…</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img14.webp" alt="img14" /></p>
-
-<p>클라우드플레어 대시보드에서도 DNSSEC 적용을 확인할 수 있다.</p>
-
-<blockquote>
-  <h4 id="꼬리말">꼬리말</h4>
-  <hr />
-</blockquote>
-
-<p>이 외 보안 관련 다양한 메뉴들이 있는데 대부분 프로 플랜 이상을 권유하고 있어서 쓰기 힘들다.<br />
-봇 막는 기능 등은 무료인데 굳이 막아야하나 싶기도 하고…</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img15.webp" alt="img15" /></p>
-
-<p>제일 안타까운건 이 최대 업로드 크기 부분인데<br />
-100mb 제한이 있고 비즈니스 플랜부터 늘릴 수 있다.</p>
-
-<p><img src="/assets/images/posts/Server/2025-09-16-Migrating Domain/img16.webp" alt="img16" /></p>
-
-<p>이렇게 <span style="color: orange;"><strong>오렌지색 구름 모양</strong></span>으로 클라우드플레어 프록시를 거치는 경우 저 제한이 적용된다.<br />
-개인 서버라 큰 이슈는 없을 것 같은데 일단 사용해봐야 알 것 같다.<br />
-가늠이 잘 안가는데, 제한 때문에 문제생기면 프록시 풀거나 하면 되겠지.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="도메인" /><category term="네임서버" /><category term="CLOUDFLARE" /><summary type="html"><![CDATA[Cloudflare로 도메인 네임서버 변경]]></summary></entry></feed>
+<p>이제 무슨 서비스를 올려볼지 고민해야지.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="CLOUDFLARE" /><category term="TUNNEL" /><category term="보안" /><summary type="html"><![CDATA[Cloudflare Tunnel 및 추가 보안 설정]]></summary></entry></feed>

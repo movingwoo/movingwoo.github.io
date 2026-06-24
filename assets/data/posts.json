@@ -3,6 +3,13 @@
 [
   
     {
+      "title": "Glances 활용 모니터링",
+      "url": "/server/service/2026/06/19/Monitoring-With-Glances.html",
+      "date": "2026-06-19",
+      "categories": ["Server/Service/"]
+    },
+  
+    {
       "title": "RustDesk 자체 구축",
       "url": "/server/service/2026/06/18/Install-RustDesk.html",
       "date": "2026-06-18",

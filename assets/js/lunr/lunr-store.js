@@ -574,4 +574,10 @@ var store = [{
         "tags": ["SERVER","SERVICE","RUSTDESK","DOCKER"],
         "url": "/server/service/2026/06/18/Install-RustDesk.html",
         "teaser": null
+      },{
+        "title": "Glances 활용 모니터링",
+        "excerpt":"개요 지난번에 모니터링 시스템을 한 번 만들려고 한 적이 있다. 뭔가 직접 개발하자니 생각할게 많아서 때려쳤고 Prometheus + Grafana 구성으로 해보자니 이건 뭐 모니터링 시스템이 더 무거운 것 같아서 말았다. 이번에 원격 시스템을 구축하면서 모니터링 시스템을 진짜 갖추자는 마음이 다시 들었으므로 추진한다. Glances 내 요구사항을 살펴보자. 가벼워야 함 호스트 시스템...","categories": ["Server/Service/"],
+        "tags": ["SERVER","SERVICE","GLANCES","모니터링"],
+        "url": "/server/service/2026/06/19/Monitoring-With-Glances.html",
+        "teaser": null
       }]
