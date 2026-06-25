@@ -589,7 +589,7 @@ var store = [{
       },{
         "title": "도커 컴포즈 관리 방안",
         "excerpt":"개요 도커 컴포즈는 단일 서버에서 여러 컨테이너를 하나로 묶어 관리하기 위한 좋은 방법이다. 그런데 여러 서비스를 올리다 보면 도커 컴포즈가 늘어난다. 어? 도커 컨테이너가 늘어나는건 컴포즈가 관리해주는데 컴포즈가 늘어나는건 누가 관리함? 몰라 개발하지 뭐 새 이미지 pull 하고 필요하면 재기동하고 system prune으로 찌꺼기 파일 정리 정도는 주기적으로 수행한다. 관리라 하면...","categories": ["Server/"],
-        "tags": ["SERVER","IOS","ALTSTORE"],
+        "tags": ["SERVER","DOCKER","COMPOSE"],
         "url": "/server/2026/06/25/How-To-Manage-Docker-Compose.html",
         "teaser": null
       }]
