@@ -3,6 +3,13 @@
 [
   
     {
+      "title": "도커 컴포즈 관리 방안",
+      "url": "/server/2026/06/25/How-To-Manage-Docker-Compose.html",
+      "date": "2026-06-25",
+      "categories": ["Server/"]
+    },
+  
+    {
       "title": "Caddy 웹서버 구성",
       "url": "/server/service/2026/06/24/Setting-Caddy.html",
       "date": "2026-06-24",
