@@ -592,4 +592,10 @@ var store = [{
         "tags": ["SERVER","DOCKER","COMPOSE"],
         "url": "/server/2026/06/25/How-To-Manage-Docker-Compose.html",
         "teaser": null
+      },{
+        "title": "인프라 대공사 1",
+        "excerpt":"으악 하기싫어 인프라 대공사가 필요하다. 정말 하기 싫다. 하지만 해야한다. AS_IS 와 TO_BE 현재 NextCloud 서비스는 Cloudflare Tunnel 뒤에 붙어있다. 터널 뒤에 붙으면서 문제가 있었는데, NextCloud Office 프로그램을 사용하려면 WOPI 프로토콜을 이용해야한다. 브라우저와 오피스 서버 사이에 웹소켓이 뚫려야하는데 터널이 이를 차단해버린다. 짱구를 굴리고 굴려서 OnlyOffice라는 대안을 찾아 어떻게든 연결은 했다....","categories": ["Server/"],
+        "tags": ["SERVER","INFRASTRUCTURE","NEXTCLOUD","COLLABORA","CADDY","DOCKER"],
+        "url": "/server/2026/06/26/Massive-infrastructure-overhaul-1.html",
+        "teaser": null
       }]
