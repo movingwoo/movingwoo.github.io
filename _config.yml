@@ -8,14 +8,14 @@ description: 개발, C++, JAVA, Python, Shortcut, 백준
 locale                   : "ko-KR"
 lang                     : "ko-KR"
 name                     : 뭐라도 하겠지
-url                      : "https://movingwoo.com"
+url                      : "https://arc.movingwoo.com"
 repository               : movingwoo/movingwoo.github.io
 logo                     : "/assets/images/common/favicon_180x180.png"
 
 # Robots.txt 설정
 sitemap:
-  sitemap_url: https://movingwoo.com/sitemap.xml
-  robots_url: https://movingwoo.com/robots.txt
+  sitemap_url: https://arc.movingwoo.com/sitemap.xml
+  robots_url: https://arc.movingwoo.com/robots.txt
 
 # Assets Settings
 baseurl: ""  # the subpath of your site, e.g. /blog

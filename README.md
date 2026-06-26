@@ -4,7 +4,7 @@
 >  
 > Theme customized from [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) by Michael Rose (MIT License).
 >   
-> Visit: [https://movingwoo.com](https://movingwoo.com)
+> Visit: [https://movingwoo.com](https://arc.movingwoo.com)
 
 ## Tech Stack
 - [Jekyll](https://jekyllrb.com/)
