@@ -598,4 +598,10 @@ var store = [{
         "tags": ["SERVER","INFRASTRUCTURE","NEXTCLOUD","COLLABORA","CADDY","DOCKER"],
         "url": "/server/2026/06/26/Massive-infrastructure-overhaul-1.html",
         "teaser": null
+      },{
+        "title": "인프라 대공사 2",
+        "excerpt":"할 일 기존 메인 도메인에 붙어있던 github pages로 구동되던 페이지를 옮겨야한다. 서브도메인을 하나 달아줘서 이동 시키고 대표 도메인에는 다른 정적인 페이지를 파서 링크를 달아주는 식으로 바꾸려 한다. 부작용으로 구글 서치콘솔 다 꼬이는 문제가 있긴한데… 어차피 방문자도 없으니 그냥 무시하고 진행하자. 기존 도메인 변경 www.movingwoo.com은 CNAME으로 movingwoo.com으로 붙고 movingwoo.com은 github pages에...","categories": ["Server/"],
+        "tags": ["SERVER","INFRASTRUCTURE","NEXTCLOUD","COLLABORA","CADDY","DOCKER"],
+        "url": "/server/2026/06/26/Massive-infrastructure-overhaul-2.html",
+        "teaser": null
       }]

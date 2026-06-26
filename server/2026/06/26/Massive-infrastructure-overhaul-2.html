@@ -1,0 +1,668 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>인프라 대공사 2 - 뭐라도 하겠지</title>
+<meta name="description" content="기존 인프라 대공사 2">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="뭐라도 하겠지">
+<meta property="og:title" content="인프라 대공사 2">
+<meta property="og:url" content="https://arc.movingwoo.com/server/2026/06/26/Massive-infrastructure-overhaul-2.html">
+
+
+  <meta property="og:description" content="기존 인프라 대공사 2">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2026-06-26T05:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2026-06-26T05:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://arc.movingwoo.com/server/2026/06/26/Massive-infrastructure-overhaul-2.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "뭐라도 하겠지",
+      "url": "https://arc.movingwoo.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/common/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/common/favicon_16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/common/favicon_180x180.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="뭐라도 하겠지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.querySelector('.head-content-btn');
+  const dropdownContent = document.querySelector('.game-dropdown-content');
+  let isOpen = false;
+
+  // 드롭다운 버튼 클릭 이벤트
+  dropdownBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    if (isOpen) {
+      const rect = dropdownBtn.getBoundingClientRect();
+      dropdownContent.style.top = rect.bottom + 'px';
+      dropdownContent.style.left = rect.left + 'px';
+      dropdownContent.classList.add('show');
+    } else {
+      dropdownContent.classList.remove('show');
+    }
+  });
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    if (isOpen && !dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+      isOpen = false;
+      dropdownContent.classList.remove('show');
+    }
+  });
+});
+</script>
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/common/favicon_180x180.png" alt="뭐라도 하겠지"></a>
+        
+        <a class="site-title" href="/">
+          뭐라도 하겠지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <div class="game-dropdown">
+              <button class="head-content-btn">
+                play <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="game-dropdown-content">
+                <a href="/play/Flappy%20Bird.html" target="_blank">Flappy Bird</a>
+                <a href="/play/Minesweeper.html" target="_blank">Minesweeper</a>
+                <a href="/play/Random%20Printer.html" target="_blank">Random Printer</a>
+                <a href="/play/Maze%20Generator.html" target="_blank">Maze Generator</a>
+                <a href="/play/Dungeon%20Generator.html" target="_blank">Dungeon Generator</a>
+                <a href="/play/Code%20Simulator.html" target="_blank">Python Code Simulator</a>
+              </div>
+            </div>
+          </li>
+          <li class="masthead__menu-item">
+            <button class="head-content-btn" onclick="window.location.href='/board?path='">
+              explorer
+            </button>
+          </li>
+        </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <h1 class="title__logo"><a href="https://arc.movingwoo.com/">뭐라도 하겠지</a></h1>
+ -->
+
+
+
+<script src="/assets/js/search.js"></script>
+
+
+    <div class="initial-content">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>인프라 대공사 2 | 뭐라도 하겠지</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="인프라 대공사 2" />
+<meta name="author" content="movingwoo" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="기존 인프라 대공사 2" />
+<meta property="og:description" content="기존 인프라 대공사 2" />
+<link rel="canonical" href="https://arc.movingwoo.com/server/2026/06/26/Massive-infrastructure-overhaul-2.html" />
+<meta property="og:url" content="https://arc.movingwoo.com/server/2026/06/26/Massive-infrastructure-overhaul-2.html" />
+<meta property="og:site_name" content="뭐라도 하겠지" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-06-26T05:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="인프라 대공사 2" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2026-06-26T05:00:00+00:00","datePublished":"2026-06-26T05:00:00+00:00","description":"기존 인프라 대공사 2","headline":"인프라 대공사 2","mainEntityOfPage":{"@type":"WebPage","@id":"https://arc.movingwoo.com/server/2026/06/26/Massive-infrastructure-overhaul-2.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://arc.movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://arc.movingwoo.com/server/2026/06/26/Massive-infrastructure-overhaul-2.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
+
+
+
+<div class="home-layout">
+  <div class="home-sidebar">
+    <aside class="sidebar__left">
+  <div class="toc-wrapper">
+    <nav class="toc">
+      <header>
+        <h4 class="nav__title">
+          <span class="title-text">
+            <i class="fas fa-sitemap"></i> Archive
+          </span>
+          <a href="/board?path=" class="search-link" title="탐색">
+            <i class="fas fa-list-ul"></i>
+          </a>
+        </h4>
+      </header>
+
+      <ul class="toc__menu">
+        <li class="toc__item depth-0" data-path="BOJ/" data-total-posts="0"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">BOJ</span></div><ul class="submenu"><li class="toc__item depth-1" data-path="BOJ/C++/" data-total-posts="10"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">C++</span><span class="post-count">10</span></div><ul class="toc__menu posts-list"><li><a href="/boj/c++/2025/07/07/9548.html" class="toc__link"><i class="fas fa-file-alt"></i> 9548번 무제</a></li><li><a href="/boj/c++/2025/06/24/16221.html" class="toc__link"><i class="fas fa-file-alt"></i> 16221번 모독</a></li><li><a href="/boj/c++/2025/06/19/17456.html" class="toc__link"><i class="fas fa-file-alt"></i> 17456번 필살! 60단 컴보</a></li><li><a href="/board?path=BOJ%2FC%2B%2B%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="BOJ/Java/" data-total-posts="16"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Java</span><span class="post-count">16</span></div><ul class="toc__menu posts-list"><li><a href="/boj/java/2025/06/26/1168.html" class="toc__link"><i class="fas fa-file-alt"></i> 1168번 요세푸스 문제 2</a></li><li><a href="/boj/java/2025/06/24/8436.html" class="toc__link"><i class="fas fa-file-alt"></i> 8436번 Kamil</a></li><li><a href="/boj/java/2025/06/24/28682.html" class="toc__link"><i class="fas fa-file-alt"></i> 28682번 재우야 임관하자</a></li><li><a href="/board?path=BOJ%2FJava%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="BOJ/Python/" data-total-posts="33"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Python</span><span class="post-count">33</span></div><ul class="toc__menu posts-list"><li><a href="/boj/python/2025/07/03/12837.html" class="toc__link"><i class="fas fa-file-alt"></i> 12837번 가계부 (Hard)</a></li><li><a href="/boj/python/2025/07/03/16455.html" class="toc__link"><i class="fas fa-file-alt"></i> 16455번 K번째 수 찾는 함수</a></li><li><a href="/boj/python/2025/07/03/2252.html" class="toc__link"><i class="fas fa-file-alt"></i> 2252번 줄 세우기</a></li><li><a href="/board?path=BOJ%2FPython%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li></ul></li><li class="toc__item depth-0" data-path="Development/" data-total-posts="0"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Development</span></div><ul class="submenu"><li class="toc__item depth-1" data-path="Development/Java/" data-total-posts="1"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Java</span><span class="post-count">1</span></div><ul class="toc__menu posts-list"><li><a href="/development/java/2025/05/11/Bulls-and-Cows.html" class="toc__link"><i class="fas fa-file-alt"></i> 숫자야구</a></li></ul></li><li class="toc__item depth-1" data-path="Development/JavaScript/" data-total-posts="8"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">JavaScript</span><span class="post-count">8</span></div><ul class="toc__menu posts-list"><li><a href="/development/javascript/2025/05/28/Dungeon-Generator-02.html" class="toc__link"><i class="fas fa-file-alt"></i> 던전 생성기 02</a></li><li><a href="/development/javascript/2025/05/27/Dungeon-Generator-01.html" class="toc__link"><i class="fas fa-file-alt"></i> 던전 생성기 01</a></li><li><a href="/development/javascript/2025/05/23/Maze-Generator-03.html" class="toc__link"><i class="fas fa-file-alt"></i> 미로 생성기 03</a></li><li><a href="/board?path=Development%2FJavaScript%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="Development/Python/" data-total-posts="4"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Python</span><span class="post-count">4</span></div><ul class="toc__menu posts-list"><li><a href="/development/python/2025/06/19/Code-Simulator.html" class="toc__link"><i class="fas fa-file-alt"></i> 코드 시뮬레이터</a></li><li><a href="/development/python/2025/06/09/Hardware-Monitor.html" class="toc__link"><i class="fas fa-file-alt"></i> 하드웨어 모니터</a></li><li><a href="/development/python/2025/06/04/WebP-Converter.html" class="toc__link"><i class="fas fa-file-alt"></i> WebP 변환기</a></li><li><a href="/board?path=Development%2FPython%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="Development/ShellScript/" data-total-posts="3"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">ShellScript</span><span class="post-count">3</span></div><ul class="toc__menu posts-list"><li><a href="/development/shellscript/2025/08/04/Install-MariaDB.html" class="toc__link"><i class="fas fa-file-alt"></i> 마리아디비 설치</a></li><li><a href="/development/shellscript/2025/05/12/File-Copier.html" class="toc__link"><i class="fas fa-file-alt"></i> 파일 복사기</a></li><li><a href="/development/shellscript/2025/04/28/Server-Manage-Console.html" class="toc__link"><i class="fas fa-file-alt"></i> 서버 관리 콘솔</a></li></ul></li><li class="toc__item depth-1" data-path="Development/Shortcuts/" data-total-posts="2"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Shortcuts</span><span class="post-count">2</span></div><ul class="toc__menu posts-list"><li><a href="/development/shortcuts/2025/06/11/Drawing-Lots.html" class="toc__link"><i class="fas fa-file-alt"></i> 제비 뽑기</a></li><li><a href="/development/shortcuts/2025/06/02/Magic-Conch-Shell.html" class="toc__link"><i class="fas fa-file-alt"></i> 마법의 소라고둥</a></li></ul></li><li class="toc__item depth-1" data-path="Development/VibeCoding/" data-total-posts="1"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">VibeCoding</span><span class="post-count">1</span></div><ul class="toc__menu posts-list"><li><a href="/development/vibecoding/2026/06/15/Moakey-for-iOS.html" class="toc__link"><i class="fas fa-file-alt"></i> 모아키 for iOS 구현</a></li></ul></li></ul></li><li class="toc__item depth-0" data-path="Server/" data-total-posts="10"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Server</span><span class="post-count">10</span></div><ul class="toc__menu posts-list"><li><a href="/server/2026/06/26/Massive-infrastructure-overhaul-2.html" class="toc__link"><i class="fas fa-file-alt"></i> 인프라 대공사 2</a></li><li><a href="/server/2026/06/26/Massive-infrastructure-overhaul-1.html" class="toc__link"><i class="fas fa-file-alt"></i> 인프라 대공사 1</a></li><li><a href="/server/2026/06/25/How-To-Manage-Docker-Compose.html" class="toc__link"><i class="fas fa-file-alt"></i> 도커 컴포즈 관리 방안</a></li><li><a href="/board?path=Server%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul><ul class="submenu"><li class="toc__item depth-1" data-path="Server/Service/" data-total-posts="6"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Service</span><span class="post-count">6</span></div><ul class="toc__menu posts-list"><li><a href="/server/service/2026/06/24/Setting-Caddy.html" class="toc__link"><i class="fas fa-file-alt"></i> Caddy 웹서버 구성</a></li><li><a href="/server/service/2026/06/19/Monitoring-With-Glances.html" class="toc__link"><i class="fas fa-file-alt"></i> Glances 활용 모니터링</a></li><li><a href="/server/service/2026/06/18/Install-RustDesk.html" class="toc__link"><i class="fas fa-file-alt"></i> RustDesk 자체 구축</a></li><li><a href="/board?path=Server%2FService%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="Server/WEB/" data-total-posts="1"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">WEB</span><span class="post-count">1</span></div><ul class="toc__menu posts-list"><li><a href="/server/web/2025/09/15/Setting-Traefik.html" class="toc__link"><i class="fas fa-file-alt"></i> Traefik 구축, 설정</a></li></ul></li></ul></li><li class="toc__item depth-0" data-path="Zone of Exile/" data-total-posts="1"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Zone of Exile</span><span class="post-count">1</span></div><ul class="toc__menu posts-list"><li><a href="/zone%20of%20exile/2025/04/30/What-is-this.html" class="toc__link"><i class="fas fa-file-alt"></i> 유배지 공고문</a></li></ul><ul class="submenu"><li class="toc__item depth-1" data-path="Zone of Exile/AI-playground/" data-total-posts="0"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">AI-playground</span></div><ul class="submenu"><li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/Claude/" data-total-posts="2"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Claude</span><span class="post-count">2</span></div><ul class="toc__menu posts-list"><li><a href="/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html" class="toc__link"><i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?</a></li><li><a href="/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html" class="toc__link"><i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?</a></li></ul></li><li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/GPT/" data-total-posts="3"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">GPT</span><span class="post-count">3</span></div><ul class="toc__menu posts-list"><li><a href="/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html" class="toc__link"><i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기</a></li><li><a href="/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html" class="toc__link"><i class="fas fa-file-alt"></i> 즐거운 연휴</a></li><li><a href="/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html" class="toc__link"><i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰</a></li></ul></li></ul></li></ul></li>
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<script>window.currentPageCategory = "Server/";</script>
+
+<script src="/assets/js/toc.js"></script>
+
+  </div>
+
+  <div class="home-content">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="headline" content="인프라 대공사 2">
+      <meta itemprop="description" content="  할 일  기존 메인 도메인에 붙어있던 github pages로 구동되던 페이지를 옮겨야한다.서브도메인을 하나 달아줘서 이동 시키고대표 도메인에는 다른 정적인 페이지를 파서 링크를 달아주는 식으로 바꾸려 한다.부작용으로 구글 서치콘솔 다 꼬이는 문제가 있긴한데…어차피 방문자도 없으니 그냥 무시하고 진행하자.  기존 도메인 변경  www.movingwoo.com은 CNAME으로 movingwoo.com으로 붙고movingwoo.com은 github pages에 붙어서 현재 포스트…. 관리하는 곳으로 넘어온다.정체성이 뭐지? 블로그라 해야하나?서브도메인을 뭘로 붙이지?그냥 아카이브로 해야겠다.archive는 너무 기니까 arc로 하자.변경 범위를 우선 정리해보면  프로젝트 내 CNAME, README 등 설정 변경  github repo 설정 변경  도메인 레코드에 github pages 공식 IP 주소 수정차근차근 위부터 진행하자.1. 프로젝트 수정도메인이 직접 기재된 파일 리스트는 5개로 보인다.  CNAME  _config.yml  robots.txt  giscus.html  README.md단순 수정이니 빠르게 진행._config.yml 보니 수정할게 많이 보인다.만든지 꽤 시간이 지나서 테마도 변경하고 싶고…우선 현재 작업에만 집중해야지.작업을 커밋하고 푸쉬, 다음으로 넘어간다.2. 깃헙 레포 설정 변경깃헙에 들어가서 Settings &gt; pages &gt; Custom domain 에 도메인을 수정한다.수정해야하는데…자동으로 반영이 되어있네?음 깃헙 페이지는 똑똑한가부다.커밋내용을 그대로 알아서 반영해줬다.이것도 우선 패스3. DNS 레코드 수정">
+      <meta itemprop="datePublished" content="2026-06-26T05:00:00+00:00">
+      <meta itemprop="dateModified" content="2026-06-26T05:00:00+00:00">
+
+      <div class="page__inner-wrap">
+        
+          <header>
+            
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=Server" class="category-link">
+        Server
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=Server%2F" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">인프라 대공사 2
+</h1>
+            
+
+
+          </header>
+        
+
+        <section class="page__content" itemprop="text">
+          <blockquote>
+  <h4 id="할-일">할 일</h4>
+  <hr />
+</blockquote>
+
+<p>기존 메인 도메인에 붙어있던 github pages로 구동되던 페이지를 옮겨야한다.<br />
+서브도메인을 하나 달아줘서 이동 시키고<br />
+대표 도메인에는 다른 정적인 페이지를 파서 링크를 달아주는 식으로 바꾸려 한다.</p>
+
+<p>부작용으로 구글 서치콘솔 다 꼬이는 문제가 있긴한데…<br />
+어차피 방문자도 없으니 그냥 무시하고 진행하자.</p>
+
+<blockquote>
+  <h4 id="기존-도메인-변경">기존 도메인 변경</h4>
+  <hr />
+</blockquote>
+
+<p>www.movingwoo.com은 CNAME으로 movingwoo.com으로 붙고<br />
+movingwoo.com은 github pages에 붙어서 현재 포스트…. 관리하는 곳으로 넘어온다.</p>
+
+<p>정체성이 뭐지? 블로그라 해야하나?<br />
+서브도메인을 뭘로 붙이지?</p>
+
+<p>그냥 아카이브로 해야겠다.<br />
+archive는 너무 기니까 arc로 하자.</p>
+
+<p>변경 범위를 우선 정리해보면</p>
+<ul>
+  <li>프로젝트 내 CNAME, README 등 설정 변경</li>
+  <li>github repo 설정 변경</li>
+  <li>도메인 레코드에 github pages 공식 IP 주소 수정</li>
+</ul>
+
+<p>차근차근 위부터 진행하자.</p>
+
+<h4 id="1-프로젝트-수정">1. 프로젝트 수정</h4>
+
+<p>도메인이 직접 기재된 파일 리스트는 5개로 보인다.</p>
+<ul>
+  <li>CNAME</li>
+  <li>_config.yml</li>
+  <li>robots.txt</li>
+  <li>giscus.html</li>
+  <li>README.md</li>
+</ul>
+
+<p>단순 수정이니 빠르게 진행.<br />
+_config.yml 보니 수정할게 많이 보인다.<br />
+만든지 꽤 시간이 지나서 테마도 변경하고 싶고…<br />
+우선 현재 작업에만 집중해야지.<br />
+작업을 커밋하고 푸쉬, 다음으로 넘어간다.</p>
+
+<h4 id="2-깃헙-레포-설정-변경">2. 깃헙 레포 설정 변경</h4>
+
+<p>깃헙에 들어가서 <span style="color: orange;"><strong>Settings</strong></span> &gt; <span style="color: orange;"><strong>pages</strong></span> &gt; <span style="color: orange;"><strong>Custom domain</strong></span> 에 도메인을 수정한다.<br />
+수정해야하는데…</p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img01.webp" alt="img01" width="70%" /></p>
+
+<p>자동으로 반영이 되어있네?<br />
+음 깃헙 페이지는 똑똑한가부다.<br />
+커밋내용을 그대로 알아서 반영해줬다.<br />
+이것도 우선 패스</p>
+
+<h4 id="3-dns-레코드-수정">3. DNS 레코드 수정</h4>
+
+<p>도메인 제공업체 접속해서 레코드를 수정한다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img02.webp" alt="img02" width="90%" /></p>
+
+<p>github pages 공식 IP가 설정된 A레코드 4줄을 변경해주고 다시 깃헙 설정으로 돌아가서 상태를 확인한다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img03.webp" alt="img03" width="70%" /></p>
+
+<p>뭐야 이거 왜 안됨?<br />
+DNS 체크가 설정이 올바르지 않다고 계속해서 실패한다.<br />
+그런데 가만보자 나 이거 저번에 봤던거 같은데…</p>
+
+<p><a href="https://arc.movingwoo.com/server/2025/12/16/Fixing-SSL-Cert-Error.html">SSL 인증서 오류 해결</a></p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img04.webp" alt="img04" width="60%" /></p>
+
+<p>앗찻차! 지난번에 쓴 포스트를 보고 깨달았다.<br />
+작년 12월에 SSL 검증 오류를 해결하며 한 번 마주쳤던 상황이다.<br />
+내용대로 github 설정의 저건 현재 검증이 안되는게 정상이다.<br />
+이래서 사람은 기록을 잘 남겨둬야한다.</p>
+
+<p>그럼 다 끝난거니 바뀐 도메인으로 한 번 접속해보자.</p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img05.webp" alt="img05" width="40%" /></p>
+
+<p>아주 잘 들어가진다 굳</p>
+
+<blockquote>
+  <h4 id="대표-도메인">대표 도메인</h4>
+  <hr />
+</blockquote>
+
+<p>이제 대표도메인은 갈 곳이 없어졌다.<br />
+www 서브 도메인은 대표 도메인으로 넘어가고<br />
+대표 도메인은 새로운 링크 페이지로 넘어가게 바꿀 것이다.<br />
+링크 페이지는 새로운 repo 파서 github pages로 기동한다.<br />
+공짜 서버 너무 좋아</p>
+
+<p>일단 간단하게 웹페이지를 작성하자.<br />
+시간이 없으니 하청을 주서 대충 뼈대만 개발 끝내고 새 레포에 푸쉬한다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img06.webp" alt="img06" width="70%" /></p>
+
+<p>이니셜 커밋 완료.<br />
+movingwoo.github.io는 아카이브가 뺏어가서 쓰고 있기 때문에 대충 hub 정도로 지어준다.<br />
+이렇게 되면 movingwoo.github.io/hub 이런 식으로 접근해야하는데<br />
+어차피 연결 세부사항은 DNS 레코드 설정과 레포 커스텀 도메인 설정에서 알아서 처리해줄거라 별로 상관없다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img07.webp" alt="img07" width="60%" /></p>
+
+<p>어 그런데 커스텀 도메인이 이렇게 되면 뭐지?<br />
+클라우드플레어에서 arc 서브도메인을 github 페이지로 보내는 중이다.<br />
+그럼 메인도메인은???</p>
+
+<p>아 설정을 잘못했다…<br />
+<span style="color: orange;"><strong>메인 도메인을 github IP로 보내고 서브도메인은 CNAME으로 연결</strong></span>시키는게 맞겠다…</p>
+
+<p><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">GitHub Docs</a></p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img08.webp" alt="img08" width="60%" /></p>
+
+<p>깃헙의 공식 문서를 보면 표로 이렇게 정리를 해줬다.<br />
+꼭 저렇게 해야하는건 아니겠지만 권장사항대로 하는게 좋겠지.<br />
+따라서 다시 github IP를 메인 도메인에 물려주고 arc 서브도메인용 CNAME을 추가한다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img09.webp" alt="img09" width="90%" /></p>
+
+<p>그래 이게 맞아…<br />
+임시로 만든 메인페이지 접근 잘 되는지 확인해본다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 2/img09.webp" alt="img10" width="40%" /></p>
+
+<p>잘 되는구만!</p>
+
+<blockquote>
+  <h4 id="마무리">마무리</h4>
+  <hr />
+</blockquote>
+
+<p>아직 메인 도메인 페이지 링크 구성이 안되어있다.<br />
+나중에 링크 개발 마쳐서 커밋해야겠다.<br />
+html과 js로만 구성된 민감정보 한 톨 안담긴 간단한 페이지니 죄다 클로드 하청 맡겨야지!</p>
+
+<p>그건 그거고 고생했으니 좀 쉬어야겠다.</p>
+
+          
+        </section>
+
+        <footer class="page__meta">
+          
+          
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2026-06-26">June 26, 2026</time></p>
+
+
+        </footer>
+
+        
+
+        
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 현재 post data만 넘겨주고, 전체 글 목록은 post_pagination.js가
+    // /assets/data/posts.json을 fetch해서 가져옴 (모든 글 페이지에 중복 직렬화 방지)
+    window.postData = {
+      currentPost: {
+        title: "인프라 대공사 2",
+        url: "/server/2026/06/26/Massive-infrastructure-overhaul-2.html",
+        date: "2026-06-26",
+        categories: ["Server/"]
+      },
+      allPostsUrl: "/assets/data/posts.json"
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
+      </div>
+
+      
+      
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://arc.movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+    </article>
+
+    
+    
+  </div>
+</div>
+
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 1rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .home-content {
+    padding: 0;
+  }
+}
+</style>
+
+    </div>
+
+    
+    
+    <div class="page__footer">
+  <div class="page__footer-copyright">
+    Visit: <a href="https://github.com/movingwoo/movingwoo.github.io">https://github.com/movingwoo/movingwoo.github.io</a>
+    <br>
+    <span class="theme-credit">Theme customized from Minimal Mistakes by Michael Rose (MIT License).</span>
+  </div>
+</div>
+
+    <div class="scroll-button">
+  <div class="scroll-button__container">
+    <button class="scroll-button__area scroll-button__area--top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="위로">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="scroll-button__area scroll-button__area--bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="아래로">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.scroll-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.scroll-button__container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(220, 20, 60, 0.6);
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-button__area {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button__area--top {
+  top: 0;
+}
+
+.scroll-button__area--bottom {
+  bottom: 0;
+}
+
+.scroll-button__area:focus {
+  outline: none;
+}
+
+.scroll-button__area:hover {
+  color: rgba(220, 20, 60, 1);
+}
+
+.scroll-button__area:hover i {
+  transform: scale(1.2);
+}
+
+.scroll-button__area i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll-button {
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .scroll-button__container {
+    width: 50px;
+    height: 50px;
+  }
+}
+</style> 
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+});
+</script>
+
+
+  </body>
+</html>
