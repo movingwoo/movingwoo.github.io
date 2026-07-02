@@ -604,4 +604,10 @@ var store = [{
         "tags": ["SERVER","INFRASTRUCTURE","NEXTCLOUD","COLLABORA","CADDY","DOCKER"],
         "url": "/server/2026/06/26/Massive-infrastructure-overhaul-2.html",
         "teaser": null
+      },{
+        "title": "넥스트클라우드 33 업그레이드",
+        "excerpt":"개요 업그레이드의 시기가 도래했다… 넥스트클라우드 버전을 31에서 33으로 올려야한다. 넥스트 클라우드 메이저 버전은 계절에 따라 하나씩 올라가는 듯 하다. 왜이렇게 업데이트를 빠르게 하는거지? 31버전 잘 쓰고 있었지만 34버전이 나오는 이 시점에 33버전까지는 따라가야겠다. 제발 터지지 마라 기도하면서 백업부터 진행. 절차 확인 침착하게 절차를 확인하자. 순서대로 작성해보면 아래와 같다. 유지보수 모드...","categories": ["Server/Service/"],
+        "tags": ["SERVER","SERVICE","DOCKER","NEXTCLOUD","UPGRADE"],
+        "url": "/server/service/2026/07/02/Upgrade-Nextcloud-To-33.html",
+        "teaser": null
       }]
