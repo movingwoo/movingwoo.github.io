@@ -4,8 +4,8 @@ description: "Caddy 웹서버 최초 구성"
 date: "2026-06-24 15:00:00 +0900"
 last_modified_at: "2026-06-24 15:00:00 +0900"
 categories: 
-  - Server/Service/
-tags: [SERVER, SERVICE, CADDY, PROXY]
+  - Server/WEB/
+tags: [SERVER, WEB, CADDY, PROXY]
 author: movingwoo
 ---
 > #### 개요  
