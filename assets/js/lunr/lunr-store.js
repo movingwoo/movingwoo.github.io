@@ -582,9 +582,9 @@ var store = [{
         "teaser": null
       },{
         "title": "Caddy 웹서버 구성",
-        "excerpt":"개요 Glances 대시보드에 도메인을 달아야한다. 이왕 도메인 주는 것, 다른 서비스들에도 일괄 달아줄 예정이다. 이를 위해서 인프라 대공사가 필요해진다. 앗 하기 싫어 구상 우선 NextCloud가 돌아가는 꼬라지를 보면 외부 접속을 위해 CloudFlare Tunnel 뒤에 Traefik이 있으며 얘가 80포트를 점유하고 있다. 이 전체를 들어내는 것은 귀찮고, 보안문제도 있기 때문에 얘는 가만히...","categories": ["Server/Service/"],
-        "tags": ["SERVER","SERVICE","CADDY","PROXY"],
-        "url": "/server/service/2026/06/24/Setting-Caddy.html",
+        "excerpt":"개요 Glances 대시보드에 도메인을 달아야한다. 이왕 도메인 주는 것, 다른 서비스들에도 일괄 달아줄 예정이다. 이를 위해서 인프라 대공사가 필요해진다. 앗 하기 싫어 구상 우선 NextCloud가 돌아가는 꼬라지를 보면 외부 접속을 위해 CloudFlare Tunnel 뒤에 Traefik이 있으며 얘가 80포트를 점유하고 있다. 이 전체를 들어내는 것은 귀찮고, 보안문제도 있기 때문에 얘는 가만히...","categories": ["Server/WEB/"],
+        "tags": ["SERVER","WEB","CADDY","PROXY"],
+        "url": "/server/web/2026/06/24/Setting-Caddy.html",
         "teaser": null
       },{
         "title": "도커 컴포즈 관리 방안",
