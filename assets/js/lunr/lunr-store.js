@@ -610,4 +610,10 @@ var store = [{
         "tags": ["SERVER","SERVICE","DOCKER","NEXTCLOUD","UPGRADE"],
         "url": "/server/service/2026/07/02/Upgrade-Nextcloud-To-33.html",
         "teaser": null
+      },{
+        "title": "구글 클라우드 무료 서버 생성",
+        "excerpt":"서버 현황 5호기 서버가 필요하다. 1호기는 오래된 서피스에 설치된 리눅스라 깔딱깔딱거리며 죽기 일보직전이다. 충전기 뽑으면 2시간 내로 ‘죽을게’를 외치며 뻗는다. 2호기는 국제미아가 되어서 찾을 수도 없고 3호기 우분투 데스크탑과 4호기 맥북은 쌩쌩하다. 계란을 한 바구니에 담지 말라는 말이 있다. 현재 대부분 서비스가 3호기에서 돌아가고 있고 일부는 4호기가 대신 해주긴 하지만...","categories": ["Server/"],
+        "tags": ["SERVER","GOOGLE","GOOGLECLOUD"],
+        "url": "/server/2026/07/07/Build-Server-With-Google-Cloud.html",
+        "teaser": null
       }]
