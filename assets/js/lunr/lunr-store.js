@@ -616,4 +616,10 @@ var store = [{
         "tags": ["SERVER","GOOGLE","GOOGLECLOUD"],
         "url": "/server/2026/07/07/Build-Server-With-Google-Cloud.html",
         "teaser": null
+      },{
+        "title": "브리핑 봇 구현",
+        "excerpt":"개요 5호기 서버는 뭘 할 수 있을까? 1기가 메모리는 차치하고 아웃바운드 데이터 제한 1기가가 참 살벌한 제한 조건이다. 범위 내 안전하게 사용하려면 텍스트 데이터만 주고 받는게 맞을 것 같다. 이왕 이렇게 된 것, 텔레그램과 연동하여 필요한 정보를 정해진 시간에 브리핑하는 봇을 만든다. 설계 흐름은 간단하다. 데이터 수집 및 가공 후...","categories": ["Development/VibeCoding/"],
+        "tags": ["VIVECODING","CLAUDE","BOT","TELEGRAM"],
+        "url": "/development/vibecoding/2026/07/09/Briefing-Bot.html",
+        "teaser": null
       }]
