@@ -3,6 +3,13 @@
 [
   
     {
+      "title": "여행 계획 지도 만들기",
+      "url": "/server/service/2026/07/15/Make-Tour-Map.html",
+      "date": "2026-07-15",
+      "categories": ["Server/Service/"]
+    },
+  
+    {
       "title": "브리핑 봇 구현",
       "url": "/development/vibecoding/2026/07/09/Briefing-Bot.html",
       "date": "2026-07-09",

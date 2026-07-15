@@ -622,4 +622,10 @@ var store = [{
         "tags": ["VIVECODING","CLAUDE","BOT","TELEGRAM"],
         "url": "/development/vibecoding/2026/07/09/Briefing-Bot.html",
         "teaser": null
+      },{
+        "title": "여행 계획 지도 만들기",
+        "excerpt":"개요 올해 3번째 해외여행 준비 중 어쩌다보니 너무 많이 나간다. 돈이 없다 진짜 아무튼 여행 준비하는데 그동안 구글맵으로 위치 저장해두고 해당 저장 목록 권한을 공유하는 식으로 했는데 은근히 잔버그가 많아서 쓰기 곤란했다. 뭔가 일행들이 한 번에 확인 가능한 그런 서비스가 필요했는데 뭐 없으면 그냥 만들지 뭐 만들기 지도 데이터는 Leaflet을...","categories": ["Server/Service/"],
+        "tags": ["SERVER","SERVICE","TOURMAP"],
+        "url": "/server/service/2026/07/15/Make-Tour-Map.html",
+        "teaser": null
       }]
