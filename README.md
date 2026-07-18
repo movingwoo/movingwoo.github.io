@@ -4,14 +4,9 @@
 >  
 > Theme customized from [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) by Michael Rose (MIT License).
 >   
+> Posts & images are licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). See [LICENSE](LICENSE) for details.
+>   
 > Visit: [https://arc.movingwoo.com](https://arc.movingwoo.com)
-
-## License
-
-- Code (theme, layouts, includes, SCSS, JS, plugins): [MIT](LICENSE)
-- Posts & images (`_posts/`, `assets/images/posts/`): [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-
-See [LICENSE](LICENSE) for details.
 
 ## Tech Stack
 - [Jekyll](https://jekyllrb.com/)
