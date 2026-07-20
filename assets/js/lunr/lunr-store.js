@@ -628,4 +628,10 @@ var store = [{
         "tags": ["SERVER","SERVICE","TOURMAP"],
         "url": "/server/service/2026/07/15/Make-Tour-Map.html",
         "teaser": null
+      },{
+        "title": "프라이빗 웹 터미널",
+        "excerpt":"개요 AI 세션 여기저기 만들고 다니니 관리가 귀찮다. 개발 환경도 여기저기 흩뿌려놨더니 매번 ssh 접속하는 것도 짜증난다. 주요 개발환경에 백그라운드로 띄어두고 웹으로 접근할 수 있는 개인용 웹 터미널을 만들자. 설계 FastAPI를 사용한다. 예전에 잠깐 공부할때 상당히 매력적이라고 느꼈는데 이번에 써야지. xterm.js 브라우저에서 터미널을 사용하려면 xterm.js라는 훌륭한 라이브러리가 존재한다. 서버에는 PTY를...","categories": ["Development/VibeCoding/"],
+        "tags": ["VIVECODING","CLAUDE","WTERM"],
+        "url": "/development/vibecoding/2026/07/20/WTerm.html",
+        "teaser": null
       }]
