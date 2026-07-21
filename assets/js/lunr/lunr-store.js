@@ -634,4 +634,10 @@ var store = [{
         "tags": ["VIVECODING","CLAUDE","WTERM"],
         "url": "/development/vibecoding/2026/07/20/WTerm.html",
         "teaser": null
+      },{
+        "title": "웹 터미널 코덱스 추가",
+        "excerpt":"AI 경쟁 오늘자로 클로드 코드 Fable5 모델이 사용할 수 없게 되었다. 정확하게는 토큰 정량제로 전환된 듯 하다. 아! 진짜 좋았는데!!! 사실 그동안 Codex의 Sol 모델과 많은 경합이 있어왔다. 듣기로는 막 사용량 초기화도 해주고 난리도 아니었다고 한다. 하지만 나는 Fable5 사용감이 좋아서 그냥 쓰고 있었는데… 이렇게 되면 GPT를 안 쓸 수가...","categories": ["Development/VibeCoding/"],
+        "tags": ["VIVECODING","CLAUDE","CODEX","WTERM"],
+        "url": "/development/vibecoding/2026/07/21/WTerm-Upgrade.html",
+        "teaser": null
       }]
