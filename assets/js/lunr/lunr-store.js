@@ -640,4 +640,10 @@ var store = [{
         "tags": ["VIVECODING","CLAUDE","CODEX","WTERM"],
         "url": "/development/vibecoding/2026/07/21/WTerm-Upgrade.html",
         "teaser": null
+      },{
+        "title": "WTools 브라우저 개발자 유틸리티",
+        "excerpt":"개요 favicon을 생성하거나 이미지 포맷을 변경하거나 base64 디코딩을 진행하거나 작업을 할 때 외부 사이트를 이용하면서 나만의 사이트를 갖고 싶다는 작은 욕망이 있었다. 때문에 IT-Tools와 CyberChef를 참고하며 조금조금씩 개발을 하고 있었다. 하지만 혼자 작업하는데 한계도 있고 언급한 두 소프트웨어가 너무나 뛰어나기 때문에 진척도는 지지부진한 상황. 그런데 AI의 세상이 도래해버렸다. 잊혀졌던 묵은...","categories": ["Development/VibeCoding/"],
+        "tags": ["VIVECODING","CLAUDE","CODEX","WTOOLS"],
+        "url": "/development/vibecoding/2026/08/03/WTools.html",
+        "teaser": null
       }]
