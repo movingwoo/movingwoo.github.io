@@ -1,0 +1,732 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>6호기 서버 생성 - 뭐라도 하겠지</title>
+<meta name="description" content="오라클 클라우드 6호기 서버 생성">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="뭐라도 하겠지">
+<meta property="og:title" content="6호기 서버 생성">
+<meta property="og:url" content="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html">
+
+
+  <meta property="og:description" content="오라클 클라우드 6호기 서버 생성">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2026-08-13T02:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2026-08-13T02:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "뭐라도 하겠지",
+      "url": "https://arc.movingwoo.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/common/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/common/favicon_16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/common/favicon_180x180.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="뭐라도 하겠지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.querySelector('.head-content-btn');
+  const dropdownContent = document.querySelector('.game-dropdown-content');
+  let isOpen = false;
+
+  // 드롭다운 버튼 클릭 이벤트
+  dropdownBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    if (isOpen) {
+      const rect = dropdownBtn.getBoundingClientRect();
+      dropdownContent.style.top = rect.bottom + 'px';
+      dropdownContent.style.left = rect.left + 'px';
+      dropdownContent.classList.add('show');
+    } else {
+      dropdownContent.classList.remove('show');
+    }
+  });
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    if (isOpen && !dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+      isOpen = false;
+      dropdownContent.classList.remove('show');
+    }
+  });
+});
+</script>
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/common/favicon_180x180.png" alt="뭐라도 하겠지"></a>
+        
+        <a class="site-title" href="/">
+          뭐라도 하겠지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <div class="game-dropdown">
+              <button class="head-content-btn">
+                play <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="game-dropdown-content">
+                <a href="/play/Flappy%20Bird.html" target="_blank">Flappy Bird</a>
+                <a href="/play/Minesweeper.html" target="_blank">Minesweeper</a>
+                <a href="/play/Random%20Printer.html" target="_blank">Random Printer</a>
+                <a href="/play/Maze%20Generator.html" target="_blank">Maze Generator</a>
+                <a href="/play/Dungeon%20Generator.html" target="_blank">Dungeon Generator</a>
+                <a href="/play/Code%20Simulator.html" target="_blank">Python Code Simulator</a>
+              </div>
+            </div>
+          </li>
+          <li class="masthead__menu-item">
+            <button class="head-content-btn" onclick="window.location.href='/board?path='">
+              explorer
+            </button>
+          </li>
+        </ul>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="제목 검색" class="search-input">
+          <button class="search-button" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <h1 class="title__logo"><a href="https://arc.movingwoo.com/">뭐라도 하겠지</a></h1>
+ -->
+
+
+
+<script src="/assets/js/search.js"></script>
+
+
+    <div class="initial-content">
+      <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>6호기 서버 생성 | 뭐라도 하겠지</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="6호기 서버 생성" />
+<meta name="author" content="movingwoo" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="description" content="오라클 클라우드 6호기 서버 생성" />
+<meta property="og:description" content="오라클 클라우드 6호기 서버 생성" />
+<link rel="canonical" href="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html" />
+<meta property="og:url" content="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html" />
+<meta property="og:site_name" content="뭐라도 하겠지" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-08-13T02:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="6호기 서버 생성" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"movingwoo"},"dateModified":"2026-08-13T02:00:00+00:00","datePublished":"2026-08-13T02:00:00+00:00","description":"오라클 클라우드 6호기 서버 생성","headline":"6호기 서버 생성","mainEntityOfPage":{"@type":"WebPage","@id":"https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://arc.movingwoo.com/assets/images/common/favicon_180x180.png"},"name":"movingwoo"},"url":"https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
+
+
+
+<div class="home-layout">
+  <div class="home-sidebar">
+    <aside class="sidebar__left">
+  <div class="toc-wrapper">
+    <nav class="toc">
+      <header>
+        <h4 class="nav__title">
+          <span class="title-text">
+            <i class="fas fa-sitemap"></i> Archive
+          </span>
+          <a href="/board?path=" class="search-link" title="탐색">
+            <i class="fas fa-list-ul"></i>
+          </a>
+        </h4>
+      </header>
+
+      <ul class="toc__menu">
+        <li class="toc__item depth-0" data-path="BOJ/" data-total-posts="0"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">BOJ</span></div><ul class="submenu"><li class="toc__item depth-1" data-path="BOJ/C++/" data-total-posts="10"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">C++</span><span class="post-count">10</span></div><ul class="toc__menu posts-list"><li><a href="/boj/c++/2025/07/07/9548.html" class="toc__link"><i class="fas fa-file-alt"></i> 9548번 무제</a></li><li><a href="/boj/c++/2025/06/24/16221.html" class="toc__link"><i class="fas fa-file-alt"></i> 16221번 모독</a></li><li><a href="/boj/c++/2025/06/19/17456.html" class="toc__link"><i class="fas fa-file-alt"></i> 17456번 필살! 60단 컴보</a></li><li><a href="/board?path=BOJ%2FC%2B%2B%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="BOJ/Java/" data-total-posts="16"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Java</span><span class="post-count">16</span></div><ul class="toc__menu posts-list"><li><a href="/boj/java/2025/06/26/1168.html" class="toc__link"><i class="fas fa-file-alt"></i> 1168번 요세푸스 문제 2</a></li><li><a href="/boj/java/2025/06/24/8436.html" class="toc__link"><i class="fas fa-file-alt"></i> 8436번 Kamil</a></li><li><a href="/boj/java/2025/06/24/28682.html" class="toc__link"><i class="fas fa-file-alt"></i> 28682번 재우야 임관하자</a></li><li><a href="/board?path=BOJ%2FJava%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="BOJ/Python/" data-total-posts="33"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Python</span><span class="post-count">33</span></div><ul class="toc__menu posts-list"><li><a href="/boj/python/2025/07/03/12837.html" class="toc__link"><i class="fas fa-file-alt"></i> 12837번 가계부 (Hard)</a></li><li><a href="/boj/python/2025/07/03/16455.html" class="toc__link"><i class="fas fa-file-alt"></i> 16455번 K번째 수 찾는 함수</a></li><li><a href="/boj/python/2025/07/03/2252.html" class="toc__link"><i class="fas fa-file-alt"></i> 2252번 줄 세우기</a></li><li><a href="/board?path=BOJ%2FPython%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li></ul></li><li class="toc__item depth-0" data-path="Development/" data-total-posts="0"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Development</span></div><ul class="submenu"><li class="toc__item depth-1" data-path="Development/Java/" data-total-posts="1"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Java</span><span class="post-count">1</span></div><ul class="toc__menu posts-list"><li><a href="/development/java/2025/05/11/Bulls-and-Cows.html" class="toc__link"><i class="fas fa-file-alt"></i> 숫자야구</a></li></ul></li><li class="toc__item depth-1" data-path="Development/JavaScript/" data-total-posts="8"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">JavaScript</span><span class="post-count">8</span></div><ul class="toc__menu posts-list"><li><a href="/development/javascript/2025/05/28/Dungeon-Generator-02.html" class="toc__link"><i class="fas fa-file-alt"></i> 던전 생성기 02</a></li><li><a href="/development/javascript/2025/05/27/Dungeon-Generator-01.html" class="toc__link"><i class="fas fa-file-alt"></i> 던전 생성기 01</a></li><li><a href="/development/javascript/2025/05/23/Maze-Generator-03.html" class="toc__link"><i class="fas fa-file-alt"></i> 미로 생성기 03</a></li><li><a href="/board?path=Development%2FJavaScript%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="Development/Python/" data-total-posts="4"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Python</span><span class="post-count">4</span></div><ul class="toc__menu posts-list"><li><a href="/development/python/2025/06/19/Code-Simulator.html" class="toc__link"><i class="fas fa-file-alt"></i> 코드 시뮬레이터</a></li><li><a href="/development/python/2025/06/09/Hardware-Monitor.html" class="toc__link"><i class="fas fa-file-alt"></i> 하드웨어 모니터</a></li><li><a href="/development/python/2025/06/04/WebP-Converter.html" class="toc__link"><i class="fas fa-file-alt"></i> WebP 변환기</a></li><li><a href="/board?path=Development%2FPython%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="Development/ShellScript/" data-total-posts="3"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">ShellScript</span><span class="post-count">3</span></div><ul class="toc__menu posts-list"><li><a href="/development/shellscript/2025/08/04/Install-MariaDB.html" class="toc__link"><i class="fas fa-file-alt"></i> 마리아디비 설치</a></li><li><a href="/development/shellscript/2025/05/12/File-Copier.html" class="toc__link"><i class="fas fa-file-alt"></i> 파일 복사기</a></li><li><a href="/development/shellscript/2025/04/28/Server-Manage-Console.html" class="toc__link"><i class="fas fa-file-alt"></i> 서버 관리 콘솔</a></li></ul></li><li class="toc__item depth-1" data-path="Development/Shortcuts/" data-total-posts="2"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Shortcuts</span><span class="post-count">2</span></div><ul class="toc__menu posts-list"><li><a href="/development/shortcuts/2025/06/11/Drawing-Lots.html" class="toc__link"><i class="fas fa-file-alt"></i> 제비 뽑기</a></li><li><a href="/development/shortcuts/2025/06/02/Magic-Conch-Shell.html" class="toc__link"><i class="fas fa-file-alt"></i> 마법의 소라고둥</a></li></ul></li><li class="toc__item depth-1" data-path="Development/VibeCoding/" data-total-posts="5"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">VibeCoding</span><span class="post-count">5</span></div><ul class="toc__menu posts-list"><li><a href="/development/vibecoding/2026/08/03/WTools.html" class="toc__link"><i class="fas fa-file-alt"></i> WTools 브라우저 개발자 유틸리티</a></li><li><a href="/development/vibecoding/2026/07/21/WTerm-Upgrade.html" class="toc__link"><i class="fas fa-file-alt"></i> 웹 터미널 코덱스 추가</a></li><li><a href="/development/vibecoding/2026/07/20/WTerm.html" class="toc__link"><i class="fas fa-file-alt"></i> 프라이빗 웹 터미널</a></li><li><a href="/board?path=Development%2FVibeCoding%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li></ul></li><li class="toc__item depth-0" data-path="Server/" data-total-posts="12"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Server</span><span class="post-count">12</span></div><ul class="toc__menu posts-list"><li><a href="/server/2026/08/13/Build-Server-Mk6.html" class="toc__link"><i class="fas fa-file-alt"></i> 6호기 서버 생성</a></li><li><a href="/server/2026/07/07/Build-Server-With-Google-Cloud.html" class="toc__link"><i class="fas fa-file-alt"></i> 구글 클라우드 무료 서버 생성</a></li><li><a href="/server/2026/06/26/Massive-infrastructure-overhaul-2.html" class="toc__link"><i class="fas fa-file-alt"></i> 인프라 대공사 2</a></li><li><a href="/board?path=Server%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul><ul class="submenu"><li class="toc__item depth-1" data-path="Server/Service/" data-total-posts="7"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Service</span><span class="post-count">7</span></div><ul class="toc__menu posts-list"><li><a href="/server/service/2026/07/15/Make-Tour-Map.html" class="toc__link"><i class="fas fa-file-alt"></i> 여행 계획 지도 만들기</a></li><li><a href="/server/service/2026/07/02/Upgrade-Nextcloud-To-33.html" class="toc__link"><i class="fas fa-file-alt"></i> 넥스트클라우드 33 업그레이드</a></li><li><a href="/server/service/2026/06/19/Monitoring-With-Glances.html" class="toc__link"><i class="fas fa-file-alt"></i> Glances 활용 모니터링</a></li><li><a href="/board?path=Server%2FService%2F" class="toc__link more-posts"><i class="fas fa-ellipsis-h"></i> 더보기</a></li></ul></li><li class="toc__item depth-1" data-path="Server/WEB/" data-total-posts="2"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">WEB</span><span class="post-count">2</span></div><ul class="toc__menu posts-list"><li><a href="/server/web/2026/06/24/Setting-Caddy.html" class="toc__link"><i class="fas fa-file-alt"></i> Caddy 웹서버 구성</a></li><li><a href="/server/web/2025/09/15/Setting-Traefik.html" class="toc__link"><i class="fas fa-file-alt"></i> Traefik 구축, 설정</a></li></ul></li></ul></li><li class="toc__item depth-0" data-path="Zone of Exile/" data-total-posts="1"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Zone of Exile</span><span class="post-count">1</span></div><ul class="toc__menu posts-list"><li><a href="/zone%20of%20exile/2025/04/30/What-is-this.html" class="toc__link"><i class="fas fa-file-alt"></i> 유배지 공고문</a></li></ul><ul class="submenu"><li class="toc__item depth-1" data-path="Zone of Exile/AI-playground/" data-total-posts="0"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">AI-playground</span></div><ul class="submenu"><li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/Claude/" data-total-posts="2"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">Claude</span><span class="post-count">2</span></div><ul class="toc__menu posts-list"><li><a href="/zone%20of%20exile/ai-playground/claude/2025/05/01/Claude.html" class="toc__link"><i class="fas fa-file-alt"></i> 즐거운 연휴, 어떻게 보내면 좋을까?</a></li><li><a href="/zone%20of%20exile/ai-playground/claude/2025/04/30/Claude.html" class="toc__link"><i class="fas fa-file-alt"></i> AI 시대의 개발자, 어떻게 준비해야 할까?</a></li></ul></li><li class="toc__item depth-2" data-path="Zone of Exile/AI-playground/GPT/" data-total-posts="3"><div class="toc__menu-title"><span class="folder-toggle"><i class="fas fa-folder-open"></i></span><span class="folder-name">GPT</span><span class="post-count">3</span></div><ul class="toc__menu posts-list"><li><a href="/zone%20of%20exile/ai-playground/gpt/2025/05/14/GPT.html" class="toc__link"><i class="fas fa-file-alt"></i> 파이썬으로 CLI TODO 리스트 만들어보기</a></li><li><a href="/zone%20of%20exile/ai-playground/gpt/2025/05/01/GPT.html" class="toc__link"><i class="fas fa-file-alt"></i> 즐거운 연휴</a></li><li><a href="/zone%20of%20exile/ai-playground/gpt/2025/04/30/GPT.html" class="toc__link"><i class="fas fa-file-alt"></i> 프로그래머를 위한 생산성 툴 TOP 5 🧰</a></li></ul></li></ul></li></ul></li>
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<script>window.currentPageCategory = "Server/";</script>
+
+<script src="/assets/js/toc.js"></script>
+
+  </div>
+
+  <div class="home-content">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="headline" content="6호기 서버 생성">
+      <meta itemprop="description" content="  2호기 서버 이야기  국제미아가 된 2호기 서버어떻게 된 일이냐?오라클 클라우드가 4CPU 24GB 메모리를 뿌리던 미친 혜자 시절도쿄 리전에 서버를 두고 사용하고 있었다.그런데 아무래도 해외 리전보다 국내 리전에 두고 사용하고 싶어서 고객센터에 문의">
+      <meta itemprop="datePublished" content="2026-08-13T02:00:00+00:00">
+      <meta itemprop="dateModified" content="2026-08-13T02:00:00+00:00">
+
+      <div class="page__inner-wrap">
+        
+          <header>
+            
+<div class="post-category">
+  <div class="category-path">
+    <a href="/board?path=" class="category-link">Archive</a>
+    
+    
+    
+      <span class="separator">/</span>
+      
+      <a href="/board?path=Server" class="category-link">
+        Server
+      </a>
+      
+    
+  </div>
+  <a href="/board?path=Server%2F" class="category-icon" title="리스트">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </a>
+</div>
+ 
+            <h1 id="page-title" class="page__title" itemprop="headline">6호기 서버 생성
+</h1>
+            
+
+
+          </header>
+        
+
+        <section class="page__content" itemprop="text">
+          <blockquote>
+  <h4 id="2호기-서버-이야기">2호기 서버 이야기</h4>
+  <hr />
+</blockquote>
+
+<p>국제미아가 된 2호기 서버<br />
+어떻게 된 일이냐?</p>
+
+<p>오라클 클라우드가 4CPU 24GB 메모리를 뿌리던 미친 혜자 시절<br />
+도쿄 리전에 서버를 두고 사용하고 있었다.</p>
+
+<p>그런데 아무래도 해외 리전보다 국내 리전에 두고 사용하고 싶어서 고객센터에 문의</p>
+
+<p>                                                      <span style="color: yellow;"><strong>Hi</strong></span><br />
+<span style="color: green;"><strong>Hello</strong></span><br />
+                                                      <span style="color: yellow;"><strong>홈 리전 변경이 가능한가요?</strong></span><br />
+<span style="color: green;"><strong>NOPE</strong></span></p>
+
+<p>안되는건 안되는 거니 아쉬운대로 다른 방법을 궁리해보았다.</p>
+
+<p>                                                      <span style="color: yellow;"><strong>모시카시테 현재 리전 서버 삭제</strong></span><br />
+                                                      <span style="color: yellow;"><strong>또는 회원 탈퇴 후 재가입 시</strong></span><br />
+                                                      <span style="color: yellow;"><strong>새로운 리전으로 생성 available?</strong></span><br />
+<span style="color: green;"><strong>Yes</strong></span><br />
+                                                      <span style="color: yellow;"><strong>오케이 굳 진행시켜</strong></span><br />
+<span style="color: green;"><strong>ㅇㅋㅇㅋ</strong></span><br />
+<span style="color: green;"><strong>완전 삭제까지</strong></span><br />
+<span style="color: green;"><strong>한 달 정도 걸림</strong></span><br />
+<span style="color: green;"><strong>다음 재가입하셈</strong></span></p>
+
+<p>저 상담원 말만 믿고 삭제 진행했는데<br />
+계정이 산 것도 죽은 것도 아닌 이상한 좀비상태에 돌입해버렸다.</p>
+
+<p>오라클 클라우드 로그인 시 테넌트를 입력 후 테넌트가 존재하면 ID / PW 로그인을 진행하는데<br />
+테넌트는 존재해서 들어가지는데 계정 입력시 없는 계정이라는 내용</p>
+
+<p>심지어 이 상황에서 로그인이 안되는 상황이라 고객센터에 문의도 불가능하다!!!<br />
+그렇게 2호기 서버는 미아가 되었고 2년 가량 시간이 흘렀다.</p>
+
+<blockquote>
+  <h4 id="외국-서버가-필요함">외국 서버가 필요함</h4>
+  <hr />
+</blockquote>
+
+<p>요즘에 외국 서버가 간절히 필요해졌다.<br />
+대형 VPN 초기 이벤트 체리 피킹하다보니 이제 끝이 다가오는데<br />
+언제까지 VPN을 돈내고 써야하나?<br />
+VPN도 쌀먹하려면 외국서버에 exit node를 둬야한다.</p>
+
+<p>문득 2호기가 그리워져 오라클 클라우드를 다시 두드려보았다…<br />
+어? 테넌트가 제대로 사라진듯?<br />
+완전 삭제까지 2년이 걸렸다.</p>
+
+<blockquote>
+  <h4 id="재가입-후-서버-생성-자동화">재가입 후 서버 생성 자동화</h4>
+  <hr />
+</blockquote>
+
+<p>위에서도 언급했지만 오라클 클라우드는 진짜 미친 것 처럼 4CPU 24GB Memory 서버를 무료로 뿌렸다.<br />
+근데 지들도 이게 미친 짓이란걸 드디어 알아챘나보다.</p>
+
+<p><a href="https://community.oracle.com/CustomerConnect/discussion/970310/oci-always-free-updated-ampere-a1-compute-allocation">OCI Always Free: Updated Ampere A1 Compute Allocation</a></p>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img01.webp" alt="img01" width="70%" /></p>
+
+<p><span style="color: red;"><strong>반으로 훌쩍 줄었다!</strong></span><br />
+<span style="color: red;"><strong>근데 사실 이래도 혜자다!!!</strong></span><br />
+얘 아니면 이만큼 주는게 없는걸</p>
+
+<p>아무튼 이번엔 오사카 리전으로 가입했다.<br />
+예전에도 경험해보았지만 무료 인스턴스는 수동으로 생성하는게 불가능하다고 보면 된다.<br />
+따라서 <span style="color: orange;"><strong>자동화 스크립트</strong></span>를 짜야한다.</p>
+
+<h5 id="1-기본-정보-확인">1. 기본 정보 확인</h5>
+
+<p>리전은 <span style="color: orange;"><strong>ap-osaka-1</strong></span> 하나이다.<br />
+나도 만들고서야 알았는데 오사카는 AD가 1개 뿐이라 더 빡세다…<br />
+이럴 줄 알았으면 다시 도쿄로 돌아갔지</p>
+
+<p>셰이프는 <span style="color: orange;"><strong>VM.Standard.A1.Flex</strong></span> 로 하고 <span style="color: orange;"><strong>2 OCPU / 12GB Memory</strong></span> 로 한다.<br />
+부트 볼륨은 <span style="color: orange;"><strong>200GB</strong></span> 까지가 무료다.<br />
+이미지는 우분투가 제일 만만하니 <span style="color: orange;"><strong>Canonical Ubuntu 24.04</strong></span> 로 설정.</p>
+
+<p>기본 90초 단위로 계속 시도하다가 성공 시 텔레그램으로 알람을 받게 한다.<br />
+환경 설정 파일 작성</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># OCI 인스턴스 재시도 스크립트 설정
+# 텔레그램
+</span><span class="py">TELEGRAM_BOT_TOKEN</span><span class="p">=</span><span class="s">"봇토큰"</span>
+<span class="py">TELEGRAM_CHAT_ID</span><span class="p">=</span><span class="s">"챗아이디"</span>
+
+<span class="c"># OCI 설정
+</span><span class="py">COMPARTMENT_ID</span><span class="p">=</span><span class="s">"ocid1.tenancy.oc1..xxxxxxxxxxxxxx"</span>
+<span class="py">AVAILABILITY_DOMAIN</span><span class="p">=</span><span class="s">"xxxx:AP-OSAKA-1-AD-1"</span>
+<span class="py">SUBNET_ID</span><span class="p">=</span><span class="s">"ocid1.subnet.oc1.ap-osaka-1.xxxxxxxxxxxxxxx"</span>
+
+<span class="c"># 인스턴스
+</span><span class="py">DISPLAY_NAME</span><span class="p">=</span><span class="s">"ubuntu-a1-osaka"</span>
+<span class="py">SHAPE</span><span class="p">=</span><span class="s">"VM.Standard.A1.Flex"</span>
+<span class="py">OCPUS</span><span class="p">=</span><span class="s">2</span>
+<span class="py">MEMORY_GB</span><span class="p">=</span><span class="s">12</span>
+<span class="py">BOOT_VOLUME_GB</span><span class="p">=</span><span class="s">200</span>
+
+<span class="c"># 이미지
+</span><span class="py">IMAGE_OS</span><span class="p">=</span><span class="s">"Canonical Ubuntu"</span>
+<span class="py">IMAGE_OS_VERSION</span><span class="p">=</span><span class="s">"24.04"</span>
+
+<span class="c"># 키 파일
+</span><span class="py">SSH_PUBLIC_KEY_FILE</span><span class="p">=</span><span class="s">"$HOME/.ssh/pubkey.pub"</span>
+</code></pre></div></div>
+
+<h5 id="2-자동화-스크립트-작성">2. 자동화 스크립트 작성</h5>
+
+<p>고려해야할 점은 다음과 같다.</p>
+<ul>
+  <li>실패 알림을 다 받을 필요 없으므로 성공 하면 텔레그램으로 던지고 스크립트 종료</li>
+  <li>너무 자주 호출 시 <span style="color: orange;"><strong>429 오류</strong></span>가 떨어지는데 429 발생 시 더 호출하지 않고 잠시 쉬었다가 호출</li>
+  <li>백오프 시간은 천천히 감쇠하며 간보다가 429 발생하면 다시 쉬어주기</li>
+</ul>
+
+<p>대충 코어 스크립트는 이렇다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># OCI 인스턴스 자동화 스크립트</span>
+
+<span class="c"># 텔레그램 알림</span>
+notify<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local </span><span class="nv">title</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="nv">body</span><span class="o">=</span><span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
+
+  <span class="k">if</span> <span class="o">[[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$TELEGRAM_BOT_TOKEN</span><span class="s2">"</span> <span class="o">&amp;&amp;</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$TELEGRAM_CHAT_ID</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+    </span>curl <span class="nt">-sS</span> <span class="nt">-m</span> 20 <span class="nt">-X</span> POST <span class="s2">"https://api.telegram.org/bot</span><span class="k">${</span><span class="nv">TELEGRAM_BOT_TOKEN</span><span class="k">}</span><span class="s2">/sendMessage"</span> <span class="nt">-d</span> <span class="nv">chat_id</span><span class="o">=</span><span class="s2">"</span><span class="nv">$TELEGRAM_CHAT_ID</span><span class="s2">"</span> <span class="nt">-d</span> <span class="nv">text</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">title</span><span class="k">}</span><span class="s2">"</span><span class="s1">$'</span><span class="se">\n\n</span><span class="s1">'</span><span class="s2">"</span><span class="k">${</span><span class="nv">body</span><span class="k">}</span><span class="s2">"</span> <span class="o">&gt;</span>/dev/null <span class="o">||</span> log <span class="s2">"WARN: 텔레그램 전송 실패"</span>
+  <span class="k">fi
+
+  </span>osascript <span class="nt">-e</span> <span class="s2">"display notification </span><span class="se">\"</span><span class="k">${</span><span class="nv">body</span><span class="p">//\</span><span class="s2">"/</span><span class="se">\'</span><span class="s2">}</span><span class="se">\"</span><span class="s2"> with title </span><span class="se">\"</span><span class="k">${</span><span class="nv">title</span><span class="p">//\</span><span class="s2">"/</span><span class="se">\'</span><span class="s2">}</span><span class="se">\"</span><span class="s2"> sound name </span><span class="se">\"</span><span class="s2">Glass</span><span class="se">\"</span><span class="s2">"</span><span class="p"> 2&gt;/dev/null || true
+</span><span class="k">}</span><span class="s2">
+
+# 중략
+
+while true; do
+  
+  output="</span><span class="si">$(</span>oci <span class="nt">--no-retry</span> <span class="nt">--connection-timeout</span> 20 <span class="nt">--read-timeout</span> 60 <span class="se">\</span>
+    compute instance launch <span class="se">\</span>
+    <span class="nt">--availability-domain</span> <span class="s2">"</span><span class="nv">$AVAILABILITY_DOMAIN</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--compartment-id</span> <span class="s2">"</span><span class="nv">$COMPARTMENT_ID</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--shape</span> <span class="s2">"</span><span class="nv">$SHAPE</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--shape-config</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">ocpus</span><span class="se">\"</span><span class="s2">:</span><span class="k">${</span><span class="nv">OCPUS</span><span class="k">}</span><span class="s2">,</span><span class="se">\"</span><span class="s2">memoryInGBs</span><span class="se">\"</span><span class="s2">:</span><span class="k">${</span><span class="nv">MEMORY_GB</span><span class="k">}</span><span class="s2">}"</span> <span class="se">\</span>
+    <span class="nt">--image-id</span> <span class="s2">"</span><span class="nv">$IMAGE_ID</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--subnet-id</span> <span class="s2">"</span><span class="nv">$SUBNET_ID</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--boot-volume-size-in-gbs</span> <span class="s2">"</span><span class="nv">$BOOT_VOLUME_GB</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--assign-public-ip</span> <span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--display-name</span> <span class="s2">"</span><span class="nv">$DISPLAY_NAME</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--metadata</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">ssh_authorized_keys</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="k">${</span><span class="nv">SSH_KEY</span><span class="k">}</span><span class="se">\"</span><span class="s2">}"</span> <span class="se">\</span>
+    2&gt;&amp;1<span class="si">)</span><span class="s2">"
+
+  rc=</span><span class="nv">$?</span><span class="s2">
+
+  if [[ </span><span class="nv">$rc</span><span class="s2"> -eq 0 ]]; then
+    
+    notify "</span><span class="nv">OCI</span><span class="p"> 인스턴스 생성 성공 IP</span>:<span class="p"> </span><span class="k">${</span><span class="nv">public_ip</span><span class="k">:-</span><span class="p">확인 필요</span><span class="k">}</span><span class="p"> 시도 </span><span class="k">${</span><span class="nv">attempt</span><span class="k">}</span><span class="p">회 만에 성공 접속</span>:<span class="p"> ssh ubuntu@</span><span class="k">${</span><span class="nv">public_ip</span><span class="k">:-</span><span class="p">&lt;IP&gt;</span><span class="k">}</span><span class="s2">"
+    exit 0
+  fi
+
+  # 실패 시 429 발생 시 잠시 쉬어주고 천천히 감쇠하는 식으로
+  if grep -qiE 'out of (host )?capacity' &lt;&lt;&lt;"</span><span class="nv">$output</span><span class="s2">"; then
+    backoff=</span><span class="k">$((</span> backoff <span class="o">*</span> <span class="m">3</span> <span class="o">/</span> <span class="m">4</span> <span class="k">))</span><span class="s2">
+    (( backoff &lt; 15 )) &amp;&amp; backoff=0
+    log "</span><span class="p">시도 #</span><span class="k">${</span><span class="nv">attempt</span><span class="k">}</span>:<span class="p"> 용량 부족 (재시도 계속)</span><span class="s2">"
+
+  elif grep -qiE 'TooManyRequests|429|rate limit' &lt;&lt;&lt;"</span><span class="nv">$output</span><span class="s2">"; then
+    backoff=</span><span class="k">$((</span> backoff <span class="o">==</span> <span class="m">0</span> ? <span class="m">120</span> : backoff <span class="o">*</span> <span class="m">2</span> <span class="k">))</span><span class="s2">
+    (( backoff &gt; MAX_BACKOFF )) &amp;&amp; backoff=</span><span class="nv">$MAX_BACKOFF</span><span class="s2">
+    log "</span><span class="p">시도 #</span><span class="k">${</span><span class="nv">attempt</span><span class="k">}</span>:<span class="p"> 요청 과다(429). </span><span class="k">${</span><span class="nv">backoff</span><span class="k">}</span><span class="p">초 추가 대기.</span><span class="s2">"
+
+done
+</span></code></pre></div></div>
+
+<h5 id="3-로그-확인-및-기도">3. 로그 확인 및 기도</h5>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img02.webp" alt="img02" width="60%" /></p>
+
+<p>429가 중간중간 뜨지만 이정도면 아주 안정적이다.<br />
+이제 부엌에 가서 깨끗한 그릇에 생수 떠넣고 기도하면 된다.</p>
+
+<blockquote>
+  <h4 id="결과">결과</h4>
+  <hr />
+</blockquote>
+
+<p>어느날 21시 경 텔레그램이 울렸다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img03.webp" alt="img03" width="20%" /></p>
+
+<p>오우 이게 무슨 소리야<br />
+겨우 2792회 만에 성공하다니이이잇<br />
+사실 실제 시도 횟수는 3000회가 넘었을 것이다.<br />
+카운트를 나중에 찍어가지고…</p>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img04.webp" alt="img04" width="30%" /></p>
+
+<p>대충 5일 걸린 것 같다.<br />
+역할을 다한 이 스크립트는 그대로 폐기한다.<br />
+다시는 쓸 일이 없기를 바란다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img05.webp" alt="img05" width="50%" /></p>
+
+<p>키 파일로 ssh 로그인 성공.</p>
+
+<p>6고오키가 탄죠오시타.<br />
+코이츠, 키메라레타 시고토가 아루…</p>
+
+          
+        </section>
+
+        <footer class="page__meta">
+          
+          
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2026-08-13">August 13, 2026</time></p>
+
+
+        </footer>
+
+        
+
+        
+<nav class="post-navigation">
+  <div id="postNavigation" class="post-navigation__container"></div>
+
+  <script>
+    // 별도 js로 현재 post data만 넘겨주고, 전체 글 목록은 post_pagination.js가
+    // /assets/data/posts.json을 fetch해서 가져옴 (모든 글 페이지에 중복 직렬화 방지)
+    window.postData = {
+      currentPost: {
+        title: "6호기 서버 생성",
+        url: "/server/2026/08/13/Build-Server-Mk6.html",
+        date: "2026-08-13",
+        categories: ["Server/"]
+      },
+      allPostsUrl: "/assets/data/posts.json"
+    };
+  </script>
+  <script src="/assets/js/post_pagination.js" defer></script>
+</nav>
+
+      </div>
+
+      
+      
+      
+        <script src="https://giscus.app/client.js"
+        data-repo="movingwoo/movingwoo.github.io"
+        data-repo-id="R_kgDOORY1lQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOORY1lc4CpoFq"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://arc.movingwoo.com/assets/css/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+    </article>
+
+    
+    
+  </div>
+</div>
+
+<style>
+.home-layout {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.home-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  margin-right: 1rem;
+  position: relative;
+  display: block !important;
+}
+
+.home-content {
+  flex-grow: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 64em) {
+  .home-layout {
+    flex-direction: column;
+  }
+  
+  .home-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .home-content {
+    padding: 0;
+  }
+}
+</style>
+
+    </div>
+
+    
+    
+    <div class="page__footer">
+  <div class="page__footer-copyright">
+    Visit: <a href="https://github.com/movingwoo/movingwoo.github.io">https://github.com/movingwoo/movingwoo.github.io</a>
+    <br>
+    <span class="theme-credit">Theme customized from Minimal Mistakes by Michael Rose (MIT License).</span>
+    <br>
+    <span class="content-license">
+      Unless otherwise noted, posts and images on this site are licensed under
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="license noopener noreferrer">CC BY-NC-SA 4.0</a>.
+    </span>
+  </div>
+</div>
+
+    <div class="scroll-button">
+  <div class="scroll-button__container">
+    <button class="scroll-button__area scroll-button__area--top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="위로">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="scroll-button__area scroll-button__area--bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="아래로">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.scroll-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.scroll-button__container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(220, 20, 60, 0.6);
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-button__area {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button__area--top {
+  top: 0;
+}
+
+.scroll-button__area--bottom {
+  bottom: 0;
+}
+
+.scroll-button__area:focus {
+  outline: none;
+}
+
+.scroll-button__area:hover {
+  color: rgba(220, 20, 60, 1);
+}
+
+.scroll-button__area:hover i {
+  transform: scale(1.2);
+}
+
+.scroll-button__area i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll-button {
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .scroll-button__container {
+    width: 50px;
+    height: 50px;
+  }
+}
+</style> 
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+});
+</script>
+
+
+  </body>
+</html>

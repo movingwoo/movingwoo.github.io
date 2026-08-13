@@ -1,4 +1,212 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://arc.movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://arc.movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-08-03T02:02:21+00:00</updated><id>https://arc.movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">WTools 브라우저 개발자 유틸리티</title><link href="https://arc.movingwoo.com/development/vibecoding/2026/08/03/WTools.html" rel="alternate" type="text/html" title="WTools 브라우저 개발자 유틸리티" /><published>2026-08-03T02:00:00+00:00</published><updated>2026-08-03T02:00:00+00:00</updated><id>https://arc.movingwoo.com/development/vibecoding/2026/08/03/WTools</id><content type="html" xml:base="https://arc.movingwoo.com/development/vibecoding/2026/08/03/WTools.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://arc.movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://arc.movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-08-13T03:34:44+00:00</updated><id>https://arc.movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">6호기 서버 생성</title><link href="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html" rel="alternate" type="text/html" title="6호기 서버 생성" /><published>2026-08-13T02:00:00+00:00</published><updated>2026-08-13T02:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/08/13/Build%20Server%20Mk6</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html"><![CDATA[<blockquote>
+  <h4 id="2호기-서버-이야기">2호기 서버 이야기</h4>
+  <hr />
+</blockquote>
+
+<p>국제미아가 된 2호기 서버<br />
+어떻게 된 일이냐?</p>
+
+<p>오라클 클라우드가 4CPU 24GB 메모리를 뿌리던 미친 혜자 시절<br />
+도쿄 리전에 서버를 두고 사용하고 있었다.</p>
+
+<p>그런데 아무래도 해외 리전보다 국내 리전에 두고 사용하고 싶어서 고객센터에 문의</p>
+
+<p>                                                      <span style="color: yellow;"><strong>Hi</strong></span><br />
+<span style="color: green;"><strong>Hello</strong></span><br />
+                                                      <span style="color: yellow;"><strong>홈 리전 변경이 가능한가요?</strong></span><br />
+<span style="color: green;"><strong>NOPE</strong></span></p>
+
+<p>안되는건 안되는 거니 아쉬운대로 다른 방법을 궁리해보았다.</p>
+
+<p>                                                      <span style="color: yellow;"><strong>모시카시테 현재 리전 서버 삭제</strong></span><br />
+                                                      <span style="color: yellow;"><strong>또는 회원 탈퇴 후 재가입 시</strong></span><br />
+                                                      <span style="color: yellow;"><strong>새로운 리전으로 생성 available?</strong></span><br />
+<span style="color: green;"><strong>Yes</strong></span><br />
+                                                      <span style="color: yellow;"><strong>오케이 굳 진행시켜</strong></span><br />
+<span style="color: green;"><strong>ㅇㅋㅇㅋ</strong></span><br />
+<span style="color: green;"><strong>완전 삭제까지</strong></span><br />
+<span style="color: green;"><strong>한 달 정도 걸림</strong></span><br />
+<span style="color: green;"><strong>다음 재가입하셈</strong></span></p>
+
+<p>저 상담원 말만 믿고 삭제 진행했는데<br />
+계정이 산 것도 죽은 것도 아닌 이상한 좀비상태에 돌입해버렸다.</p>
+
+<p>오라클 클라우드 로그인 시 테넌트를 입력 후 테넌트가 존재하면 ID / PW 로그인을 진행하는데<br />
+테넌트는 존재해서 들어가지는데 계정 입력시 없는 계정이라는 내용</p>
+
+<p>심지어 이 상황에서 로그인이 안되는 상황이라 고객센터에 문의도 불가능하다!!!<br />
+그렇게 2호기 서버는 미아가 되었고 2년 가량 시간이 흘렀다.</p>
+
+<blockquote>
+  <h4 id="외국-서버가-필요함">외국 서버가 필요함</h4>
+  <hr />
+</blockquote>
+
+<p>요즘에 외국 서버가 간절히 필요해졌다.<br />
+대형 VPN 초기 이벤트 체리 피킹하다보니 이제 끝이 다가오는데<br />
+언제까지 VPN을 돈내고 써야하나?<br />
+VPN도 쌀먹하려면 외국서버에 exit node를 둬야한다.</p>
+
+<p>문득 2호기가 그리워져 오라클 클라우드를 다시 두드려보았다…<br />
+어? 테넌트가 제대로 사라진듯?<br />
+완전 삭제까지 2년이 걸렸다.</p>
+
+<blockquote>
+  <h4 id="재가입-후-서버-생성-자동화">재가입 후 서버 생성 자동화</h4>
+  <hr />
+</blockquote>
+
+<p>위에서도 언급했지만 오라클 클라우드는 진짜 미친 것 처럼 4CPU 24GB Memory 서버를 무료로 뿌렸다.<br />
+근데 지들도 이게 미친 짓이란걸 드디어 알아챘나보다.</p>
+
+<p><a href="https://community.oracle.com/CustomerConnect/discussion/970310/oci-always-free-updated-ampere-a1-compute-allocation">OCI Always Free: Updated Ampere A1 Compute Allocation</a></p>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img01.webp" alt="img01" width="70%" /></p>
+
+<p><span style="color: red;"><strong>반으로 훌쩍 줄었다!</strong></span><br />
+<span style="color: red;"><strong>근데 사실 이래도 혜자다!!!</strong></span><br />
+얘 아니면 이만큼 주는게 없는걸</p>
+
+<p>아무튼 이번엔 오사카 리전으로 가입했다.<br />
+예전에도 경험해보았지만 무료 인스턴스는 수동으로 생성하는게 불가능하다고 보면 된다.<br />
+따라서 <span style="color: orange;"><strong>자동화 스크립트</strong></span>를 짜야한다.</p>
+
+<h5 id="1-기본-정보-확인">1. 기본 정보 확인</h5>
+
+<p>리전은 <span style="color: orange;"><strong>ap-osaka-1</strong></span> 하나이다.<br />
+나도 만들고서야 알았는데 오사카는 AD가 1개 뿐이라 더 빡세다…<br />
+이럴 줄 알았으면 다시 도쿄로 돌아갔지</p>
+
+<p>셰이프는 <span style="color: orange;"><strong>VM.Standard.A1.Flex</strong></span> 로 하고 <span style="color: orange;"><strong>2 OCPU / 12GB Memory</strong></span> 로 한다.<br />
+부트 볼륨은 <span style="color: orange;"><strong>200GB</strong></span> 까지가 무료다.<br />
+이미지는 우분투가 제일 만만하니 <span style="color: orange;"><strong>Canonical Ubuntu 24.04</strong></span> 로 설정.</p>
+
+<p>기본 90초 단위로 계속 시도하다가 성공 시 텔레그램으로 알람을 받게 한다.<br />
+환경 설정 파일 작성</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># OCI 인스턴스 재시도 스크립트 설정
+# 텔레그램
+</span><span class="py">TELEGRAM_BOT_TOKEN</span><span class="p">=</span><span class="s">"봇토큰"</span>
+<span class="py">TELEGRAM_CHAT_ID</span><span class="p">=</span><span class="s">"챗아이디"</span>
+
+<span class="c"># OCI 설정
+</span><span class="py">COMPARTMENT_ID</span><span class="p">=</span><span class="s">"ocid1.tenancy.oc1..xxxxxxxxxxxxxx"</span>
+<span class="py">AVAILABILITY_DOMAIN</span><span class="p">=</span><span class="s">"xxxx:AP-OSAKA-1-AD-1"</span>
+<span class="py">SUBNET_ID</span><span class="p">=</span><span class="s">"ocid1.subnet.oc1.ap-osaka-1.xxxxxxxxxxxxxxx"</span>
+
+<span class="c"># 인스턴스
+</span><span class="py">DISPLAY_NAME</span><span class="p">=</span><span class="s">"ubuntu-a1-osaka"</span>
+<span class="py">SHAPE</span><span class="p">=</span><span class="s">"VM.Standard.A1.Flex"</span>
+<span class="py">OCPUS</span><span class="p">=</span><span class="s">2</span>
+<span class="py">MEMORY_GB</span><span class="p">=</span><span class="s">12</span>
+<span class="py">BOOT_VOLUME_GB</span><span class="p">=</span><span class="s">200</span>
+
+<span class="c"># 이미지
+</span><span class="py">IMAGE_OS</span><span class="p">=</span><span class="s">"Canonical Ubuntu"</span>
+<span class="py">IMAGE_OS_VERSION</span><span class="p">=</span><span class="s">"24.04"</span>
+
+<span class="c"># 키 파일
+</span><span class="py">SSH_PUBLIC_KEY_FILE</span><span class="p">=</span><span class="s">"$HOME/.ssh/pubkey.pub"</span>
+</code></pre></div></div>
+
+<h5 id="2-자동화-스크립트-작성">2. 자동화 스크립트 작성</h5>
+
+<p>고려해야할 점은 다음과 같다.</p>
+<ul>
+  <li>실패 알림을 다 받을 필요 없으므로 성공 하면 텔레그램으로 던지고 스크립트 종료</li>
+  <li>너무 자주 호출 시 <span style="color: orange;"><strong>429 오류</strong></span>가 떨어지는데 429 발생 시 더 호출하지 않고 잠시 쉬었다가 호출</li>
+  <li>백오프 시간은 천천히 감쇠하며 간보다가 429 발생하면 다시 쉬어주기</li>
+</ul>
+
+<p>대충 코어 스크립트는 이렇다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># OCI 인스턴스 자동화 스크립트</span>
+
+<span class="c"># 텔레그램 알림</span>
+notify<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local </span><span class="nv">title</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="nv">body</span><span class="o">=</span><span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
+
+  <span class="k">if</span> <span class="o">[[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$TELEGRAM_BOT_TOKEN</span><span class="s2">"</span> <span class="o">&amp;&amp;</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$TELEGRAM_CHAT_ID</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+    </span>curl <span class="nt">-sS</span> <span class="nt">-m</span> 20 <span class="nt">-X</span> POST <span class="s2">"https://api.telegram.org/bot</span><span class="k">${</span><span class="nv">TELEGRAM_BOT_TOKEN</span><span class="k">}</span><span class="s2">/sendMessage"</span> <span class="nt">-d</span> <span class="nv">chat_id</span><span class="o">=</span><span class="s2">"</span><span class="nv">$TELEGRAM_CHAT_ID</span><span class="s2">"</span> <span class="nt">-d</span> <span class="nv">text</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">title</span><span class="k">}</span><span class="s2">"</span><span class="s1">$'</span><span class="se">\n\n</span><span class="s1">'</span><span class="s2">"</span><span class="k">${</span><span class="nv">body</span><span class="k">}</span><span class="s2">"</span> <span class="o">&gt;</span>/dev/null <span class="o">||</span> log <span class="s2">"WARN: 텔레그램 전송 실패"</span>
+  <span class="k">fi
+
+  </span>osascript <span class="nt">-e</span> <span class="s2">"display notification </span><span class="se">\"</span><span class="k">${</span><span class="nv">body</span><span class="p">//\</span><span class="s2">"/</span><span class="se">\'</span><span class="s2">}</span><span class="se">\"</span><span class="s2"> with title </span><span class="se">\"</span><span class="k">${</span><span class="nv">title</span><span class="p">//\</span><span class="s2">"/</span><span class="se">\'</span><span class="s2">}</span><span class="se">\"</span><span class="s2"> sound name </span><span class="se">\"</span><span class="s2">Glass</span><span class="se">\"</span><span class="s2">"</span><span class="p"> 2&gt;/dev/null || true
+</span><span class="k">}</span><span class="s2">
+
+# 중략
+
+while true; do
+  
+  output="</span><span class="si">$(</span>oci <span class="nt">--no-retry</span> <span class="nt">--connection-timeout</span> 20 <span class="nt">--read-timeout</span> 60 <span class="se">\</span>
+    compute instance launch <span class="se">\</span>
+    <span class="nt">--availability-domain</span> <span class="s2">"</span><span class="nv">$AVAILABILITY_DOMAIN</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--compartment-id</span> <span class="s2">"</span><span class="nv">$COMPARTMENT_ID</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--shape</span> <span class="s2">"</span><span class="nv">$SHAPE</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--shape-config</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">ocpus</span><span class="se">\"</span><span class="s2">:</span><span class="k">${</span><span class="nv">OCPUS</span><span class="k">}</span><span class="s2">,</span><span class="se">\"</span><span class="s2">memoryInGBs</span><span class="se">\"</span><span class="s2">:</span><span class="k">${</span><span class="nv">MEMORY_GB</span><span class="k">}</span><span class="s2">}"</span> <span class="se">\</span>
+    <span class="nt">--image-id</span> <span class="s2">"</span><span class="nv">$IMAGE_ID</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--subnet-id</span> <span class="s2">"</span><span class="nv">$SUBNET_ID</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--boot-volume-size-in-gbs</span> <span class="s2">"</span><span class="nv">$BOOT_VOLUME_GB</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--assign-public-ip</span> <span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--display-name</span> <span class="s2">"</span><span class="nv">$DISPLAY_NAME</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--metadata</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">ssh_authorized_keys</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="k">${</span><span class="nv">SSH_KEY</span><span class="k">}</span><span class="se">\"</span><span class="s2">}"</span> <span class="se">\</span>
+    2&gt;&amp;1<span class="si">)</span><span class="s2">"
+
+  rc=</span><span class="nv">$?</span><span class="s2">
+
+  if [[ </span><span class="nv">$rc</span><span class="s2"> -eq 0 ]]; then
+    
+    notify "</span><span class="nv">OCI</span><span class="p"> 인스턴스 생성 성공 IP</span>:<span class="p"> </span><span class="k">${</span><span class="nv">public_ip</span><span class="k">:-</span><span class="p">확인 필요</span><span class="k">}</span><span class="p"> 시도 </span><span class="k">${</span><span class="nv">attempt</span><span class="k">}</span><span class="p">회 만에 성공 접속</span>:<span class="p"> ssh ubuntu@</span><span class="k">${</span><span class="nv">public_ip</span><span class="k">:-</span><span class="p">&lt;IP&gt;</span><span class="k">}</span><span class="s2">"
+    exit 0
+  fi
+
+  # 실패 시 429 발생 시 잠시 쉬어주고 천천히 감쇠하는 식으로
+  if grep -qiE 'out of (host )?capacity' &lt;&lt;&lt;"</span><span class="nv">$output</span><span class="s2">"; then
+    backoff=</span><span class="k">$((</span> backoff <span class="o">*</span> <span class="m">3</span> <span class="o">/</span> <span class="m">4</span> <span class="k">))</span><span class="s2">
+    (( backoff &lt; 15 )) &amp;&amp; backoff=0
+    log "</span><span class="p">시도 #</span><span class="k">${</span><span class="nv">attempt</span><span class="k">}</span>:<span class="p"> 용량 부족 (재시도 계속)</span><span class="s2">"
+
+  elif grep -qiE 'TooManyRequests|429|rate limit' &lt;&lt;&lt;"</span><span class="nv">$output</span><span class="s2">"; then
+    backoff=</span><span class="k">$((</span> backoff <span class="o">==</span> <span class="m">0</span> ? <span class="m">120</span> : backoff <span class="o">*</span> <span class="m">2</span> <span class="k">))</span><span class="s2">
+    (( backoff &gt; MAX_BACKOFF )) &amp;&amp; backoff=</span><span class="nv">$MAX_BACKOFF</span><span class="s2">
+    log "</span><span class="p">시도 #</span><span class="k">${</span><span class="nv">attempt</span><span class="k">}</span>:<span class="p"> 요청 과다(429). </span><span class="k">${</span><span class="nv">backoff</span><span class="k">}</span><span class="p">초 추가 대기.</span><span class="s2">"
+
+done
+</span></code></pre></div></div>
+
+<h5 id="3-로그-확인-및-기도">3. 로그 확인 및 기도</h5>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img02.webp" alt="img02" width="60%" /></p>
+
+<p>429가 중간중간 뜨지만 이정도면 아주 안정적이다.<br />
+이제 부엌에 가서 깨끗한 그릇에 생수 떠넣고 기도하면 된다.</p>
+
+<blockquote>
+  <h4 id="결과">결과</h4>
+  <hr />
+</blockquote>
+
+<p>어느날 21시 경 텔레그램이 울렸다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img03.webp" alt="img03" width="20%" /></p>
+
+<p>오우 이게 무슨 소리야<br />
+겨우 2792회 만에 성공하다니이이잇<br />
+사실 실제 시도 횟수는 3000회가 넘었을 것이다.<br />
+카운트를 나중에 찍어가지고…</p>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img04.webp" alt="img04" width="30%" /></p>
+
+<p>대충 5일 걸린 것 같다.<br />
+역할을 다한 이 스크립트는 그대로 폐기한다.<br />
+다시는 쓸 일이 없기를 바란다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-08-13-Build Server Mk6/img05.webp" alt="img05" width="50%" /></p>
+
+<p>키 파일로 ssh 로그인 성공.</p>
+
+<p>6고오키가 탄죠오시타.<br />
+코이츠, 키메라레타 시고토가 아루…</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="ORACLE" /><category term="ORACLECLOUD" /><summary type="html"><![CDATA[오라클 클라우드 6호기 서버 생성]]></summary></entry><entry><title type="html">WTools 브라우저 개발자 유틸리티</title><link href="https://arc.movingwoo.com/development/vibecoding/2026/08/03/WTools.html" rel="alternate" type="text/html" title="WTools 브라우저 개발자 유틸리티" /><published>2026-08-03T02:00:00+00:00</published><updated>2026-08-03T02:00:00+00:00</updated><id>https://arc.movingwoo.com/development/vibecoding/2026/08/03/WTools</id><content type="html" xml:base="https://arc.movingwoo.com/development/vibecoding/2026/08/03/WTools.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -1078,181 +1286,4 @@ trusted_domains도 이 기회에 깔끔하게 정리해주고 trusted_proxies에
 바로 다음 할 일이 되겠다.</p>
 
 <p>아 넥스트클라우드 메이저 버전업도 진행해야한다.<br />
-귀찮아 죽겠네 정말</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="INFRASTRUCTURE" /><category term="NEXTCLOUD" /><category term="COLLABORA" /><category term="CADDY" /><category term="DOCKER" /><summary type="html"><![CDATA[기존 인프라 대공사 1]]></summary></entry><entry><title type="html">도커 컴포즈 관리 방안</title><link href="https://arc.movingwoo.com/server/2026/06/25/How-To-Manage-Docker-Compose.html" rel="alternate" type="text/html" title="도커 컴포즈 관리 방안" /><published>2026-06-25T00:00:00+00:00</published><updated>2026-06-25T00:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/06/25/How%20To%20Manage%20Docker%20Compose</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/06/25/How-To-Manage-Docker-Compose.html"><![CDATA[<blockquote>
-  <h4 id="개요">개요</h4>
-  <hr />
-</blockquote>
-
-<p>도커 컴포즈는 단일 서버에서 여러 컨테이너를 하나로 묶어 관리하기 위한 좋은 방법이다.<br />
-그런데 여러 서비스를 올리다 보면 도커 컴포즈가 늘어난다.<br />
-어? 도커 컨테이너가 늘어나는건 컴포즈가 관리해주는데 컴포즈가 늘어나는건 누가 관리함?</p>
-
-<blockquote>
-  <h4 id="몰라-개발하지-뭐">몰라 개발하지 뭐</h4>
-  <hr />
-</blockquote>
-
-<p>새 이미지 pull 하고 필요하면 재기동하고 system prune으로 찌꺼기 파일 정리 정도는 주기적으로 수행한다.<br />
-관리라 하면 거창하지만 이게 컴포즈가 3개가 되는 순간부터 상당히 귀찮아졌다.</p>
-
-<p>그래서 이거 그냥 sh 만들면 그만 아닌가? 하고 개발에 착수.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>main<span class="o">()</span> <span class="o">{</span>
-  <span class="k">while </span><span class="nb">true</span><span class="p">;</span> <span class="k">do
-    </span>show_menu
-    <span class="nb">read</span> <span class="nt">-r</span> choice
-
-    <span class="k">case</span> <span class="s2">"</span><span class="nv">$choice</span><span class="s2">"</span> <span class="k">in
-      </span>1<span class="p">)</span>
-        run <span class="s2">"종료"</span> down
-        <span class="p">;;</span>
-      2<span class="p">)</span>
-        run <span class="s2">"기동"</span> up <span class="nt">-d</span>
-        <span class="p">;;</span>
-      3<span class="p">)</span>
-        run <span class="s2">"업데이트"</span> pull
-        <span class="p">;;</span>
-      4<span class="p">)</span>
-        run <span class="s2">"업데이트"</span> pull
-        run <span class="s2">"재기동"</span> up <span class="nt">-d</span>
-        <span class="p">;;</span>
-      5<span class="p">)</span>
-        run
-        <span class="p">;;</span>
-      0<span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">"Byte byte!"</span>
-        <span class="nb">exit </span>0
-        <span class="p">;;</span>
-      <span class="k">*</span><span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">"잘못된 입력"</span>
-        <span class="p">;;</span>
-    <span class="k">esac</span>
-  <span class="k">done</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>대충 이렇게 메뉴를 만든다.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find_services<span class="o">()</span> <span class="o">{</span>
-    find <span class="s2">"</span><span class="nv">$SCRIPT_DIR</span><span class="s2">"</span> <span class="nt">-mindepth</span> 2 <span class="nt">-maxdepth</span> 2 <span class="nt">-type</span> f <span class="s1">'('</span> <span class="nt">-name</span> <span class="s1">'docker-compose.yml'</span> <span class="nt">-o</span> <span class="nt">-name</span> <span class="s1">'docker-compose.yaml'</span> <span class="s1">')'</span> <span class="nt">-exec</span> <span class="nb">dirname</span> <span class="o">{}</span> <span class="s1">';'</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>depth를 2로 제한해 현재 내 폴더 구조에 맞게 docker-compose.yml이 위치할 폴더만 뒤져서 경로를 수집한다.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">local </span><span class="nv">success</span><span class="o">=()</span>
-<span class="nb">local </span><span class="nv">failed</span><span class="o">=()</span>
-
-<span class="k">for </span>service_dir <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">services</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
-  </span><span class="nb">local </span>service_name
-  <span class="nv">service_name</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$service_dir</span><span class="s2">"</span><span class="si">)</span><span class="s2">"</span>
-
-  <span class="nb">echo
-  echo</span> <span class="s2">"===================================="</span>
-  <span class="nb">echo</span> <span class="s2">"   [</span><span class="nv">$service_name</span><span class="s2">] </span><span class="nv">$description</span><span class="s2">"</span>
-  <span class="nb">echo</span> <span class="s2">"===================================="</span>
-
-  <span class="k">if</span> <span class="o">(</span><span class="nb">cd</span> <span class="s2">"</span><span class="nv">$service_dir</span><span class="s2">"</span> <span class="o">&amp;&amp;</span> docker compose <span class="s2">"</span><span class="k">${</span><span class="nv">compose_args</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="o">)</span><span class="p">;</span> <span class="k">then
-    </span>success+<span class="o">=(</span><span class="s2">"</span><span class="nv">$service_name</span><span class="s2">"</span><span class="o">)</span>
-  <span class="k">else
-    </span><span class="nb">echo</span> <span class="s2">"&gt;&gt; [</span><span class="nv">$service_name</span><span class="s2">] 실패"</span>
-    failed+<span class="o">=(</span><span class="s2">"</span><span class="nv">$service_name</span><span class="s2">"</span><span class="o">)</span>
-  <span class="k">fi
-done</span>
-</code></pre></div></div>
-
-<p>이후 대충 명령 수행하고 보여준다.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>run_prune<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">echo
-    echo</span> <span class="s2">"컨테이너 정리"</span>
-    <span class="k">if </span>docker container prune <span class="nt">-f</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"완료"</span>
-    <span class="k">else
-        </span><span class="nb">echo</span> <span class="s2">"&gt;&gt; 실패"</span>
-    <span class="k">fi
-
-    </span><span class="nb">echo
-    echo</span> <span class="s2">"네트워크 정리"</span>
-    <span class="k">if </span>docker network prune <span class="nt">-f</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"완료"</span>
-    <span class="k">else
-        </span><span class="nb">echo</span> <span class="s2">"실패"</span>
-    <span class="k">fi
-
-    </span><span class="nb">echo
-    echo</span> <span class="s2">"이미지 정리"</span>
-    <span class="k">if </span>docker image prune <span class="nt">-f</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"완료"</span>
-    <span class="k">else
-        </span><span class="nb">echo</span> <span class="s2">"실패"</span>
-    <span class="k">fi</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>docker system prune -f 하면 되긴하는데<br />
-그냥 뭐라도 여러개 뜨는게 보기 좋아서 container, network, image를 따로따로 돌린다.</p>
-
-<p><img src="/assets/images/posts/Server/2026-06-25-How To Manage Docker Compose/img01.webp" alt="img01" width="40%" /></p>
-
-<p>여튼 이런 스크립트를 만들고 잘 쓰고 있었는데…</p>
-
-<blockquote>
-  <h4 id="멍청하면-몸이-고생">멍청하면 몸이 고생</h4>
-  <hr />
-</blockquote>
-
-<p><a href="https://docs.docker.com/reference/compose-file/include/">dockerdocs - include</a></p>
-
-<p><span style="color: orange;"><strong>include</strong></span>라는 기능을 설명하는 도커 공식 문서이다.<br />
-그게 무엇이냐?<br />
-도커 컴포즈 2.20.0 버전 이상에서 지원하는 기능이다.<br />
-메인 파일 하나에서 각 서비스의 yml을 불러와 병합하여 독립성을 유지하면서 한 번에 제어할 수 있다.<br />
-중앙 yml 하나를 두고 명령을 날리면<br />
-지정된 하위 파일들을 읽어와 메모리에서 병합해 하나의 설정 파일이 되는 식이다.</p>
-
-<p>include를 사용할 경우 주의할 점이라면 아래와 같겠다.</p>
-<ul>
-  <li>공통 네트워크 자동 공유 -&gt; <span style="color: orange;"><strong>전혀 상관 없음</strong></span></li>
-  <li>상대경로 문제 발생 -&gt; <span style="color: orange;"><strong>이럴 줄 알고 무조건 절대경로로 설정함</strong></span></li>
-</ul>
-
-<p>뭐 이런 말도 안되는 좋은 기능이 있다고?<br />
-2.20.0 버전은 23년 7월에 출시했다고 한다.<br />
-까마득한 옛날인데?</p>
-
-<p>그럼 이런 좋은 기능을 어떻게 쓰느냐?</p>
-
-<p><img src="/assets/images/posts/Server/2026-06-25-How To Manage Docker Compose/img02.webp" alt="img02" width="70%" /></p>
-
-<p>허허허허 이게 말이되나<br />
-이렇게 간단한 것을 나는 왜…</p>
-
-<p><span style="color: red;"><strong>이게 다 멍청해서 그렇다.</strong></span><br />
-멍청하면 몸이 고생하는게 국룰임.</p>
-
-<blockquote>
-  <h4 id="정리">정리</h4>
-  <hr />
-</blockquote>
-
-<p>중앙 docker-compose.yml은 간단하게 작성할 수 있다.</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">include</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">/app/service1/docker-compose.yml</span>
-  <span class="pi">-</span> <span class="s">/app/service2/docker-compose.yml</span>
-  <span class="pi">-</span> <span class="s">/app/service3/docker-compose.yml</span>
-  <span class="pi">-</span> <span class="s">/app/service4/docker-compose.yml</span>
-  <span class="c1"># 계속 추가</span>
-</code></pre></div></div>
-
-<p>이게 끝이다.<br />
-이제 이 yml 파일에다 대고 명령어를 입력하면 한번에 전파된다.<br />
-뭐 sh 만드고 개 뻘짓을 할 이유가 전혀 없다는 거다.</p>
-
-<p>그냥 <span style="color: orange;"><strong>docker compose up -d –build –pull always</strong></span> 명령어로 한번에 처리하면 된다.<br />
-숙제 단축 성공!</p>
-
-<p>쉘 스크립트로 기록된 멍청의 역사는 아까우니까 github에 올려서 박제해두도록 한다…</p>
-
-<p><a href="https://raw.githubusercontent.com/movingwoo/movingwoo-snippets/refs/heads/main/Server/2026-06-25-How%20To%20Manage%20Docker%20Compose.sh">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="DOCKER" /><category term="COMPOSE" /><summary type="html"><![CDATA[여러개의 도커 컴포즈를 어떻게 관리할 것인가]]></summary></entry></feed>
+귀찮아 죽겠네 정말</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="INFRASTRUCTURE" /><category term="NEXTCLOUD" /><category term="COLLABORA" /><category term="CADDY" /><category term="DOCKER" /><summary type="html"><![CDATA[기존 인프라 대공사 1]]></summary></entry></feed>

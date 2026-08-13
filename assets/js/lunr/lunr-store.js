@@ -646,4 +646,10 @@ var store = [{
         "tags": ["VIVECODING","CLAUDE","CODEX","WTOOLS"],
         "url": "/development/vibecoding/2026/08/03/WTools.html",
         "teaser": null
+      },{
+        "title": "6호기 서버 생성",
+        "excerpt":"2호기 서버 이야기 국제미아가 된 2호기 서버 어떻게 된 일이냐? 오라클 클라우드가 4CPU 24GB 메모리를 뿌리던 미친 혜자 시절 도쿄 리전에 서버를 두고 사용하고 있었다. 그런데 아무래도 해외 리전보다 국내 리전에 두고 사용하고 싶어서 고객센터에 문의                                                       Hi Hello                                                       홈 리전 변경이 가능한가요? NOPE 안되는건 안되는 거니 아쉬운대로 다른 방법을 궁리해보았다....","categories": ["Server/"],
+        "tags": ["SERVER","ORACLE","ORACLECLOUD"],
+        "url": "/server/2026/08/13/Build-Server-Mk6.html",
+        "teaser": null
       }]
