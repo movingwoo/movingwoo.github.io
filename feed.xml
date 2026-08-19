@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://arc.movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://arc.movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-08-13T03:34:44+00:00</updated><id>https://arc.movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">6호기 서버 생성</title><link href="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html" rel="alternate" type="text/html" title="6호기 서버 생성" /><published>2026-08-13T02:00:00+00:00</published><updated>2026-08-13T02:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/08/13/Build%20Server%20Mk6</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://arc.movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://arc.movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-08-19T00:57:16+00:00</updated><id>https://arc.movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">6호기 서버 생성</title><link href="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html" rel="alternate" type="text/html" title="6호기 서버 생성" /><published>2026-08-13T02:00:00+00:00</published><updated>2026-08-13T02:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/08/13/Build%20Server%20Mk6</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html"><![CDATA[<blockquote>
   <h4 id="2호기-서버-이야기">2호기 서버 이야기</h4>
   <hr />
 </blockquote>
@@ -206,7 +206,7 @@ done
 <p>키 파일로 ssh 로그인 성공.</p>
 
 <p>6고오키가 탄죠오시타.<br />
-코이츠, 키메라레타 시고토가 아루…</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="ORACLE" /><category term="ORACLECLOUD" /><summary type="html"><![CDATA[오라클 클라우드 6호기 서버 생성]]></summary></entry><entry><title type="html">WTools 브라우저 개발자 유틸리티</title><link href="https://arc.movingwoo.com/development/vibecoding/2026/08/03/WTools.html" rel="alternate" type="text/html" title="WTools 브라우저 개발자 유틸리티" /><published>2026-08-03T02:00:00+00:00</published><updated>2026-08-03T02:00:00+00:00</updated><id>https://arc.movingwoo.com/development/vibecoding/2026/08/03/WTools</id><content type="html" xml:base="https://arc.movingwoo.com/development/vibecoding/2026/08/03/WTools.html"><![CDATA[<blockquote>
+코이츠, 키메라레타 시고토가 아루…</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="ORACLE" /><category term="ORACLECLOUD" /><summary type="html"><![CDATA[오라클 클라우드 6호기 서버 생성]]></summary></entry><entry><title type="html">WTools 브라우저 개발자 유틸리티</title><link href="https://arc.movingwoo.com/development/movingwoo/2026/08/03/WTools.html" rel="alternate" type="text/html" title="WTools 브라우저 개발자 유틸리티" /><published>2026-08-03T02:00:00+00:00</published><updated>2026-08-03T02:00:00+00:00</updated><id>https://arc.movingwoo.com/development/movingwoo/2026/08/03/WTools</id><content type="html" xml:base="https://arc.movingwoo.com/development/movingwoo/2026/08/03/WTools.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -268,11 +268,11 @@ scripts/            # 검증 스크립트
 
 <p><a href="https://github.com/movingwoo/wtools">W-Tools - github</a></p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-08-03-WTools/img03.webp" alt="img03" width="90%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-08-03-WTools/img03.webp" alt="img03" width="90%" /></p>
 
 <p>이 포스트에 넣을 사진도 포맷변환 기능을 이용하여 webp로 변환했다.</p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-08-03-WTools/img04.webp" alt="img04" width="70%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-08-03-WTools/img04.webp" alt="img04" width="70%" /></p>
 
 <p>png를 webp로, 품질 70%로 한번 삶아주면?<br />
 github이 소화하는데 부담없는 용량으로 변한다!!</p>
@@ -296,9 +296,9 @@ CDN 라이브러리는 어떻게 검사를 할지?</p>
 
 <p>어쨋든 해당 라이브러리 연결에 문제가 생기면 내가 알아챌 수 있어야 하기 때문에 nightly workflow로 매일 새벽에 검사를 수행한다.</p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-08-03-WTools/img01.webp" alt="img01" width="70%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-08-03-WTools/img01.webp" alt="img01" width="70%" /></p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-08-03-WTools/img02.webp" alt="img02" width="70%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-08-03-WTools/img02.webp" alt="img02" width="70%" /></p>
 
 <p>그런데 이게 계속 실패를 한다?<br />
 수동으로 돌린 #2를 제외하면 #1부터 #6까지 5번 스케쥴링 체크를 했는데<br />
@@ -309,7 +309,7 @@ CDN 라이브러리는 어떻게 검사를 할지?</p>
 
 <p>와 이건 어떻게 해결을 봐야할지 모르겠다.<br />
 진짜 CDN 라이브러리가 유효한지 체크를 하려는건데 통신실패를 묻고 넘기는 것도 좀 아닌 것 같고<br />
-실패하면 시간 두고 그냥 다시 돌리게 해야하나?</p>]]></content><author><name>movingwoo</name></author><category term="Development/VibeCoding/" /><category term="VIVECODING" /><category term="CLAUDE" /><category term="CODEX" /><category term="WTOOLS" /><summary type="html"><![CDATA[WTools 브라우저 개발자 유틸리티 모음 개발]]></summary></entry><entry><title type="html">웹 터미널 코덱스 추가</title><link href="https://arc.movingwoo.com/development/vibecoding/2026/07/21/WTerm-Upgrade.html" rel="alternate" type="text/html" title="웹 터미널 코덱스 추가" /><published>2026-07-21T02:00:00+00:00</published><updated>2026-07-21T02:00:00+00:00</updated><id>https://arc.movingwoo.com/development/vibecoding/2026/07/21/WTerm%20Upgrade</id><content type="html" xml:base="https://arc.movingwoo.com/development/vibecoding/2026/07/21/WTerm-Upgrade.html"><![CDATA[<blockquote>
+실패하면 시간 두고 그냥 다시 돌리게 해야하나?</p>]]></content><author><name>movingwoo</name></author><category term="Development/Movingwoo/" /><category term="MOVINGWOO" /><category term="CLAUDE" /><category term="CODEX" /><category term="WTOOLS" /><summary type="html"><![CDATA[WTools 브라우저 개발자 유틸리티 모음 개발]]></summary></entry><entry><title type="html">웹 터미널 코덱스 추가</title><link href="https://arc.movingwoo.com/development/movingwoo/2026/07/21/WTerm-Upgrade.html" rel="alternate" type="text/html" title="웹 터미널 코덱스 추가" /><published>2026-07-21T02:00:00+00:00</published><updated>2026-07-21T02:00:00+00:00</updated><id>https://arc.movingwoo.com/development/movingwoo/2026/07/21/WTerm%20Upgrade</id><content type="html" xml:base="https://arc.movingwoo.com/development/movingwoo/2026/07/21/WTerm-Upgrade.html"><![CDATA[<blockquote>
   <h4 id="ai-경쟁">AI 경쟁</h4>
   <hr />
 </blockquote>
@@ -391,7 +391,7 @@ CDN 라이브러리는 어떻게 검사를 할지?</p>
 
 <p>이후 기능 테스트 후 커밋</p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-21-WTerm Upgrade/img01.webp" alt="img01" width="80%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-21-WTerm Upgrade/img01.webp" alt="img01" width="80%" /></p>
 
 <p>찐빠는 없이 완료되었다.</p>
 
@@ -423,7 +423,7 @@ CDN 라이브러리는 어떻게 검사를 할지?</p>
 <p>현재 Fable5 사용이 어려워진 이상 절충안으로 두 개를 동시에 사용해야한다.<br />
 <span style="color: orange;"><strong>기획 및 코어 구현은 gpt로</strong></span><br />
 <span style="color: orange;"><strong>다듬고 내용 채우기는 claude로</strong></span><br />
-<span style="color: red;"><strong>구독 비용이 2배</strong></span>로 늘긴하지만… 일단 그렇게 써봐야겠다.</p>]]></content><author><name>movingwoo</name></author><category term="Development/VibeCoding/" /><category term="VIVECODING" /><category term="CLAUDE" /><category term="CODEX" /><category term="WTERM" /><summary type="html"><![CDATA[웹 터미널 코덱스 추가 및 효율적인 AI 사용]]></summary></entry><entry><title type="html">프라이빗 웹 터미널</title><link href="https://arc.movingwoo.com/development/vibecoding/2026/07/20/WTerm.html" rel="alternate" type="text/html" title="프라이빗 웹 터미널" /><published>2026-07-20T02:00:00+00:00</published><updated>2026-07-20T02:00:00+00:00</updated><id>https://arc.movingwoo.com/development/vibecoding/2026/07/20/WTerm</id><content type="html" xml:base="https://arc.movingwoo.com/development/vibecoding/2026/07/20/WTerm.html"><![CDATA[<blockquote>
+<span style="color: red;"><strong>구독 비용이 2배</strong></span>로 늘긴하지만… 일단 그렇게 써봐야겠다.</p>]]></content><author><name>movingwoo</name></author><category term="Development/Movingwoo/" /><category term="MOVINGWOO" /><category term="CLAUDE" /><category term="CODEX" /><category term="WTERM" /><summary type="html"><![CDATA[웹 터미널 코덱스 추가 및 효율적인 AI 사용]]></summary></entry><entry><title type="html">프라이빗 웹 터미널</title><link href="https://arc.movingwoo.com/development/movingwoo/2026/07/20/WTerm.html" rel="alternate" type="text/html" title="프라이빗 웹 터미널" /><published>2026-07-20T02:00:00+00:00</published><updated>2026-07-20T02:00:00+00:00</updated><id>https://arc.movingwoo.com/development/movingwoo/2026/07/20/WTerm</id><content type="html" xml:base="https://arc.movingwoo.com/development/movingwoo/2026/07/20/WTerm.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -442,7 +442,7 @@ CDN 라이브러리는 어떻게 검사를 할지?</p>
 
 <p><a href="https://github.com/xtermjs/xterm.js/">xterm.js</a></p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-20-WTerm/img01.webp" alt="img01" width="60%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-20-WTerm/img01.webp" alt="img01" width="60%" /></p>
 
 <p>브라우저에서 터미널을 사용하려면 <span style="color: orange;"><strong>xterm.js</strong></span>라는 훌륭한 라이브러리가 존재한다.<br />
 서버에는 PTY를 열고 PTY와 웹소켓 아이에서 데이터를 중계한다.</p>
@@ -528,9 +528,9 @@ caddy에 호스트 네트워크를 붙여주면 되는데 이러면 포트를 �
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-20-WTerm/img02.webp" alt="img02" width="40%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-20-WTerm/img02.webp" alt="img02" width="40%" /></p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-20-WTerm/img03.webp" alt="img03" width="70%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-20-WTerm/img03.webp" alt="img03" width="70%" /></p>
 
 <p>테스트 중 가슴아픈 버그가 발생했다.<br />
 mac 환경에서 <span style="color: orange;"><strong>Safari/Webkit 한글 IME 조합 버그</strong></span>가 존재한다.<br />
@@ -543,7 +543,7 @@ mac 환경에서 한글 이상해지는거 하루이틀 문제가 아니긴한�
   <hr />
 </blockquote>
 
-<p><a href="https://github.com/movingwoo/wterm">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/VibeCoding/" /><category term="VIVECODING" /><category term="CLAUDE" /><category term="WTERM" /><summary type="html"><![CDATA[프라이빗 웹 터미널 개발]]></summary></entry><entry><title type="html">여행 계획 지도 만들기</title><link href="https://arc.movingwoo.com/server/service/2026/07/15/Make-Tour-Map.html" rel="alternate" type="text/html" title="여행 계획 지도 만들기" /><published>2026-07-15T04:00:00+00:00</published><updated>2026-07-15T04:00:00+00:00</updated><id>https://arc.movingwoo.com/server/service/2026/07/15/Make%20Tour%20Map</id><content type="html" xml:base="https://arc.movingwoo.com/server/service/2026/07/15/Make-Tour-Map.html"><![CDATA[<blockquote>
+<p><a href="https://github.com/movingwoo/wterm">Link to GitHub</a></p>]]></content><author><name>movingwoo</name></author><category term="Development/Movingwoo/" /><category term="MOVINGWOO" /><category term="CLAUDE" /><category term="WTERM" /><summary type="html"><![CDATA[프라이빗 웹 터미널 개발]]></summary></entry><entry><title type="html">여행 계획 지도 만들기</title><link href="https://arc.movingwoo.com/server/service/2026/07/15/Make-Tour-Map.html" rel="alternate" type="text/html" title="여행 계획 지도 만들기" /><published>2026-07-15T04:00:00+00:00</published><updated>2026-07-15T04:00:00+00:00</updated><id>https://arc.movingwoo.com/server/service/2026/07/15/Make%20Tour%20Map</id><content type="html" xml:base="https://arc.movingwoo.com/server/service/2026/07/15/Make-Tour-Map.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -638,7 +638,7 @@ private 레포는 github pages로 배포가 안된다.<br />
 
 <p>여행 준비 중에는 public으로 배포해두고<br />
 여행 끝나면 private로 돌려서 배포 중지하고<br />
-그렇게 사용해야겠다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/Service/" /><category term="SERVER" /><category term="SERVICE" /><category term="TOURMAP" /><summary type="html"><![CDATA[여행 계획 지도 만들기]]></summary></entry><entry><title type="html">브리핑 봇 구현</title><link href="https://arc.movingwoo.com/development/vibecoding/2026/07/09/Briefing-Bot.html" rel="alternate" type="text/html" title="브리핑 봇 구현" /><published>2026-07-09T01:00:00+00:00</published><updated>2026-07-09T01:00:00+00:00</updated><id>https://arc.movingwoo.com/development/vibecoding/2026/07/09/Briefing%20Bot</id><content type="html" xml:base="https://arc.movingwoo.com/development/vibecoding/2026/07/09/Briefing-Bot.html"><![CDATA[<blockquote>
+그렇게 사용해야겠다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/Service/" /><category term="SERVER" /><category term="SERVICE" /><category term="TOURMAP" /><summary type="html"><![CDATA[여행 계획 지도 만들기]]></summary></entry><entry><title type="html">브리핑 봇 구현</title><link href="https://arc.movingwoo.com/development/movingwoo/2026/07/09/Briefing-Bot.html" rel="alternate" type="text/html" title="브리핑 봇 구현" /><published>2026-07-09T01:00:00+00:00</published><updated>2026-07-09T01:00:00+00:00</updated><id>https://arc.movingwoo.com/development/movingwoo/2026/07/09/Briefing%20Bot</id><content type="html" xml:base="https://arc.movingwoo.com/development/movingwoo/2026/07/09/Briefing-Bot.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -702,19 +702,19 @@ cron이 main.py로 진입하여 config.yaml에서 설정 및 API 키 확인 후 
 
 <p>텔레그램 봇을 사용하기 위해 <span style="color: orange;"><strong>token</strong></span>과 <span style="color: orange;"><strong>chat_id</strong></span> 정보가 필요하다.</p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-09-Briefing Bot/img01.webp" alt="img01" width="40%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-09-Briefing Bot/img01.webp" alt="img01" width="40%" /></p>
 
 <p>텔레그램에서 <span style="color: orange;"><strong>BotFather</strong></span> 검색 후 공식 계정으로 들어간다.<br />
 사용할 수 있는 여러 명령어는 <span style="color: orange;"><strong>/start</strong></span> 명령어를 통해 확인할 수 있다.</p>
 
 <p>새 봇을 생성하기 위해 <span style="color: orange;"><strong>/newbot</strong></span> 명령어를 입력 후 토큰을 발급받는다.</p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-09-Briefing Bot/img02.webp" alt="img02" width="40%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-09-Briefing Bot/img02.webp" alt="img02" width="40%" /></p>
 
 <p>토큰을 잘 챙겨두고 생성한 봇과 대화방을 열어서 아무 메시지나 전송한다.<br />
 그리고 <span style="color: orange;"><strong>https://api.telegram.org/bot{토큰}/getUpdates</strong></span> 페이지로 접속하면 <span style="color: orange;"><strong>chat_id</strong></span>를 확인할 수 있다.</p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-09-Briefing Bot/img03.webp" alt="img03" width="30%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-09-Briefing Bot/img03.webp" alt="img03" width="30%" /></p>
 
 <p>토큰과 챗아이디를 획득했으니 config.yaml에 넣어두고 아무 연동 메시지를 날려서 봇이 메시지를 정상적으로 수신하는지 확인한다.</p>
 
@@ -723,18 +723,18 @@ cron이 main.py로 진입하여 config.yaml에서 설정 및 API 키 확인 후 
   <hr />
 </blockquote>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-09-Briefing Bot/img04.webp" alt="img04" width="40%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-09-Briefing Bot/img04.webp" alt="img04" width="40%" /></p>
 
 <p>오전 7시에 날씨 알림을 전송해준다.<br />
 우산을 챙겨야할지 알 수 있다.</p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-09-Briefing Bot/img05.webp" alt="img05" width="40%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-09-Briefing Bot/img05.webp" alt="img05" width="40%" /></p>
 
 <p>시간이 되면 뉴스가 날아온다.<br />
 트럼프가 트럼프 하더니 이란을 다시 터뜨리기 시작했다.<br />
 주식이 위험한 것 같다…</p>
 
-<p><img src="/assets/images/posts/Development/VibeCoding/2026-07-09-Briefing Bot/img06.webp" alt="img06" width="40%" /></p>
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-07-09-Briefing Bot/img06.webp" alt="img06" width="40%" /></p>
 
 <p>장 시작 시 주식 알림이 날아온다.<br />
 어? 생각외로 미장이 안떨어졌다?</p>
@@ -742,7 +742,7 @@ cron이 main.py로 진입하여 config.yaml에서 설정 및 API 키 확인 후 
 <p>아무튼 이렇게 필요한 기본 기능은 완성이다.<br />
 텔레그램 봇을 처음 써봤는데 확장의 여지가 많다.<br />
 기능 이것저것 확인해보면서 어떻게 사용하면 좋을지 상상의 나래를 펼쳐야겠다.<br />
-다만 본격적인 기능 추가는 한 달 후 구글 클라우드 사용량 확인 후 조심스럽게 접근할 예정이다.</p>]]></content><author><name>movingwoo</name></author><category term="Development/VibeCoding/" /><category term="VIVECODING" /><category term="CLAUDE" /><category term="BOT" /><category term="TELEGRAM" /><summary type="html"><![CDATA[텔레그램 연동 브리핑 봇 구현]]></summary></entry><entry><title type="html">구글 클라우드 무료 서버 생성</title><link href="https://arc.movingwoo.com/server/2026/07/07/Build-Server-With-Google-Cloud.html" rel="alternate" type="text/html" title="구글 클라우드 무료 서버 생성" /><published>2026-07-07T08:00:00+00:00</published><updated>2026-07-07T08:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/07/07/Build%20Server%20With%20Google%20Cloud</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/07/07/Build-Server-With-Google-Cloud.html"><![CDATA[<blockquote>
+다만 본격적인 기능 추가는 한 달 후 구글 클라우드 사용량 확인 후 조심스럽게 접근할 예정이다.</p>]]></content><author><name>movingwoo</name></author><category term="Development/Movingwoo/" /><category term="MOVINGWOO" /><category term="CLAUDE" /><category term="BOT" /><category term="TELEGRAM" /><summary type="html"><![CDATA[텔레그램 연동 브리핑 봇 구현]]></summary></entry><entry><title type="html">구글 클라우드 무료 서버 생성</title><link href="https://arc.movingwoo.com/server/2026/07/07/Build-Server-With-Google-Cloud.html" rel="alternate" type="text/html" title="구글 클라우드 무료 서버 생성" /><published>2026-07-07T08:00:00+00:00</published><updated>2026-07-07T08:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/07/07/Build%20Server%20With%20Google%20Cloud</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/07/07/Build-Server-With-Google-Cloud.html"><![CDATA[<blockquote>
   <h4 id="서버-현황">서버 현황</h4>
   <hr />
 </blockquote>

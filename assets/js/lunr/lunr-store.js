@@ -552,9 +552,9 @@ var store = [{
         "teaser": null
       },{
         "title": "모아키 for iOS 구현",
-        "excerpt":"개요 어느샌가 누구나 바이브 코딩을 하고 있다. 컴퓨터 1도 몰라도 뭔가 뚝딱뚝딱 개발을 한다. 바이브 코더도 코더인가? 그딴건 모르겠고 좋은 건 나도 하고 싶다. 일단 난 앱 개발을 잘 모르기 때문에 앱개발을 AI에게 시켜보자. 무슨 앱을 만들고 싶냐하면 나는 모아키를 만들고 싶다. 모아키는 안드로이드에서 오래전에 출시된 키보드인데 자음을 밀어서 모음을...","categories": ["Development/VibeCoding/"],
-        "tags": ["바이브코딩","CLAUDE","iOS","모아키"],
-        "url": "/development/vibecoding/2026/06/15/Moakey-for-iOS.html",
+        "excerpt":"개요 어느샌가 누구나 바이브 코딩을 하고 있다. 컴퓨터 1도 몰라도 뭔가 뚝딱뚝딱 개발을 한다. 바이브 코더도 코더인가? 그딴건 모르겠고 좋은 건 나도 하고 싶다. 일단 난 앱 개발을 잘 모르기 때문에 앱개발을 AI에게 시켜보자. 무슨 앱을 만들고 싶냐하면 나는 모아키를 만들고 싶다. 모아키는 안드로이드에서 오래전에 출시된 키보드인데 자음을 밀어서 모음을...","categories": ["Development/Movingwoo/"],
+        "tags": ["MOVINGWOO","CLAUDE","iOS","모아키"],
+        "url": "/development/movingwoo/2026/06/15/Moakey-for-iOS.html",
         "teaser": null
       },{
         "title": "AltStore 활용 앱 자동 갱신",
@@ -618,9 +618,9 @@ var store = [{
         "teaser": null
       },{
         "title": "브리핑 봇 구현",
-        "excerpt":"개요 5호기 서버는 뭘 할 수 있을까? 1기가 메모리는 차치하고 아웃바운드 데이터 제한 1기가가 참 살벌한 제한 조건이다. 범위 내 안전하게 사용하려면 텍스트 데이터만 주고 받는게 맞을 것 같다. 이왕 이렇게 된 것, 텔레그램과 연동하여 필요한 정보를 정해진 시간에 브리핑하는 봇을 만든다. 설계 흐름은 간단하다. 데이터 수집 및 가공 후...","categories": ["Development/VibeCoding/"],
-        "tags": ["VIVECODING","CLAUDE","BOT","TELEGRAM"],
-        "url": "/development/vibecoding/2026/07/09/Briefing-Bot.html",
+        "excerpt":"개요 5호기 서버는 뭘 할 수 있을까? 1기가 메모리는 차치하고 아웃바운드 데이터 제한 1기가가 참 살벌한 제한 조건이다. 범위 내 안전하게 사용하려면 텍스트 데이터만 주고 받는게 맞을 것 같다. 이왕 이렇게 된 것, 텔레그램과 연동하여 필요한 정보를 정해진 시간에 브리핑하는 봇을 만든다. 설계 흐름은 간단하다. 데이터 수집 및 가공 후...","categories": ["Development/Movingwoo/"],
+        "tags": ["MOVINGWOO","CLAUDE","BOT","TELEGRAM"],
+        "url": "/development/movingwoo/2026/07/09/Briefing-Bot.html",
         "teaser": null
       },{
         "title": "여행 계획 지도 만들기",
@@ -630,21 +630,21 @@ var store = [{
         "teaser": null
       },{
         "title": "프라이빗 웹 터미널",
-        "excerpt":"개요 AI 세션 여기저기 만들고 다니니 관리가 귀찮다. 개발 환경도 여기저기 흩뿌려놨더니 매번 ssh 접속하는 것도 짜증난다. 주요 개발환경에 백그라운드로 띄어두고 웹으로 접근할 수 있는 개인용 웹 터미널을 만들자. 설계 FastAPI를 사용한다. 예전에 잠깐 공부할때 상당히 매력적이라고 느꼈는데 이번에 써야지. xterm.js 브라우저에서 터미널을 사용하려면 xterm.js라는 훌륭한 라이브러리가 존재한다. 서버에는 PTY를...","categories": ["Development/VibeCoding/"],
-        "tags": ["VIVECODING","CLAUDE","WTERM"],
-        "url": "/development/vibecoding/2026/07/20/WTerm.html",
+        "excerpt":"개요 AI 세션 여기저기 만들고 다니니 관리가 귀찮다. 개발 환경도 여기저기 흩뿌려놨더니 매번 ssh 접속하는 것도 짜증난다. 주요 개발환경에 백그라운드로 띄어두고 웹으로 접근할 수 있는 개인용 웹 터미널을 만들자. 설계 FastAPI를 사용한다. 예전에 잠깐 공부할때 상당히 매력적이라고 느꼈는데 이번에 써야지. xterm.js 브라우저에서 터미널을 사용하려면 xterm.js라는 훌륭한 라이브러리가 존재한다. 서버에는 PTY를...","categories": ["Development/Movingwoo/"],
+        "tags": ["MOVINGWOO","CLAUDE","WTERM"],
+        "url": "/development/movingwoo/2026/07/20/WTerm.html",
         "teaser": null
       },{
         "title": "웹 터미널 코덱스 추가",
-        "excerpt":"AI 경쟁 오늘자로 클로드 코드 Fable5 모델이 사용할 수 없게 되었다. 정확하게는 토큰 정량제로 전환된 듯 하다. 아! 진짜 좋았는데!!! 사실 그동안 Codex의 Sol 모델과 많은 경합이 있어왔다. 듣기로는 막 사용량 초기화도 해주고 난리도 아니었다고 한다. 하지만 나는 Fable5 사용감이 좋아서 그냥 쓰고 있었는데… 이렇게 되면 GPT를 안 쓸 수가...","categories": ["Development/VibeCoding/"],
-        "tags": ["VIVECODING","CLAUDE","CODEX","WTERM"],
-        "url": "/development/vibecoding/2026/07/21/WTerm-Upgrade.html",
+        "excerpt":"AI 경쟁 오늘자로 클로드 코드 Fable5 모델이 사용할 수 없게 되었다. 정확하게는 토큰 정량제로 전환된 듯 하다. 아! 진짜 좋았는데!!! 사실 그동안 Codex의 Sol 모델과 많은 경합이 있어왔다. 듣기로는 막 사용량 초기화도 해주고 난리도 아니었다고 한다. 하지만 나는 Fable5 사용감이 좋아서 그냥 쓰고 있었는데… 이렇게 되면 GPT를 안 쓸 수가...","categories": ["Development/Movingwoo/"],
+        "tags": ["MOVINGWOO","CLAUDE","CODEX","WTERM"],
+        "url": "/development/movingwoo/2026/07/21/WTerm-Upgrade.html",
         "teaser": null
       },{
         "title": "WTools 브라우저 개발자 유틸리티",
-        "excerpt":"개요 favicon을 생성하거나 이미지 포맷을 변경하거나 base64 디코딩을 진행하거나 작업을 할 때 외부 사이트를 이용하면서 나만의 사이트를 갖고 싶다는 작은 욕망이 있었다. 때문에 IT-Tools와 CyberChef를 참고하며 조금조금씩 개발을 하고 있었다. 하지만 혼자 작업하는데 한계도 있고 언급한 두 소프트웨어가 너무나 뛰어나기 때문에 진척도는 지지부진한 상황. 그런데 AI의 세상이 도래해버렸다. 잊혀졌던 묵은...","categories": ["Development/VibeCoding/"],
-        "tags": ["VIVECODING","CLAUDE","CODEX","WTOOLS"],
-        "url": "/development/vibecoding/2026/08/03/WTools.html",
+        "excerpt":"개요 favicon을 생성하거나 이미지 포맷을 변경하거나 base64 디코딩을 진행하거나 작업을 할 때 외부 사이트를 이용하면서 나만의 사이트를 갖고 싶다는 작은 욕망이 있었다. 때문에 IT-Tools와 CyberChef를 참고하며 조금조금씩 개발을 하고 있었다. 하지만 혼자 작업하는데 한계도 있고 언급한 두 소프트웨어가 너무나 뛰어나기 때문에 진척도는 지지부진한 상황. 그런데 AI의 세상이 도래해버렸다. 잊혀졌던 묵은...","categories": ["Development/Movingwoo/"],
+        "tags": ["MOVINGWOO","CLAUDE","CODEX","WTOOLS"],
+        "url": "/development/movingwoo/2026/08/03/WTools.html",
         "teaser": null
       },{
         "title": "6호기 서버 생성",
