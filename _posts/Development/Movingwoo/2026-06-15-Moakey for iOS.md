@@ -4,8 +4,8 @@ description: "iOS용 모아키 포크 프로젝트"
 date: "2026-06-15 17:00:00 +0900"
 last_modified_at: "2026-06-15 17:00:00 +0900"
 categories: 
-  - Development/VibeCoding/
-tags: [바이브코딩, CLAUDE, iOS, 모아키]
+  - Development/Movingwoo/
+tags: [MOVINGWOO, CLAUDE, iOS, 모아키]
 author: movingwoo
 ---
 > #### 개요  
@@ -36,7 +36,7 @@ author: movingwoo
   
 {% include colored_text.html color="red" text="**맥북 병의 치료법은 단 하나, 맥북을 구매하는 것이다.**" %}  
   
-![img01](/assets/images/posts/Development/VibeCoding/2026-06-15-Moakey for iOS/img01.webp)  
+![img01](/assets/images/posts/Development/Movingwoo/2026-06-15-Moakey for iOS/img01.webp)  
   
 요즘 지갑이 좀 아프니 리퍼 제품을 찾아보자...  
 지갑이 많이 아프니 프로보다 에어로 가자...  
@@ -65,7 +65,7 @@ curl -fsSL https://claude.ai/install.sh | bash
 22달러면 대충 26000원쯤 하지 않나?  
 가만보자 오늘자 환율이  
   
-![img02](/assets/images/posts/Development/VibeCoding/2026-06-15-Moakey for iOS/img02.webp)  
+![img02](/assets/images/posts/Development/Movingwoo/2026-06-15-Moakey for iOS/img02.webp)  
   
 {% include colored_text.html color="red" text="**이런 시벌**" %}  
   
@@ -86,7 +86,7 @@ curl -fsSL https://claude.ai/install.sh | bash
 > #### 완성  
 ---  
   
-![img03](/assets/images/posts/Development/VibeCoding/2026-06-15-Moakey for iOS/img03.webp)  
+![img03](/assets/images/posts/Development/Movingwoo/2026-06-15-Moakey for iOS/img03.webp)  
   
 {% include colored_text.html color="orange" text="**클로드가 다해줬다 나는 아무것도 안했어 구경만 했어**" %}  
   
@@ -104,14 +104,14 @@ curl -fsSL https://claude.ai/install.sh | bash
 어차피 자모를 조합해서 한번에 쓰는 키보드 특성 상 자음 모음이 따로 지워질 필요는 없어 보인다.  
 때문에 삭제 시 한 글자 청크를 한 번에 날리도록 했다.  
   
-![img04](/assets/images/posts/Development/VibeCoding/2026-06-15-Moakey for iOS/img04.webp)  
+![img04](/assets/images/posts/Development/Movingwoo/2026-06-15-Moakey for iOS/img04.webp)  
   
 타이핑에 아무 이상이 없다.  
   
 > #### 느낀 점  
 ---  
   
-![img05](/assets/images/posts/Development/VibeCoding/2026-06-15-Moakey for iOS/img05.webp)  
+![img05](/assets/images/posts/Development/Movingwoo/2026-06-15-Moakey for iOS/img05.webp)  
   
 AI는 신이고 무적이며 인간 시대의 끝은 도래했다.  
 인간은 토큰 비용을 채굴해서 AI님께 바치면 된다.  
@@ -149,9 +149,9 @@ AI는 신이고 무적이며 인간 시대의 끝은 도래했다.
 혹시 몰라 AI에게 물어보니 아무리 수익을 창출하지 않는다해도  
 public repo 는 특허에 걸릴 수 있다고 한다.  
   
-![img07](/assets/images/posts/Development/VibeCoding/2026-06-15-Moakey for iOS/img07.webp)  
+![img07](/assets/images/posts/Development/Movingwoo/2026-06-15-Moakey for iOS/img07.webp)  
   
 {% include colored_text.html color="orange" text="**따라서 저작권 및 특허권 보호를 위해 깃허브 프로젝트는 비공개로 전환하고 개인 학습용으로만 유지한다.**" %}  
 {% include colored_text.html color="orange" text="**권리 관계를 명확히 아는 것도 개발자의 중요한 소양이다.**" %}  
   
-![img06](/assets/images/posts/Development/VibeCoding/2026-06-15-Moakey for iOS/img06.webp)  
+![img06](/assets/images/posts/Development/Movingwoo/2026-06-15-Moakey for iOS/img06.webp)  

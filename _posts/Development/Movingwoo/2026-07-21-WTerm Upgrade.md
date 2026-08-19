@@ -4,8 +4,8 @@ description: "웹 터미널 코덱스 추가 및 효율적인 AI 사용"
 date: "2026-07-21 11:00:00 +0900"
 last_modified_at: "2026-07-21 11:00:00 +0900"
 categories: 
-  - Development/VibeCoding/
-tags: [VIVECODING, CLAUDE, CODEX, WTERM]
+  - Development/Movingwoo/
+tags: [MOVINGWOO, CLAUDE, CODEX, WTERM]
 author: movingwoo
 ---
 > #### AI 경쟁  
@@ -89,7 +89,7 @@ codex를 사용하게 되었으니 wterm에 codex 기능을 추가해준다.
   
 이후 기능 테스트 후 커밋  
   
-![img01](/assets/images/posts/Development/VibeCoding/2026-07-21-WTerm Upgrade/img01.webp){: width="80%"}  
+![img01](/assets/images/posts/Development/Movingwoo/2026-07-21-WTerm Upgrade/img01.webp){: width="80%"}  
   
 찐빠는 없이 완료되었다.  
   
