@@ -1,4 +1,146 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://arc.movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://arc.movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-08-19T00:57:16+00:00</updated><id>https://arc.movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">6호기 서버 생성</title><link href="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html" rel="alternate" type="text/html" title="6호기 서버 생성" /><published>2026-08-13T02:00:00+00:00</published><updated>2026-08-13T02:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/08/13/Build%20Server%20Mk6</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://arc.movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://arc.movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-08-19T01:00:03+00:00</updated><id>https://arc.movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">미니스크린</title><link href="https://arc.movingwoo.com/development/movingwoo/2026/08/19/Miniscreen.html" rel="alternate" type="text/html" title="미니스크린" /><published>2026-08-19T00:00:00+00:00</published><updated>2026-08-19T00:00:00+00:00</updated><id>https://arc.movingwoo.com/development/movingwoo/2026/08/19/Miniscreen</id><content type="html" xml:base="https://arc.movingwoo.com/development/movingwoo/2026/08/19/Miniscreen.html"><![CDATA[<blockquote>
+  <h4 id="개요">개요</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://arc.movingwoo.com/development/python/2025/06/09/Hardware-Monitor.html">하드웨어 모니터</a></p>
+
+<p>예전에 만든 하드웨어 모니터.<br />
+turing-smart-screen을 이용해 구현했다.<br />
+그런데 언제부턴가 이놈, 심각한 이슈가 있었다.<br />
+이 녀석이 <span style="color: orange;"><strong>WingRing0</strong></span> 커널드라이버를 써가지고 허구헌날 윈도우디펜더한테 차단먹는다.<br />
+그동안 오진할때마다 해제해줬는데 1년동안 그렇게 비볐으면 충분히 할만큼 했다.<br />
+직접 개발 드가자.</p>
+
+<blockquote>
+  <h4 id="원인-분석">원인 분석</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://nvd.nist.gov/vuln/detail/CVE-2020-14979">CVE-2020-14979</a></p>
+
+<p><img src="/assets/images/posts/Development/Movingwoo/2026-08-19-Miniscreen/img01.webp" alt="img01" width="60%" /></p>
+
+<p>이것 말고도 CVE가 더 있긴한데 아무튼.<br />
+대충 취약한 드라이버라고 한다.<br />
+<span style="color: orange;"><strong>WingRing0</strong></span> 권한상승 취약점이 다수 보고되었다.<br />
+해커가 administrator 권한을 차지한다면? 으악 무셔!</p>
+
+<p>turing smart screen 프로젝트에서 하드웨어 온도를 재는 기능이 있다.<br />
+온도를 재기 위해서 <span style="color: orange;"><strong>LibreHardwareMonitorLib.dll</strong></span>을 사용한다.<br />
+여기서 CPU 온도를 읽기 위해 WinRing0 드라이버를 사용하고, 드라이버 자체는 위험하지 않고 정상적이다.<br />
+단지 권한이 좀 쎄고 인간에게는 악의가 가득할 뿐임…</p>
+
+<p>사실 turing smart screen도 그래서 바뀌었다!<br />
+WinRing0 드라이버를 오픈소스인 <span style="color: orange;"><strong>Pawn.IO</strong></span> 드라이버로 교체했다.<br />
+대체 언제한건지 찾아보니까 올해 1월에 처리된 내용이다.<br />
+난 그것도 모르고 꾸역꾸역 디펜더와 사투를 벌이고 있었다.</p>
+
+<blockquote>
+  <h4 id="구현">구현</h4>
+  <hr />
+</blockquote>
+
+<p>아무튼 간에 Pawn.IO를 쓰면 해결된다는 걸 알았고<br />
+테마도 간단하니 대충 필요없는 라이브러리 들어내고 AI에 넣어서 한 번 빨면 나만의 가벼운 미니 스크린이 탄생하겠다.</p>
+
+<p>Windows 환경에서는 winget으로 Pawn.IO를 설치한다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>winget <span class="nb">install</span> <span class="nt">--id</span> namazso.PawnIO
+</code></pre></div></div>
+
+<p>온도를 잘 받아오는지 확인하기위해 간단한 파이썬 스크립트를 작성한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dll_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]):</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">_cpu_hardware</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">_sensor_type</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">dll_dir</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">error</span> <span class="o">=</span> <span class="sh">"</span><span class="s">lhm 폴더가 지정되지 않음</span><span class="sh">"</span>
+        <span class="k">return</span>
+
+    <span class="n">dll</span> <span class="o">=</span> <span class="nc">Path</span><span class="p">(</span><span class="n">dll_dir</span><span class="p">)</span> <span class="o">/</span> <span class="sh">"</span><span class="s">LibreHardwareMonitorLib.dll</span><span class="sh">"</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dll</span><span class="p">.</span><span class="nf">exists</span><span class="p">():</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">error</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">dll</span><span class="si">}</span><span class="s"> 없음</span><span class="sh">"</span>
+        <span class="k">return</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">_open</span><span class="p">(</span><span class="n">dll</span><span class="p">)</span>
+    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">error</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="s">초기화 실패: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="sh">"</span>
+</code></pre></div></div>
+
+<p>LibreHardwareMonitorLib.dll을 호출한다.<br />
+어?? Pawn.IO를 써야하는데??<br />
+사실 python에서 직점 해당 라이브러리를 호출하는게 아니라<br />
+LibreHardwareMonitor 라이브러리에서 Pawn.IO를 통해 하드웨어 센서에 접근하는 방식이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>movingwoo/miniscreen
+│
+├ sensors.py
+│    └─ Hardware.Computer.Open()
+│
+└ lhm/
+     └ LibreHardwareMonitorLib.dll
+          │
+          │ DLL 내부 코드
+          ▼
+     LibreHardwareMonitorLib/PawnIo/PawnIo.cs
+          │
+          ├─ CreateFile("\\?\GLOBALROOT\Device\PawnIO")
+          └─ DeviceIoControl(...)
+                    │
+                    ▼
+             PawnIO.sys
+</code></pre></div></div>
+
+<p>LibreHardwareMonitorLib.dll 내부에 PawnIo.cs가 내장되어있다.<br />
+그래서 해당 dll을 통해 온도 측정을 호출 하면 된다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="n">psutil</span>
+
+<span class="kn">from</span> <span class="n">sensors</span> <span class="kn">import</span> <span class="n">LibreHardwareMonitor</span>
+
+<span class="n">lhm</span> <span class="o">=</span> <span class="nc">LibreHardwareMonitor</span><span class="p">(</span><span class="nc">Path</span><span class="p">(</span><span class="n">__file__</span><span class="p">).</span><span class="n">parent</span> <span class="o">/</span> <span class="sh">"</span><span class="s">lhm</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">논리 코어 </span><span class="si">{</span><span class="n">psutil</span><span class="p">.</span><span class="nf">cpu_count</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span><span class="si">}</span><span class="s"> / 물리 코어 </span><span class="si">{</span><span class="n">psutil</span><span class="p">.</span><span class="nf">cpu_count</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">LHM 사용 가능: </span><span class="si">{</span><span class="n">lhm</span><span class="p">.</span><span class="n">available</span><span class="si">}</span><span class="s">  오류: </span><span class="si">{</span><span class="n">lhm</span><span class="p">.</span><span class="n">error</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">lhm</span><span class="p">.</span><span class="n">available</span><span class="p">:</span>
+    <span class="n">lhm</span><span class="p">.</span><span class="n">_cpu_hardware</span><span class="p">.</span><span class="nc">Update</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">하드웨어 이름: </span><span class="si">{</span><span class="n">lhm</span><span class="p">.</span><span class="n">_cpu_hardware</span><span class="p">.</span><span class="n">Name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">--- 센서 목록 ---</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="n">lhm</span><span class="p">.</span><span class="n">_cpu_hardware</span><span class="p">.</span><span class="n">Sensors</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sensor</span><span class="p">.</span><span class="n">SensorType</span> <span class="o">==</span> <span class="n">lhm</span><span class="p">.</span><span class="n">_sensor_type</span><span class="p">.</span><span class="n">Temperature</span><span class="p">:</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  [온도] </span><span class="si">{</span><span class="n">sensor</span><span class="p">.</span><span class="n">Name</span><span class="si">}</span><span class="s"> = </span><span class="si">{</span><span class="n">sensor</span><span class="p">.</span><span class="n">Value</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">--- 선택된 값: </span><span class="si">{</span><span class="n">lhm</span><span class="p">.</span><span class="nf">temperature</span><span class="p">()</span><span class="si">}</span><span class="s"> ---</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>테스트 코드를 짜서 온도가 잘 나오는지 확인해본다.<br />
+대충 45도 언저리로 나오더라.<br />
+정상적으로 동작한다는 뜻이다.</p>
+
+<blockquote>
+  <h4 id="끝">끝</h4>
+  <hr />
+</blockquote>
+
+<p>그렇다.<br />
+뭔가 먼 길을 돌아온 것 같은데<br />
+<span style="color: orange;"><strong>사실 LibreHardwareMonitor가 버전 업하면서 Pawn.IO를 쓰게 된 것이다!!</strong></span><br />
+그냥 turing smart screen 업뎃만 할걸 그랬나…</p>
+
+<p><a href="https://github.com/movingwoo/miniscreen">miniscreen - github</a></p>
+
+<p>일단 깃헙에 올린다.<br />
+나중에 좀 더 범용성 있게 수정할 수 있으려나?<br />
+급한 프로젝트는 아니다.</p>
+
+<p>turing smart screen 자체가 GPL3.0 라이선스였다.<br />
+아무생각없이 MIT 라이선스 썼다가 GPL 라이선스로 변경.</p>]]></content><author><name>movingwoo</name></author><category term="Development/Movingwoo/" /><category term="MOVINGWOO" /><category term="MINISCREEN" /><summary type="html"><![CDATA[미니스크린 개발]]></summary></entry><entry><title type="html">6호기 서버 생성</title><link href="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html" rel="alternate" type="text/html" title="6호기 서버 생성" /><published>2026-08-13T02:00:00+00:00</published><updated>2026-08-13T02:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/08/13/Build%20Server%20Mk6</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/08/13/Build-Server-Mk6.html"><![CDATA[<blockquote>
   <h4 id="2호기-서버-이야기">2호기 서버 이야기</h4>
   <hr />
 </blockquote>
@@ -1139,151 +1281,4 @@ movingwoo.github.io는 아카이브가 뺏어가서 쓰고 있기 때문에 대�
 나중에 링크 개발 마쳐서 커밋해야겠다.<br />
 html과 js로만 구성된 민감정보 한 톨 안담긴 간단한 페이지니 죄다 클로드 하청 맡겨야지!</p>
 
-<p>그건 그거고 고생했으니 좀 쉬어야겠다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="INFRASTRUCTURE" /><category term="NEXTCLOUD" /><category term="COLLABORA" /><category term="CADDY" /><category term="DOCKER" /><summary type="html"><![CDATA[기존 인프라 대공사 2]]></summary></entry><entry><title type="html">인프라 대공사 1</title><link href="https://arc.movingwoo.com/server/2026/06/26/Massive-infrastructure-overhaul-1.html" rel="alternate" type="text/html" title="인프라 대공사 1" /><published>2026-06-26T01:00:00+00:00</published><updated>2026-06-26T01:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/06/26/Massive%20infrastructure%20overhaul%201</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/06/26/Massive-infrastructure-overhaul-1.html"><![CDATA[<blockquote>
-  <h4 id="으악-하기싫어">으악 하기싫어</h4>
-  <hr />
-</blockquote>
-
-<p>인프라 대공사가 필요하다.<br />
-정말 하기 싫다.<br />
-하지만 해야한다.</p>
-
-<blockquote>
-  <h4 id="as_is-와-to_be">AS_IS 와 TO_BE</h4>
-  <hr />
-</blockquote>
-
-<p>현재 NextCloud 서비스는 Cloudflare Tunnel 뒤에 붙어있다.<br />
-터널 뒤에 붙으면서 문제가 있었는데, NextCloud Office 프로그램을 사용하려면 WOPI 프로토콜을 이용해야한다.<br />
-브라우저와 오피스 서버 사이에 웹소켓이 뚫려야하는데 터널이 이를 차단해버린다.<br />
-짱구를 굴리고 굴려서 OnlyOffice라는 대안을 찾아 어떻게든 연결은 했다.</p>
-
-<p><strong>[ Cloudflare Tunnel ] ──&gt; [ Traefik ] ──┬──&gt; [ NextCloud ]</strong><br />
-                         <strong>└──&gt; [ OnlyOffice ]</strong></p>
-
-<p>대충 이런 느낌이다.<br />
-허나 사설 VPN망이 구축된 시점에 이는 의미 없는 구조라 판단되어 과감히 공사를 진행한다.</p>
-
-<p>목표는 아래와 같다.</p>
-<ul>
-  <li><span style="color: orange;"><strong>터널 들어내고 VPN망 뒤로 위치</strong></span></li>
-  <li><span style="color: orange;"><strong>Traefik을 제거하고 Caddy에서 분배</strong></span></li>
-  <li><span style="color: orange;"><strong>OnlyOffice를 없애고 NextCloud Office (Collabora) 로 교체</strong></span></li>
-</ul>
-
-<p><strong>[ VPN ] ──&gt; [ Caddy ] ──┬──&gt; [ NextCloud ]</strong><br />
-                 <strong>└──&gt; [ NextCloud Office ]</strong></p>
-
-<p>그리고 하는 김에 31버전 -&gt; 32버전 업데이트도 진행한다.<br />
-이건 인프라 대공사 완료 후 진행이다.</p>
-
-<p>아 어디부터 손대야하지<br />
-<span style="color: orange;"><strong>백업은 선택이 아니라 필수</strong></span>니까 백업부터 해두자.</p>
-
-<blockquote>
-  <h4 id="cloudflare-tunnel-제거">CloudFlare Tunnel 제거</h4>
-  <hr />
-</blockquote>
-
-<p>먼저 Caddy에 handle 블럭 추가해서 구멍 뚫어주고 터널을 들어낸다.<br />
-하는 김에 80포트를 Caddy에 돌려주고 nextcloud는 8080포트를 줘야지…</p>
-
-<p>콘솔에 들어가서 확인하면 <span style="color: orange;"><strong>[액세스 제어]</strong></span> 쪽에서 확인할 수 있다.<br />
-아니 이거 화면이 또 바뀌었네 한참 찾았다.</p>
-
-<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 1/img01.webp" alt="img01" width="90%" /></p>
-
-<p>정책은 다른데 쓸 데가 있다.<br />
-저 연결은 이제 안쓸거니 과감하게 삭제 진행</p>
-
-<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 1/img02.webp" alt="img02" width="50%" /></p>
-
-<p>추가로 DNS 레코드에서 해당 도메인 레코드도 날린다.</p>
-
-<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 1/img03.webp" alt="img03" width="90%" /></p>
-
-<p>이제 VPN으로만 접근이 가능해졌다.</p>
-
-<blockquote>
-  <h4 id="office-변경">Office 변경</h4>
-  <hr />
-</blockquote>
-
-<p>nextcloud의 docker-compose.yml 대공사가 필요하다.</p>
-<ul>
-  <li>트래픽 네트워크와 레이블 제거, 관련 depends on 속성 제거</li>
-  <li>nextoffice 자체에 포트 추가</li>
-  <li>onlyoffice 제거, collabora code 추가</li>
-</ul>
-
-<p>office 관련은 아래와 같이 설정하였다.</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">office</span><span class="pi">:</span>
-    <span class="na">container_name</span><span class="pi">:</span> <span class="s">nextcloud-office</span>
-    <span class="na">image</span><span class="pi">:</span> <span class="s">collabora/code:latest</span>
-    <span class="na">restart</span><span class="pi">:</span> <span class="s">unless-stopped</span>
-    <span class="na">networks</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">nextcloud_net</span>
-    <span class="na">ports</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">9980:9980</span>
-    <span class="na">depends_on</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">app</span>
-    <span class="na">environment</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">aliasgroup1=https://.*</span>
-      <span class="pi">-</span> <span class="s">extra_params=--o:ssl.enable=false --o:ssl.termination=true</span>
-</code></pre></div></div>
-
-<p><span style="color: orange;"><strong>aliasgroup1</strong></span>은 명시적으로 도메인 하나를 지정했더니 잘 동작하지 않아서 와일드카드 사용.<br />
-외부 프록시 서버가 있기 때문에 <span style="color: orange;"><strong>ssl.enable</strong></span>은 false로 설정하고<br />
-<span style="color: orange;"><strong>ssl.termination</strong></span> 옵션을 true로 해야 내부에서 http 요청이 들어오는 것을 신뢰한다.</p>
-
-<p>평소에 container_name을 잘 설정안했는데 중앙 관리를 위해서 꼭 설정하는게 좋겠다.<br />
-이게 아마 도메인이 여기저기 박혀있을 것 같은데 config도 좀 뒤져보자.</p>
-
-<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 1/img04.webp" alt="img04" width="70%" /></p>
-
-<p>여기에 붙어있는 도메인 정보도 수정한다.<br />
-trusted_domains도 이 기회에 깔끔하게 정리해주고 trusted_proxies에 사설 IP 대역을 전부 등록해 혹시 모를 오동작을 방지한다.</p>
-
-<p>caddy도 수정이 필요하다.</p>
-
-<div class="language-nginx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># NextCloud</span>
-<span class="k">@nextcloud</span> <span class="s">host</span> <span class="s">domain1</span>
-<span class="s">handle</span> <span class="s">@nextcloud</span> <span class="p">{</span>
-    <span class="kn">reverse_proxy</span> <span class="nf">IP</span><span class="p">:</span><span class="mi">8080</span> <span class="p">{</span>
-        <span class="kn">header_up</span> <span class="s">X-Real-IP</span> <span class="p">{</span><span class="kn">remote_host</span><span class="err">}</span>
-    <span class="err">}</span>
-<span class="err">}</span>
-
-<span class="c1"># collabora</span>
-<span class="s">@collabora</span> <span class="s">host</span> <span class="s">domain2</span>
-<span class="s">handle</span> <span class="s">@collabora</span> <span class="p">{</span>
-    <span class="kn">reverse_proxy</span> <span class="nf">IP</span><span class="p">:</span><span class="mi">9980</span>
-<span class="err">}</span>
-</code></pre></div></div>
-
-<p>각각 리버스 프록시를 걸어주는데 nextcloud 쪽에는 <span style="color: orange;"><strong>X-Real-IP</strong></span> 옵션을 넣어준다.<br />
-요청을 실제로 보낸 원본 클라이언트 IP를 알려주는 용도인데<br />
-이걸 설정하지 않으면 WOPI CheckFileInfo를 막아 <span style="color: red;"><strong>403 Forbbidden 오류</strong></span>가 발생한다.</p>
-
-<p>기동시켜서 정상 접근이 잘 되는지 확인한다.<br />
-앱 메뉴로 들어가서 OnlyOffice 사용하지 않음 처리하고 NextCloud Office 앱을 다운로드 한다.</p>
-
-<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 1/img05.webp" alt="img05" width="30%" /></p>
-
-<p>이후 관리자 설정 오피스에 자체서버 호스팅으로 도메인 연결을 진행한다.</p>
-
-<p><img src="/assets/images/posts/Server/2026-06-26-Massive infrastructure overhaul 1/img06.webp" alt="img06" width="70%" /></p>
-
-<p>설정 완료 후 파일이 올바르게 열리는지 확인하면 끝!</p>
-
-<blockquote>
-  <h4 id="남은-일">남은 일</h4>
-  <hr />
-</blockquote>
-
-<p>갈 곳을 잃은 클라우드플레어 터널 A레코드가 노란 경고를 뿜어내고 있는데 어서 길을 찾아줘야한다.<br />
-바로 다음 할 일이 되겠다.</p>
-
-<p>아 넥스트클라우드 메이저 버전업도 진행해야한다.<br />
-귀찮아 죽겠네 정말</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="INFRASTRUCTURE" /><category term="NEXTCLOUD" /><category term="COLLABORA" /><category term="CADDY" /><category term="DOCKER" /><summary type="html"><![CDATA[기존 인프라 대공사 1]]></summary></entry></feed>
+<p>그건 그거고 고생했으니 좀 쉬어야겠다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="INFRASTRUCTURE" /><category term="NEXTCLOUD" /><category term="COLLABORA" /><category term="CADDY" /><category term="DOCKER" /><summary type="html"><![CDATA[기존 인프라 대공사 2]]></summary></entry></feed>

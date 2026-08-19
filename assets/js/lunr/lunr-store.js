@@ -652,4 +652,10 @@ var store = [{
         "tags": ["SERVER","ORACLE","ORACLECLOUD"],
         "url": "/server/2026/08/13/Build-Server-Mk6.html",
         "teaser": null
+      },{
+        "title": "미니스크린",
+        "excerpt":"개요 하드웨어 모니터 예전에 만든 하드웨어 모니터. turing-smart-screen을 이용해 구현했다. 그런데 언제부턴가 이놈, 심각한 이슈가 있었다. 이 녀석이 WingRing0 커널드라이버를 써가지고 허구헌날 윈도우디펜더한테 차단먹는다. 그동안 오진할때마다 해제해줬는데 1년동안 그렇게 비볐으면 충분히 할만큼 했다. 직접 개발 드가자. 원인 분석 CVE-2020-14979 이것 말고도 CVE가 더 있긴한데 아무튼. 대충 취약한 드라이버라고 한다. WingRing0...","categories": ["Development/Movingwoo/"],
+        "tags": ["MOVINGWOO","MINISCREEN"],
+        "url": "/development/movingwoo/2026/08/19/Miniscreen.html",
+        "teaser": null
       }]
