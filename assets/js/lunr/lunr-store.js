@@ -658,4 +658,10 @@ var store = [{
         "tags": ["MOVINGWOO","MINISCREEN"],
         "url": "/development/movingwoo/2026/08/19/Miniscreen.html",
         "teaser": null
+      },{
+        "title": "개인 VPN 출구 서버 구축",
+        "excerpt":"개요 해외 VPS가 존재하면 그쪽으로 인터넷 트래픽을 라우팅해 외부에 노출되는 IP를 변경할 수 있다. 일반 사용자들이 생각하는 VPN의 기능이다. 그리고 나는 일본에 6호기가 존재한다. 말인즉슨, 쌀먹 VPN이 가능한 것이다! Tailscale Exit Node 대충 6호기에 테일스케일 올리고 계정에 등록해주는 절차는 생략. Exit Node는 다른 장비의 패킷을 받아야해서 IP forwarding을 활성화한다. echo...","categories": ["Server/Service/"],
+        "tags": ["SERVER","SERVICE","VPN","TAILSCALE"],
+        "url": "/server/service/2026/08/20/Self-hosted-VPN-Exit-Node.html",
+        "teaser": null
       }]
