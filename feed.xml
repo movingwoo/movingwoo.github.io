@@ -1,4 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://arc.movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://arc.movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-11-25T01:04:50+00:00</updated><id>https://arc.movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">개인 VPN 출구 서버 구축</title><link href="https://arc.movingwoo.com/server/service/2026/08/20/Self-hosted-VPN-Exit-Node.html" rel="alternate" type="text/html" title="개인 VPN 출구 서버 구축" /><published>2026-08-20T02:00:00+00:00</published><updated>2026-08-20T02:00:00+00:00</updated><id>https://arc.movingwoo.com/server/service/2026/08/20/Self-hosted%20VPN%20Exit%20Node</id><content type="html" xml:base="https://arc.movingwoo.com/server/service/2026/08/20/Self-hosted-VPN-Exit-Node.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko-KR"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://arc.movingwoo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://arc.movingwoo.com/" rel="alternate" type="text/html" hreflang="ko-KR" /><updated>2026-11-25T02:39:46+00:00</updated><id>https://arc.movingwoo.com/feed.xml</id><title type="html">뭐라도 하겠지</title><subtitle>개발, C++, JAVA, Python, Shortcut, 백준</subtitle><entry><title type="html">Ruby CVE 취약점 업데이트</title><link href="https://arc.movingwoo.com/server/2026/11/25/Vulnerability-Update.html" rel="alternate" type="text/html" title="Ruby CVE 취약점 업데이트" /><published>2026-11-25T01:00:00+00:00</published><updated>2026-11-25T01:00:00+00:00</updated><id>https://arc.movingwoo.com/server/2026/11/25/Vulnerability%20Update</id><content type="html" xml:base="https://arc.movingwoo.com/server/2026/11/25/Vulnerability-Update.html"><![CDATA[<blockquote>
+  <h4 id="ai-멈춰">AI 멈춰!!</h4>
+  <hr />
+</blockquote>
+
+<p>AI가 취약점을 마구마구 파헤치고 있다.<br />
+<span style="color: red;"><strong>PHP2Shell</strong></span> 부터 시작해서 <span style="color: red;"><strong>Java4Shell</strong></span>까지<br />
+매일매일 새로운 취약점이 쏟아진다.<br />
+제발 멈춰 AI야 왜 일거리를 줄이는게 아니라 늘리는 거니…</p>
+
+<p>다행히도 개인적으로 운영 중인 대부분의 서비스는 취약점의 영향에서 빗겨가있다.<br />
+설령 취약점이 있다고 하더라도 웬만하면 오픈소스 프로젝트를 이용하기 때문에 딸깍 업데이트 방안이 다 마련되어있다.</p>
+
+<p>그런 와중에 정말 안타깝게도 새로운 취약점이 나왔는데…</p>
+
+<blockquote>
+  <h4 id="ruby2shell">Ruby2Shell</h4>
+  <hr />
+</blockquote>
+
+<p><a href="https://nvd.nist.gov/vuln/detail/cve-2026-132825">CVE-2026-132825</a></p>
+
+<p><img src="/assets/images/posts/Server/2026-11-25-Vulnerability Update/img01.webp" alt="img01" width="80%" /></p>
+
+<p>루비에 터진 <span style="color: red;"><strong>Ruby2Shell</strong></span> 취약점.<br />
+대충 문자열 대소문자 변환할 때 버퍼 밖에 1바이트를 써서 그 놈이 문제라는 것이다.<br />
+이 jekyll 블로그가 ruby를 사용한다.</p>
+
+<p>사실 PHP2Shell 때도 느꼈지만<br />
+취약점은 취약점인데 조건이 너무 까다롭다.<br />
+이걸로 어떻게 해킹하는거지? 난 전문가가 아니라 모르겠다.</p>
+
+<p>난리난리를 피워서 업데이트를 미리 하려했다가 귀찮아서 내버려두고 있었다.<br />
+바빠 죽겠는데 겨우 이정도 규모 블로그에 신경 쓸 틈이 없었다.<br />
+그래도 이제 잠깐 시간이 난 김에 업데이트나 해버리자.</p>
+
+<blockquote>
+  <h4 id="현황-점검">현황 점검</h4>
+  <hr />
+</blockquote>
+
+<p><img src="/assets/images/posts/Server/2026-11-25-Vulnerability Update/img02.webp" alt="img02" width="20%" /></p>
+
+<p>github 배포 설정 확인해보니 <span style="color: orange;"><strong>3.2.2</strong></span>버전이 설치되어있다.<br />
+좀 낡긴 했다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-11-25-Vulnerability Update/img03.webp" alt="img03" width="40%" /></p>
+
+<p>개발 환경 전역 설정은 3.3.7이다.<br />
+CVE 상세 내역을 보면 <span style="color: orange;"><strong>3.3.14</strong></span> 버전은 무사하다고 하니까 개발환경을 3.3.14로 올리고 github에도 해당 버전을 따라가도록 설정하자.</p>
+
+<h5 id="1-3314-설치">1. 3.3.14 설치</h5>
+
+<p>요즘 개발은 웬만하면 mac 환경에서 진행하고 있다.<br />
+rbenv를 이용해 버전을 관리하므로 <span style="color: orange;"><strong>rbenv install –list-all</strong></span> 명령어로 3.3.14 버전이 있는지 확인해본다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-11-25-Vulnerability Update/img04.webp" alt="img04" width="30%" /></p>
+
+<p>타겟 버전 확인 완료.<br />
+업데이트 후 global 설정을 3.3.14로 맞춰준다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rbenv <span class="nb">install</span> <span class="nt">-s</span> 3.3.14
+rbenv global 3.3.14
+</code></pre></div></div>
+
+<p><img src="/assets/images/posts/Server/2026-11-25-Vulnerability Update/img05.webp" alt="img05" width="70%" /></p>
+
+<p>bundle install과 bundle exec jekyll build로 이상 없는지 확인하면 완료.</p>
+
+<h5 id="2-배포-설정-변경-및-커밋">2. 배포 설정 변경 및 커밋</h5>
+
+<p><span style="color: orange;"><strong>.gihub/workfolows/jekyll.yml</strong></span>에서 실제 github actions에 배포할 버전을 설정한다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-11-25-Vulnerability Update/img06.webp" alt="img06" width="20%" /></p>
+
+<p>커밋하면 변경사항은 딱 이 파일 하나 뿐이다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-11-25-Vulnerability Update/img07.webp" alt="img07" width="40%" /></p>
+
+<p>push 후 정상적으로 배포되는지 확인하면 끝이다.</p>
+
+<p><img src="/assets/images/posts/Server/2026-11-25-Vulnerability Update/img08.webp" alt="img08" width="70%" /></p>
+
+<blockquote>
+  <h4 id="마무리">마무리</h4>
+  <hr />
+</blockquote>
+
+<p>내 서버는 내가 개조하고 배포해서 업데이트가 편하다.<br />
+그런데 한국 IT 특유의 누가 개발한지도 알 수 없고 어떻게 운영 중인지도 모르는 원시 고대 사이트들은 업데이트도 쉽지 않다.<br />
+AI님이 숨어있는 취약점을 전부 뚫어주시는 은총을 베푸시메 모두가 고통받고 있다.<br />
+제발 그만해!!!</p>
+
+<p>그래도 희망적인 관측을 보이자면<br />
+AI가 발견하는 취약점들은 대부분 오래되었지만 공격방식이 너무나 복잡해 실현 가능성이 낮은 경우가 대부분으로 보인다는 것이다.<br />
+그래서 아무도 모르게 묵혀있던 것으로 보이기도 하고<br />
+한 번 취약점 싹 정리하고 나면 평화가 찾아오지 않을까 생각한다.<br />
+아 쉬고싶어라</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="CVE" /><category term="VULNERABILITY" /><category term="RUBY" /><summary type="html"><![CDATA[Ruby CVE 취약점 업데이트]]></summary></entry><entry><title type="html">개인 VPN 출구 서버 구축</title><link href="https://arc.movingwoo.com/server/service/2026/08/20/Self-hosted-VPN-Exit-Node.html" rel="alternate" type="text/html" title="개인 VPN 출구 서버 구축" /><published>2026-08-20T02:00:00+00:00</published><updated>2026-08-20T02:00:00+00:00</updated><id>https://arc.movingwoo.com/server/service/2026/08/20/Self-hosted%20VPN%20Exit%20Node</id><content type="html" xml:base="https://arc.movingwoo.com/server/service/2026/08/20/Self-hosted-VPN-Exit-Node.html"><![CDATA[<blockquote>
   <h4 id="개요">개요</h4>
   <hr />
 </blockquote>
@@ -1092,119 +1189,4 @@ IPv4 범위를 <span style="color: orange;"><strong>35.235.240.0/20</strong></sp
 이거 뭐 어떻게 써야할지가 고민이다.</p>
 
 <p>좀만 여유가 있어도 vpn exit node로 구성할까 싶었는데<br />
-한 번 텔레그램이랑 잘 엮으면 뭐라도 할 수 있겠다 싶다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="GOOGLE" /><category term="GOOGLECLOUD" /><summary type="html"><![CDATA[구글 클라우드를 이용한 무료 서버 5호기 생성]]></summary></entry><entry><title type="html">넥스트클라우드 33 업그레이드</title><link href="https://arc.movingwoo.com/server/service/2026/07/02/Upgrade-Nextcloud-To-33.html" rel="alternate" type="text/html" title="넥스트클라우드 33 업그레이드" /><published>2026-07-02T01:00:00+00:00</published><updated>2026-07-02T01:00:00+00:00</updated><id>https://arc.movingwoo.com/server/service/2026/07/02/Upgrade%20Nextcloud%20To%2033</id><content type="html" xml:base="https://arc.movingwoo.com/server/service/2026/07/02/Upgrade-Nextcloud-To-33.html"><![CDATA[<blockquote>
-  <h4 id="개요">개요</h4>
-  <hr />
-</blockquote>
-
-<p>업그레이드의 시기가 도래했다…<br />
-넥스트클라우드 버전을 <span style="color: orange;"><strong>31에서 33으로</strong></span> 올려야한다.</p>
-
-<p>넥스트 클라우드 메이저 버전은 계절에 따라 하나씩 올라가는 듯 하다.<br />
-왜이렇게 업데이트를 빠르게 하는거지?<br />
-31버전 잘 쓰고 있었지만 34버전이 나오는 이 시점에 33버전까지는 따라가야겠다.</p>
-
-<p>제발 터지지 마라 기도하면서 <span style="color: orange;"><strong>백업</strong></span>부터 진행.</p>
-
-<blockquote>
-  <h4 id="절차-확인">절차 확인</h4>
-  <hr />
-</blockquote>
-
-<p>침착하게 절차를 확인하자.<br />
-순서대로 작성해보면 아래와 같다.</p>
-
-<ul>
-  <li>유지보수 모드 활성화</li>
-  <li>도커 이미지 교체 및 기동</li>
-  <li>업그레이드 및 마이그레이션</li>
-  <li>유지보수 모드 해제</li>
-  <li>관리자 경고 메시지 확인</li>
-  <li>기능 테스트</li>
-</ul>
-
-<p>이 절차를 2번 반복한다.<br />
-31 -&gt; 33으로 껑충 건너뛰는 것 보다는<br />
-31 -&gt; 32 -&gt; 33 순차적으로 올라가는게 위험이 덜하다.</p>
-
-<blockquote>
-  <h4 id="32로-업그레이드">32로 업그레이드</h4>
-  <hr />
-</blockquote>
-
-<p>occ로 시작하는 모든 명령어는 php 명령어라 컨테이너 내부에서 실행해야한다.<br />
-우선 유지보수 모드 명령어는 <span style="color: orange;"><strong>occ maintenance:mode –on</strong></span> 이다.</p>
-
-<p><img src="/assets/images/posts/Server/Service/2026-07-02-Upgrade Nextcloud To 33/img01.webp" alt="img01" width="60%" /></p>
-
-<p>docker-compose.yml에서 이미지 버전을 올려준다.<br />
-31-apache 버전이므로 32-apache 버전으로 올린다.<br />
-cron 까지 동작하고 있으므로 2개를 수정해야한다.</p>
-
-<p><img src="/assets/images/posts/Server/Service/2026-07-02-Upgrade Nextcloud To 33/img02.webp" alt="img02" width="50%" /></p>
-
-<p>pull 한다음 기동해서 로그를 확인하면 업그레이드 스크립트가 돌아간다.</p>
-
-<p><img src="/assets/images/posts/Server/Service/2026-07-02-Upgrade Nextcloud To 33/img03.webp" alt="img03" width="70%" /></p>
-
-<p>일단 오류로그가 안뜬다… 너무 다행이다…<br />
-기동했을 시 업그레이드와 업그레이드 명령어 occ upgrade는 동일하다.<br />
-확실하게 재확인하기 위해 수동으로 <span style="color: orange;"><strong>occ upgrade</strong></span> 명령어를 실행해서 확인해보자.</p>
-
-<p><img src="/assets/images/posts/Server/Service/2026-07-02-Upgrade Nextcloud To 33/img04.webp" alt="img04" width="50%" /></p>
-
-<p>이렇게 되면 자동 업데이트가 잘 된 것으로 보인다.<br />
-아래 명령어들을 실행해 정리를 한다.<br />
-대부분 업그레이드 과정에 문제는 없었지만 재확인을 하는 용도이다.</p>
-
-<ul>
-  <li><span style="color: orange;"><strong>occ app:update –all</strong></span></li>
-  <li><span style="color: orange;"><strong>occ db:add-missing-indices</strong></span></li>
-  <li><span style="color: orange;"><strong>occ db:add-missing-colums</strong></span></li>
-  <li><span style="color: orange;"><strong>occ db:convert-filecache-bigint</strong></span></li>
-  <li><span style="color: orange;"><strong>occ maintenance:mode –on</strong></span></li>
-</ul>
-
-<p><img src="/assets/images/posts/Server/Service/2026-07-02-Upgrade Nextcloud To 33/img05.webp" alt="img05" width="70%" /></p>
-
-<p>유지보수 모드를 종료하고 켜보면 32버전 화면이 뜬다.<br />
-이러면 95% 완료된 것과 다름없다.<br />
-관리설정의 경고를 보러가자.</p>
-
-<p><img src="/assets/images/posts/Server/Service/2026-07-02-Upgrade Nextcloud To 33/img06.webp" alt="img06" width="70%" /></p>
-
-<p>첫번쨰 경고는 명령어인 <span style="color: orange;"><strong>occ maintenance:repair –include-expensive</strong></span>를 수행만 하면 된다.<br />
-두번째 경고 헤더 설정은 Caddy에 설정을 추가해주면 된다.</p>
-
-<div class="language-nginx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">header</span> <span class="p">{</span>
-    <span class="kn">Strict-Transport-Security</span> <span class="s">"max-age=15552000</span><span class="p">;</span> <span class="kn">includeSubDomains"</span>
-<span class="err">}</span>
-</code></pre></div></div>
-
-<p>세번째 경고는 2차인증을 추가하라는건데 지금 당장 필요치 않으니 패스<br />
-이후 기능점검을 진행하는데 오피스가 열리지 않는다…<br />
-넥스트클라우드와 오피스 간 통신은 정상적이나 wopi 요청을 신뢰할 수 없다는 내용이다.</p>
-
-<p><img src="/assets/images/posts/Server/Service/2026-07-02-Upgrade Nextcloud To 33/img07.webp" alt="img07" width="40%" /></p>
-
-<p>오피스쪽 설정을 살펴보면 wopi 허용 리스트가 추가된 것 같다.<br />
-아니다 원래 있었나? 잘 모르겠다…<br />
-아무튼 저거때매 문서를 못보니 허용 리스트를 추가해주자.<br />
-의심되는 대역대를 전부 추가해주고 구분자는 , 만 사용하면 된다.<br />
-저장 후 오피스 문서 열리는지 확인하면 끝.</p>
-
-<p>32버전에서 33버전으로 올리는 것도 같은 작업을 반복해주면 된다.</p>
-
-<blockquote>
-  <h4 id="끝">끝</h4>
-  <hr />
-</blockquote>
-
-<p><img src="/assets/images/posts/Server/Service/2026-07-02-Upgrade Nextcloud To 33/img08.webp" alt="img08" width="50%" /></p>
-
-<p>새로운 기능!!! 이라고 하는데 사실 크게 달라진 건 느끼기 힘들다.<br />
-아이콘 모양이 바뀌었다 정도?<br />
-그 외 기분탓인지 모르겟지만 속도 개선이 있었다고 해서 속도가 좀 빨라진 것 같다.</p>
-
-<p>메이저 버전 업이 워낙 빠르다보니 큰 변경점이 생기기도 어렵다.<br />
-한동안 33버전 주차하고 내년 이맘때쯤 다시 버전업을 시도해봐야겠다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/Service/" /><category term="SERVER" /><category term="SERVICE" /><category term="DOCKER" /><category term="NEXTCLOUD" /><category term="UPGRADE" /><summary type="html"><![CDATA[넥스트클라우드 31 에서 33 으로 업그레이드]]></summary></entry></feed>
+한 번 텔레그램이랑 잘 엮으면 뭐라도 할 수 있겠다 싶다.</p>]]></content><author><name>movingwoo</name></author><category term="Server/" /><category term="SERVER" /><category term="GOOGLE" /><category term="GOOGLECLOUD" /><summary type="html"><![CDATA[구글 클라우드를 이용한 무료 서버 5호기 생성]]></summary></entry></feed>

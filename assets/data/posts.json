@@ -3,6 +3,13 @@
 [
   
     {
+      "title": "Ruby CVE 취약점 업데이트",
+      "url": "/server/2026/11/25/Vulnerability-Update.html",
+      "date": "2026-11-25",
+      "categories": ["Server/"]
+    },
+  
+    {
       "title": "개인 VPN 출구 서버 구축",
       "url": "/server/service/2026/08/20/Self-hosted-VPN-Exit-Node.html",
       "date": "2026-08-20",

@@ -664,4 +664,10 @@ var store = [{
         "tags": ["SERVER","SERVICE","VPN","TAILSCALE"],
         "url": "/server/service/2026/08/20/Self-hosted-VPN-Exit-Node.html",
         "teaser": null
+      },{
+        "title": "Ruby CVE 취약점 업데이트",
+        "excerpt":"AI 멈춰!! AI가 취약점을 마구마구 파헤치고 있다. PHP2Shell 부터 시작해서 Java4Shell까지 매일매일 새로운 취약점이 쏟아진다. 제발 멈춰 AI야 왜 일거리를 줄이는게 아니라 늘리는 거니… 다행히도 개인적으로 운영 중인 대부분의 서비스는 취약점의 영향에서 빗겨가있다. 설령 취약점이 있다고 하더라도 웬만하면 오픈소스 프로젝트를 이용하기 때문에 딸깍 업데이트 방안이 다 마련되어있다. 그런 와중에 정말...","categories": ["Server/"],
+        "tags": ["SERVER","CVE","VULNERABILITY","RUBY"],
+        "url": "/server/2026/11/25/Vulnerability-Update.html",
+        "teaser": null
       }]
